@@ -14,37 +14,29 @@
     href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" th:href="@{/css/register.css}" />
-
 </head>
 
 <body class="body-reg">
-
   <nav class="navbar navbar-expand-md fixed-top">
     <div class="container">
       <a class="navbar-brand" href="#">UNLAM</a>
+      <a class="nav-link" th:href="@{/login}">Iniciar Sesión</a>
     </div>
   </nav>
 
   <main class="auth-container">
     <div class="auth-card">
       <form th:action="@{/registrarme}" method="POST" th:object="${usuario}">
-        <h1 class="auth-title">
-          Crear Cuenta
-        </h1>
+        <h1 class="auth-title">Crear Cuenta</h1>
 
-        <p class="auth-subtitle">
-          Registrate para comenzar
-        </p>
-
+        <p class="auth-subtitle">Registrate para comenzar</p>
         <hr class="colorgraph">
 
         <div class="form-grid">
-
           <div class="form-group">
             <label for="name" class="form-label">
               Nombre
             </label>
-
             <input th:field="*{name}" id="name" class="input-custom" placeholder="Ingresa tu nombre" required />
           </div>
 
@@ -52,88 +44,68 @@
             <label for="surname" class="form-label">
               Apellido
             </label>
-
             <input th:field="*{surname}" id="surname" class="input-custom" placeholder="Ingresa tu apellido" required />
           </div>
-
         </div>
 
         <div class="form-group">
-
           <label for="username" class="form-label">
             Nombre de Usuario
           </label>
-
           <input th:field="*{username}" id="username" class="input-custom" placeholder="Elige un username" required />
         </div>
 
         <div class="form-group">
-
           <label for="gender" class="form-label">
             Género
           </label>
-
           <select th:field="*{gender}" id="gender" class="input-custom" required>
-
             <option value="">
               Seleccionar
             </option>
-
             <option value="MALE">
               Masculino
             </option>
-
             <option value="FEMALE">
               Femenino
             </option>
-
             <option value="OTHER">
               Otro
             </option>
-
           </select>
         </div>
 
         <div class="form-group">
-
           <label for="email" class="form-label">
             Email
           </label>
-
           <input th:field="*{email}" id="email" type="email" class="input-custom" placeholder="Ingresa tu email"
             required />
         </div>
 
         <div class="form-grid">
-
           <div class="form-group">
-
             <label for="password" class="form-label">
               Contraseña
             </label>
-
             <input th:field="*{password}" type="password" id="password" class="input-custom" placeholder="********"
               required />
           </div>
 
           <div class="form-group">
-
             <label for="confirmPass" class="form-label">
               Confirmar
             </label>
-
             <input th:field="*{confirmPass}" type="password" id="confirmPass" class="input-custom"
               placeholder="********" required />
           </div>
-
         </div>
 
         <button id="btn-registrarme" class="btn-neon" type="submit">
           Registrarme
         </button>
 
-        <p th:if="${error != null}" class="alert-danger" th:text="'Error: ' + ${error}">
-        </p>
+        <p th:if="${error != null}" class="alert-danger" th:text="'Error: ' + ${error}"></p>
       </form>
     </div>
   </main>
