@@ -8,12 +8,32 @@ public class VistaNuevoUsuario extends VistaWeb {
     super(page);
   }
 
+  public void escribirNombre(String nombre) {
+    this.escribirEnElElemento("#name", nombre);
+  }
+
+  public void escribirApellido(String apellido) {
+    this.escribirEnElElemento("#surname", apellido);
+  }
+
+  public void escribirUsername(String username) {
+    this.escribirEnElElemento("#username", username);
+  }
+
+  public void escribirGenero(String genero) {
+    this.escribirEnElElemento("#gender", genero);
+  }
+
   public void escribirEMAIL(String email) {
     this.escribirEnElElemento("#email", email);
   }
 
   public void escribirClave(String clave) {
     this.escribirEnElElemento("#password", clave);
+  }
+
+  public void escribirConfirmarClave(String confirmarClave) {
+    this.escribirEnElElemento("#confirmPass", confirmarClave);
   }
 
   public void darClickEnRegistrarme() {
