@@ -12,7 +12,6 @@ public class ControladorPerfil {
 
   @RequestMapping("/perfil")
   public ModelAndView irAPerfil(HttpServletRequest request) {
-
     Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
     if (usuario == null) {
