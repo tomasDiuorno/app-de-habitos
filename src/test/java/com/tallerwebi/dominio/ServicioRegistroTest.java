@@ -26,8 +26,7 @@ public class ServicioRegistroTest {
     // preparacion
     Usuario usuario = new Usuario();
     usuario.setEmail("nuevo@test.com");
-    when(this.repositorioUsuarioMock.buscarPorEmail(usuario.getEmail()))
-      .thenReturn(null);
+    when(this.repositorioUsuarioMock.buscarPorEmail(usuario.getEmail())).thenReturn(null);
 
     // ejecucion
     this.servicioRegistro.registrar(usuario);
@@ -41,8 +40,7 @@ public class ServicioRegistroTest {
     // preparacion
     Usuario usuario = new Usuario();
     usuario.setEmail("existe@test.com");
-    when(this.repositorioUsuarioMock.buscarPorEmail(usuario.getEmail()))
-      .thenReturn(new Usuario());
+    when(this.repositorioUsuarioMock.buscarPorEmail(usuario.getEmail())).thenReturn(new Usuario());
 
     // ejecucion y validacion
     assertThrows(UsuarioExistente.class, () -> this.servicioRegistro.registrar(usuario));

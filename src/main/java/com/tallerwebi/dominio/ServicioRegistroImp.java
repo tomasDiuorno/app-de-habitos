@@ -18,9 +18,7 @@ public class ServicioRegistroImp implements ServicioRegistro {
 
   @Override
   public void registrar(Usuario usuario) throws UsuarioExistente {
-    Usuario usuarioEncontrado = repositorioUsuario.buscarPorEmail(
-      usuario.getEmail()
-    );
+    Usuario usuarioEncontrado = repositorioUsuario.buscarPorEmail(usuario.getEmail());
     if (usuarioEncontrado != null) {
       throw new UsuarioExistente();
     }

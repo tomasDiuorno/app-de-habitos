@@ -1,0 +1,244 @@
+/* ==========================================================================
+   RESET Y CONFIGURACIÓN GENERAL (Inspiración Solo Leveling / System UI)
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-main: #060913;          /* Negro azulado profundo (Fondo de mazmorra) */
+    --bg-card: #0d1326;          /* Azul grisáceo oscuro para la tarjeta */
+    --neon-blue: #00dfff;        /* Azul de la interfaz del Sistema */
+    --neon-purple: #9d4edd;      /* Púrpura de energía mágica/monstruos */
+    --text-main: #e2e8f0;        /* Blanco grisáceo para alta legibilidad */
+    --text-muted: #707e94;      /* Gris para subtítulos */
+    --border-color: #1e294b;     /* Bordes sutiles oscuros */
+}
+
+body.body-reg {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 500;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    /* Efecto de fondo sutil simulando neblina mágica */
+    background-image: 
+        radial-gradient(at 10% 20%, rgba(157, 78, 221, 0.15) 0px, transparent 50%),
+        radial-gradient(at 90% 80%, rgba(0, 223, 255, 0.1) 0px, transparent 50%);
+}
+
+/* Navbar de UNLAM simplificado estilo HUD */
+.navbar {
+    width: 100%;
+    padding: 15px 0;
+    background: rgba(6, 9, 19, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(0, 223, 255, 0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.navbar-brand {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--neon-blue) !important;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(0, 223, 255, 0.6);
+    padding-left: 20px;
+}
+
+/* ==========================================================================
+   CONTENEDOR Y TARJETA (The System Window)
+   ========================================================================== */
+.auth-container {
+    margin-top: 100px;
+    margin-bottom: 40px;
+    padding: 0 20px;
+    width: 100%;
+    max-width: 550px;
+}
+
+.auth-card {
+    background-color: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 4px; /* Bordes más rectos/afilados estilo gamer */
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 
+                inset 0 0 15px rgba(157, 78, 221, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* El toque Solo Leveling: un borde superior iluminado */
+.auth-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+}
+
+.auth-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(157, 78, 221, 0.5);
+    margin-bottom: 5px;
+}
+
+.auth-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+/* Separador de colores Neón */
+.colorgraph {
+    height: 2px;
+    border: none;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue), var(--neon-purple));
+    margin-bottom: 30px;
+    opacity: 0.7;
+}
+
+/* ==========================================================================
+   FORMULARIOS (Inputs estilo HUD de interfaz)
+   ========================================================================== */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Corrección para pantallas chicas en la grilla */
+@media (max-width: 480px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    color: var(--neon-blue);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+/* Inputs y Selects unificados */
+.input-custom {
+    background-color: rgba(6, 9, 19, 0.6);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-main);
+    padding: 12px 15px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+    outline: none;
+}
+
+/* Estilo para cuando hacés click en los inputs (Focus) */
+.input-custom:focus {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 10px rgba(0, 223, 255, 0.3), 
+                inset 0 0 5px rgba(0, 223, 255, 0.1);
+    background-color: rgba(6, 9, 19, 0.9);
+}
+
+/* Customizar el select para que no quede blanco nativo */
+select.input-custom option {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+}
+
+/* Placeholders estilo tecnológico */
+.input-custom::placeholder {
+    color: #3b4861;
+    font-style: italic;
+}
+
+/* ==========================================================================
+   BOTÓN NEÓN (Despertar del Cazador / Level Up)
+   ========================================================================== */
+.btn-neon {
+    width: 100%;
+    background: transparent;
+    border: 2px solid var(--neon-purple);
+    border-radius: 4px;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 15px;
+    margin-top: 15px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.4s ease;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 10px rgba(157, 78, 221, 0.2);
+}
+
+/* Efecto Hover: ¡Brillo Neón Máximo! */
+.btn-neon:hover {
+    background-color: var(--neon-purple);
+    border-color: var(--neon-blue);
+    color: #060913;
+    text-shadow: none;
+    font-weight: 800;
+    box-shadow: 0 0 25px var(--neon-purple), 
+                0 0 50px rgba(0, 223, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-neon:active {
+    transform: translateY(1px);
+}
+
+/* ==========================================================================
+   ALERTAS (Mensajes de Error del Sistema)
+   ========================================================================== */
+.alert-danger {
+    margin-top: 20px;
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid #ef4444;
+    color: #fca5a5;
+    padding: 12px;
+    border-radius: 4px;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+}
