@@ -24,14 +24,14 @@ public class ServicioLoginTest {
     String email = "test@test.com";
     String password = "password";
     Usuario usuarioEsperado = new Usuario();
-    when(this.repositorioUsuarioMock.buscarUsuario(email, password)).thenReturn(usuarioEsperado);
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(email, password)).thenReturn(usuarioEsperado);
 
     // ejecucion
     Usuario usuarioObtenido = this.servicioLogin.consultarUsuario(email, password);
 
     // validacion
     assertThat(usuarioObtenido, equalTo(usuarioEsperado));
-    verify(this.repositorioUsuarioMock, times(1)).buscarUsuario(email, password);
+    verify(this.repositorioUsuarioMock, times(1)).buscarPorEmailOrUsername(email, password);
   }
 
   @Test
@@ -40,13 +40,13 @@ public class ServicioLoginTest {
     String password = "password";
 
     Usuario usuarioEsperado = new Usuario();
-    when(this.repositorioUsuarioMock.buscarUsuario(username, password)).thenReturn(usuarioEsperado);
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(username, password)).thenReturn(usuarioEsperado);
 
     // ejecucion
     Usuario usuarioObtenido = this.servicioLogin.consultarUsuario(username, password);
 
     // validacion
     assertThat(usuarioObtenido, equalTo(usuarioEsperado));
-    verify(this.repositorioUsuarioMock, times(1)).buscarUsuario(username, password);
+    verify(this.repositorioUsuarioMock, times(1)).buscarPorEmailOrUsername(username, password);
   }
 }
