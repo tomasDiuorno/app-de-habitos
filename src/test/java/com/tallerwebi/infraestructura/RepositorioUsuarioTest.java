@@ -53,9 +53,9 @@ public class RepositorioUsuarioTest {
   @Test
   @Transactional
   @Rollback
-  public void deberiaEncontrarUnUsuarioExistenteCuandoBuscoPorEmailYPassword() {
+  public void deberiaEncontrarUnUsuarioExistenteCuandoBuscoPorEmailYUsername() {
     String email = "test@test.com";
-    String password = "123";
+    String password = "1234";
     Usuario usuario = this.dadoQueTengoUnUsuario(email, password, "USER");
     this.dadoQueExisteElUsuario(usuario);
 
@@ -66,8 +66,8 @@ public class RepositorioUsuarioTest {
 
   @Test
   @Transactional
-  public void noDeberiaEncontrarUnUsuarioInexistenteCuandoBuscoPorEmailYPassword() {
-    Usuario obtenido = this.cuandoBuscoUnUsuario("test@test.com", "123");
+  public void noDeberiaEncontrarUnUsuarioInexistenteCuandoBuscoPorEmailYUsername() {
+    Usuario obtenido = this.cuandoBuscoUnUsuario("test@test.com", "testuser");
     this.entoncesElUsuarioObtenidoEsNull(obtenido);
   }
 
@@ -76,7 +76,7 @@ public class RepositorioUsuarioTest {
   @Rollback
   public void deberiaEncontrarUnUsuarioExistenteCuandoBuscoPorEmail() {
     String email = "test@test.com";
-    Usuario usuario = this.dadoQueTengoUnUsuario(email, "123", "USER");
+    Usuario usuario = this.dadoQueTengoUnUsuario(email, "1234", "USER");
     this.dadoQueExisteElUsuario(usuario);
 
     Usuario obtenido = this.cuandoObtengoUnUsuarioPorEmail(email);
@@ -96,7 +96,7 @@ public class RepositorioUsuarioTest {
   @Rollback
   public void deberiaModificarUnUsuarioExistente() {
     String email = "test@test.com";
-    Usuario usuario = this.dadoQueTengoUnUsuario(email, "123", "USER");
+    Usuario usuario = this.dadoQueTengoUnUsuario(email, "1234", "USER");
     this.dadoQueExisteElUsuario(usuario);
 
     usuario.setPassword("4567");
@@ -141,7 +141,7 @@ public class RepositorioUsuarioTest {
   }
 
   private Usuario cuandoObtengoUnUsuarioPorEmail(String email) {
-    return repositorioUsuario.buscar(email);
+    return repositorioUsuario.buscarPorEmail(email);
   }
 
   private void cuandoModificoUnUsuario(Usuario usuario) {

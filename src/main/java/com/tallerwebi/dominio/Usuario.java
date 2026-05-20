@@ -12,9 +12,15 @@ public class Usuario {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  private String name;
+
+  private String surname;
+  private String username;
   private String email;
   private String password;
+  private String confirmPass;
   private String rol;
+  private String gender;
   private Boolean activo = false;
 
   public Long getId() {
@@ -25,8 +31,32 @@ public class Usuario {
     this.id = id;
   }
 
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
   public String getEmail() {
     return email;
+  }
+
+  public String getSurname() {
+    return surname;
+  }
+
+  public void setSurname(String surname) {
+    this.surname = surname;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
   }
 
   public void setEmail(String email) {
@@ -41,12 +71,28 @@ public class Usuario {
     this.password = password;
   }
 
+  public String getConfirmPass() {
+    return confirmPass;
+  }
+
+  public void setConfirmPass(String confirmPass) {
+    this.confirmPass = confirmPass;
+  }
+
   public String getRol() {
     return rol;
   }
 
   public void setRol(String rol) {
     this.rol = rol;
+  }
+
+  public String getGender() {
+    return gender;
+  }
+
+  public void setGender(String gender) {
+    this.gender = gender;
   }
 
   public Boolean getActivo() {
