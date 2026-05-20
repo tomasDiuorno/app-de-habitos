@@ -34,15 +34,19 @@ public class ControladorLogin {
     HttpServletRequest request
   ) {
     Usuario usuarioBuscado = servicioLogin.consultarUsuario(
-      datosLogin.getEmail(),
+      datosLogin.getEmailorusername(),
       datosLogin.getPassword()
     );
+
     if (usuarioBuscado != null) {
       request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
       request.getSession().setAttribute("usuario", usuarioBuscado);
       return new ModelAndView("redirect:/home");
     } else {
-      /* Se instancia el ModelMap solo cuando es necesario (en el flujo de error) para evitar anomalías en el flujo de datos (DU-anomaly de PMD) */
+      /*
+       * Se instancia el ModelMap solo cuando es necesario (en el flujo de error) para
+       * evitar anomalías en el flujo de datos (DU-anomaly de PMD)
+       */
       ModelMap model = new ModelMap();
       model.put("error", "Usuario o clave incorrecta");
       return new ModelAndView("login", model);
