@@ -16,7 +16,7 @@ public class ServicioLoginImpl implements ServicioLogin {
   }
 
   @Override
-  public Usuario consultarUsuario(String email, String username) {
-    return repositorioUsuario.buscarUsuario(email, username);
+  public Usuario consultarUsuario(String emailorusername, String password) {
+    return repositorioUsuario.buscarPorEmailOrUsername(emailorusername, password);
   }
 }

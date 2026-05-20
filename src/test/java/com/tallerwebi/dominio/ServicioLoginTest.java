@@ -33,4 +33,20 @@ public class ServicioLoginTest {
     assertThat(usuarioObtenido, equalTo(usuarioEsperado));
     verify(this.repositorioUsuarioMock, times(1)).buscarUsuario(email, password);
   }
+
+  @Test
+  public void quieroQueElUsuarioIngreseConUsernameYPassword() {
+    String username = "test1";
+    String password = "password";
+
+    Usuario usuarioEsperado = new Usuario();
+    when(this.repositorioUsuarioMock.buscarUsuario(username, password)).thenReturn(usuarioEsperado);
+
+    // ejecucion
+    Usuario usuarioObtenido = this.servicioLogin.consultarUsuario(username, password);
+
+    // validacion
+    assertThat(usuarioObtenido, equalTo(usuarioEsperado));
+    verify(this.repositorioUsuarioMock, times(1)).buscarUsuario(username, password);
+  }
 }
