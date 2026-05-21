@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Habitapp - Hábitos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" th:href="@{/css/habitos.css}" />
+</head>
+
+<body class="habitos-body">
+
+  <nav class="habitos-navbar">
+    <div class="habitos-navbar-container">
+
+      <a th:href="@{/home}" class="habitos-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="habitos-logo">
+      </a>
+
+      <div class="habitos-nav-links">
+        <a th:href="@{/home}" class="habitos-nav-link">Inicio</a>
+        <a th:href="@{/habitos}" class="habitos-nav-link active">Hábitos</a>
+        <a th:href="@{/perfil}" class="habitos-nav-link">Perfil</a>
+        <a th:href="@{/login}" class="habitos-logout-button">Cerrar sesión</a>
+      </div>
+
+    </div>
+  </nav>
+
+  <main class="habitos-main">
+
+    <section class="habitos-hero">
+      <p class="section-kicker">Panel de hábitos</p>
+
+      <h1>Construí tu rutina</h1>
+
+      <p>
+        Elegí un hábito para empezar a registrar tu progreso. La clave no es hacer todo perfecto,
+        sino repetir acciones simples hasta que se vuelvan parte de tu día.
+      </p>
+    </section>
+
+    <section class="habitos-dashboard">
+
+      <article class="habit-option-card">
+        <div class="habit-icon">
+          <img th:src="@{/images/agua.jpeg}" alt="Tomar agua">
+        </div>
+
+        <div class="habit-content">
+          <p class="habit-category">Salud diaria</p>
+          <h2>Tomar agua</h2>
+          <p>
+            Registrá tus vasos de agua diarios y mantené una hidratación más constante durante el día.
+          </p>
+        </div>
+
+        <a href="#" class="habit-button">Registrar</a>
+      </article>
+
+      <article class="habit-option-card">
+        <div class="habit-icon">
+          <img th:src="@{/images/ejercicio.jpeg}" alt="Hacer ejercicio">
+        </div>
+
+        <div class="habit-content">
+          <p class="habit-category">Actividad física</p>
+          <h2>Hacer ejercicio</h2>
+          <p>
+            Sumá movimiento a tu rutina con objetivos realistas y fáciles de sostener.
+          </p>
+        </div>
+
+        <a href="#" class="habit-button">Registrar</a>
+      </article>
+
+      <article class="habit-option-card">
+        <div class="habit-icon">
+          <img th:src="@{/images/leer.jpeg}" alt="Leer">
+        </div>
+
+        <div class="habit-content">
+          <p class="habit-category">Crecimiento personal</p>
+          <h2>Leer</h2>
+          <p>
+            Creá el hábito de leer unos minutos por día y seguí tu avance sesión por sesión.
+          </p>
+        </div>
+
+        <a href="#" class="habit-button">Registrar</a>
+      </article>
+
+    </section>
+
+    <section class="crear-habito-section">
+      <div class="crear-habito-card">
+        <div>
+          <p class="section-kicker">Nuevo objetivo</p>
+          <h2>¿Querés crear tu propio hábito?</h2>
+          <p>
+            Agregá un hábito personalizado, definí una frecuencia y empezá a medir tu constancia.
+          </p>
+        </div>
+
+        <a href="#" class="crear-habito-button">Crear hábito</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="habitos-footer">
+    <div class="habitos-footer-container">
+
+      <div class="footer-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="footer-logo">
+      </div>
+
+      <div class="footer-info">
+        <p>Proyecto desarrollado para Taller Web I.</p>
+        <p>Tomas Diurno - Julieta Miño - Ramiro Brunzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
+      </div>
+
+      <div class="footer-copy">
+        <p>&copy; 2026 Habitapp. Todos los derechos reservados.</p>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+
+</html>
