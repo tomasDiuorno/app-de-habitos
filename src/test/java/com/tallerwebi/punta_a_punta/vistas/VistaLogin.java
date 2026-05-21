@@ -18,7 +18,7 @@ public class VistaLogin extends VistaWeb {
   }
 
   public void escribirEMAIL(String email) {
-    this.escribirEnElElemento("#email", email);
+    this.escribirEnElElemento("#emailorusername", email);
   }
 
   public void escribirClave(String clave) {

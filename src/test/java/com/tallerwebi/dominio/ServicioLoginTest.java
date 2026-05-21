@@ -2,10 +2,13 @@ package com.tallerwebi.dominio;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class ServicioLoginTest {
 
@@ -19,34 +22,67 @@ public class ServicioLoginTest {
   }
 
   @Test
-  public void consultarUsuarioDeberiaLlamarAlRepositorio() {
+  public void consultarUsuarioDeberiaLlamarAlRepositorioYValidarHash() {
     // preparacion
     String email = "test@test.com";
-    String password = "password";
+    String passwordPlana = "password";
+    String hashBD = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
+
     Usuario usuarioEsperado = new Usuario();
-    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(email, password)).thenReturn(usuarioEsperado);
+    usuarioEsperado.setEmail(email);
+    usuarioEsperado.setPassword(hashBD);
+
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(email)).thenReturn(usuarioEsperado);
 
     // ejecucion
-    Usuario usuarioObtenido = this.servicioLogin.consultarUsuario(email, password);
+    Usuario usuarioObtenido = this.servicioLogin.consultarUsuario(email, passwordPlana);
 
     // validacion
     assertThat(usuarioObtenido, equalTo(usuarioEsperado));
-    verify(this.repositorioUsuarioMock, times(1)).buscarPorEmailOrUsername(email, password);
+    verify(this.repositorioUsuarioMock, times(1)).buscarPorEmailOrUsername(email);
   }
 
   @Test
-  public void quieroQueElUsuarioIngreseConUsernameYPassword() {
+  public void quieroQueElUsuarioIngreseConUsernameYPasswordCorrecta() {
+    // preparacion
     String username = "test1";
-    String password = "password";
+    String passwordPlana = "password";
+    String hashBD = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
 
     Usuario usuarioEsperado = new Usuario();
-    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(username, password)).thenReturn(usuarioEsperado);
+    usuarioEsperado.setUsername(username);
+    usuarioEsperado.setPassword(hashBD);
+
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(username)).thenReturn(usuarioEsperado);
 
     // ejecucion
-    Usuario usuarioObtenido = this.servicioLogin.consultarUsuario(username, password);
+    Usuario usuarioObtenido = this.servicioLogin.consultarUsuario(username, passwordPlana);
 
     // validacion
     assertThat(usuarioObtenido, equalTo(usuarioEsperado));
-    verify(this.repositorioUsuarioMock, times(1)).buscarPorEmailOrUsername(username, password);
+    verify(this.repositorioUsuarioMock, times(1)).buscarPorEmailOrUsername(username);
   }
+
+  @Test
+  public void consultarUsuarioConPasswordIncorrectaDeberiaRetornarNull() {
+    // preparacion
+    String username = "test1";
+    String passwordPlana = "password";
+    String passwordIncorrecta = "clavemala";
+    String hashBD = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
+
+    Usuario usuarioEsperado = new Usuario();
+    usuarioEsperado.setUsername(username);
+    usuarioEsperado.setPassword(hashBD);
+
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(username)).thenReturn(usuarioEsperado);
+
+    // ejecucion
+    Usuario usuarioObtenido = this.servicioLogin.consultarUsuario(username, passwordIncorrecta);
+
+    // validacion
+    assertNull(usuarioObtenido);
+    verify(this.repositorioUsuarioMock, times(1)).buscarPorEmailOrUsername(username);
+  }
+
 }

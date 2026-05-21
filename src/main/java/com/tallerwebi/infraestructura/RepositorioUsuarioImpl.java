@@ -48,14 +48,13 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
   }
 
   @Override
-  public Usuario buscarPorEmailOrUsername(String emailorusername, String password) { //query personalizada pa
+  public Usuario buscarPorEmailOrUsername(String emailorusername) { //query personalizada pa
     String sql =
-      "from Usuario u where lower(u.email) = lower(:emailorusername) or lower(u.username) = lower(:emailorusername) and u.password = :password";
+            "from Usuario u where lower(u.email) = lower(:emailorusername) or lower(u.username) = lower(:emailorusername)";
     return sessionFactory
       .getCurrentSession()
       .createQuery(sql, Usuario.class)
       .setParameter("emailorusername", emailorusername)
-      .setParameter("password", password)
       .uniqueResult();
   }
 }
