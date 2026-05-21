@@ -14,7 +14,7 @@
   --border-color: #1e294b;
 }
 
-.home-body {
+.habitos-body {
   min-height: 100vh;
   background-color: var(--bg-main);
   color: var(--text-main);
@@ -28,7 +28,7 @@
 
 /* NAVBAR */
 
-.home-navbar {
+.habitos-navbar {
   width: 100%;
   height: 72px;
   background: rgba(6, 9, 19, 0.85);
@@ -42,36 +42,35 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-.home-navbar-container {
+.habitos-navbar-container {
   width: 100%;
   height: 100%;
   padding: 0 24px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.home-brand {
+.habitos-brand {
   display: flex;
   align-items: center;
   text-decoration: none;
 }
 
-.home-logo {
+.habitos-logo {
   height: 48px;
   width: auto;
   display: block;
   object-fit: contain;
 }
 
-.home-nav-links {
+.habitos-nav-links {
   display: flex;
   align-items: center;
   gap: 18px;
 }
 
-.home-nav-link {
+.habitos-nav-link {
   font-family: 'Orbitron', sans-serif;
   color: var(--text-muted);
   text-decoration: none;
@@ -82,12 +81,13 @@
   transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
-.home-nav-link:hover {
+.habitos-nav-link:hover,
+.habitos-nav-link.active {
   color: var(--neon-blue);
   text-shadow: 0 0 8px rgba(0, 223, 255, 0.6);
 }
 
-.home-logout-button {
+.habitos-logout-button {
   font-family: 'Orbitron', sans-serif;
   color: #ffffff;
   text-decoration: none;
@@ -95,14 +95,13 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.2px;
-
   border: 1px solid var(--neon-purple);
   padding: 10px 16px;
   border-radius: 4px;
   transition: all 0.3s ease;
 }
 
-.home-logout-button:hover {
+.habitos-logout-button:hover {
   background-color: var(--neon-purple);
   border-color: var(--neon-blue);
   color: #060913;
@@ -111,7 +110,7 @@
 
 /* MAIN */
 
-.home-main {
+.habitos-main {
   width: 100%;
   max-width: 1180px;
   margin: 0 auto;
@@ -120,15 +119,7 @@
 
 /* HERO */
 
-.hero-section {
-  min-height: 420px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-content {
-  width: 100%;
+.habitos-hero {
   padding: 48px;
   background-color: rgba(13, 19, 38, 0.82);
   border: 2px solid var(--border-color);
@@ -140,7 +131,7 @@
   overflow: hidden;
 }
 
-.hero-content::before {
+.habitos-hero::before {
   content: '';
   position: absolute;
   top: 0;
@@ -150,7 +141,6 @@
   background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
 }
 
-.hero-kicker,
 .section-kicker {
   font-family: 'Orbitron', sans-serif;
   color: var(--neon-blue);
@@ -161,60 +151,35 @@
   margin-bottom: 12px;
 }
 
-.hero-section h1 {
+.habitos-hero h1 {
   font-family: 'Orbitron', sans-serif;
-  font-size: 4rem;
+  font-size: 3.4rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2px;
   color: #ffffff;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
   text-shadow: 0 0 16px rgba(157, 78, 221, 0.6);
 }
 
-.hero-section p {
-  max-width: 900px;
+.habitos-hero p {
+  max-width: 850px;
   font-size: 1.2rem;
   line-height: 1.7;
   color: var(--text-main);
-  margin-bottom: 18px;
 }
 
-/* HABITS */
+/* CARDS */
 
-.habits-section {
-  margin-top: 72px;
-  text-align: center;
-}
-
-.habits-section h2 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 2.3rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 14px;
-  color: #ffffff;
-  text-shadow: 0 0 10px rgba(0, 223, 255, 0.25);
-}
-
-.habits-intro {
-  max-width: 760px;
-  margin: 0 auto 36px;
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: var(--text-muted);
-}
-
-.habits-cards {
+.habitos-dashboard {
+  margin-top: 48px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-  margin-top: 32px;
+  gap: 26px;
 }
 
-.habit-card {
-  min-height: 360px;
+.habit-option-card {
+  min-height: 440px;
   padding: 24px;
   border-radius: 6px;
   background-color: rgba(13, 19, 38, 0.92);
@@ -225,13 +190,12 @@
 
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: space-between;
 
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-.habit-card:hover {
+.habit-option-card:hover {
   transform: translateY(-6px);
   border-color: var(--neon-blue);
   box-shadow:
@@ -239,90 +203,149 @@
     0 18px 38px rgba(0, 0, 0, 0.8);
 }
 
-.habit-image-box {
+.habit-icon {
   width: 100%;
-  height: 150px;
-  border-radius: 4px;
+  height: 160px;
   background: rgba(6, 9, 19, 0.6);
   border: 1px solid rgba(0, 223, 255, 0.15);
-
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  margin-bottom: 24px;
   overflow: hidden;
 }
 
-.habit-image {
+.habit-icon img {
   width: 90%;
   height: 90%;
   object-fit: contain;
   display: block;
 }
 
-.habit-card-content h3 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  color: var(--neon-blue);
+.habit-content {
+  margin-top: 22px;
 }
 
-.habit-card-content p {
+.habit-category {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-purple);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+}
+
+.habit-content h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-blue);
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.habit-content p {
+  color: var(--text-main);
   font-size: 1rem;
   line-height: 1.6;
-  color: var(--text-main);
-  margin: 0;
 }
 
-/* BUTTON */
-
-.cta-button {
+.habit-button {
   display: inline-block;
-  margin-top: 42px;
-
-  background: transparent;
+  text-align: center;
+  margin-top: 24px;
+  padding: 13px 18px;
   border: 2px solid var(--neon-purple);
   border-radius: 4px;
-
   color: #ffffff;
   font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
   font-weight: 700;
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
   text-decoration: none;
-
-  padding: 15px 24px;
-  transition: all 0.4s ease;
-  box-shadow: 0 0 10px rgba(157, 78, 221, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: all 0.35s ease;
 }
 
-.cta-button:hover {
+.habit-button:hover {
+  background-color: var(--neon-purple);
+  border-color: var(--neon-blue);
+  color: #060913;
+  box-shadow:
+    0 0 22px rgba(157, 78, 221, 0.8),
+    0 0 35px rgba(0, 223, 255, 0.25);
+}
+
+/* CREAR HÁBITO */
+
+.crear-habito-section {
+  margin-top: 54px;
+}
+
+.crear-habito-card {
+  padding: 34px;
+  border-radius: 6px;
+  background-color: rgba(13, 19, 38, 0.82);
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.65),
+    inset 0 0 15px rgba(157, 78, 221, 0.08);
+}
+
+.crear-habito-card h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: #ffffff;
+  font-size: 1.7rem;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.crear-habito-card p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.crear-habito-button {
+  white-space: nowrap;
+  display: inline-block;
+  padding: 15px 22px;
+  border: 2px solid var(--neon-purple);
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: all 0.35s ease;
+}
+
+.crear-habito-button:hover {
   background-color: var(--neon-purple);
   border-color: var(--neon-blue);
   color: #060913;
   box-shadow:
     0 0 25px var(--neon-purple),
     0 0 50px rgba(0, 223, 255, 0.4);
-  transform: translateY(-2px);
 }
 
 /* FOOTER */
 
-.home-footer {
+.habitos-footer {
   margin-top: 90px;
   padding: 32px 0;
   background: rgba(6, 9, 19, 0.9);
   border-top: 1px solid rgba(0, 223, 255, 0.2);
 }
 
-.home-footer-container {
+.habitos-footer-container {
   width: 100%;
   padding: 0 24px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -361,48 +384,49 @@
 /* RESPONSIVE */
 
 @media (max-width: 900px) {
-  .habits-cards {
+  .habitos-dashboard {
     grid-template-columns: 1fr;
   }
 
-  .hero-section h1 {
-    font-size: 3rem;
+  .crear-habito-card {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .home-nav-links {
-    gap: 12px;
+  .habitos-hero h1 {
+    font-size: 2.7rem;
   }
 }
 
 @media (max-width: 600px) {
-  .home-navbar {
+  .habitos-navbar {
     height: auto;
   }
 
-  .home-navbar-container {
+  .habitos-navbar-container {
     flex-direction: column;
     align-items: flex-start;
     padding: 16px 20px;
     gap: 14px;
   }
 
-  .home-nav-links {
+  .habitos-nav-links {
     flex-wrap: wrap;
   }
 
-  .home-main {
-    padding-top: 150px;
+  .habitos-main {
+    padding-top: 160px;
   }
 
-  .hero-content {
+  .habitos-hero {
     padding: 32px 24px;
   }
 
-  .hero-section h1 {
-    font-size: 2.3rem;
+  .habitos-hero h1 {
+    font-size: 2.2rem;
   }
 
-  .home-footer-container {
+  .habitos-footer-container {
     flex-direction: column;
     text-align: center;
   }
