@@ -86,6 +86,7 @@ public class VistaLoginE2E {
     entoncesDeberiaSerRedirigidoALaVistaDeHome();
   }
 
+
   private void entoncesDeberiaVerUNLAMEnElNavbar() {
     String texto = vistaLogin.obtenerTextoDeLaBarraDeNavegacion();
     assertThat("UNLAM", equalToIgnoringCase(texto));

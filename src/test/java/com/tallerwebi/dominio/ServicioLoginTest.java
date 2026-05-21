@@ -71,6 +71,7 @@ public class ServicioLoginTest {
     String passwordIncorrecta = "clavemala";
     String hashBD = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
 
+
     Usuario usuarioEsperado = new Usuario();
     usuarioEsperado.setUsername(username);
     usuarioEsperado.setPassword(hashBD);

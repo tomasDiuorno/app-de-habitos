@@ -29,6 +29,7 @@ public class ReiniciarDB {
         sqlCommands
       );
 
+
       Process process = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", comando });
       int exitCode = process.waitFor();
 

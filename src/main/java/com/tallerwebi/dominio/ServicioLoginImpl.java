@@ -20,7 +20,7 @@ public class ServicioLoginImpl implements ServicioLogin {
   public Usuario consultarUsuario(String emailorusername, String password) {
     Usuario usuarioEncontrado = repositorioUsuario.buscarPorEmailOrUsername(emailorusername);//Buscamos por email o username
     if (usuarioEncontrado != null && BCrypt.checkpw(password, usuarioEncontrado.getPassword())) {//Comparamos password ingresada con hash de bd
-      return usuarioEncontrado;
+       return usuarioEncontrado;
     }
     return null;
   }
