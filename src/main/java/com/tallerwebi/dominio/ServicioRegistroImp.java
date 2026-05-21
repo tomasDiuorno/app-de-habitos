@@ -23,21 +23,10 @@ public class ServicioRegistroImp implements ServicioRegistro {
     if (usuarioEncontrado != null) {
       throw new UsuarioExistente();
     }
-    Usuario usuario = insertarUsuario(datos);
-    repositorioUsuario.guardar(usuario);
-  }
 
-  private Usuario insertarUsuario(DatosRegistro datos) {
-    Usuario usuario = new Usuario();
-    usuario.setName(datos.getName());
-    usuario.setSurname(datos.getSurname());
-    usuario.setEmail(datos.getEmail());
-    usuario.setGender(datos.getGender());
-    usuario.setUsername(datos.getUsername());
-    usuario.setPassword(datos.getPassword());
-    return usuario;
-  }
+    String hash = BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt()); //Genera Hash a partir de la contraseña
+    usuario.setPassword(hash); //Reemplaza contraseña por hash seguro
 
-  @Override
-  public void registrarHabitos(DatosRegistro datos) {}
+    repositorioUsuario.guardar(usuario); //Guardamos usuario. la bd recibe hash.
+  }
 }

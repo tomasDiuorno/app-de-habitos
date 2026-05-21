@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import javax.transaction.Transactional;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,10 @@ public class ServicioLoginImpl implements ServicioLogin {
 
   @Override
   public Usuario consultarUsuario(String emailorusername, String password) {
-    return repositorioUsuario.buscarPorEmailOrUsername(emailorusername, password);
+    Usuario usuarioEncontrado = repositorioUsuario.buscarPorEmailOrUsername(emailorusername);//Buscamos por email o username
+    if (usuarioEncontrado != null && BCrypt.checkpw(password, usuarioEncontrado.getPassword())) {//Comparamos password ingresada con hash de bd
+       return usuarioEncontrado;
+    }
+    return null;
   }
 }
