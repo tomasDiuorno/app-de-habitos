@@ -1,7 +1,6 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioRegistro;
-import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,10 +19,10 @@ public class ControladorRegistro {
   }
 
   @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
-  public ModelAndView registrarme(@ModelAttribute("usuario") Usuario usuario) {
+  public ModelAndView registrarme(@ModelAttribute("datosRegistro") DatosRegistro datos) {
     ModelMap model = new ModelMap();
     try {
-      servicioRegistro.registrar(usuario);
+      servicioRegistro.registrar(datos);
     } catch (UsuarioExistente e) {
       model.put("error", "El usuario ya existe");
       return new ModelAndView("nuevo-usuario", model);
@@ -31,6 +30,7 @@ public class ControladorRegistro {
       model.put("error", "Error al registrar el nuevo usuario");
       return new ModelAndView("nuevo-usuario", model);
     }
+
     return new ModelAndView("redirect:/login");
   }
 }

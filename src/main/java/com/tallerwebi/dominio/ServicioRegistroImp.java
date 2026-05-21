@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import com.tallerwebi.presentacion.DatosRegistro;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,26 @@ public class ServicioRegistroImp implements ServicioRegistro {
   }
 
   @Override
-  public void registrar(Usuario usuario) throws UsuarioExistente {
-    Usuario usuarioEncontrado = repositorioUsuario.buscarPorEmail(usuario.getEmail());
+  public void registrar(DatosRegistro datos) throws UsuarioExistente {
+    Usuario usuarioEncontrado = repositorioUsuario.buscarPorEmail(datos.getEmail());
     if (usuarioEncontrado != null) {
       throw new UsuarioExistente();
     }
+    Usuario usuario = insertarUsuario(datos);
     repositorioUsuario.guardar(usuario);
   }
+
+  private Usuario insertarUsuario(DatosRegistro datos) {
+    Usuario usuario = new Usuario();
+    usuario.setName(datos.getName());
+    usuario.setSurname(datos.getSurname());
+    usuario.setEmail(datos.getEmail());
+    usuario.setGender(datos.getGender());
+    usuario.setUsername(datos.getUsername());
+    usuario.setPassword(datos.getPassword());
+    return usuario;
+  }
+
+  @Override
+  public void registrarHabitos(DatosRegistro datos) {}
 }
