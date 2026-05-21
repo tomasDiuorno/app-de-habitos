@@ -24,7 +24,8 @@ public class ServicioLoginTest {
     String email = "test@test.com";
     String password = "password";
     Usuario usuarioEsperado = new Usuario();
-    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(email, password)).thenReturn(usuarioEsperado);
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(email, password))
+      .thenReturn(usuarioEsperado);
 
     // ejecucion
     Usuario usuarioObtenido = this.servicioLogin.consultarUsuario(email, password);
@@ -40,7 +41,8 @@ public class ServicioLoginTest {
     String password = "password";
 
     Usuario usuarioEsperado = new Usuario();
-    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(username, password)).thenReturn(usuarioEsperado);
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(username, password))
+      .thenReturn(usuarioEsperado);
 
     // ejecucion
     Usuario usuarioObtenido = this.servicioLogin.consultarUsuario(username, password);
