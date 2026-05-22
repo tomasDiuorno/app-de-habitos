@@ -17,7 +17,7 @@ public class ReiniciarDB {
       String sqlCommands =
         "DELETE FROM Usuario;\n" +
         "ALTER TABLE Usuario AUTO_INCREMENT = 1;\n" +
-        "INSERT INTO Usuario(id, email, password, rol, activo) VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true);";
+        "INSERT INTO Usuario(id, email, password, rol, activo) VALUES(null, 'test@unlam.edu.ar', '$2a$10$T2iH3G50Q6I3XmP9C9X1uOT9Y5m2pY8M3D7g.gB5J5oP1aQ6fV.QG', 'ADMIN', true);";
 
       String comando = String.format(
         "docker exec tallerwebi-mysql mysql -h %s -P %s -u %s -p%s %s -e \"%s\"",

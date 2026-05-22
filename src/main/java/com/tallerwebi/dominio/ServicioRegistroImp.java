@@ -2,6 +2,7 @@ package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import javax.transaction.Transactional;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,10 @@ public class ServicioRegistroImp implements ServicioRegistro {
     if (usuarioEncontrado != null) {
       throw new UsuarioExistente();
     }
-    repositorioUsuario.guardar(usuario);
+
+    String hash = BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt()); //Genera Hash a partir de la contraseña
+    usuario.setPassword(hash); //Reemplaza contraseña por hash seguro
+
+    repositorioUsuario.guardar(usuario); //Guardamos usuario. la bd recibe hash.
   }
 }
