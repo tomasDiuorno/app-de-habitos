@@ -1,5 +1,5 @@
-<!DOCTYPE HTML>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -27,32 +27,42 @@
         <div class="container">
             <div id="loginbox" style="margin-top:50px;"
                 class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-                <form action="#" th:action="@{/validar-login}" method="POST" th:object="${datosLogin}">
+                <form action="#" th:action="@{/recuperacion-contrasenia}" method="POST" th:object="${datosRecuperacion}"> // se usa en minuscula
 
-                    <h3 class="form-signin-heading">Taller Web I</h3>
+                    <h3 class="form-signin-heading">Taller Web I - Recuperar contraseña</h3>
                     <hr class="colorgraph"><br>
                     <div>
-                        <label for="emailorusername" class="form-label">
-                           Email o Username:
+                        <label for="email" class="form-label">
+                           Introduzca su Email:
                         </label>
-                        <input th:field="*{emailorusername}" id="emailorusername" type="text" class="form-control" required />
+                        <input th:field="*{email}" id="email" type="email" class="form-control" required />
                     </div>
                     <br>
                     <div class="form-grid">
                         <label for="password" class="form-label">
-                            Contraseña:
+                            Nueva contraseña:
                         </label>
-                        <input th:field="*{password}" type="password" id="password" class="input-custom"
-                            placeholder="********" required />
+                        <input th:field="*{contrasenia1}" type="password" id="password" class="input-custom" placeholder="********" required />
                     </div>
+
+                    <div class="form-grid">
+                        <label for="passwordRepetida" class="form-label">
+                            Ingrese nuevamente la contraseña:
+                        </label>
+                        <input th:field="*{contrasenia2}" type="password" id="passwordRepetida" class="input-custom" placeholder="********" required />
+                    </div>
+
+
                     <button id="btn-login" class="btn btn-lg btn-primary btn-block" Type="Submit"
-                        enable>Login</button>
+                        enable>Aceptar</button>
+
+                    <button id="btn-cancelar" class="btn btn-lg btn-primary btn-block" style="background-color: red; " Type="Submit"
+                        enable>Cancelar</button>
 
                     <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
                     </p>
                 </form>
                 <a id="btn-register" href="nuevo-usuario">Registrarme</a>
-                <a id="btn-register" href="recuperacion-contrasenia">¿Olvidaste tu contraseña?</a>
             </div>
         </div>
     </main>
@@ -65,5 +75,6 @@
 
     <script type="module" th:src="@{js/login.js}"></script>
 </body>
+
 
 </html>

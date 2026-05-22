@@ -6,6 +6,7 @@ import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.mockito.Mockito.*;
 
 import com.tallerwebi.dominio.ServicioLogin;
+import com.tallerwebi.dominio.ServicioRecuperacionContrasenia;
 import com.tallerwebi.dominio.ServicioRegistro;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
@@ -25,6 +26,7 @@ public class ControladorLoginTest {
   private HttpSession sessionMock;
   private ServicioLogin servicioLoginMock;
   private ServicioRegistro servicioRegistroMock;
+  private ServicioRecuperacionContrasenia servicioRecuperacionContraseniaMock;
 
   @BeforeEach
   public void init() {
@@ -35,7 +37,7 @@ public class ControladorLoginTest {
     sessionMock = mock(HttpSession.class);
     servicioLoginMock = mock(ServicioLogin.class);
     servicioRegistroMock = mock(ServicioRegistro.class);
-    controladorLogin = new ControladorLogin(servicioLoginMock);
+    controladorLogin = new ControladorLogin(servicioLoginMock, servicioRecuperacionContraseniaMock);
     controladorRegistro = new ControladorRegistro(servicioRegistroMock);
   }
 
