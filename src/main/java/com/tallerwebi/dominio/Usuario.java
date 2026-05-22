@@ -18,7 +18,6 @@ public class Usuario {
   private String username;
   private String email;
   private String password;
-  private String confirmPass;
   private String rol;
   private String gender;
   private Boolean activo = false;
@@ -69,14 +68,6 @@ public class Usuario {
 
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  public String getConfirmPass() {
-    return confirmPass;
-  }
-
-  public void setConfirmPass(String confirmPass) {
-    this.confirmPass = confirmPass;
   }
 
   public String getRol() {

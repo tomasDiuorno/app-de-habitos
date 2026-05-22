@@ -30,6 +30,7 @@ public class ServicioRegistroImp implements ServicioRegistro {
 
     repositorioUsuario.guardar(usuario); //Guardamos usuario. la bd recibe hash.
   }
+
   private Usuario crearUsuario(DatosRegistro datos) {
     Usuario usuario = new Usuario();
     usuario.setName(datos.getName());
@@ -41,7 +42,5 @@ public class ServicioRegistroImp implements ServicioRegistro {
   }
 
   @Override
-  public void registrarHabitos(DatosRegistro datos) {
-  }
-  
+  public void registrarHabitos(DatosRegistro datos) {}
 }

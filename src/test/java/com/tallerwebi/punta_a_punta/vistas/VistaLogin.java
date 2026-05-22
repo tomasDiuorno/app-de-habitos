@@ -9,7 +9,6 @@ public class VistaLogin extends VistaWeb {
     page.navigate("localhost:8080/spring/login");
   }
 
-
   public String obtenerTextoDeLaBarraDeNavegacion() {
     return this.obtenerTextoDelElemento("nav a.navbar-brand");
   }

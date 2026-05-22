@@ -3,25 +3,38 @@ package com.tallerwebi.dominio;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("servicioHabitos")
+import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
+
+@Service("servicioHabito")
 @Transactional
-public class ServicioHabitoImp implements ServicioHabitos {
+public class ServicioHabitoImp implements ServicioHabito {
+
+  private RepositorioHabito repositorioHabito;
+
+  @Autowired
+  public ServicioHabitoImp(RepositorioHabito repositorioHabito) {
+    this.repositorioHabito = repositorioHabito;
+  }
 
   @Override
   public List<Habito> obtenerHabitosIniciales() {
-    List<Habito> habitos = new ArrayList<>();
-    habitos.add(crearHabito("Meditar", "Bienestar"));
-    habitos.add(crearHabito("Leer un libro", "Cultura"));
-    habitos.add(crearHabito("Hacer ejercicio", "Salud"));
-    return habitos;
+    return repositorioHabito.obtenerHabitosIniciales();
   }
 
-  private Habito crearHabito(String titulo, String categoria) {
-    Habito habito = new Habito();
-    habito.setTitulo(titulo);
-    habito.setCategoria(categoria);
-    return habito;
+  @Override
+  public void agregarHabito(Habito habito) throws HabitoExistenteExeption {
+    if (this.repositorioHabito.buscarPorTitulo(habito.getTitulo()) != null) {
+      throw new HabitoExistenteExeption();
+    }
+    this.repositorioHabito.guardar(habito);
+  }
+
+  @Override
+  public Habito buscarHabito(String titulo) {
+    return this.repositorioHabito.buscarPorTitulo(titulo);
   }
 }

@@ -1,6 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.ServicioHabitos;
+import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.Usuario;
 import javax.servlet.http.HttpServletRequest;
@@ -16,10 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControladorLogin {
 
   private ServicioLogin servicioLogin;
-  private ServicioHabitos servicioHabitos;
+  private ServicioHabito servicioHabitos;
 
   @Autowired
-  public ControladorLogin(ServicioLogin servicioLogin, ServicioHabitos servicioHabitos) {
+  public ControladorLogin(ServicioLogin servicioLogin, ServicioHabito servicioHabitos) {
     this.servicioLogin = servicioLogin;
     this.servicioHabitos = servicioHabitos;
   }

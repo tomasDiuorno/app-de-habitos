@@ -2,7 +2,6 @@ package com.tallerwebi.dominio;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
@@ -53,7 +52,8 @@ public class ServicioLoginTest {
     usuarioEsperado.setUsername(username);
     usuarioEsperado.setPassword(hashBD);
 
-    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(username)).thenReturn(usuarioEsperado);
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(username))
+      .thenReturn(usuarioEsperado);
 
     // ejecucion
     Usuario usuarioObtenido = this.servicioLogin.consultarUsuario(username, passwordPlana);
@@ -71,12 +71,12 @@ public class ServicioLoginTest {
     String passwordIncorrecta = "clavemala";
     String hashBD = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
 
-
     Usuario usuarioEsperado = new Usuario();
     usuarioEsperado.setUsername(username);
     usuarioEsperado.setPassword(hashBD);
 
-    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(username)).thenReturn(usuarioEsperado);
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(username))
+      .thenReturn(usuarioEsperado);
 
     // ejecucion
     Usuario usuarioObtenido = this.servicioLogin.consultarUsuario(username, passwordIncorrecta);
@@ -85,5 +85,4 @@ public class ServicioLoginTest {
     assertNull(usuarioObtenido);
     verify(this.repositorioUsuarioMock, times(1)).buscarPorEmailOrUsername(username);
   }
-
 }
