@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -41,5 +42,46 @@ public class ServicioRecuperacionContraseniaTest {
     String contraseniaCambiada = datos.getContrasenia1();
 
     assertEquals("4321", contraseniaCambiada);
+  }
+
+  @Test
+  public void SiElEmailNoExisteDebeLanzarException() {
+    String emailInexistente = "noexiste@gmail.com";
+    DatosRecuperacionContrasenia datos = new DatosRecuperacionContrasenia(
+      emailInexistente,
+      "4321",
+      "4321"
+    );
+
+    when(this.repositorioUsuarioMock.buscarPorEmail(emailInexistente)).thenReturn(null);
+
+    assertThrows(
+      RuntimeException.class,
+      () -> {
+        this.servicioRecuperacion.recuperarContrasenia(datos);
+      }
+    );
+  }
+
+  @Test
+  public void SiLasContraseniasNoCoincidenDebeLanzarException() {
+    String emailValido = "test@gmail.com";
+    // Las contraseñas son distintas
+    DatosRecuperacionContrasenia datos = new DatosRecuperacionContrasenia(
+      emailValido,
+      "1234",
+      "9999"
+    );
+
+    Usuario usuario = new Usuario();
+    usuario.setEmail(emailValido);
+    when(this.repositorioUsuarioMock.buscarPorEmail(emailValido)).thenReturn(usuario);
+
+    assertThrows(
+      RuntimeException.class,
+      () -> {
+        this.servicioRecuperacion.recuperarContrasenia(datos);
+      }
+    );
   }
 }
