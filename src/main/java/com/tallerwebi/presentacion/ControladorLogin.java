@@ -81,11 +81,10 @@ public class ControladorLogin {
     @ModelAttribute("datosRecuperacion") DatosRecuperacionContrasenia datosRecuperacionContrasenia
   ) {
     ModelMap model = new ModelMap();
-
     try {
       servicioRecuperacionContrasenia.recuperarContrasenia(datosRecuperacionContrasenia);
 
-      model.put("mensaje", "Caontraseña cambiada con exito");
+      model.put("mensaje", "Contraseña cambiada con exito");
       return new ModelAndView("redirect:/login", model);
     } catch (Exception e) {
       model.put("error", e.getMessage());

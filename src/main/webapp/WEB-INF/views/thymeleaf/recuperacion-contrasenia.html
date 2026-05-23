@@ -1,80 +1,132 @@
+```html id="k7m2qx"
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Taller Web I</title>
+    <title>Habitapp - Recuperar contraseña</title>
 
-    <!-- Boostrap core css -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- custom style -->
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/register.css}" />
+    <link rel="stylesheet" th:href="@{/css/recuperacion-contrasenia.css}" />
 </head>
 
-<body>
+<body class="body-reg">
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="#">UNLAM</a>
+    <nav class="navbar navbar-expand-md fixed-top">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/login}">
+                UNLAM
+            </a>
+        </div>
     </nav>
 
-    <main role="main" class="container">
+    <main class="auth-container login-container">
 
-        <div class="container">
-            <div id="loginbox" style="margin-top:50px;"
-                class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-                <form action="#" th:action="@{/recuperacion-contrasenia}" method="POST" th:object="${datosRecuperacion}"> 
+        <div class="auth-card login-card">
 
-                    <h3 class="form-signin-heading">Taller Web I - Recuperar contraseña</h3>
-                    <hr class="colorgraph"><br>
-                    <div>
-                        <label for="email" class="form-label">
-                           Introduzca su Email:
-                        </label>
-                        <input th:field="*{email}" id="email" type="email" class="form-control" required />
-                    </div>
-                    <br>
-                    <div class="form-grid">
-                        <label for="password" class="form-label">
-                            Nueva contraseña:
-                        </label>
-                        <input th:field="*{contrasenia1}" type="password" id="password" class="input-custom" placeholder="********" required />
-                    </div>
+            <form
+                th:action="@{/recuperacion-contrasenia}"
+                method="POST"
+                th:object="${datosRecuperacion}">
 
-                    <div class="form-grid">
-                        <label for="passwordRepetida" class="form-label">
-                            Ingrese nuevamente la contraseña:
-                        </label>
-                        <input th:field="*{contrasenia2}" type="password" id="passwordRepetida" class="input-custom" placeholder="********" required />
-                    </div>
+                <h1 class="auth-title">
+                    Recuperar contraseña
+                </h1>
 
+                <p class="auth-subtitle">
+                    Cambiá tu contraseña
+                </p>
 
-                    <button id="btn-login" class="btn btn-lg btn-primary btn-block" Type="Submit"
-                        enable>Aceptar</button>
+                <hr class="colorgraph">
 
-                    <button id="btn-cancelar" class="btn btn-lg btn-primary btn-block" style="background-color: red; " Type="Submit"
-                        enable>Cancelar</button>
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        Email
+                    </label>
 
-                    <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
-                    </p>
-                </form>
-                <a id="btn-register" href="nuevo-usuario">Registrarme</a>
+                    <input
+                        th:field="*{email}"
+                        id="email"
+                        type="email"
+                        class="input-custom"
+                        placeholder="Ingresá tu email"
+                        required />
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">
+                        Nueva contraseña
+                    </label>
+
+                    <input
+                        th:field="*{contrasenia1}"
+                        type="password"
+                        id="password"
+                        class="input-custom"
+                        placeholder="********"
+                        required />
+                </div>
+
+                <div class="form-group">
+                    <label for="passwordRepetida" class="form-label">
+                        Repetí la contraseña
+                    </label>
+
+                    <input
+                        th:field="*{contrasenia2}"
+                        type="password"
+                        id="passwordRepetida"
+                        class="input-custom"
+                        placeholder="********"
+                        required />
+                </div>
+
+                <button
+                    id="btn-login"
+                    class="btn-neon"
+                    type="submit">
+                    Aceptar
+                </button>
+
+                <button
+                    id="btn-cancelar"
+                    class="btn-cancel"
+                    type="button">
+                    Cancelar
+                </button>
+
+                <p
+                    th:if="${error != null}"
+                    class="alert-danger"
+                    th:text="'Error: ' + ${error}">
+                </p>
+
+            </form>
+
+            <div class="login-register-box">
+                <a
+                    id="btn-register"
+                    th:href="@{/nuevo-usuario}"
+                    class="login-register-link">
+                    Registrarme
+                </a>
             </div>
+
         </div>
+
     </main>
-    <!-- /.container -->
 
-    <!-- Boostrap core js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
-
-    <script type="module" th:src="@{js/login.js}"></script>
 </body>
-
 
 </html>
