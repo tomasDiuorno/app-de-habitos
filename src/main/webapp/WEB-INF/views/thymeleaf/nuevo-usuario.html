@@ -26,7 +26,7 @@
 
   <main class="auth-container">
     <div class="auth-card">
-      <form th:action="@{/registrarme}" method="POST" th:object="${usuario}">
+      <form th:action="@{/registrarme}" method="POST" th:object="${datosRegistro}">
         <h1 class="auth-title">Crear Cuenta</h1>
 
         <p class="auth-subtitle">Registrate para comenzar</p>
@@ -86,9 +86,9 @@
         <div class="form-grid">
           <div class="form-group">
             <label for="password" class="form-label">
-              Contraseña
+              Contrasenia
             </label>
-            <input th:field="*{password}" type="password" id="password" class="input-custom" placeholder="********"
+            <input th:field="*{password}" type="password" id="password" class="input-custom" placeholder="***"
               required />
           </div>
 
@@ -96,11 +96,24 @@
             <label for="confirmPass" class="form-label">
               Confirmar
             </label>
-            <input th:field="*{confirmPass}" type="password" id="confirmPass" class="input-custom"
-              placeholder="********" required />
+            <input th:field="*{confirmPassword}" type="password" id="confirmPass" class="input-custom"
+              placeholder="****" required />
           </div>
         </div>
 
+        <div class="habits-grid">
+          <label class="habit-card" th:each="habito : ${habitos}">
+            <input type="checkbox" th:field="*{habitosSeleccionados}" th:value="${habito.id}" class="habit-checkbox" />
+            <div class="habit-card-content">
+              <div class="habit-info">
+                <h3 class="habit-name" th:text="${habito.titulo}">
+                </h3>
+                <span class="habit-category" th:text="${habito.categoria}">
+                </span>
+              </div>
+            </div>
+          </label>
+        </div>
         <button id="btn-registrarme" class="btn-neon" type="submit">
           Registrarme
         </button>

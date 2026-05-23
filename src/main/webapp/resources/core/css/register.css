@@ -298,3 +298,111 @@ select.input-custom option {
     text-transform: uppercase;
     box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
 }
+
+/* Grid habitos */
+
+.habits-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin-top: 10px;
+}
+
+/* =========================
+   HABIT CHIP
+========================= */
+
+.habit-card {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    display: inline-block;
+}
+
+/* ocultar checkbox */
+.habit-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* boton/chip */
+.habit-card-content {
+    padding: 10px 16px;
+    border-radius: 999px;
+
+    background-color: rgba(6, 9, 19, 0.7);
+
+    border: 1px solid var(--border-color);
+
+    transition: all 0.25s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 42px;
+}
+
+/* hover */
+.habit-card:hover .habit-card-content {
+    border-color: var(--neon-blue);
+
+    box-shadow:
+        0 0 10px rgba(0, 223, 255, 0.15);
+
+    transform: translateY(-1px);
+}
+
+/* texto */
+.habit-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.habit-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    color: var(--text-main);
+}
+
+/* categoria */
+.habit-category {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+/* =========================
+   CHECKED STATE
+========================= */
+
+.habit-checkbox:checked + .habit-card-content {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(157, 78, 221, 0.25),
+            rgba(0, 223, 255, 0.18)
+        );
+
+    border-color: var(--neon-blue);
+
+    box-shadow:
+        0 0 12px rgba(0, 223, 255, 0.25),
+        0 0 24px rgba(157, 78, 221, 0.15);
+}
+
+.habit-checkbox:checked + .habit-card-content .habit-name {
+    color: var(--neon-blue);
+    text-shadow: 0 0 8px rgba(0, 223, 255, 0.5);
+}
+
+.habit-checkbox:checked + .habit-card-content .habit-category {
+    color: #d8b4fe;
+}

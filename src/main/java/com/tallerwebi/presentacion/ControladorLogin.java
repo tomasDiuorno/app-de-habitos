@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.Usuario;
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControladorLogin {
 
   private ServicioLogin servicioLogin;
+  private ServicioHabito servicioHabitos;
 
   @Autowired
-  public ControladorLogin(ServicioLogin servicioLogin) {
+  public ControladorLogin(ServicioLogin servicioLogin, ServicioHabito servicioHabitos) {
     this.servicioLogin = servicioLogin;
+    this.servicioHabitos = servicioHabitos;
   }
 
   @RequestMapping("/login")
@@ -56,7 +59,8 @@ public class ControladorLogin {
   @RequestMapping(path = "/nuevo-usuario", method = RequestMethod.GET)
   public ModelAndView nuevoUsuario() {
     ModelMap model = new ModelMap();
-    model.put("usuario", new Usuario());
+    model.put("datosRegistro", new DatosRegistro());
+    model.put("habitos", servicioHabitos.obtenerHabitosIniciales());
     return new ModelAndView("nuevo-usuario", model);
   }
 

@@ -5,10 +5,14 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.mockito.Mockito.*;
 
+import com.tallerwebi.dominio.Habito;
+import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.ServicioRegistro;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,17 +29,21 @@ public class ControladorLoginTest {
   private HttpSession sessionMock;
   private ServicioLogin servicioLoginMock;
   private ServicioRegistro servicioRegistroMock;
+  private DatosRegistro datosRegistroMock;
+  private ServicioHabito servicioHabitosMock;
 
   @BeforeEach
   public void init() {
     datosLoginMock = new DatosLogin("juli@unlam.com", "123");
+    datosRegistroMock = mock(DatosRegistro.class);
     usuarioMock = mock(Usuario.class);
     when(usuarioMock.getEmail()).thenReturn("juli@unlam.com");
     requestMock = mock(HttpServletRequest.class);
     sessionMock = mock(HttpSession.class);
     servicioLoginMock = mock(ServicioLogin.class);
     servicioRegistroMock = mock(ServicioRegistro.class);
-    controladorLogin = new ControladorLogin(servicioLoginMock);
+    servicioHabitosMock = mock(ServicioHabito.class);
+    controladorLogin = new ControladorLogin(servicioLoginMock, servicioHabitosMock);
     controladorRegistro = new ControladorRegistro(servicioRegistroMock);
   }
 
@@ -78,21 +86,21 @@ public class ControladorLoginTest {
   public void registrameSiUsuarioNoExisteDeberiaCrearUsuarioYVolverAlLogin()
     throws UsuarioExistente {
     // ejecucion
-    ModelAndView modelAndView = controladorRegistro.registrarme(usuarioMock);
+    ModelAndView modelAndView = controladorRegistro.registrarme(datosRegistroMock);
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
-    verify(servicioRegistroMock, times(1)).registrar(usuarioMock);
+    verify(servicioRegistroMock, times(1)).registrar(datosRegistroMock);
   }
 
   @Test
   public void registrarmeSiUsuarioExisteDeberiaVolverAFormularioYMostrarError()
     throws UsuarioExistente {
     // preparacion
-    doThrow(UsuarioExistente.class).when(servicioRegistroMock).registrar(usuarioMock);
+    doThrow(UsuarioExistente.class).when(servicioRegistroMock).registrar(datosRegistroMock);
 
     // ejecucion
-    ModelAndView modelAndView = controladorRegistro.registrarme(usuarioMock);
+    ModelAndView modelAndView = controladorRegistro.registrarme(datosRegistroMock);
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("nuevo-usuario"));
@@ -105,10 +113,10 @@ public class ControladorLoginTest {
   @Test
   public void errorEnRegistrarmeDeberiaVolverAFormularioYMostrarError() throws UsuarioExistente {
     // preparacion
-    doThrow(RuntimeException.class).when(servicioRegistroMock).registrar(usuarioMock);
+    doThrow(RuntimeException.class).when(servicioRegistroMock).registrar(datosRegistroMock);
 
     // ejecucion
-    ModelAndView modelAndView = controladorRegistro.registrarme(usuarioMock);
+    ModelAndView modelAndView = controladorRegistro.registrarme(datosRegistroMock);
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("nuevo-usuario"));
@@ -130,12 +138,16 @@ public class ControladorLoginTest {
 
   @Test
   public void nuevoUsuarioDeberiaRetornarVistaNuevoUsuarioConUsuarioVacio() {
+    List<Habito> habitos = new ArrayList<>();
+    when(servicioHabitosMock.obtenerHabitosIniciales()).thenReturn(habitos);
+
     // ejecucion
     ModelAndView modelAndView = controladorLogin.nuevoUsuario();
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("nuevo-usuario"));
-    assertThat(modelAndView.getModel().get("usuario"), instanceOf(Usuario.class));
+    assertThat(modelAndView.getModel().get("datosRegistro"), instanceOf(DatosRegistro.class));
+    assertThat(modelAndView.getModel().get("habitos"), instanceOf(List.class));
   }
 
   @Test
