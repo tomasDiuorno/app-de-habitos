@@ -17,6 +17,7 @@ public class DatosRegistro {
   public String getName() {
     return name;
   }
+
   public String getSurname() {
     return surname;
   }
@@ -44,9 +45,11 @@ public class DatosRegistro {
   public String getGender() {
     return gender;
   }
+
   public List<Habito> getHabitosSeleccionados() {
     return habitosSeleccionados;
   }
+
   public void setHabitosSeleccionados(List<Habito> habitosSeleccionados) {
     this.habitosSeleccionados = habitosSeleccionados;
   }

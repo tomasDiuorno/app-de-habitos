@@ -1,7 +1,7 @@
 package com.tallerwebi.dominio;
 
-import java.util.List;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
+import java.util.List;
 
 public interface ServicioHabito {
   List<Habito> obtenerHabitosIniciales();

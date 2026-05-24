@@ -46,8 +46,13 @@ public class ControladorLoginTest {
     servicioLoginMock = mock(ServicioLogin.class);
     servicioRegistroMock = mock(ServicioRegistro.class);
     servicioHabitosMock = mock(ServicioHabito.class);
-controladorLogin = new ControladorLogin(servicioLoginMock, servicioRecuperacionContraseniaMock, servicioHabitosMock);
-controladorRegistro = new ControladorRegistro(servicioRegistroMock);
+    controladorLogin =
+      new ControladorLogin(
+        servicioLoginMock,
+        servicioRecuperacionContraseniaMock,
+        servicioHabitosMock
+      );
+    controladorRegistro = new ControladorRegistro(servicioRegistroMock);
   }
 
   @Test
