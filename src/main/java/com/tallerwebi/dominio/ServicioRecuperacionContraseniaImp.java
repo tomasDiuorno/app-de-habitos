@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.excepcion.ContraseniasNoCoincidenException;
+import com.tallerwebi.dominio.excepcion.EmailInexistenteException;
 import com.tallerwebi.presentacion.DatosRecuperacionContrasenia;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,10 @@ public class ServicioRecuperacionContraseniaImp implements ServicioRecuperacionC
   }
 
   @Override
-  public void recuperarContrasenia(DatosRecuperacionContrasenia datosRecuperacionContrasenia) {
+  public void recuperarContrasenia(DatosRecuperacionContrasenia datosRecuperacionContrasenia)
+    throws ContraseniasNoCoincidenException, EmailInexistenteException {
     if (!verificarSiLasContraseniasSonIguales(datosRecuperacionContrasenia)) {
-      throw new RuntimeException("Las contraseñas ingresadas no coinciden");
+      throw new ContraseniasNoCoincidenException("Error, las contrasenias no coinciden");
     }
 
     Usuario usuarioEncontradoPorEmail = repositorioUsuario.buscarPorEmail(
@@ -29,7 +32,7 @@ public class ServicioRecuperacionContraseniaImp implements ServicioRecuperacionC
     if (usuarioEncontradoPorEmail != null) {
       usuarioEncontradoPorEmail.setPassword(datosRecuperacionContrasenia.getContrasenia1());
     } else {
-      throw new RuntimeException("El email ingresado no existe");
+      throw new EmailInexistenteException("El email ingresado no existe");
     }
   }
 

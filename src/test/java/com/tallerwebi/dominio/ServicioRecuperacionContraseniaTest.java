@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.tallerwebi.dominio.excepcion.ContraseniasNoCoincidenException;
+import com.tallerwebi.dominio.excepcion.EmailInexistenteException;
 import com.tallerwebi.presentacion.DatosRecuperacionContrasenia;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +23,8 @@ public class ServicioRecuperacionContraseniaTest {
   }
 
   @Test
-  public void quieroRecuperarLaContraseniaExitosamente() {
+  public void quieroRecuperarLaContraseniaExitosamente()
+    throws ContraseniasNoCoincidenException, EmailInexistenteException {
     String emailValido = "test@gmail.com";
     String contraseniaNueva1 = "4321";
     String contraseniaNueva2 = "4321";
@@ -56,16 +59,19 @@ public class ServicioRecuperacionContraseniaTest {
     when(this.repositorioUsuarioMock.buscarPorEmail(emailInexistente)).thenReturn(null);
 
     assertThrows(
-      RuntimeException.class,
-      () -> {
-        this.servicioRecuperacion.recuperarContrasenia(datos);
-      }
+      EmailInexistenteException.class,
+      () -> this.servicioRecuperacion.recuperarContrasenia(datos)
     );
+    // assertThrows(RuntimeException.class, () -> {
+    // this.servicioRecuperacion.recuperarContrasenia(datos);
+    //}
+    //);
   }
 
   @Test
   public void SiLasContraseniasNoCoincidenDebeLanzarException() {
     String emailValido = "test@gmail.com";
+
     // Las contraseñas son distintas
     DatosRecuperacionContrasenia datos = new DatosRecuperacionContrasenia(
       emailValido,
@@ -78,10 +84,13 @@ public class ServicioRecuperacionContraseniaTest {
     when(this.repositorioUsuarioMock.buscarPorEmail(emailValido)).thenReturn(usuario);
 
     assertThrows(
-      RuntimeException.class,
-      () -> {
-        this.servicioRecuperacion.recuperarContrasenia(datos);
-      }
+      ContraseniasNoCoincidenException.class,
+      () -> this.servicioRecuperacion.recuperarContrasenia(datos)
     );
+    // assertThrows(RuntimeException.class,
+    // () -> {
+    //  this.servicioRecuperacion.recuperarContrasenia(datos);
+    //}
+    //);
   }
 }
