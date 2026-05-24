@@ -42,7 +42,6 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
       .uniqueResult();
   }
 
-
   @Override
   public void modificar(Usuario usuario) {
     sessionFactory.getCurrentSession().update(usuario);
@@ -51,7 +50,7 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
   @Override
   public Usuario buscarPorEmailOrUsername(String emailorusername) { //query personalizada pa
     String sql =
-            "from Usuario u where lower(u.email) = lower(:emailorusername) or lower(u.username) = lower(:emailorusername)";
+      "from Usuario u where lower(u.email) = lower(:emailorusername) or lower(u.username) = lower(:emailorusername)";
     return sessionFactory
       .getCurrentSession()
       .createQuery(sql, Usuario.class)
