@@ -1,10 +1,7 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
-<<<<<<< HEAD
-=======
 import com.tallerwebi.presentacion.DatosRegistro;
->>>>>>> Tomi
 import javax.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +27,6 @@ public class ServicioRegistroImp implements ServicioRegistro {
     Usuario usuario = crearUsuario(datos);
     String hash = BCrypt.hashpw(datos.getPassword(), BCrypt.gensalt()); //Genera Hash a partir de la contraseña
     usuario.setPassword(hash); //Reemplaza contraseña por hash seguro
-
-<<<<<<< HEAD
-    String hash = BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt()); //Genera Hash a partir de la contraseña
-    usuario.setPassword(hash); //Reemplaza contraseña por hash seguro
-
-=======
->>>>>>> Tomi
     repositorioUsuario.guardar(usuario); //Guardamos usuario. la bd recibe hash.
   }
 
