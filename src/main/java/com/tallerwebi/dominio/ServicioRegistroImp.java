@@ -4,9 +4,6 @@ import com.tallerwebi.dominio.excepcion.CamposObligatorios;
 import com.tallerwebi.dominio.excepcion.FormatoEmailInvalido;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-
 import javax.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +57,5 @@ public class ServicioRegistroImp implements ServicioRegistro {
     }
   }
 
-  
 }
 
