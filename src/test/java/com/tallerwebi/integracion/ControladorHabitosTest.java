@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.tallerwebi.config.SpringWebConfig;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,26 +27,27 @@ import org.springframework.web.servlet.ModelAndView;
 @WebAppConfiguration
 @ContextConfiguration(classes = { SpringWebConfig.class, HibernateTestConfig.class })
 public class ControladorHabitosTest {
-    private Usuario usuarioMock;
-    
-    @Autowired
-    private WebApplicationContext wac;
 
-    private MockMvc mockMvc;
+  private Usuario usuarioMock;
 
-    @BeforeEach
-    public void init(){
-        usuarioMock = mock(Usuario.class);
-        when(usuarioMock.getEmail()).thenReturn("test@mail.com");
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
+  @Autowired
+  private WebApplicationContext wac;
 
-    @Test
-    public void deberiaRetornarLaPaginaHabitosCuandoNavegoAHabitos() throws Exception{
-        MvcResult result = this.mockMvc.perform(get("/habitos")).andExpect(status().isOk()).andReturn();
+  private MockMvc mockMvc;
 
-        ModelAndView modelAndView = result.getModelAndView();
-        assert modelAndView != null;
-        assertThat(modelAndView.getViewName(), equalToIgnoringCase("habitos"));
-    }
+  @BeforeEach
+  public void init() {
+    usuarioMock = mock(Usuario.class);
+    when(usuarioMock.getEmail()).thenReturn("test@mail.com");
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+  }
+
+  @Test
+  public void deberiaRetornarLaPaginaHabitosCuandoNavegoAHabitos() throws Exception {
+    MvcResult result = this.mockMvc.perform(get("/habitos")).andExpect(status().isOk()).andReturn();
+
+    ModelAndView modelAndView = result.getModelAndView();
+    assert modelAndView != null;
+    assertThat(modelAndView.getViewName(), equalToIgnoringCase("habitos"));
+  }
 }

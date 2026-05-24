@@ -1,8 +1,9 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioRegistro;
-import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.CamposObligatorios;
+import com.tallerwebi.dominio.excepcion.FormatoEmailInvalido;
+import com.tallerwebi.dominio.excepcion.PasswordInvalido;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,28 +25,21 @@ public class ControladorRegistro {
   public ModelAndView registrarme(@ModelAttribute("datosRegistro") DatosRegistro datos) {
     ModelMap model = new ModelMap();
     try {
+      servicioRegistro.validarCamposObligatorios(datos);
       servicioRegistro.registrar(datos);
+      servicioRegistro.validarCreedenciales(datos);
+
+    } catch (CamposObligatorios | FormatoEmailInvalido | PasswordInvalido e) {
+      model.put("error", e.getMessage());
+      return new ModelAndView("nuevo-usuario", model);
     } catch (UsuarioExistente e) {
       model.put("error", "El usuario ya existe");
       return new ModelAndView("nuevo-usuario", model);
-    }
-     catch (Exception e) {
+    } catch (Exception e) {
       model.put("error", "Error al registrar el nuevo usuario");
       return new ModelAndView("nuevo-usuario", model);
     }
 
-    return new ModelAndView("redirect:/login");
-  }
-
-  @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
-  public ModelAndView validarCamposObligatorios(@ModelAttribute("usuario") Usuario usuario) {
-    ModelMap model = new ModelMap();
-    try {
-      servicioRegistro.validarCamposObligatorios(usuario);
-    } catch (CamposObligatorios e) {
-      model.put("error", "Los campos obligatorios no pueden estar vacíos");
-      return new ModelAndView("nuevo-usuario", model);
-    } 
     return new ModelAndView("redirect:/login");
   }
 

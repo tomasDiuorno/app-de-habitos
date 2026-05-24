@@ -2,6 +2,7 @@ package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.CamposObligatorios;
 import com.tallerwebi.dominio.excepcion.FormatoEmailInvalido;
+import com.tallerwebi.dominio.excepcion.PasswordInvalido;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import com.tallerwebi.presentacion.DatosRegistro;
 import javax.transaction.Transactional;
@@ -27,37 +28,11 @@ public class ServicioRegistroImp implements ServicioRegistro {
       throw new UsuarioExistente();
     }
     Usuario usuario = crearUsuario(datos);
-    String hash = BCrypt.hashpw(datos.getPassword(), BCrypt.gensalt()); //Genera Hash a partir de la contraseña
-    usuario.setPassword(hash); //Reemplaza contraseña por hash seguro
+    String hash = BCrypt.hashpw(datos.getPassword(), BCrypt.gensalt()); // Genera Hash a partir de la contraseña
+    usuario.setPassword(hash); // Reemplaza contraseña por hash seguro
 
     repositorioUsuario.guardar(usuario); // Guardamos usuario. la bd recibe hash.
   }
-
-  @Override
-  public void validarCamposObligatorios(Usuario usuario) throws CamposObligatorios {
-    
-    if (usuario.getName() == null  || usuario.getName().isEmpty() &&
-        usuario.getEmail() == null || usuario.getEmail().isEmpty() &&
-        usuario.getSurname() == null || usuario.getSurname().isEmpty() &&
-        usuario.getUsername() == null || usuario.getUsername().isEmpty() &&
-        usuario.getPassword() == null || usuario.getPassword().isEmpty() 
-      ) {
-
-          throw new CamposObligatorios();
-    }
-  }
-
-  @Override
-  public void validarEmail(Usuario usuario) throws FormatoEmailInvalido {
-
-    String expresionRegular = "^([a-zA-Z0-9._%-]+)@([a-zA-Z0-9.-]+).([a-zA-Z]{2,6})$";
-
-    if(!(usuario.getEmail().matches(expresionRegular))){
-      throw new FormatoEmailInvalido();
-    }
-  
-  }
-
 
   private Usuario crearUsuario(DatosRegistro datos) {
     Usuario usuario = new Usuario();
@@ -70,13 +45,46 @@ public class ServicioRegistroImp implements ServicioRegistro {
   }
 
   @Override
+  public void validarCamposObligatorios(DatosRegistro datos) throws CamposObligatorios {
+    if (faltanDatosPersonales(datos) || faltanCredenciales(datos)) {
+      throw new CamposObligatorios("Los campos obligatorios no pueden estar vacios");
+    }
+  }
+
+  private boolean faltanDatosPersonales(DatosRegistro datos) {
+    return (
+      (datos.getName() == null || datos.getName().isEmpty()) ||
+      (datos.getSurname() == null || datos.getSurname().isEmpty()) ||
+        (datos.getGender() == null || datos.getGender().isEmpty())
+    );
+  }
+
+  private boolean faltanCredenciales(DatosRegistro datos) {
+    return (
+      (datos.getEmail() == null || datos.getEmail().isEmpty()) ||
+      (datos.getPassword() == null || datos.getPassword().isEmpty() ||
+      (datos.getUsername() == null || datos.getUsername().isEmpty()))
+    );
+  }
+
+  @Override
+  public void validarCreedenciales(DatosRegistro datos) throws FormatoEmailInvalido, PasswordInvalido {
+    String expresionRegularEmail = "^([a-zA-Z0-9._%-]+)@([a-zA-Z0-9.-]+).([a-zA-Z]{2,6})$";
+    String expresionRegularPassword = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$";
+
+    if (!(datos.getEmail().matches(expresionRegularEmail))) {
+      throw new FormatoEmailInvalido("El formato de correo electrónico no es válido");
+    }
+    if(!(datos.getPassword().matches(expresionRegularPassword))){
+      throw new PasswordInvalido("La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial");
+  }
+}
+
+  @Override
   public void registrarHabitos(DatosRegistro datos) {}
 
   @Override
   public void registrar(Usuario usuario) throws UsuarioExistente {
-   
     throw new UnsupportedOperationException("Unimplemented method 'registrar'");
   }
-
 }
-
