@@ -3,7 +3,7 @@ package com.tallerwebi.dominio;
 import com.tallerwebi.dominio.excepcion.CamposObligatorios;
 import com.tallerwebi.dominio.excepcion.FormatoEmailInvalido;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
-
+import com.tallerwebi.presentacion.DatosRegistro;
 import javax.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +21,14 @@ public class ServicioRegistroImp implements ServicioRegistro {
   }
 
   @Override
-  public void registrar(Usuario usuario) throws UsuarioExistente {
-    Usuario usuarioEncontrado = repositorioUsuario.buscarPorEmail(usuario.getEmail());
+  public void registrar(DatosRegistro datos) throws UsuarioExistente {
+    Usuario usuarioEncontrado = repositorioUsuario.buscarPorEmail(datos.getEmail());
     if (usuarioEncontrado != null) {
       throw new UsuarioExistente();
     }
-
-    String hash = BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt()); // Genera Hash a partir de la contraseña
-    usuario.setPassword(hash); // Reemplaza contraseña por hash seguro
+    Usuario usuario = crearUsuario(datos);
+    String hash = BCrypt.hashpw(datos.getPassword(), BCrypt.gensalt()); //Genera Hash a partir de la contraseña
+    usuario.setPassword(hash); //Reemplaza contraseña por hash seguro
 
     repositorioUsuario.guardar(usuario); // Guardamos usuario. la bd recibe hash.
   }
@@ -40,8 +40,8 @@ public class ServicioRegistroImp implements ServicioRegistro {
         usuario.getEmail() == null || usuario.getEmail().isEmpty() &&
         usuario.getSurname() == null || usuario.getSurname().isEmpty() &&
         usuario.getUsername() == null || usuario.getUsername().isEmpty() &&
-        usuario.getPassword() == null || usuario.getPassword().isEmpty() &&
-        usuario.getConfirmPass() == null || usuario.getConfirmPass().isEmpty()) {
+        usuario.getPassword() == null || usuario.getPassword().isEmpty() 
+      ) {
 
           throw new CamposObligatorios();
     }
@@ -55,6 +55,27 @@ public class ServicioRegistroImp implements ServicioRegistro {
     if(!(usuario.getEmail().matches(expresionRegular))){
       throw new FormatoEmailInvalido();
     }
+  
+  }
+
+
+  private Usuario crearUsuario(DatosRegistro datos) {
+    Usuario usuario = new Usuario();
+    usuario.setName(datos.getName());
+    usuario.setSurname(datos.getSurname());
+    usuario.setEmail(datos.getEmail());
+    usuario.setGender(datos.getGender());
+    usuario.setUsername(datos.getUsername());
+    return usuario;
+  }
+
+  @Override
+  public void registrarHabitos(DatosRegistro datos) {}
+
+  @Override
+  public void registrar(Usuario usuario) throws UsuarioExistente {
+   
+    throw new UnsupportedOperationException("Unimplemented method 'registrar'");
   }
 
 }

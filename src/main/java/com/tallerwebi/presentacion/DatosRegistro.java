@@ -1,6 +1,5 @@
 package com.tallerwebi.presentacion;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -24,9 +23,8 @@ public class DatosRegistro {
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$", message = "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial")
     private String password;
 
-    @NotBlank(message = "La confirmación de contraseña es obligatoria")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$", message = "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial")
-    private String confirmPass;
+    @NotBlank(message = "La elección del genero es obligatorio")
+    private String gender;
 
     public String getName() {
         return name;
@@ -68,11 +66,11 @@ public class DatosRegistro {
         this.password = password;
     }
 
-    public String getConfirmPass() {
-        return confirmPass;
+    public String getGender() {
+        return this.gender;
     }
 
-    public void setConfirmPass(String confirmPass) {
-        this.confirmPass = confirmPass;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
