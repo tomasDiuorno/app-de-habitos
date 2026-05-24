@@ -4,76 +4,100 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import com.tallerwebi.dominio.Habito;
+
+import java.util.List;
+
 public class DatosRegistro {
 
-  @NotBlank(message = "El nombre es obligatorio")
-  private String name;
+    @NotBlank(message = "El nombre es obligatorio")
+    private String name;
 
-  @NotBlank(message = "El apellido es obligatorio")
-  private String surname;
+    @NotBlank(message = "El apellido es obligatorio")
+    private String surname;
 
-  @NotBlank(message = "El nombre de usuario es obligatorio")
-  private String username;
+    @NotBlank(message = "El nombre de usuario es obligatorio")
+    private String username;
 
-  @NotBlank(message = "El correo electrónico es obligatorio")
-  @Email(message = "El formato de correo electrónico no es válido")
-  private String email;
+    @NotBlank(message = "El correo electrónico es obligatorio")
+    @Email(message = "El formato de correo electrónico no es válido")
+    private String email;
 
-  @NotBlank(message = "La contraseña es obligatoria")
-  @Pattern(
-    regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$",
-    message = "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número"
-  )
-  private String password;
+    @NotBlank(message = "La contraseña es obligatoria")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$", message = "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número")
+    private String password;
 
-  @NotBlank(message = "La elección del genero es obligatorio")
-  private String gender;
+    @NotBlank(message = "La elección del genero es obligatorio")
+    private String gender;
 
-  public String getName() {
-    return name;
-  }
+    @NotBlank(message = "La confirmación de contrasenia es obligatorio")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$", message = "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número")
+    private String confirmPassword;
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    @NotBlank(message = "La selección de hábitos es obligatorio")
+    private List<Habito> habitosSeleccionados;
 
-  public String getSurname() {
-    return surname;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setSurname(String surname) {
-    this.surname = surname;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public String getUsername() {
-    return username;
-  }
+    public String getSurname() {
+        return surname;
+    }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-  public String getGender() {
-    return this.gender;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public void setGender(String gender) {
-    this.gender = gender;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return this.confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirPassword) {
+        this.confirmPassword = confirPassword;
+    }
+
+    public String getGender() {
+        return this.gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public List<Habito> getHabitosSeleccionados() {
+        return habitosSeleccionados;
+    }
+
+    public void setHabitosSeleccionados(List<Habito> habitosSeleccionados) {
+        this.habitosSeleccionados = habitosSeleccionados;
+    }
 }

@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.CamposObligatorios;
+import com.tallerwebi.dominio.excepcion.ContraseniasNoCoincidenException;
 import com.tallerwebi.dominio.excepcion.FormatoEmailInvalido;
 import com.tallerwebi.dominio.excepcion.PasswordInvalido;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
@@ -55,16 +56,17 @@ public class ServicioRegistroImp implements ServicioRegistro {
     return (
       (datos.getName() == null || datos.getName().isEmpty()) ||
       (datos.getSurname() == null || datos.getSurname().isEmpty()) ||
-      (datos.getGender() == null || datos.getGender().isEmpty())
+      (datos.getGender() == null || datos.getGender().isEmpty()) ||
+      (datos.getHabitosSeleccionados() == null || datos.getHabitosSeleccionados().isEmpty())
     );
   }
 
   private boolean faltanCredenciales(DatosRegistro datos) {
     return (
       (datos.getEmail() == null || datos.getEmail().isEmpty()) ||
-      (datos.getPassword() == null ||
-        datos.getPassword().isEmpty() ||
-        (datos.getUsername() == null || datos.getUsername().isEmpty()))
+      (datos.getPassword() == null || datos.getPassword().isEmpty()) ||
+      (datos.getConfirmPassword() == null || datos.getConfirmPassword().isEmpty()) ||
+        (datos.getUsername() == null || datos.getUsername().isEmpty())
     );
   }
 
@@ -91,4 +93,12 @@ public class ServicioRegistroImp implements ServicioRegistro {
   public void registrar(Usuario usuario) throws UsuarioExistente {
     throw new UnsupportedOperationException("Unimplemented method 'registrar'");
   }
+
+@Override
+ public void validarSiLasContraseniasSonIguales(DatosRegistro datos) throws ContraseniasNoCoincidenException {
+    if (!datos.getPassword().equals(datos.getConfirmPassword())) {
+    throw new ContraseniasNoCoincidenException("Las contraseñas deben ser iguales");
+  
+}
+}
 }

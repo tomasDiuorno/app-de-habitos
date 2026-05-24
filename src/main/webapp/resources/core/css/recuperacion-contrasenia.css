@@ -45,8 +45,6 @@
   margin-bottom: 10px;
 }
 
-
-
 .login-register-link:hover {
   color: #ffffff;
   text-shadow: 0 0 10px rgba(0, 223, 255, 0.8);
@@ -55,6 +53,33 @@
 
 #btn-login {
   margin-top: 10px;
+  width: 100%;
+}
+
+.btn-cancel {
+  width: 100%;
+  margin-top: 14px;
+  padding: 14px 18px;
+
+  border: 2px solid #ff3b3b;
+  border-radius: 10px;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 59, 59, 0.12);
+  box-shadow: 0 0 14px rgba(255, 59, 59, 0.5);
 }
 
 @media (max-width: 480px) {

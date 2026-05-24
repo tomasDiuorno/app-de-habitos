@@ -9,9 +9,11 @@ import static org.mockito.Mockito.when;
 
 import ch.qos.logback.core.util.DatePatternToRegexUtil;
 import com.tallerwebi.dominio.excepcion.CamposObligatorios;
+import com.tallerwebi.dominio.excepcion.ContraseniasNoCoincidenException;
 import com.tallerwebi.dominio.excepcion.FormatoEmailInvalido;
 import com.tallerwebi.dominio.excepcion.PasswordInvalido;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import com.tallerwebi.presentacion.DatosRecuperacionContrasenia;
 import com.tallerwebi.presentacion.DatosRegistro;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -63,7 +65,8 @@ public class ServicioRegistroTest {
     datos.setSurname("");
     datos.setGender("");
     datos.setUsername("");
-
+    datos.setConfirmPassword("");
+   
     //Cuando se ejecute el metodo validar con los datos dados, lanzá esta excepcion
     assertThrows(
       CamposObligatorios.class,
@@ -81,6 +84,8 @@ public class ServicioRegistroTest {
     datos.setSurname(null);
     datos.setGender(null);
     datos.setUsername(null);
+    datos.setConfirmPassword(null);
+    datos.setHabitosSeleccionados(null);
 
     //Cuando se ejecute el metodo validar con los datos dados, lanzá esta excepcion
     assertThrows(
@@ -109,4 +114,25 @@ public class ServicioRegistroTest {
 
     assertThrows(PasswordInvalido.class, () -> this.servicioRegistro.validarCreedenciales(datos));
   }
+
+    @Test
+  public void SiLasContraseniasNoCoincidenDebeLanzarException() {
+    // Las contraseñas son distintas
+    DatosRegistro datos = new DatosRegistro();
+
+    datos.setEmail("test@gmail.com");
+    datos.setPassword("12345Jm0");
+    datos.setConfirmPassword("12345Jm1");
+    datos.setName("Juan");
+    datos.setSurname("Perez");
+    datos.setGender("Masculino");
+    datos.setUsername("jperez1");
+
+    assertThrows(
+      ContraseniasNoCoincidenException.class,
+      () -> this.servicioRegistro.validarSiLasContraseniasSonIguales(datos)
+    );
+
+  }
+
 }
