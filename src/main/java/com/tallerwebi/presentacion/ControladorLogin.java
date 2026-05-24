@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.ServicioRecuperacionContrasenia;
 import com.tallerwebi.dominio.Usuario;
@@ -17,14 +18,17 @@ public class ControladorLogin {
 
   private ServicioLogin servicioLogin;
   private ServicioRecuperacionContrasenia servicioRecuperacionContrasenia;
+  private ServicioHabito servicioHabitos;
 
   @Autowired
   public ControladorLogin(
     ServicioLogin servicioLogin,
-    ServicioRecuperacionContrasenia servicioRecuperacionContrasenia
+    ServicioRecuperacionContrasenia servicioRecuperacionContrasenia,
+    ServicioHabito servicioHabitos
   ) {
     this.servicioLogin = servicioLogin;
     this.servicioRecuperacionContrasenia = servicioRecuperacionContrasenia;
+    this.servicioHabitos = servicioHabitos;
   }
 
   @RequestMapping("/login")
@@ -62,7 +66,8 @@ public class ControladorLogin {
   @RequestMapping(path = "/nuevo-usuario", method = RequestMethod.GET)
   public ModelAndView nuevoUsuario() {
     ModelMap model = new ModelMap();
-    model.put("usuario", new Usuario());
+    model.put("datosRegistro", new DatosRegistro());
+    model.put("habitos", servicioHabitos.obtenerHabitosIniciales());
     return new ModelAndView("nuevo-usuario", model);
   }
 
