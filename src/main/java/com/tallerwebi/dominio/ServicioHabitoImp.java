@@ -1,13 +1,10 @@
 package com.tallerwebi.dominio;
 
-import java.util.ArrayList;
+import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import java.util.List;
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 
 @Service("servicioHabito")
 @Transactional

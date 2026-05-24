@@ -13,7 +13,6 @@ public class Usuario {
   private Long id;
 
   private String name;
-
   private String surname;
   private String username;
   private String email;
