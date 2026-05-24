@@ -7,14 +7,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import ch.qos.logback.core.util.DatePatternToRegexUtil;
 import com.tallerwebi.dominio.excepcion.CamposObligatorios;
 import com.tallerwebi.dominio.excepcion.FormatoEmailInvalido;
 import com.tallerwebi.dominio.excepcion.PasswordInvalido;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import com.tallerwebi.presentacion.DatosRegistro;
-
-import ch.qos.logback.core.util.DatePatternToRegexUtil;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -57,8 +55,7 @@ public class ServicioRegistroTest {
 
   @Test
   public void validarUnUsuarioConCamposVaciosDeberiaLanzarUnaExcepcion() {
-
-   DatosRegistro datos = new DatosRegistro();
+    DatosRegistro datos = new DatosRegistro();
 
     datos.setEmail("");
     datos.setPassword("");
@@ -68,14 +65,15 @@ public class ServicioRegistroTest {
     datos.setUsername("");
 
     //Cuando se ejecute el metodo validar con los datos dados, lanzá esta excepcion
-   assertThrows(CamposObligatorios.class, () -> this.servicioRegistro.validarCamposObligatorios(datos));
-   
+    assertThrows(
+      CamposObligatorios.class,
+      () -> this.servicioRegistro.validarCamposObligatorios(datos)
+    );
   }
 
-   @Test
+  @Test
   public void validarUnUsuarioConCamposNulosDeberiaLanzarUnaExcepcion() {
-
-   DatosRegistro datos = new DatosRegistro();
+    DatosRegistro datos = new DatosRegistro();
 
     datos.setEmail(null);
     datos.setPassword(null);
@@ -85,31 +83,30 @@ public class ServicioRegistroTest {
     datos.setUsername(null);
 
     //Cuando se ejecute el metodo validar con los datos dados, lanzá esta excepcion
-   assertThrows(CamposObligatorios.class, () -> this.servicioRegistro.validarCamposObligatorios(datos));
-   
+    assertThrows(
+      CamposObligatorios.class,
+      () -> this.servicioRegistro.validarCamposObligatorios(datos)
+    );
   }
 
   @Test
-  public void validarEmailQueNoCumpleConElFormatoValidoDeberiaLanzarUnaExcepcion(){
-
+  public void validarEmailQueNoCumpleConElFormatoValidoDeberiaLanzarUnaExcepcion() {
     DatosRegistro datos = new DatosRegistro();
-     datos.setEmail("@testeando11111111com.");
-    datos.setPassword("Lacontrasenia123$");
+    datos.setEmail("@testeando11111111com.");
+    datos.setPassword("Lacontrasenia123");
 
-    assertThrows(FormatoEmailInvalido.class, () -> this.servicioRegistro.validarCreedenciales(datos));
-
+    assertThrows(
+      FormatoEmailInvalido.class,
+      () -> this.servicioRegistro.validarCreedenciales(datos)
+    );
   }
 
   @Test
-  public void validarPasswordQueNoCumpleConElFormatoValidoDeberiaLanzarUnaExcepcion(){
-
+  public void validarPasswordQueNoCumpleConElFormatoValidoDeberiaLanzarUnaExcepcion() {
     DatosRegistro datos = new DatosRegistro();
-     datos.setEmail("test@gmail.com");
-    datos.setPassword("invalid");
-    
+    datos.setEmail("test@gmail.com");
+    datos.setPassword("1234567");
+
     assertThrows(PasswordInvalido.class, () -> this.servicioRegistro.validarCreedenciales(datos));
-
   }
-
-
 }

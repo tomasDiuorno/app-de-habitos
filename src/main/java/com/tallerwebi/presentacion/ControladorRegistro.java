@@ -28,7 +28,6 @@ public class ControladorRegistro {
       servicioRegistro.validarCamposObligatorios(datos);
       servicioRegistro.registrar(datos);
       servicioRegistro.validarCreedenciales(datos);
-
     } catch (CamposObligatorios | FormatoEmailInvalido | PasswordInvalido e) {
       model.put("error", e.getMessage());
       return new ModelAndView("nuevo-usuario", model);
@@ -42,5 +41,4 @@ public class ControladorRegistro {
 
     return new ModelAndView("redirect:/login");
   }
-
 }

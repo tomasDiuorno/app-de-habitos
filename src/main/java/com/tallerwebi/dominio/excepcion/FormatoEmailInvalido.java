@@ -4,8 +4,7 @@ public class FormatoEmailInvalido extends Exception {
 
   private static final long serialVersionUID = 1L;
 
-   public FormatoEmailInvalido(String mensaje){
-        super(mensaje);
-    }
-
+  public FormatoEmailInvalido(String mensaje) {
+    super(mensaje);
+  }
 }

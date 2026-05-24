@@ -55,30 +55,34 @@ public class ServicioRegistroImp implements ServicioRegistro {
     return (
       (datos.getName() == null || datos.getName().isEmpty()) ||
       (datos.getSurname() == null || datos.getSurname().isEmpty()) ||
-        (datos.getGender() == null || datos.getGender().isEmpty())
+      (datos.getGender() == null || datos.getGender().isEmpty())
     );
   }
 
   private boolean faltanCredenciales(DatosRegistro datos) {
     return (
       (datos.getEmail() == null || datos.getEmail().isEmpty()) ||
-      (datos.getPassword() == null || datos.getPassword().isEmpty() ||
-      (datos.getUsername() == null || datos.getUsername().isEmpty()))
+      (datos.getPassword() == null ||
+        datos.getPassword().isEmpty() ||
+        (datos.getUsername() == null || datos.getUsername().isEmpty()))
     );
   }
 
   @Override
-  public void validarCreedenciales(DatosRegistro datos) throws FormatoEmailInvalido, PasswordInvalido {
+  public void validarCreedenciales(DatosRegistro datos)
+    throws FormatoEmailInvalido, PasswordInvalido {
     String expresionRegularEmail = "^([a-zA-Z0-9._%-]+)@([a-zA-Z0-9.-]+).([a-zA-Z]{2,6})$";
-    String expresionRegularPassword = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$";
 
-    if (!(datos.getEmail().matches(expresionRegularEmail))) {
+    if (!datos.getEmail().matches(expresionRegularEmail)) {
       throw new FormatoEmailInvalido("El formato de correo electrónico no es válido");
     }
-    if(!(datos.getPassword().matches(expresionRegularPassword))){
-      throw new PasswordInvalido("La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial");
+    String expresionRegularPassword = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$";
+    if (!datos.getPassword().matches(expresionRegularPassword)) {
+      throw new PasswordInvalido(
+        "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número"
+      );
+    }
   }
-}
 
   @Override
   public void registrarHabitos(DatosRegistro datos) {}

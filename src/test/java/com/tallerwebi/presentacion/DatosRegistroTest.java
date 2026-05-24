@@ -7,24 +7,22 @@ import org.junit.jupiter.api.Test;
 
 public class DatosRegistroTest {
 
-    @Test
-    public void validacionDeDatosRegistro() {
+  @Test
+  public void validacionDeDatosRegistro() {
+    DatosRegistro datos = new DatosRegistro();
 
-        DatosRegistro datos = new DatosRegistro();
+    datos.setEmail("test@gmail.com");
+    datos.setPassword("123");
+    datos.setName("Pedrito");
+    datos.setSurname("Vm");
+    datos.setGender("Masculino");
+    datos.setUsername("pedritoVM");
 
-        datos.setEmail("test@gmail.com");
-        datos.setPassword("123");
-        datos.setName("Pedrito");
-        datos.setSurname("Vm");
-        datos.setGender("Masculino");
-        datos.setUsername("pedritoVM");
-
-        assertThat(datos.getEmail(), is("test@gmail.com"));
-        assertThat(datos.getPassword(),is( "123"));
-        assertThat(datos.getName(), is("Pedrito"));
-        assertThat(datos.getSurname(), is("Vm"));
-        assertThat(datos.getGender(), is("Masculino"));
-        assertThat(datos.getUsername(), is("pedritoVM"));
-
-    }
+    assertThat(datos.getEmail(), is("test@gmail.com"));
+    assertThat(datos.getPassword(), is("123"));
+    assertThat(datos.getName(), is("Pedrito"));
+    assertThat(datos.getSurname(), is("Vm"));
+    assertThat(datos.getGender(), is("Masculino"));
+    assertThat(datos.getUsername(), is("pedritoVM"));
+  }
 }
