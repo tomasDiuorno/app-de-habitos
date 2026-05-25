@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioRegistro;
 import com.tallerwebi.dominio.excepcion.CamposObligatorios;
+import com.tallerwebi.dominio.excepcion.ContraseniasNoCoincidenException;
 import com.tallerwebi.dominio.excepcion.FormatoEmailInvalido;
 import com.tallerwebi.dominio.excepcion.PasswordInvalido;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
@@ -29,9 +30,10 @@ public class ControladorRegistro {
     try {
       servicioRegistro.validarCamposObligatorios(datos);
       servicioRegistro.validarCreedenciales(datos);
+      servicioRegistro.validarSiLasContraseniasSonIguales(datos);
       servicioRegistro.registrar(datos);
 
-    } catch (CamposObligatorios | FormatoEmailInvalido | PasswordInvalido e) {
+    } catch (CamposObligatorios | FormatoEmailInvalido | PasswordInvalido | ContraseniasNoCoincidenException e) {
       model.put("error", e.getMessage());
       return new ModelAndView("nuevo-usuario", model);
     } catch (UsuarioExistente e) {
@@ -44,4 +46,6 @@ public class ControladorRegistro {
   
     return new ModelAndView("redirect:/login");
   }
+
+
 }
