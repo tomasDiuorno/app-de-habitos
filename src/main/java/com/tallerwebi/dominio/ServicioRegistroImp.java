@@ -23,7 +23,8 @@ public class ServicioRegistroImp implements ServicioRegistro {
   }
 
   @Override
-  public void registrar(DatosRegistro datos) throws UsuarioExistente {
+  public void registrar(DatosRegistro datos)
+    throws UsuarioExistente, CamposObligatorios, FormatoEmailInvalido, PasswordInvalido, ContraseniasNoCoincidenException {
     Usuario usuarioEncontrado = repositorioUsuario.buscarPorEmail(datos.getEmail());
     if (usuarioEncontrado != null) {
       throw new UsuarioExistente();
@@ -31,6 +32,10 @@ public class ServicioRegistroImp implements ServicioRegistro {
     Usuario usuario = crearUsuario(datos);
     String hash = BCrypt.hashpw(datos.getPassword(), BCrypt.gensalt()); // Genera Hash a partir de la contraseña
     usuario.setPassword(hash); // Reemplaza contraseña por hash seguro
+
+    this.validarCamposObligatorios(datos);
+    this.validarCreedenciales(datos);
+    this.validarSiLasContraseniasSonIguales(datos);
 
     repositorioUsuario.guardar(usuario); // Guardamos usuario. la bd recibe hash.
   }
@@ -48,7 +53,7 @@ public class ServicioRegistroImp implements ServicioRegistro {
   @Override
   public void validarCamposObligatorios(DatosRegistro datos) throws CamposObligatorios {
     if (faltanDatosPersonales(datos) || faltanCredenciales(datos)) {
-      throw new CamposObligatorios("Los campos obligatorios no pueden estar vacios");
+      throw new CamposObligatorios("Los campos no pueden estar vacios");
     }
   }
 
@@ -66,7 +71,7 @@ public class ServicioRegistroImp implements ServicioRegistro {
       (datos.getEmail() == null || datos.getEmail().isEmpty()) ||
       (datos.getPassword() == null || datos.getPassword().isEmpty()) ||
       (datos.getConfirmPassword() == null || datos.getConfirmPassword().isEmpty()) ||
-        (datos.getUsername() == null || datos.getUsername().isEmpty())
+      (datos.getUsername() == null || datos.getUsername().isEmpty())
     );
   }
 
@@ -94,11 +99,11 @@ public class ServicioRegistroImp implements ServicioRegistro {
     throw new UnsupportedOperationException("Unimplemented method 'registrar'");
   }
 
-@Override
- public void validarSiLasContraseniasSonIguales(DatosRegistro datos) throws ContraseniasNoCoincidenException {
+  @Override
+  public void validarSiLasContraseniasSonIguales(DatosRegistro datos)
+    throws ContraseniasNoCoincidenException {
     if (!datos.getPassword().equals(datos.getConfirmPassword())) {
-    throw new ContraseniasNoCoincidenException("Las contraseñas deben ser iguales");
-  
-}
-}
+      throw new ContraseniasNoCoincidenException("Las contraseñas deben ser iguales");
+    }
+  }
 }

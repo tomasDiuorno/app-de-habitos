@@ -11,7 +11,9 @@ public interface ServicioRegistro {
   void registrar(Usuario usuario) throws UsuarioExistente;
   void validarCamposObligatorios(DatosRegistro datos) throws CamposObligatorios;
   void validarCreedenciales(DatosRegistro datos) throws FormatoEmailInvalido, PasswordInvalido;
-  void registrar(DatosRegistro datos) throws UsuarioExistente;
+  void registrar(DatosRegistro datos)
+    throws UsuarioExistente, CamposObligatorios, FormatoEmailInvalido, PasswordInvalido, ContraseniasNoCoincidenException;
   void registrarHabitos(DatosRegistro datos);
-  void validarSiLasContraseniasSonIguales(DatosRegistro datos) throws ContraseniasNoCoincidenException;
+  void validarSiLasContraseniasSonIguales(DatosRegistro datos)
+    throws ContraseniasNoCoincidenException;
 }

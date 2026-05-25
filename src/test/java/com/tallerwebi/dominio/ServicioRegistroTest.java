@@ -30,7 +30,8 @@ public class ServicioRegistroTest {
   }
 
   @Test
-  public void registrarUsuarioSiNoExisteDeberiaGuardarlo() throws UsuarioExistente {
+  public void registrarUsuarioSiNoExisteDeberiaGuardarlo()
+    throws UsuarioExistente, CamposObligatorios, FormatoEmailInvalido, PasswordInvalido, ContraseniasNoCoincidenException {
     // preparacion
     DatosRegistro datos = new DatosRegistro();
     datos.setEmail("nuevo@test.com");
@@ -66,7 +67,7 @@ public class ServicioRegistroTest {
     datos.setGender("");
     datos.setUsername("");
     datos.setConfirmPassword("");
-   
+
     //Cuando se ejecute el metodo validar con los datos dados, lanzá esta excepcion
     assertThrows(
       CamposObligatorios.class,
@@ -115,7 +116,7 @@ public class ServicioRegistroTest {
     assertThrows(PasswordInvalido.class, () -> this.servicioRegistro.validarCreedenciales(datos));
   }
 
-    @Test
+  @Test
   public void SiLasContraseniasNoCoincidenDebeLanzarException() {
     // Las contraseñas son distintas
     DatosRegistro datos = new DatosRegistro();
@@ -132,7 +133,5 @@ public class ServicioRegistroTest {
       ContraseniasNoCoincidenException.class,
       () -> this.servicioRegistro.validarSiLasContraseniasSonIguales(datos)
     );
-
   }
-
 }

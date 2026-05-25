@@ -62,7 +62,6 @@ public class ServicioRecuperacionContraseniaTest {
       EmailInexistenteException.class,
       () -> this.servicioRecuperacion.recuperarContrasenia(datos)
     );
-
   }
 
   @Test
@@ -84,6 +83,5 @@ public class ServicioRecuperacionContraseniaTest {
       ContraseniasNoCoincidenException.class,
       () -> this.servicioRecuperacion.recuperarContrasenia(datos)
     );
-
   }
 }
