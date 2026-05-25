@@ -3,11 +3,13 @@ package com.tallerwebi.presentacion;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import com.tallerwebi.dominio.Habito;
 import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.ServicioLogin;
+import com.tallerwebi.dominio.ServicioRecuperacionContrasenia;
 import com.tallerwebi.dominio.ServicioRegistro;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
@@ -30,6 +32,7 @@ public class ControladorLoginTest {
   private HttpSession sessionMock;
   private ServicioLogin servicioLoginMock;
   private ServicioRegistro servicioRegistroMock;
+  private ServicioRecuperacionContrasenia servicioRecuperacionContraseniaMock;
   private DatosRegistro datosRegistroMock;
   private ServicioHabito servicioHabitosMock;
   private BindingResult bindingResultMock;
@@ -45,8 +48,12 @@ public class ControladorLoginTest {
     servicioLoginMock = mock(ServicioLogin.class);
     servicioRegistroMock = mock(ServicioRegistro.class);
     servicioHabitosMock = mock(ServicioHabito.class);
-    bindingResultMock = mock(BindingResult.class);
-    controladorLogin = new ControladorLogin(servicioLoginMock, servicioHabitosMock);
+    controladorLogin =
+      new ControladorLogin(
+        servicioLoginMock,
+        servicioRecuperacionContraseniaMock,
+        servicioHabitosMock
+      );
     controladorRegistro = new ControladorRegistro(servicioRegistroMock);
   }
 
