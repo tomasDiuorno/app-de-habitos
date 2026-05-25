@@ -1,0 +1,132 @@
+```html id="k7m2qx"
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Habitapp - Recuperar contraseña</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/register.css}" />
+    <link rel="stylesheet" th:href="@{/css/recuperacion-contrasenia.css}" />
+</head>
+
+<body class="body-reg">
+
+    <nav class="navbar navbar-expand-md fixed-top">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/login}">
+                UNLAM
+            </a>
+        </div>
+    </nav>
+
+    <main class="auth-container login-container">
+
+        <div class="auth-card login-card">
+
+            <form
+                th:action="@{/recuperacion-contrasenia}"
+                method="POST"
+                th:object="${datosRecuperacion}">
+
+                <h1 class="auth-title">
+                    Recuperar contraseña
+                </h1>
+
+                <p class="auth-subtitle">
+                    Cambiá tu contraseña
+                </p>
+
+                <hr class="colorgraph">
+
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        Email
+                    </label>
+
+                    <input
+                        th:field="*{email}"
+                        id="email"
+                        type="email"
+                        class="input-custom"
+                        placeholder="Ingresá tu email"
+                        required />
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">
+                        Nueva contraseña
+                    </label>
+
+                    <input
+                        th:field="*{contrasenia1}"
+                        type="password"
+                        id="password"
+                        class="input-custom"
+                        placeholder="********"
+                        required />
+                </div>
+
+                <div class="form-group">
+                    <label for="passwordRepetida" class="form-label">
+                        Repetí la contraseña
+                    </label>
+
+                    <input
+                        th:field="*{contrasenia2}"
+                        type="password"
+                        id="passwordRepetida"
+                        class="input-custom"
+                        placeholder="********"
+                        required />
+                </div>
+
+                <button
+                    id="btn-login"
+                    class="btn-neon"
+                    type="submit">
+                    Aceptar
+                </button>
+
+                <button
+                    id="btn-cancelar"
+                    class="btn-cancel"
+                    type="button">
+                    Cancelar
+                </button>
+
+                <p
+                    th:if="${error != null}"
+                    class="alert-danger"
+                    th:text="'Error: ' + ${error}">
+                </p>
+
+            </form>
+
+            <div class="login-register-box">
+                <a
+                    id="btn-register"
+                    th:href="@{/nuevo-usuario}"
+                    class="login-register-link">
+                    Registrarme
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

@@ -8,6 +8,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.tallerwebi.config.SpringWebConfig;
+import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.integracion.config.HibernateTestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,43 +23,48 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
-import com.tallerwebi.config.SpringWebConfig;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.integracion.config.HibernateTestConfig;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {SpringWebConfig.class, HibernateTestConfig.class})
+@ContextConfiguration(classes = { SpringWebConfig.class, HibernateTestConfig.class })
 public class ControladorPerfilTest {
-    private Usuario usuarioMock;
-    @Autowired
-    private WebApplicationContext wac;
-    private MockMvc mockMvc;
 
-    @BeforeEach
-    public void init(){
-        usuarioMock = mock(Usuario.class);
-        when(usuarioMock.getEmail()).thenReturn("test@mail.com");
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
+  private Usuario usuarioMock;
 
-    @Test
-    public void deberiaRetornarLaPaginaPerfilCuandoNavegoAPerfil() throws Exception{
-        MvcResult result =  this.mockMvc.perform(
-            get("/perfil").sessionAttr("usuario", usuarioMock)).andExpect(status().isOk()).andReturn();
-        
-        ModelAndView modelAndView = result.getModelAndView();
+  @Autowired
+  private WebApplicationContext wac;
 
-        assert modelAndView != null;
-        assertThat(modelAndView.getViewName(), is(equalToIgnoringCase("perfil")));
-    }
+  private MockMvc mockMvc;
 
-    @Test
-    public void deberiaRedirigirALoginSiNoHayUsuarioEnSesion() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/perfil"))
-            .andExpect(status().isFound()).andExpect(status().is3xxRedirection()).andReturn();
-        ModelAndView modelAndView = result.getModelAndView();
-        assert modelAndView != null;
-        assertThat(modelAndView.getViewName(), is(equalToIgnoringCase("redirect:/login")));    
-    }
+  @BeforeEach
+  public void init() {
+    usuarioMock = mock(Usuario.class);
+    when(usuarioMock.getEmail()).thenReturn("test@mail.com");
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+  }
+
+  @Test
+  public void deberiaRetornarLaPaginaPerfilCuandoNavegoAPerfil() throws Exception {
+    MvcResult result =
+      this.mockMvc.perform(get("/perfil").sessionAttr("usuario", usuarioMock))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    ModelAndView modelAndView = result.getModelAndView();
+
+    assert modelAndView != null;
+    assertThat(modelAndView.getViewName(), is(equalToIgnoringCase("perfil")));
+  }
+
+  @Test
+  public void deberiaRedirigirALoginSiNoHayUsuarioEnSesion() throws Exception {
+    MvcResult result =
+      this.mockMvc.perform(get("/perfil"))
+        .andExpect(status().isFound())
+        .andExpect(status().is3xxRedirection())
+        .andReturn();
+    ModelAndView modelAndView = result.getModelAndView();
+    assert modelAndView != null;
+    assertThat(modelAndView.getViewName(), is(equalToIgnoringCase("redirect:/login")));
+  }
 }
