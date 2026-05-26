@@ -1,25 +1,36 @@
 package com.tallerwebi.dominio;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Habito {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Integer id;
 
   private String titulo;
-  private String categoria;
 
-  public Long getId() {
+  @ManyToOne
+  @JoinColumn(name = "categoria_id")
+  private Categoria categoria;
+
+  @OneToMany(mappedBy = "habito")
+  private List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
+
+  public Integer getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
@@ -31,11 +42,19 @@ public class Habito {
     this.titulo = titulo;
   }
 
-  public String getCategoria() {
+  public Categoria getCategoria() {
     return categoria;
   }
 
-  public void setCategoria(String categoria) {
+  public void setCategoria(Categoria categoria) {
     this.categoria = categoria;
+  }
+
+  public List<UsuarioHabito> getUsuarioHabitos() {
+    return usuarioHabitos;
+  }
+
+  public void setUsuarioHabitos(List<UsuarioHabito> usuarioHabitos) {
+    this.usuarioHabitos = usuarioHabitos;
   }
 }

@@ -57,8 +57,10 @@ public class ServicioHabitoTest {
   public void alCrearUnHabitoDeberiaGuardarloExisosamente() throws HabitoExistenteExeption {
     // preparacion
     Habito habitoEsperado = new Habito();
+    Categoria cat = new Categoria();
+    cat.setNombre("Deportes");
     habitoEsperado.setTitulo("Correr");
-    habitoEsperado.setCategoria("Deportes");
+    habitoEsperado.setCategoria(cat);
 
     when(this.repositorioHabitoMock.buscarPorTitulo(habitoEsperado.getTitulo())).thenReturn(null);
 
@@ -73,9 +75,12 @@ public class ServicioHabitoTest {
   public void alBuscarUnHabitoExistenteDeberiaRetornarlo() {
     // preparacion
     String titulo = "Correr";
+    String categoria = "Deporte";
     Habito habitoEsperado = new Habito();
+    Categoria cat = new Categoria();
+    cat.setNombre(categoria);
     habitoEsperado.setTitulo(titulo);
-    habitoEsperado.setCategoria("Deportes");
+    habitoEsperado.setCategoria(cat);
 
     when(this.repositorioHabitoMock.buscarPorTitulo(habitoEsperado.getTitulo()))
       .thenReturn(new Habito());

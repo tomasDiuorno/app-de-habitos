@@ -25,7 +25,7 @@ public class ServicioRecuperacionContraseniaImp implements ServicioRecuperacionC
       throw new ContraseniasNoCoincidenException("Error, las contrasenias no coinciden");
     }
 
-    Usuario usuarioEncontradoPorEmail = repositorioUsuario.buscarPorEmail(
+    Usuario usuarioEncontradoPorEmail = repositorioUsuario.buscarPorEmailOrUsername(
       datosRecuperacionContrasenia.getEmail()
     );
 
