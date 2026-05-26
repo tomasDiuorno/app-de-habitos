@@ -4,6 +4,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.Mockito.times;
+
+import java.util.Arrays;
+import java.util.List;
 
 import com.tallerwebi.dominio.Categoria;
 import com.tallerwebi.dominio.Habito;
@@ -90,6 +94,33 @@ public class RepositorioHabitoTest {
 
     Habito obtenido = obtengoElHabitoPorTitulo(titulo);
     this.entoncesElHabitoObtenidoEsCorrecto(obtenido, habito);
+  }
+
+  @Test
+  @Transactional
+  @Rollback
+  public void deberiaObtenerHabitosAlBuscarlosPorSusIds(){
+    Categoria categoria = this.dadoQueTengoUnaCategoria("Deporte");
+    this.dadoQueExisteLaCategoria(categoria);
+    Habito habito1 = this.dadoQueTengoUnHabito("Gymnasio", categoria);
+    Habito habito2 = this.dadoQueTengoUnHabito("Andar en bicicleta", categoria);
+
+    this.dadoQueExisteElHabito(habito1);
+    this.dadoQueExisteElHabito(habito2);
+
+    List<Habito> obtenidos = this.cuandoObtendoLosHabitosPorIds(habito1, habito2);
+
+    this.entoncesLosHabitosObtenidosSonCorrectos(obtenidos, habito1, habito2);
+  }
+
+  private void entoncesLosHabitosObtenidosSonCorrectos(List<Habito> obtenidos, Habito habito1, Habito habito2) {
+    assertThat(obtenidos.size(), is(equalTo(2)));
+    assertThat(obtenidos.contains(habito1), is(true));
+    assertThat(obtenidos.contains(habito2), is(true));
+  }
+
+  private List<Habito> cuandoObtendoLosHabitosPorIds(Habito habito1, Habito habito2) {
+    return this.repositorioHabito.buscarPorIds(Arrays.asList(habito1.getId(), habito2.getId()));
   }
 
   private void dadoQueExisteLaCategoria(Categoria cat) {
