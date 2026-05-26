@@ -99,7 +99,7 @@ public class RepositorioHabitoTest {
   @Test
   @Transactional
   @Rollback
-  public void deberiaObtenerHabitosAlBuscarlosPorSusIds(){
+  public void deberiaObtenerHabitosAlBuscarlosPorSusIds() {
     Categoria categoria = this.dadoQueTengoUnaCategoria("Deporte");
     this.dadoQueExisteLaCategoria(categoria);
     Habito habito1 = this.dadoQueTengoUnHabito("Gymnasio", categoria);
@@ -111,6 +111,24 @@ public class RepositorioHabitoTest {
     List<Habito> obtenidos = this.cuandoObtendoLosHabitosPorIds(habito1, habito2);
 
     this.entoncesLosHabitosObtenidosSonCorrectos(obtenidos, habito1, habito2);
+  }
+
+  @Test
+  @Transactional
+  @Rollback
+  public void deberiaObtenerTodosLosHabitosIniciales() {
+    Categoria categoria = dadoQueTengoUnaCategoria("Bienestar");
+    dadoQueExisteLaCategoria(categoria);
+
+    dadoQueExisteElHabito(dadoQueTengoUnHabito("Meditar", categoria));
+    dadoQueExisteElHabito(dadoQueTengoUnHabito("Leer un libro", categoria));
+    dadoQueExisteElHabito(dadoQueTengoUnHabito("Hacer ejercicio", categoria));
+
+    List<Habito> habitosIniciales = repositorioHabito.obtenerHabitosIniciales();
+
+    assertThat(habitosIniciales.get(0).getTitulo(), is(equalTo("Meditar")));
+    assertThat(habitosIniciales.get(1).getTitulo(), is(equalTo("Leer un libro")));
+    assertThat(habitosIniciales.get(2).getTitulo(), is(equalTo("Hacer ejercicio")));
   }
 
   private void entoncesLosHabitosObtenidosSonCorrectos(List<Habito> obtenidos, Habito habito1, Habito habito2) {

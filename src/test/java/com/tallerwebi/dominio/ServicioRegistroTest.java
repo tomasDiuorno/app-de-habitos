@@ -40,7 +40,7 @@ public class ServicioRegistroTest {
     // preparacion
     DatosRegistro datos = new DatosRegistro();
     datos.setEmail("nuevo@test.com");
-    when(this.repositorioUsuarioMock.buscarPorEmail(datos.getEmail())).thenReturn(null);
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(datos.getEmail())).thenReturn(null);
 
     // ejecucion
     this.servicioRegistro.registrar(datos);
@@ -54,7 +54,7 @@ public class ServicioRegistroTest {
     // preparacion
     DatosRegistro datos = new DatosRegistro();
     datos.setEmail("existe@test.com");
-    when(this.repositorioUsuarioMock.buscarPorEmail(datos.getEmail())).thenReturn(new Usuario());
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(datos.getEmail())).thenReturn(new Usuario());
 
     // ejecucion y validacion
     assertThrows(UsuarioExistente.class, () -> this.servicioRegistro.registrar(datos));
@@ -72,7 +72,7 @@ public class ServicioRegistroTest {
     Habito habito1 = new Habito();
     Habito habito2 = new Habito();
 
-    when(repositorioUsuarioMock.buscarPorEmail(datos.getEmail())).thenReturn(null);
+    when(repositorioUsuarioMock.buscarPorEmailOrUsername(datos.getEmail())).thenReturn(null);
     when(repositorioHabitoMock.buscarPorIds(datos.getHabitosSeleccionados()))
       .thenReturn(Arrays.asList(habito1, habito2));
 

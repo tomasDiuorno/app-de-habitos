@@ -29,7 +29,7 @@ public class ServicioRegistroImp implements ServicioRegistro {
 
   @Override
   public void registrar(DatosRegistro datos) throws UsuarioExistente {
-    Usuario usuarioEncontrado = repositorioUsuario.buscarPorEmail(datos.getEmail());
+    Usuario usuarioEncontrado = repositorioUsuario.buscarPorEmailOrUsername(datos.getEmail());
     if (usuarioEncontrado != null) {
       throw new UsuarioExistente();
     }
