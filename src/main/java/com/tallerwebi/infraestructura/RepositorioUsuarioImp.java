@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("repositorioUsuario")
-public class RepositorioUsuarioImpl implements RepositorioUsuario {
+public class RepositorioUsuarioImp implements RepositorioUsuario {
 
   private SessionFactory sessionFactory;
 
   @Autowired
-  public RepositorioUsuarioImpl(SessionFactory sessionFactory) {
+  public RepositorioUsuarioImp(SessionFactory sessionFactory) {
     this.sessionFactory = sessionFactory;
   }
 

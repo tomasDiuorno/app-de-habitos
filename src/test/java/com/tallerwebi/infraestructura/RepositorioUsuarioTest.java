@@ -32,7 +32,7 @@ public class RepositorioUsuarioTest {
 
   @BeforeEach
   public void init() {
-    repositorioUsuario = new RepositorioUsuarioImpl(sessionFactory);
+    repositorioUsuario = new RepositorioUsuarioImp(sessionFactory);
   }
 
   @Test

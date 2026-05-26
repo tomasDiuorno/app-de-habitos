@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.ServicioRegistro;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import javax.validation.Valid;
@@ -15,9 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControladorRegistro {
 
   private ServicioRegistro servicioRegistro;
+  private ServicioHabito servicioHabitos;
 
-  public ControladorRegistro(ServicioRegistro servicioRegistro) {
+  public ControladorRegistro(ServicioRegistro servicioRegistro, ServicioHabito servicioHabitos) {
     this.servicioRegistro = servicioRegistro;
+    this.servicioHabitos = servicioHabitos;
   }
 
   @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
@@ -28,15 +31,18 @@ public class ControladorRegistro {
     ModelMap model = new ModelMap();
     if (result.hasErrors()) {
       model.put("datosRegistro", datos);
+      model.put("habitos", servicioHabitos.obtenerHabitosIniciales());
       return new ModelAndView("nuevo-usuario", model);
     }
     try {
       servicioRegistro.registrar(datos);
     } catch (UsuarioExistente e) {
       model.put("error", "El usuario ya existe");
+      model.put("habitos", servicioHabitos.obtenerHabitosIniciales());
       return new ModelAndView("nuevo-usuario", model);
     } catch (Exception e) {
       model.put("error", "Error al registrar el nuevo usuario");
+      model.put("habitos", servicioHabitos.obtenerHabitosIniciales());
       return new ModelAndView("nuevo-usuario", model);
     }
 

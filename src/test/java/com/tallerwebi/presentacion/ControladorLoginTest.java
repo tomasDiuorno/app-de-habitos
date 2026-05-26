@@ -48,13 +48,16 @@ public class ControladorLoginTest {
     servicioLoginMock = mock(ServicioLogin.class);
     servicioRegistroMock = mock(ServicioRegistro.class);
     servicioHabitosMock = mock(ServicioHabito.class);
+    servicioRecuperacionContraseniaMock = mock(ServicioRecuperacionContrasenia.class);
+    bindingResultMock = mock(BindingResult.class);
+    when(bindingResultMock.hasErrors()).thenReturn(false);
     controladorLogin =
       new ControladorLogin(
         servicioLoginMock,
         servicioRecuperacionContraseniaMock,
         servicioHabitosMock
       );
-    controladorRegistro = new ControladorRegistro(servicioRegistroMock);
+    controladorRegistro = new ControladorRegistro(servicioRegistroMock, servicioHabitosMock);
   }
 
   @Test
@@ -111,6 +114,7 @@ public class ControladorLoginTest {
     throws UsuarioExistente {
     // preparacion
     doThrow(UsuarioExistente.class).when(servicioRegistroMock).registrar(datosRegistroMock);
+    when(servicioHabitosMock.obtenerHabitosIniciales()).thenReturn(new ArrayList<>());
 
     // ejecucion
     ModelAndView modelAndView = controladorRegistro.registrarme(
@@ -124,6 +128,7 @@ public class ControladorLoginTest {
       modelAndView.getModel().get("error").toString(),
       equalToIgnoringCase("El usuario ya existe")
     );
+    assertThat(modelAndView.getModel().get("habitos"), instanceOf(List.class));
   }
 
   @Test

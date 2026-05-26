@@ -19,36 +19,17 @@ public class RepositorioHabitoImpl implements RepositorioHabito {
   }
 
   @Override
-  public Habito buscarHabito(String titulo, String categoria) {
-    return (Habito) sessionFactory
-      .getCurrentSession()
-      .createCriteria(Habito.class)
-      .add(Restrictions.eq("titulo", titulo))
-      .add(Restrictions.eq("categoria", categoria))
-      .uniqueResult();
-  }
-
-  @Override
-  public void guardar(Habito habito) {
-    sessionFactory.getCurrentSession().save(habito);
-  }
-
-  @Override
-  public Habito buscarCategoria(String categoria) {
-    return (Habito) sessionFactory
-      .getCurrentSession()
-      .createCriteria(Habito.class)
-      .add(Restrictions.eq("categoria", categoria))
-      .uniqueResult();
-  }
-
-  @Override
   public Habito buscarPorTitulo(String titulo) {
     return (Habito) sessionFactory
       .getCurrentSession()
       .createCriteria(Habito.class)
       .add(Restrictions.eq("titulo", titulo))
       .uniqueResult();
+  }
+
+  @Override
+  public void guardar(Habito habito) {
+    sessionFactory.getCurrentSession().save(habito);
   }
 
   @Override
@@ -61,6 +42,15 @@ public class RepositorioHabitoImpl implements RepositorioHabito {
     return (List<Habito>) sessionFactory
       .getCurrentSession()
       .createQuery("FROM Habito", Habito.class)
+      .getResultList();
+  }
+
+  @Override
+  public List<Habito> buscarPorIds(List<Integer> ids) {
+    return sessionFactory
+      .getCurrentSession()
+      .createQuery("FROM Habito WHERE id IN (:ids)", Habito.class)
+      .setParameterList("ids", ids)
       .getResultList();
   }
 }

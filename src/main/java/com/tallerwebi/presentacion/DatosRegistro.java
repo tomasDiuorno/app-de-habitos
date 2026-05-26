@@ -1,6 +1,5 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Habito;
 import java.util.List;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
@@ -37,7 +36,7 @@ public class DatosRegistro {
   @NotBlank(message = "Debe completar la confirmacion")
   private String confirmPassword;
 
-  private List<Habito> habitosSeleccionados;
+  private List<Integer> habitosSeleccionados;
 
   @AssertTrue(message = "Las contrasenias no coinciden")
   public boolean isPasswordConfirmada() {
@@ -103,11 +102,11 @@ public class DatosRegistro {
     this.gender = gender;
   }
 
-  public List<Habito> getHabitosSeleccionados() {
+  public List<Integer> getHabitosSeleccionados() {
     return habitosSeleccionados;
   }
 
-  public void setHabitosSeleccionados(List<Habito> habitosSeleccionados) {
+  public void setHabitosSeleccionados(List<Integer> habitosSeleccionados) {
     this.habitosSeleccionados = habitosSeleccionados;
   }
 }

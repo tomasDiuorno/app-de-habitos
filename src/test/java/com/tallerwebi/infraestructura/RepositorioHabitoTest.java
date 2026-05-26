@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
+import com.tallerwebi.dominio.Categoria;
 import com.tallerwebi.dominio.Habito;
 import com.tallerwebi.dominio.RepositorioHabito;
 import com.tallerwebi.infraestructura.config.HibernateInfraestructuraTestConfig;
@@ -39,7 +40,10 @@ public class RepositorioHabitoTest {
   public void deberiaGuardarUnNuevoHabito() {
     // preparacion
     String titulo = "Hacer ejercicio";
-    Habito habito = this.dadoQueTengoUnHabito(titulo, "Salud");
+    String categoria = "Deporte";
+    Categoria cat = dadoQueTengoUnaCategoria(categoria);
+    this.dadoQueExisteLaCategoria(cat);
+    Habito habito = this.dadoQueTengoUnHabito(titulo, cat);
 
     // ejecucion
     this.cuandoGuardoUnHabito(habito);
@@ -51,13 +55,13 @@ public class RepositorioHabitoTest {
   @Test
   @Transactional
   @Rollback
-  public void deberiaEncontrarUnHabitoCuandoLoBuscoPorSuTituloYCategoria() {
+  public void deberiaEncontrarUnHabitoCuandoLoBuscoPorSuTitulo() {
     String titulo = "Meditar";
-    String categoria = "Bienestar";
-    Habito habito = dadoQuetengoUnHabito(titulo, categoria);
+
+    Habito habito = dadoQuetengoUnHabito(titulo);
     this.dadoQueExisteElHabito(habito);
 
-    Habito obtenido = this.cuandoBuscoUnHabito(titulo, categoria);
+    Habito obtenido = this.cuandoBuscoUnHabito(titulo);
 
     this.entoncesElUsuarioObtenidoEsCorrecto(obtenido, habito);
   }
@@ -65,7 +69,7 @@ public class RepositorioHabitoTest {
   @Test
   @Transactional
   public void noDeberiaEncontrarUnHabitoInexistenteCuandoLoBuscoPorTituloYCategoria() {
-    Habito obtenido = this.cuandoBuscoUnHabito("Prueba", "Test");
+    Habito obtenido = this.cuandoBuscoUnHabito("Prueba");
     this.entoncesElHabitoObtenidoEsNull(obtenido);
   }
 
@@ -75,15 +79,27 @@ public class RepositorioHabitoTest {
   public void deberiaModificarUnHabitoExistente() {
     String titulo = "Gym";
     String categoria = "Deporte";
-    Habito habito = this.dadoQueTengoUnHabito(titulo, categoria);
+    Categoria cat = dadoQueTengoUnaCategoria(categoria);
+    this.dadoQueExisteLaCategoria(cat);
+    Habito habito = this.dadoQueTengoUnHabito(titulo, cat);
     this.dadoQueExisteElHabito(habito);
 
-    habito.setCategoria("Salud");
+    habito.setCategoria(cat);
 
     this.cuandoLoModifico(habito);
 
     Habito obtenido = obtengoElHabitoPorTitulo(titulo);
     this.entoncesElHabitoObtenidoEsCorrecto(obtenido, habito);
+  }
+
+  private void dadoQueExisteLaCategoria(Categoria cat) {
+    this.sessionFactory.getCurrentSession().save(cat);
+  }
+
+  private Categoria dadoQueTengoUnaCategoria(String categoria) {
+    Categoria cat = new Categoria();
+    cat.setNombre(categoria);
+    return cat;
   }
 
   private Habito obtengoElHabitoPorTitulo(String titulo) {
@@ -107,14 +123,13 @@ public class RepositorioHabitoTest {
     this.sessionFactory.getCurrentSession().save(habito);
   }
 
-  private Habito cuandoBuscoUnHabito(String titulo, String categoria) {
-    return this.repositorioHabito.buscarHabito(titulo, categoria);
+  private Habito cuandoBuscoUnHabito(String titulo) {
+    return this.repositorioHabito.buscarPorTitulo(titulo);
   }
 
-  private Habito dadoQuetengoUnHabito(String titulo, String categoria) {
+  private Habito dadoQuetengoUnHabito(String titulo) {
     Habito habito = new Habito();
     habito.setTitulo(titulo);
-    habito.setCategoria(categoria);
     return habito;
   }
 
@@ -135,7 +150,7 @@ public class RepositorioHabitoTest {
     repositorioHabito.guardar(habito);
   }
 
-  private Habito dadoQueTengoUnHabito(String titulo, String categoria) {
+  private Habito dadoQueTengoUnHabito(String titulo, Categoria categoria) {
     Habito habito = new Habito();
     habito.setTitulo(titulo);
     habito.setCategoria(categoria);
