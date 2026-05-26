@@ -14,15 +14,15 @@ public class DatosRegistroTest {
     datos.setEmail("test@gmail.com");
     datos.setPassword("123");
     datos.setName("Pedrito");
-    datos.setSurname("Vm");
+    datos.setSurname("Perez");
     datos.setGender("Masculino");
-    datos.setUsername("pedritoVM");
+    datos.setUsername("pedritoPe");
 
     assertThat(datos.getEmail(), is("test@gmail.com"));
     assertThat(datos.getPassword(), is("123"));
     assertThat(datos.getName(), is("Pedrito"));
-    assertThat(datos.getSurname(), is("Vm"));
+    assertThat(datos.getSurname(), is("Perez"));
     assertThat(datos.getGender(), is("Masculino"));
-    assertThat(datos.getUsername(), is("pedritoVM"));
+    assertThat(datos.getUsername(), is("pedritoPe"));
   }
 }

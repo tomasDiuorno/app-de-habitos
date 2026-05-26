@@ -12,10 +12,7 @@ import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.ServicioRecuperacionContrasenia;
 import com.tallerwebi.dominio.ServicioRegistro;
 import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.excepcion.CamposObligatorios;
 import com.tallerwebi.dominio.excepcion.ContraseniasNoCoincidenException;
-import com.tallerwebi.dominio.excepcion.FormatoEmailInvalido;
-import com.tallerwebi.dominio.excepcion.PasswordInvalido;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +93,7 @@ public class ControladorLoginTest {
 
   @Test
   public void registrameSiUsuarioNoExisteDeberiaCrearUsuarioYVolverAlLogin()
-    throws UsuarioExistente, CamposObligatorios, FormatoEmailInvalido, PasswordInvalido, ContraseniasNoCoincidenException {
+    throws UsuarioExistente, ContraseniasNoCoincidenException {
     // ejecucion
     ModelAndView modelAndView = controladorRegistro.registrarme(datosRegistroMock);
 
@@ -107,7 +104,7 @@ public class ControladorLoginTest {
 
   @Test
   public void registrarmeSiUsuarioExisteDeberiaVolverAFormularioYMostrarError()
-    throws UsuarioExistente, CamposObligatorios, FormatoEmailInvalido, PasswordInvalido, ContraseniasNoCoincidenException {
+    throws UsuarioExistente, ContraseniasNoCoincidenException {
     // preparacion
     doThrow(UsuarioExistente.class).when(servicioRegistroMock).registrar(datosRegistroMock);
 
@@ -124,7 +121,7 @@ public class ControladorLoginTest {
 
   @Test
   public void errorEnRegistrarmeDeberiaVolverAFormularioYMostrarError()
-    throws UsuarioExistente, CamposObligatorios, FormatoEmailInvalido, PasswordInvalido, ContraseniasNoCoincidenException {
+    throws UsuarioExistente, ContraseniasNoCoincidenException {
     // preparacion
     doThrow(RuntimeException.class).when(servicioRegistroMock).registrar(datosRegistroMock);
 
