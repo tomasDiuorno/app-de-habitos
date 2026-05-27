@@ -32,7 +32,7 @@ public class RepositorioUsuarioTest {
 
   @BeforeEach
   public void init() {
-    repositorioUsuario = new RepositorioUsuarioImpl(sessionFactory);
+    repositorioUsuario = new RepositorioUsuarioImp(sessionFactory);
   }
 
   @Test
@@ -62,11 +62,11 @@ public class RepositorioUsuarioTest {
   @Test
   @Transactional
   @Rollback
-  public void deberiaEncontrarUnUsuarioExistenteCuandoBuscoPorEmailYUsername() {
+  public void deberiaEncontrarUnUsuarioExistenteCuandoBuscoPorEmailYPassword() {
     String email = "test@test.com";
     String password = "1234";
     Usuario usuario =
-      this.dadoQueTengoUnUsuario("Test", "User", "testuser", email, password, "USER", "Masculino");
+      this.dadoQueTengoUnUsuario("Test", "User", "username", email, password, "USER", "Masculino");
     this.dadoQueExisteElUsuario(usuario);
 
     Usuario obtenido = this.cuandoBuscoUnUsuario(email, password);
@@ -76,7 +76,7 @@ public class RepositorioUsuarioTest {
 
   @Test
   @Transactional
-  public void noDeberiaEncontrarUnUsuarioInexistenteCuandoBuscoPorEmailYUsername() {
+  public void noDeberiaEncontrarUnUsuarioInexistenteCuandoBuscoPorEmailYPassword() {
     Usuario obtenido = this.cuandoBuscoUnUsuario("test@test.com", "testuser");
     this.entoncesElUsuarioObtenidoEsNull(obtenido);
   }
@@ -175,7 +175,7 @@ public class RepositorioUsuarioTest {
   }
 
   private Usuario cuandoObtengoUnUsuarioPorEmail(String email) {
-    return repositorioUsuario.buscarPorEmail(email);
+    return repositorioUsuario.buscarPorEmailOrUsername(email);
   }
 
   private void cuandoModificoUnUsuario(Usuario usuario) {

@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("repositorioUsuario")
-public class RepositorioUsuarioImpl implements RepositorioUsuario {
+public class RepositorioUsuarioImp implements RepositorioUsuario {
 
   private SessionFactory sessionFactory;
 
   @Autowired
-  public RepositorioUsuarioImpl(SessionFactory sessionFactory) {
+  public RepositorioUsuarioImp(SessionFactory sessionFactory) {
     this.sessionFactory = sessionFactory;
   }
 
@@ -31,15 +31,6 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
   @Override
   public void guardar(Usuario usuario) {
     sessionFactory.getCurrentSession().save(usuario);
-  }
-
-  @Override
-  public Usuario buscarPorEmail(String email) {
-    return (Usuario) sessionFactory
-      .getCurrentSession()
-      .createCriteria(Usuario.class)
-      .add(Restrictions.eq("email", email))
-      .uniqueResult();
   }
 
   @Override

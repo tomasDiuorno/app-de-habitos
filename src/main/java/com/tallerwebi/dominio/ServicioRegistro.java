@@ -5,5 +5,4 @@ import com.tallerwebi.presentacion.DatosRegistro;
 
 public interface ServicioRegistro {
   void registrar(DatosRegistro datos) throws UsuarioExistente;
-  void registrarHabitos(DatosRegistro datos);
 }

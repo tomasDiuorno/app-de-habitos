@@ -1,19 +1,21 @@
 package com.tallerwebi.dominio;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Usuario {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Integer id;
 
   private String name;
-
   private String surname;
   private String username;
   private String email;
@@ -22,11 +24,14 @@ public class Usuario {
   private String gender;
   private Boolean activo = false;
 
-  public Long getId() {
+  @OneToMany(mappedBy = "usuario")
+  private List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
+
+  public Integer getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
@@ -96,5 +101,13 @@ public class Usuario {
 
   public void activar() {
     activo = true;
+  }
+
+  public List<UsuarioHabito> getUsuarioHabito() {
+    return usuarioHabitos;
+  }
+
+  public void setUsuarioHabito(List<UsuarioHabito> usuarioHabitos) {
+    this.usuarioHabitos = usuarioHabitos;
   }
 }

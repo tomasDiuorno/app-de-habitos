@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -38,7 +40,8 @@ public class ServicioRecuperacionContraseniaTest {
     Usuario usuarioSimulado = new Usuario();
     usuarioSimulado.setEmail(emailValido);
 
-    when(this.repositorioUsuarioMock.buscarPorEmail(emailValido)).thenReturn(usuarioSimulado);
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(emailValido))
+      .thenReturn(usuarioSimulado);
 
     this.servicioRecuperacion.recuperarContrasenia(datos);
 
@@ -56,7 +59,7 @@ public class ServicioRecuperacionContraseniaTest {
       "4321"
     );
 
-    when(this.repositorioUsuarioMock.buscarPorEmail(emailInexistente)).thenReturn(null);
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(emailInexistente)).thenReturn(null);
 
     assertThrows(
       EmailInexistenteException.class,
@@ -77,7 +80,7 @@ public class ServicioRecuperacionContraseniaTest {
 
     Usuario usuario = new Usuario();
     usuario.setEmail(emailValido);
-    when(this.repositorioUsuarioMock.buscarPorEmail(emailValido)).thenReturn(usuario);
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(emailValido)).thenReturn(usuario);
 
     assertThrows(
       ContraseniasNoCoincidenException.class,

@@ -1,6 +1,5 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Habito;
 import java.util.List;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -38,7 +37,11 @@ public class DatosRegistro {
   )
   private String confirmPassword;
 
-  private List<Habito> habitosSeleccionados;
+  private List<Integer> habitosSeleccionados;
+
+  public List<Integer> getHabitosSeleccionados() {
+    return habitosSeleccionados;
+  }
 
   public String getName() {
     return name;
@@ -60,10 +63,6 @@ public class DatosRegistro {
     return username;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
   public String getEmail() {
     return email;
   }
@@ -80,12 +79,12 @@ public class DatosRegistro {
     this.password = password;
   }
 
-  public String getConfirmPassword() {
-    return this.confirmPassword;
-  }
-
   public void setConfirmPassword(String confirPassword) {
     this.confirmPassword = confirPassword;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
   }
 
   public String getGender() {
@@ -96,11 +95,11 @@ public class DatosRegistro {
     this.gender = gender;
   }
 
-  public List<Habito> getHabitosSeleccionados() {
-    return habitosSeleccionados;
+  public void setHabitosSeleccionados(List<Integer> habitosSeleccionados) {
+    this.habitosSeleccionados = habitosSeleccionados;
   }
 
-  public void setHabitosSeleccionados(List<Habito> habitosSeleccionados) {
-    this.habitosSeleccionados = habitosSeleccionados;
+  public String isPasswordConfirmada() {
+    return this.confirmPassword;
   }
 }

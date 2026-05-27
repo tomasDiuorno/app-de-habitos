@@ -8,15 +8,32 @@ import org.junit.jupiter.api.Test;
 public class DatosRecuperacionTest {
 
   @Test
-  public void validacionDeDatosRecuperacionContrasenia() {
-    DatosRecuperacionContrasenia datos = new DatosRecuperacionContrasenia(
-      "hola@gmail.com",
-      "pedrito123",
-      "pedrito123"
-    );
+  public void deberiaConfirmarPasswordCuandoCoinciden() {
+    DatosRegistro datos = new DatosRegistro();
 
-    assertThat(datos.getEmail(), is("hola@gmail.com"));
-    assertThat(datos.getContrasenia1(), is("pedrito123"));
-    assertThat(datos.getContrasenia2(), is("pedrito123"));
+    datos.setPassword("Password1!");
+    datos.setConfirmPassword("Password1!");
+
+    assertThat(datos.isPasswordConfirmada(), is(true));
+  }
+
+  @Test
+  public void noDeberiaConfirmarPasswordCuandoNoCoinciden() {
+    DatosRegistro datos = new DatosRegistro();
+
+    datos.setPassword("Password1!");
+    datos.setConfirmPassword("Otra1!");
+
+    assertThat(datos.isPasswordConfirmada(), is(false));
+  }
+
+  @Test
+  public void noDeberiaConfirmarPasswordCuandoAlgunaEsNull() {
+    DatosRegistro datos = new DatosRegistro();
+
+    datos.setPassword("Password1!");
+    datos.setConfirmPassword(null);
+
+    assertThat(datos.isPasswordConfirmada(), is(false));
   }
 }
