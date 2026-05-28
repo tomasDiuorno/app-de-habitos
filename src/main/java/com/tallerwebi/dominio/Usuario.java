@@ -23,9 +23,6 @@ public class Usuario {
   private String gender;
   private Boolean activo = false;
 
-<<<<<<< Updated upstream
-  public Long getId() {
-=======
   @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
   private List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
 
@@ -33,7 +30,6 @@ public class Usuario {
   private List<UsuarioLogro> usuarioLogros = new ArrayList<>();
 
   public Integer getId() {
->>>>>>> Stashed changes
     return id;
   }
 
@@ -116,8 +112,6 @@ public class Usuario {
   public void activar() {
     activo = true;
   }
-<<<<<<< Updated upstream
-=======
 
   public List<UsuarioHabito> getUsuarioHabito() {
     return usuarioHabitos;
@@ -134,5 +128,4 @@ public class Usuario {
   public void setUsuarioLogros(List<UsuarioLogro> usuarioLogros) {
     this.usuarioLogros = usuarioLogros;
   }
->>>>>>> Stashed changes
 }
