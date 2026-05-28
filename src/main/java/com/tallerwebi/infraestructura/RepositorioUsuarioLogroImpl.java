@@ -33,4 +33,5 @@ public class RepositorioUsuarioLogroImpl implements RepositorioUsuarioLogro {
       .add(Restrictions.eq("logro", logro))
       .uniqueResult();
   }
+
 }

@@ -15,7 +15,6 @@ public class Logro {
 
   private String descripcion;
 
-  private String icono;
 
   @OneToMany(mappedBy = "logro")
   private List<UsuarioLogro> usuarioLogros = new ArrayList<>();
@@ -42,14 +41,6 @@ public class Logro {
 
   public void setDescripcion(String descripcion) {
     this.descripcion = descripcion;
-  }
-
-  public String getIcono() {
-    return icono;
-  }
-
-  public void setIcono(String icono) {
-    this.icono = icono;
   }
 
   public List<UsuarioLogro> getUsuarioLogros() {
