@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Habitapp - Crear Hábito</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" th:href="@{/css/crear-habito.css}" />
+</head>
+
+<body class="crear-habito-body">
+
+  <nav class="crear-habito-navbar">
+    <div class="crear-habito-navbar-container">
+
+      <a th:href="@{/home}" class="crear-habito-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="crear-habito-logo">
+      </a>
+
+      <div class="crear-habito-nav-links">
+        <a th:href="@{/home}" class="crear-habito-nav-link">Inicio</a>
+        <a th:href="@{/habitos}" class="crear-habito-nav-link">Hábitos</a>
+        <a th:href="@{/perfil}" class="crear-habito-nav-link">Perfil</a>
+        <a th:href="@{/login}" class="crear-habito-logout-button">Cerrar sesión</a>
+      </div>
+
+    </div>
+  </nav>
+
+  <main class="crear-habito-main">
+
+    <section class="crear-habito-card">
+      <p class="section-kicker">Nuevo hábito</p>
+
+      <h1>Crear hábito</h1>
+
+      <p class="crear-habito-intro">
+        Completá los datos para agregar un hábito personalizado a tu rutina.
+      </p>
+
+      <form th:action="@{/crear-habito}" method="POST" class="crear-habito-form">
+
+        <div class="form-group">
+          <label for="titulo">Nombre del hábito</label>
+          <input
+            type="text"
+            id="titulo"
+            name="titulo"
+            placeholder="Ej: Dormir temprano"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="descripcion">Descripción</label>
+          <textarea
+            id="descripcion"
+            name="descripcion"
+            placeholder="Ej: Acostarme antes de las 23 hs"
+            required></textarea>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="categoria">Categoría</label>
+            <input
+              type="text"
+              id="categoria"
+              name="categoria"
+              placeholder="Ej: Bienestar"
+              required>
+          </div>
+
+          <div class="form-group">
+            <label for="frecuencia">Frecuencia</label>
+            <select id="frecuencia" name="frecuencia" required>
+              <option value="">Seleccionar</option>
+              <option value="Diaria">Diaria</option>
+              <option value="Semanal">Semanal</option>
+              <option value="Mensual">Mensual</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="duracionEstimada">Duración estimada en minutos</label>
+          <input
+            type="number"
+            id="duracionEstimada"
+            name="duracionEstimada"
+            min="1"
+            placeholder="Ej: 30"
+            required>
+        </div>
+
+        <p th:if="${error != null}" class="form-error" th:text="${error}"></p>
+
+        <div class="form-actions">
+          <a th:href="@{/habitos}" class="button-secondary">Cancelar</a>
+          <button type="submit" class="button-primary">Guardar hábito</button>
+        </div>
+
+      </form>
+    </section>
+
+  </main>
+
+</body>
+
+</html>

@@ -8,4 +8,6 @@ public interface RepositorioHabito {
   void modificar(Habito habito);
   List<Habito> obtenerHabitosIniciales();
   List<Habito> buscarPorIds(List<Integer> ids);
+  Habito buscarHabitoPorId(Integer id);
 }
+ 
