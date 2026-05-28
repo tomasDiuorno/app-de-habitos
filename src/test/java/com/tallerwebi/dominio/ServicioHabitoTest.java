@@ -187,5 +187,4 @@ public class ServicioHabitoTest {
 
     assertThat(habito.getProgresoActual(), is(0));
   }
-
 }
