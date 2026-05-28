@@ -10,6 +10,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.tallerwebi.dominio.excepcion.ChecklistInsuficienteExeption;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
 import java.util.ArrayList;
@@ -154,4 +155,37 @@ public class ServicioHabitoTest {
     verify(this.repositorioHabitoMock, times(0)).guardar(any(Habito.class));
     verify(this.repositorioUsuarioHabitoMock, times(0)).guardar(any(UsuarioHabito.class));
   }
+
+  @Test
+  public void deberiaActualizarElProgresoEnCincuentaCuandoLaMitadDeItemsEstanCompletados()
+    throws ChecklistInsuficienteExeption {
+    Habito habito = new Habito();
+    List<ItemChecklist> items = new ArrayList<>();
+    ItemChecklist itemCompletado = new ItemChecklist();
+    ItemChecklist itemPendiente = new ItemChecklist();
+
+    itemCompletado.setItemCompletado(true);
+    itemPendiente.setItemCompletado(false);
+    items.add(itemCompletado);
+    items.add(itemPendiente);
+    habito.setCantidadDeChecklist(items);
+
+    this.servicioHabitos.actualizarProgresoActualHabito(habito);
+
+    assertThat(habito.getProgresoActual(), is(50));
+  }
+
+  @Test
+  public void deberiaLanzarExcepcionCuandoSeActualizaProgresoSinItemsChecklist() {
+    Habito habito = new Habito();
+    habito.setCantidadDeChecklist(new ArrayList<>());
+
+    assertThrows(
+      ChecklistInsuficienteExeption.class,
+      () -> this.servicioHabitos.actualizarProgresoActualHabito(habito)
+    );
+
+    assertThat(habito.getProgresoActual(), is(0));
+  }
+
 }
