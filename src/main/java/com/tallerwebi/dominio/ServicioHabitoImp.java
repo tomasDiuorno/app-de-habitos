@@ -65,4 +65,9 @@ public class ServicioHabitoImp implements ServicioHabito {
   public Habito buscarHabito(String titulo) {
     return this.repositorioHabito.buscarPorTitulo(titulo);
   }
+
+  @Override
+  public Habito buscarHabitoPorId(Integer id) {
+    return this.repositorioHabito.buscarPorId(id);
+  }
 }

@@ -71,6 +71,22 @@ public class RepositorioHabitoTest {
 
   @Test
   @Transactional
+  @Rollback
+  public void deberiaEncontrarUnHabitoCuandoLoBuscoPorSuId() {
+    Integer id = 1;
+
+    String titulo = "Meditar";
+
+    Habito habito = dadoQuetengoUnHabito(titulo);
+    this.dadoQueExisteElHabito(habito);
+
+    Habito obtenido = this.cuandoBuscoUnHabitoPorId(id);
+
+    this.entoncesElUsuarioObtenidoEsCorrecto(obtenido, habito);
+  }
+
+  @Test
+  @Transactional
   public void noDeberiaEncontrarUnHabitoInexistenteCuandoLoBuscoPorTituloYCategoria() {
     Habito obtenido = this.cuandoBuscoUnHabito("Prueba");
     this.entoncesElHabitoObtenidoEsNull(obtenido);
@@ -177,6 +193,10 @@ public class RepositorioHabitoTest {
 
   private Habito cuandoBuscoUnHabito(String titulo) {
     return this.repositorioHabito.buscarPorTitulo(titulo);
+  }
+
+  private Habito cuandoBuscoUnHabitoPorId(Integer id) {
+    return this.repositorioHabito.buscarPorId(id);
   }
 
   private Habito dadoQuetengoUnHabito(String titulo) {

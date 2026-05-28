@@ -435,3 +435,209 @@
     text-align: center;
   }
 }
+
+  /*Popup*/
+/* =========================
+   POPUP / MODAL
+========================= */
+
+.habit-modal {
+
+  display: none;
+
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 9999;
+
+  background-color: rgba(0, 0, 0, 0.7);
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.habit-modal.active {
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.habit-modal-content {
+
+  width: 90%;
+  max-width: 600px;
+
+  padding: 36px;
+
+  border-radius: 8px;
+
+  background-color: var(--bg-card);
+
+  border: 2px solid var(--neon-blue);
+
+  box-shadow:
+    0 0 25px rgba(0, 223, 255, 0.3),
+    0 0 40px rgba(157, 78, 221, 0.25);
+
+  position: relative;
+
+  animation: modalFade 0.25s ease;
+}
+
+.habit-modal-content h2 {
+
+  font-family: 'Orbitron', sans-serif;
+
+  color: var(--neon-blue);
+
+  margin-bottom: 18px;
+
+  text-transform: uppercase;
+}
+
+.habit-modal-content p,
+.habit-modal-content li {
+
+  color: var(--text-main);
+
+  font-size: 1rem;
+
+  line-height: 1.6;
+}
+
+.habit-modal-content ul {
+
+  margin-top: 18px;
+
+  padding-left: 20px;
+}
+
+.habit-modal-close {
+
+  position: absolute;
+
+  top: 16px;
+  right: 16px;
+
+  background: transparent;
+
+  border: none;
+
+  color: var(--neon-purple);
+
+  font-size: 1.1rem;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+.habit-modal-close:hover {
+
+  color: var(--neon-blue);
+
+  transform: scale(1.15);
+}
+
+@keyframes modalFade {
+
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+
+
+/* PROGRESS BAR */
+
+.progress-section {
+  margin-top: 28px;
+}
+
+.progress-section h3 {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-blue);
+  margin-bottom: 14px;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 22px;
+
+  background-color: rgba(255,255,255,0.08);
+
+  border-radius: 999px;
+
+  overflow: hidden;
+
+  border: 1px solid var(--border-color);
+}
+
+.progress-bar {
+  width: 0%;
+
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--neon-purple),
+      var(--neon-blue)
+    );
+
+  transition: width 0.3s ease;
+}
+
+#progressText {
+  margin-top: 10px;
+
+  color: white;
+
+  font-weight: bold;
+}
+
+/* CHECKLIST */
+
+.checklist-section {
+  margin-top: 30px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+.checklist-section label {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  font-size: 1rem;
+
+  color: var(--text-main);
+}
+
+.habit-check {
+  width: 18px;
+  height: 18px;
+
+  cursor: pointer;
+}

@@ -10,4 +10,5 @@ public interface ServicioHabito {
   void agregarHabitoParaUsuario(Habito habito, Usuario usuario)
     throws HabitoExistenteExeption, LimiteHabitosAlcanzadoException;
   Habito buscarHabito(String titulo);
+  Habito buscarHabitoPorId(Integer id);
 }
