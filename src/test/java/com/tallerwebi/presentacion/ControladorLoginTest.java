@@ -62,7 +62,7 @@ public class ControladorLoginTest {
     Usuario usuarioEncontradoMock = mock(Usuario.class);
     when(usuarioEncontradoMock.getRol()).thenReturn("ADMIN");
     when(usuarioEncontradoMock.getId()).thenReturn(1L);
-    when(usuarioEncontradoMock.getEmail()).thenReturn("dami@unlam.com");
+      when(usuarioEncontradoMock.getEmail()).thenReturn("ram@unlam.com");
 
     when(requestMock.getSession()).thenReturn(sessionMock);
     when(servicioLoginMock.consultarUsuario(anyString(), anyString()))
@@ -73,6 +73,8 @@ public class ControladorLoginTest {
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/home"));
+
+    //verifica que guarda todos los datos en sesion efectivamente
     verify(sessionMock, times(1)).setAttribute("ROL", usuarioEncontradoMock.getRol());
     verify(sessionMock, times(1)).setAttribute("ID_USUARIO", usuarioEncontradoMock.getId());
     verify(sessionMock, times(1)).setAttribute("EMAIL_USUARIO", usuarioEncontradoMock.getEmail());
@@ -153,21 +155,29 @@ public class ControladorLoginTest {
 
   @Test
   public void siHaySesionActivaDeberiaPermitirIrAHome() {
+    //preparacion
     when(requestMock.getSession()).thenReturn(sessionMock);
-    when(sessionMock.getAttribute("ID_USUARIO")).thenReturn(1L); // Simulam sesión activa
+    when(sessionMock.getAttribute("ID_USUARIO")).thenReturn(1L); // Simulam sesión activa con id 1
 
+    //ejecucion
     ModelAndView modelAndView = controladorLogin.irAHome(requestMock);
 
+    //validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("home"));
   }
 
   @Test
   public void siNoHaySesionActivaAlIrAHomeDeberiaRedirigirALogin() {
+    //preparacion
     when(requestMock.getSession()).thenReturn(sessionMock);
-    when(sessionMock.getAttribute("ID_USUARIO")).thenReturn(null); // Simula falta de sesión
+    when(sessionMock.getAttribute("ID_USUARIO")).thenReturn(null); // Simula sesion expirada / noo existe
 
+    //ejecucion
     ModelAndView modelAndView = controladorLogin.irAHome(requestMock);
 
+    //validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
   }
+
+
 }
