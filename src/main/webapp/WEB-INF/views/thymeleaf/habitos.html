@@ -39,6 +39,7 @@
   <main class="habitos-main">
 
     <section class="habitos-hero">
+
       <p class="section-kicker">Panel de hábitos</p>
 
       <h1>Mis hábitos</h1>
@@ -47,6 +48,7 @@
         En esta sección vas a encontrar los hábitos que elegiste o creaste para tu rutina.
         Podés tener hasta 4 hábitos activos al mismo tiempo.
       </p>
+
     </section>
 
     <section class="habitos-dashboard">
@@ -54,6 +56,7 @@
       <article th:if="${#lists.isEmpty(usuarioHabitos)}" class="habit-option-card empty-habits-card">
 
         <div class="habit-content">
+
           <p class="habit-category">Sin hábitos</p>
 
           <h2>Todavía no tenés hábitos cargados</h2>
@@ -61,6 +64,7 @@
           <p>
             Creá tu primer hábito personalizado para empezar a registrar tu progreso diario.
           </p>
+
         </div>
 
         <a th:href="@{/crear-habito}" class="habit-button">
@@ -73,7 +77,8 @@
 
         <div class="habit-content">
 
-          <p class="habit-category" th:text="${usuarioHabito.habito.categoria.nombre}">
+          <p class="habit-category"
+             th:text="${usuarioHabito.habito.categoria.nombre}">
             Categoría
           </p>
 
@@ -87,6 +92,7 @@
 
           <p>
             <strong>Frecuencia:</strong>
+
             <span th:text="${usuarioHabito.habito.frecuencia}">
               Diaria
             </span>
@@ -94,14 +100,17 @@
 
           <p>
             <strong>Duración estimada:</strong>
+
             <span th:text="${usuarioHabito.habito.duracionEstimada}">
               30
             </span>
+
             minutos
           </p>
 
           <p>
             <strong>Estado:</strong>
+
             <span th:text="${usuarioHabito.activo} ? 'Activo' : 'Inactivo'">
               Activo
             </span>
@@ -109,7 +118,7 @@
 
         </div>
 
-        <a href="#" class="habit-button">
+        <a href="#" class="habit-button open-modal-button" th:data-id="${usuarioHabito.habito.id}">
           Ver progreso
         </a>
 
@@ -118,9 +127,11 @@
     </section>
 
     <section class="crear-habito-section">
+
       <div class="crear-habito-card">
 
         <div>
+
           <p class="section-kicker">Nuevo objetivo</p>
 
           <h2>¿Querés crear otro hábito?</h2>
@@ -128,6 +139,7 @@
           <p>
             Agregá un hábito personalizado, definí una frecuencia y empezá a medir tu constancia.
           </p>
+
         </div>
 
         <a th:href="@{/crear-habito}" class="crear-habito-button">
@@ -135,11 +147,40 @@
         </a>
 
       </div>
+
     </section>
 
   </main>
 
+  <!-- POPUP -->
+
+  <div class="habit-modal" id="habitModal">
+
+    <div class="habit-modal-content">
+
+      <button class="habit-modal-close" id="closeModal">
+        X
+      </button>
+
+      <h2>Progreso del hábito</h2>
+
+      <p>
+        Acá después vamos a mostrar:
+      </p>
+
+      <ul>
+        <li>Checklist diario</li>
+        <li>Barra de progreso</li>
+        <li>Días completados</li>
+        <li>Estadísticas</li>
+      </ul>
+
+    </div>
+
+  </div>
+
   <footer class="habitos-footer">
+
     <div class="habitos-footer-container">
 
       <div class="footer-brand">
@@ -148,7 +189,11 @@
 
       <div class="footer-info">
         <p>Proyecto desarrollado para Taller Web I.</p>
-        <p>Tomas Diurno - Julieta Miño - Ramiro Brunzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
+
+        <p>
+          Tomas Diurno - Julieta Miño - Ramiro Brunzon -
+          Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer
+        </p>
       </div>
 
       <div class="footer-copy">
@@ -156,7 +201,10 @@
       </div>
 
     </div>
+
   </footer>
+
+  <script th:src="@{/js/habitos_popup.js}"></script>
 
 </body>
 

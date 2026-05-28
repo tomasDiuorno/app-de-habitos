@@ -16,4 +16,5 @@ public interface ServicioHabito {
     throws ChecklistInsuficienteExeption;
   void eliminarItemChecklistDelHabito(ItemChecklist item, Integer idHabito)
     throws ChecklistInsuficienteExeption;
+  Habito buscarHabitoPorId(Integer id);
 }

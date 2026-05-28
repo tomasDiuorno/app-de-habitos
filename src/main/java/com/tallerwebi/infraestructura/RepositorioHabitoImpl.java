@@ -55,11 +55,7 @@ public class RepositorioHabitoImpl implements RepositorioHabito {
   }
 
   @Override
-  public Habito buscarHabitoPorId(Integer id) {
-    return (Habito) sessionFactory
-      .getCurrentSession()
-      .createCriteria(Habito.class)
-      .add(Restrictions.eq("id", id))
-      .uniqueResult();
+  public Habito buscarPorId(Integer id) {
+    return sessionFactory.getCurrentSession().get(Habito.class, id);
   }
 }

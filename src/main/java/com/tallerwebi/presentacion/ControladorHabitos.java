@@ -9,8 +9,10 @@ import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -72,5 +74,28 @@ public class ControladorHabitos {
       modelAndView.addObject("error", "No podés tener más de 4 hábitos activos");
       return modelAndView;
     }
+  }
+
+  @RequestMapping(path = "/habito/{id}", method = RequestMethod.GET)
+  @ResponseBody
+  public String obtenerHabito(@PathVariable Integer id) {
+    Habito habito = servicioHabito.buscarHabitoPorId(id);
+
+    return (
+      "{" +
+      "\"titulo\":\"" +
+      habito.getTitulo() +
+      "\"," +
+      "\"descripcion\":\"" +
+      habito.getDescripcion() +
+      "\"," +
+      "\"frecuencia\":\"" +
+      habito.getFrecuencia() +
+      "\"," +
+      "\"duracionEstimada\":\"" +
+      habito.getDuracionEstimada() +
+      "\"" +
+      "}"
+    );
   }
 }
