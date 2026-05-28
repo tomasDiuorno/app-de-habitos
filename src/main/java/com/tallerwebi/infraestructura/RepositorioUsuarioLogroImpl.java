@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("repositorioUsuarioLogro")
-public class RepositorioUsuarioLogroImpl
-  implements RepositorioUsuarioLogro {
+public class RepositorioUsuarioLogroImpl implements RepositorioUsuarioLogro {
 
   private SessionFactory sessionFactory;
 
@@ -26,10 +25,7 @@ public class RepositorioUsuarioLogroImpl
   }
 
   @Override
-  public UsuarioLogro buscarPorUsuarioYLogro(
-    Usuario usuario,
-    Logro logro
-  ) {
+  public UsuarioLogro buscarPorUsuarioYLogro(Usuario usuario, Logro logro) {
     return (UsuarioLogro) sessionFactory
       .getCurrentSession()
       .createCriteria(UsuarioLogro.class)

@@ -1,24 +1,27 @@
 package com.tallerwebi.dominio;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
+@SuppressWarnings("PMD.TooManyFields")
 public class Usuario {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Integer id;
 
   private String name;
-
   private String surname;
   private String username;
   private String email;
   private String password;
-  private String confirmPass;
   private String rol;
   private String gender;
   private Boolean activo = false;
@@ -26,14 +29,14 @@ public class Usuario {
   @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
   private List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
 
-  @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "usuario")
   private List<UsuarioLogro> usuarioLogros = new ArrayList<>();
 
   public Integer getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
@@ -77,14 +80,6 @@ public class Usuario {
     this.password = password;
   }
 
-  public String getConfirmPass() {
-    return confirmPass;
-  }
-
-  public void setConfirmPass(String confirmPass) {
-    this.confirmPass = confirmPass;
-  }
-
   public String getRol() {
     return rol;
   }
@@ -122,7 +117,7 @@ public class Usuario {
   }
 
   public List<UsuarioLogro> getUsuarioLogros() {
-  return usuarioLogros;
+    return usuarioLogros;
   }
 
   public void setUsuarioLogros(List<UsuarioLogro> usuarioLogros) {
