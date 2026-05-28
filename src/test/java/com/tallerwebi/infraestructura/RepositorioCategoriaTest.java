@@ -4,8 +4,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+import com.tallerwebi.dominio.Categoria;
+import com.tallerwebi.dominio.RepositorioCategoria;
+import com.tallerwebi.infraestructura.config.HibernateInfraestructuraTestConfig;
 import javax.transaction.Transactional;
-
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,51 +17,50 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.tallerwebi.dominio.Categoria;
-import com.tallerwebi.dominio.RepositorioCategoria;
-import com.tallerwebi.infraestructura.config.HibernateInfraestructuraTestConfig;
-
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { HibernateInfraestructuraTestConfig.class })
 public class RepositorioCategoriaTest {
-    @Autowired
-    private SessionFactory sessionFactory;
 
-    private RepositorioCategoria repositorioCategoria;
+  @Autowired
+  private SessionFactory sessionFactory;
 
-    @BeforeEach
-    public void init() {
-        repositorioCategoria = new RepositorioCategoriaImp(sessionFactory);
-    }
+  private RepositorioCategoria repositorioCategoria;
 
-    @Test
-    @Transactional
-    @Rollback
-    public void deberiaGuardarUnaNuevaCategoria(){
-        String nombre = "Deporte";
-        Categoria categoria = dadoQueTengoUnaCategoria(nombre);
-        this.dadoQueExisteLaCategoria(categoria);
+  @BeforeEach
+  public void init() {
+    repositorioCategoria = new RepositorioCategoriaImp(sessionFactory);
+  }
 
-        Categoria obtenida = obtengoUnaCategoria(nombre);
-        this.entoncesLaCategoriaObtenidaEsCorrecta(obtenida, categoria);
-    }
+  @Test
+  @Transactional
+  @Rollback
+  public void deberiaGuardarUnaNuevaCategoria() {
+    String nombre = "Deporte";
+    Categoria categoria = dadoQueTengoUnaCategoria(nombre);
+    this.dadoQueExisteLaCategoria(categoria);
 
-    private void entoncesLaCategoriaObtenidaEsCorrecta(Categoria obtenida, Categoria categoria) {
-        assertThat(obtenida.getNombre(), is(equalTo(categoria.getNombre())));
-    }
+    Categoria obtenida = obtengoUnaCategoria(nombre);
+    this.entoncesLaCategoriaObtenidaEsCorrecta(obtenida, categoria);
+  }
 
-    private Categoria obtengoUnaCategoria(String nombre) {
-        return (Categoria) this.sessionFactory.getCurrentSession().createQuery("FROM Categoria WHERE nombre = :nombre").
-        setParameter("nombre", nombre).getSingleResult();
-    }
+  private void entoncesLaCategoriaObtenidaEsCorrecta(Categoria obtenida, Categoria categoria) {
+    assertThat(obtenida.getNombre(), is(equalTo(categoria.getNombre())));
+  }
 
-    private void dadoQueExisteLaCategoria(Categoria categoria) {
-        this.repositorioCategoria.guardar(categoria);
-    }
+  private Categoria obtengoUnaCategoria(String nombre) {
+    return (Categoria) this.sessionFactory.getCurrentSession()
+      .createQuery("FROM Categoria WHERE nombre = :nombre")
+      .setParameter("nombre", nombre)
+      .getSingleResult();
+  }
 
-    private Categoria dadoQueTengoUnaCategoria(String titulo) {
-        Categoria cat = new Categoria();
-        cat.setNombre(titulo);
-        return cat;
-    }
+  private void dadoQueExisteLaCategoria(Categoria categoria) {
+    this.repositorioCategoria.guardar(categoria);
+  }
+
+  private Categoria dadoQueTengoUnaCategoria(String titulo) {
+    Categoria cat = new Categoria();
+    cat.setNombre(titulo);
+    return cat;
+  }
 }

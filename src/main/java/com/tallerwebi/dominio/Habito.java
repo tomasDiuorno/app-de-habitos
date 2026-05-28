@@ -18,6 +18,9 @@ public class Habito {
   private Integer id;
 
   private String titulo;
+  private String descripcion;
+  private String frecuencia;
+  private Integer duracionEstimada;
 
   @ManyToOne
   @JoinColumn(name = "categoria_id")
@@ -56,5 +59,29 @@ public class Habito {
 
   public void setUsuarioHabitos(List<UsuarioHabito> usuarioHabitos) {
     this.usuarioHabitos = usuarioHabitos;
+  }
+
+  public String getDescripcion() {
+    return descripcion;
+  }
+
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
+
+  public String getFrecuencia() {
+    return frecuencia;
+  }
+
+  public void setFrecuencia(String frecuencia) {
+    this.frecuencia = frecuencia;
+  }
+
+  public Integer getDuracionEstimada() {
+    return duracionEstimada;
+  }
+
+  public void setDuracionEstimada(Integer duracionEstimada) {
+    this.duracionEstimada = duracionEstimada;
   }
 }

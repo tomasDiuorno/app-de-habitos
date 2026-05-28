@@ -4,9 +4,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+import com.tallerwebi.dominio.Habito;
+import com.tallerwebi.dominio.RepositorioUsuarioHabito;
+import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.UsuarioHabito;
+import com.tallerwebi.infraestructura.config.HibernateInfraestructuraTestConfig;
 import javax.transaction.TransactionScoped;
 import javax.transaction.Transactional;
-
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,82 +20,92 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.tallerwebi.dominio.Habito;
-import com.tallerwebi.dominio.RepositorioUsuarioHabito;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.UsuarioHabito;
-import com.tallerwebi.infraestructura.config.HibernateInfraestructuraTestConfig;
-
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { HibernateInfraestructuraTestConfig.class })
 public class RepositorioUsuarioHabitoTest {
-    @Autowired
-    private SessionFactory sessionFactory;
-    private RepositorioUsuarioHabito repositorioUsuarioHabito;
 
-    @BeforeEach
-    public void init(){
-        repositorioUsuarioHabito = new RepositorioUsuarioHabitoImp(sessionFactory);
-    }
+  @Autowired
+  private SessionFactory sessionFactory;
 
-    @Test
-    @Transactional
-    @Rollback
-    public void deberiaGuardarUnHabitoUsuarioCorrectamente(){
-        Usuario us = dadoQueTengoUnUsuario("test@email.com", "userTest");
-        Habito hab = dadoQueTengoElHabito("titulo al Gym");
-        this.cuandoGuardoElHabito(hab);
-        this.cuandoGuardoElUsuario(us);
-        UsuarioHabito usuarioHabito = dadoQueTengoUnUsuarioHabito(us, hab);
-        this.cuandoGuardoElUsuarioHabito(usuarioHabito);
+  private RepositorioUsuarioHabito repositorioUsuarioHabito;
 
-        UsuarioHabito obtenido = this.cuandoBuscoUnUsuarioHabito(us, hab);
+  @BeforeEach
+  public void init() {
+    repositorioUsuarioHabito = new RepositorioUsuarioHabitoImp(sessionFactory);
+  }
 
-        this.entoncesElUsuarioHabitoObtenidoEsCorrecto(usuarioHabito, obtenido);
-    }
+  @Test
+  @Transactional
+  @Rollback
+  public void deberiaGuardarUnHabitoUsuarioCorrectamente() {
+    Usuario us = dadoQueTengoUnUsuario("test@email.com", "userTest");
+    Habito hab = dadoQueTengoElHabito("titulo al Gym");
+    this.cuandoGuardoElHabito(hab);
+    this.cuandoGuardoElUsuario(us);
+    UsuarioHabito usuarioHabito = dadoQueTengoUnUsuarioHabito(us, hab);
+    this.cuandoGuardoElUsuarioHabito(usuarioHabito);
 
-    private void entoncesElUsuarioHabitoObtenidoEsCorrecto(UsuarioHabito usuarioHabito, UsuarioHabito obtenido) {
-        assertThat(obtenido.getHabito().getTitulo(), is(equalTo(usuarioHabito.getHabito().getTitulo())));
+    UsuarioHabito obtenido = this.cuandoBuscoUnUsuarioHabito(us, hab);
 
-        assertThat(obtenido.getUsuario().getEmail(), is(equalTo(usuarioHabito.getUsuario().getEmail())));
-        assertThat(obtenido.getUsuario().getUsername(), is(equalTo(usuarioHabito.getUsuario().getUsername())));
-    }
+    this.entoncesElUsuarioHabitoObtenidoEsCorrecto(usuarioHabito, obtenido);
+  }
 
-    private UsuarioHabito cuandoBuscoUnUsuarioHabito(Usuario us, Habito hab) {
-        return (UsuarioHabito) this.sessionFactory.getCurrentSession().createQuery("FROM UsuarioHabito WHERE usuario = :usuario AND habito = :habito").
-        setParameter("usuario", us).
-        setParameter("habito", hab).getSingleResult();
-    }
+  private void entoncesElUsuarioHabitoObtenidoEsCorrecto(
+    UsuarioHabito usuarioHabito,
+    UsuarioHabito obtenido
+  ) {
+    assertThat(
+      obtenido.getHabito().getTitulo(),
+      is(equalTo(usuarioHabito.getHabito().getTitulo()))
+    );
 
-    private void cuandoGuardoElUsuarioHabito(UsuarioHabito usuarioHabito) {
-        this.repositorioUsuarioHabito.guardar(usuarioHabito);
-    }
+    assertThat(
+      obtenido.getUsuario().getEmail(),
+      is(equalTo(usuarioHabito.getUsuario().getEmail()))
+    );
+    assertThat(
+      obtenido.getUsuario().getUsername(),
+      is(equalTo(usuarioHabito.getUsuario().getUsername()))
+    );
+  }
 
-    private UsuarioHabito dadoQueTengoUnUsuarioHabito(Usuario usuario, Habito habito) {
-        UsuarioHabito usuarioHabito = new UsuarioHabito();
-        usuarioHabito.setUsuario(usuario);
-        usuarioHabito.setHabito(habito);
-        return usuarioHabito;
-    }
+  private UsuarioHabito cuandoBuscoUnUsuarioHabito(Usuario us, Habito hab) {
+    return (UsuarioHabito) this.sessionFactory.getCurrentSession()
+      .createQuery("FROM UsuarioHabito WHERE usuario = :usuario AND habito = :habito")
+      .setParameter("usuario", us)
+      .setParameter("habito", hab)
+      .getSingleResult();
+  }
 
-    private void cuandoGuardoElHabito(Habito hab) {
-        this.sessionFactory.getCurrentSession().save(hab);
-    }
+  private void cuandoGuardoElUsuarioHabito(UsuarioHabito usuarioHabito) {
+    this.repositorioUsuarioHabito.guardar(usuarioHabito);
+  }
 
-    private Habito dadoQueTengoElHabito(String titulo) {
-        Habito habito = new Habito();
-        habito.setTitulo(titulo);
-        return habito;
-    }
+  private UsuarioHabito dadoQueTengoUnUsuarioHabito(Usuario usuario, Habito habito) {
+    UsuarioHabito usuarioHabito = new UsuarioHabito();
+    usuarioHabito.setUsuario(usuario);
+    usuarioHabito.setHabito(habito);
+    return usuarioHabito;
+  }
 
-    private void cuandoGuardoElUsuario(Usuario us) {
-        this.sessionFactory.getCurrentSession().save(us);
-    }
+  private void cuandoGuardoElHabito(Habito hab) {
+    this.sessionFactory.getCurrentSession().save(hab);
+  }
 
-    private Usuario dadoQueTengoUnUsuario(String email, String username) {
-        Usuario usuario = new Usuario();
-        usuario.setEmail(email);
-        usuario.setUsername(username);
-        return usuario;
-    }
+  private Habito dadoQueTengoElHabito(String titulo) {
+    Habito habito = new Habito();
+    habito.setTitulo(titulo);
+    return habito;
+  }
+
+  private void cuandoGuardoElUsuario(Usuario us) {
+    this.sessionFactory.getCurrentSession().save(us);
+  }
+
+  private Usuario dadoQueTengoUnUsuario(String email, String username) {
+    Usuario usuario = new Usuario();
+    usuario.setEmail(email);
+    usuario.setUsername(username);
+    return usuario;
+  }
 }
