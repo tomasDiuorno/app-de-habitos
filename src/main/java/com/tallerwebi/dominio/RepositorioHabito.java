@@ -10,4 +10,3 @@ public interface RepositorioHabito {
   List<Habito> buscarPorIds(List<Integer> ids);
   Habito buscarHabitoPorId(Integer id);
 }
- 

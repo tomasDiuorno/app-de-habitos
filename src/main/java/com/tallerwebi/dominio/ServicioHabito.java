@@ -8,9 +8,12 @@ import java.util.List;
 public interface ServicioHabito {
   List<Habito> obtenerHabitosIniciales();
   void agregarHabito(Habito habito) throws HabitoExistenteExeption;
-  void agregarHabitoParaUsuario(Habito habito, Usuario usuario) throws HabitoExistenteExeption, LimiteHabitosAlcanzadoException;
+  void agregarHabitoParaUsuario(Habito habito, Usuario usuario)
+    throws HabitoExistenteExeption, LimiteHabitosAlcanzadoException;
   Habito buscarHabito(String titulo);
   void actualizarProgresoActualHabito(Habito habito) throws ChecklistInsuficienteExeption;
-  void agregarItemChecklistAlHabito(ItemChecklist item,  Integer idHabito) throws ChecklistInsuficienteExeption ;
-  void eliminarItemChecklistDelHabito(ItemChecklist item, Integer idHabito) throws ChecklistInsuficienteExeption;
+  void agregarItemChecklistAlHabito(ItemChecklist item, Integer idHabito)
+    throws ChecklistInsuficienteExeption;
+  void eliminarItemChecklistDelHabito(ItemChecklist item, Integer idHabito)
+    throws ChecklistInsuficienteExeption;
 }

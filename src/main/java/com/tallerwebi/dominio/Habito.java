@@ -2,7 +2,6 @@ package com.tallerwebi.dominio;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -113,9 +112,8 @@ public class Habito {
     item.setHabito(this);
   }
 
-  public void eliminarItemChecklist(ItemChecklist item){
+  public void eliminarItemChecklist(ItemChecklist item) {
     this.cantidadDeChecklist.remove(item);
     item.setHabito(null);
   }
-
 }

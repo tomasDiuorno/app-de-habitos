@@ -10,53 +10,50 @@ import javax.persistence.ManyToOne;
 @Entity
 public class ItemChecklist {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    private String descripcion;
-    private Boolean itemCompletado;
+  private String descripcion;
+  private Boolean itemCompletado;
 
-    @ManyToOne
-    @JoinColumn(name = "habito_id")
-    private Habito habito;
+  @ManyToOne
+  @JoinColumn(name = "habito_id")
+  private Habito habito;
 
-    public ItemChecklist(){
-        this.itemCompletado = false;
-    }
+  public ItemChecklist() {
+    this.itemCompletado = false;
+  }
 
-    public Integer getId() {
-        return id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
+  public String getDescripcion() {
+    return descripcion;
+  }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-    public Habito getHabito() {
-        return habito;
-    }
+  public Habito getHabito() {
+    return habito;
+  }
 
-    public void setHabito(Habito habito) {
-        this.habito = habito;
-    }
+  public void setHabito(Habito habito) {
+    this.habito = habito;
+  }
 
-    public Boolean getItemCompletado() {
-        return itemCompletado;
-    }
+  public Boolean getItemCompletado() {
+    return itemCompletado;
+  }
 
-    public void setItemCompletado(Boolean itemCompletado) {
-        this.itemCompletado = itemCompletado;
-    }
-
-   
-
+  public void setItemCompletado(Boolean itemCompletado) {
+    this.itemCompletado = itemCompletado;
+  }
 }
