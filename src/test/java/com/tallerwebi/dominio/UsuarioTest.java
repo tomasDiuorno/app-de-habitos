@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 public class UsuarioTest {
@@ -32,7 +31,6 @@ public class UsuarioTest {
     assertThat(usuario.getRol(), is("USER"));
     assertThat(usuario.getActivo(), is(true));
     assertThat(usuario.getGender(), is("Masculino"));
-
   }
 
   @Test

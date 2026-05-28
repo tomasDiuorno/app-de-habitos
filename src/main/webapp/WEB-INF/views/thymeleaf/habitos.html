@@ -41,77 +41,99 @@
     <section class="habitos-hero">
       <p class="section-kicker">Panel de hábitos</p>
 
-      <h1>Construí tu rutina</h1>
+      <h1>Mis hábitos</h1>
 
       <p>
-        Elegí un hábito para empezar a registrar tu progreso. La clave no es hacer todo perfecto,
-        sino repetir acciones simples hasta que se vuelvan parte de tu día.
+        En esta sección vas a encontrar los hábitos que elegiste o creaste para tu rutina.
+        Podés tener hasta 4 hábitos activos al mismo tiempo.
       </p>
     </section>
 
     <section class="habitos-dashboard">
 
-      <article class="habit-option-card">
-        <div class="habit-icon">
-          <img th:src="@{/images/agua.jpeg}" alt="Tomar agua">
-        </div>
+      <article th:if="${#lists.isEmpty(usuarioHabitos)}" class="habit-option-card empty-habits-card">
 
         <div class="habit-content">
-          <p class="habit-category">Salud diaria</p>
-          <h2>Tomar agua</h2>
+          <p class="habit-category">Sin hábitos</p>
+
+          <h2>Todavía no tenés hábitos cargados</h2>
+
           <p>
-            Registrá tus vasos de agua diarios y mantené una hidratación más constante durante el día.
+            Creá tu primer hábito personalizado para empezar a registrar tu progreso diario.
           </p>
         </div>
 
-        <a href="#" class="habit-button">Registrar</a>
+        <a th:href="@{/crear-habito}" class="habit-button">
+          Crear hábito
+        </a>
+
       </article>
 
-      <article class="habit-option-card">
-        <div class="habit-icon">
-          <img th:src="@{/images/ejercicio.jpeg}" alt="Hacer ejercicio">
-        </div>
+      <article th:each="usuarioHabito : ${usuarioHabitos}" class="habit-option-card">
 
         <div class="habit-content">
-          <p class="habit-category">Actividad física</p>
-          <h2>Hacer ejercicio</h2>
-          <p>
-            Sumá movimiento a tu rutina con objetivos realistas y fáciles de sostener.
+
+          <p class="habit-category" th:text="${usuarioHabito.habito.categoria.nombre}">
+            Categoría
           </p>
-        </div>
 
-        <a href="#" class="habit-button">Registrar</a>
-      </article>
+          <h2 th:text="${usuarioHabito.habito.titulo}">
+            Nombre del hábito
+          </h2>
 
-      <article class="habit-option-card">
-        <div class="habit-icon">
-          <img th:src="@{/images/leer.jpeg}" alt="Leer">
-        </div>
-
-        <div class="habit-content">
-          <p class="habit-category">Crecimiento personal</p>
-          <h2>Leer</h2>
-          <p>
-            Creá el hábito de leer unos minutos por día y seguí tu avance sesión por sesión.
+          <p th:text="${usuarioHabito.habito.descripcion}">
+            Descripción del hábito
           </p>
+
+          <p>
+            <strong>Frecuencia:</strong>
+            <span th:text="${usuarioHabito.habito.frecuencia}">
+              Diaria
+            </span>
+          </p>
+
+          <p>
+            <strong>Duración estimada:</strong>
+            <span th:text="${usuarioHabito.habito.duracionEstimada}">
+              30
+            </span>
+            minutos
+          </p>
+
+          <p>
+            <strong>Estado:</strong>
+            <span th:text="${usuarioHabito.activo} ? 'Activo' : 'Inactivo'">
+              Activo
+            </span>
+          </p>
+
         </div>
 
-        <a href="#" class="habit-button">Registrar</a>
+        <a href="#" class="habit-button">
+          Ver progreso
+        </a>
+
       </article>
 
     </section>
 
     <section class="crear-habito-section">
       <div class="crear-habito-card">
+
         <div>
           <p class="section-kicker">Nuevo objetivo</p>
-          <h2>¿Querés crear tu propio hábito?</h2>
+
+          <h2>¿Querés crear otro hábito?</h2>
+
           <p>
             Agregá un hábito personalizado, definí una frecuencia y empezá a medir tu constancia.
           </p>
         </div>
 
-        <a href="#" class="crear-habito-button">Crear hábito</a>
+        <a th:href="@{/crear-habito}" class="crear-habito-button">
+          Crear hábito
+        </a>
+
       </div>
     </section>
 
@@ -126,7 +148,7 @@
 
       <div class="footer-info">
         <p>Proyecto desarrollado para Taller Web I.</p>
-        <p>Tomas Diuorno - Julieta Miño - Ramiro Bruzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
+        <p>Tomas Diurno - Julieta Miño - Ramiro Brunzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
       </div>
 
       <div class="footer-copy">

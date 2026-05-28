@@ -41,14 +41,16 @@ public class RepositorioUsuarioTest {
   public void deberiaGuardarUnNuevoUsuario() {
     String emailNuevoUsuario = "nuevo.usuario@test.com";
     // preparacion
-    Usuario usuario = this.dadoQueTengoUnUsuario(
-        "Test",
-        "User",
-        "testuser",
-        emailNuevoUsuario,
-        "1234",
-        "USER",
-        "Masculino");
+    Usuario usuario =
+      this.dadoQueTengoUnUsuario(
+          "Test",
+          "User",
+          "testuser",
+          emailNuevoUsuario,
+          "1234",
+          "USER",
+          "Masculino"
+        );
 
     // ejecucion
     this.cuandoGuardoUnUsuario(usuario);
@@ -63,7 +65,8 @@ public class RepositorioUsuarioTest {
   public void deberiaEncontrarUnUsuarioExistenteCuandoBuscoPorEmailYPassword() {
     String email = "test@test.com";
     String password = "1234";
-    Usuario usuario = this.dadoQueTengoUnUsuario("Test", "User", "username", email, password, "USER", "Masculino");
+    Usuario usuario =
+      this.dadoQueTengoUnUsuario("Test", "User", "username", email, password, "USER", "Masculino");
     this.dadoQueExisteElUsuario(usuario);
 
     Usuario obtenido = this.cuandoBuscoUnUsuario(email, password);
@@ -83,7 +86,8 @@ public class RepositorioUsuarioTest {
   @Rollback
   public void deberiaEncontrarUnUsuarioExistenteCuandoBuscoPorEmail() {
     String email = "test@test.com";
-    Usuario usuario = this.dadoQueTengoUnUsuario("Test", "User", "testuser", email, "1234", "USER", "Masculino");
+    Usuario usuario =
+      this.dadoQueTengoUnUsuario("Test", "User", "testuser", email, "1234", "USER", "Masculino");
     this.dadoQueExisteElUsuario(usuario);
 
     Usuario obtenido = this.cuandoObtengoUnUsuarioPorEmail(email);
@@ -103,7 +107,8 @@ public class RepositorioUsuarioTest {
   @Rollback
   public void deberiaModificarUnUsuarioExistente() {
     String email = "test@test.com";
-    Usuario usuario = this.dadoQueTengoUnUsuario("Test", "User", "testuser", email, "1234", "USER", "Masculino");
+    Usuario usuario =
+      this.dadoQueTengoUnUsuario("Test", "User", "testuser", email, "1234", "USER", "Masculino");
     this.dadoQueExisteElUsuario(usuario);
 
     usuario.setPassword("4567");
@@ -120,14 +125,16 @@ public class RepositorioUsuarioTest {
   @Transactional
   @Rollback
   public void deberiaLanzarUnaExcepcionAlIntentarModificarUnUsuarioInexistente() {
-    Usuario usuario = this.dadoQueTengoUnUsuario(
-        "test",
-        "user",
-        "testuser",
-        "noexiste@test.com",
-        "123",
-        "USER",
-        "Masculino");
+    Usuario usuario =
+      this.dadoQueTengoUnUsuario(
+          "test",
+          "user",
+          "testuser",
+          "noexiste@test.com",
+          "123",
+          "USER",
+          "Masculino"
+        );
 
     // Al no tener ID (no estar persistido), llamar a update debe lanzar la
     // excepción.
@@ -135,13 +142,14 @@ public class RepositorioUsuarioTest {
   }
 
   private Usuario dadoQueTengoUnUsuario(
-      String nombre,
-      String apellido,
-      String username,
-      String email,
-      String password,
-      String rol,
-      String gender) {
+    String nombre,
+    String apellido,
+    String username,
+    String email,
+    String password,
+    String rol,
+    String gender
+  ) {
     Usuario usuario = new Usuario();
     usuario.setName(nombre);
     usuario.setSurname(apellido);
@@ -183,8 +191,9 @@ public class RepositorioUsuarioTest {
   }
 
   private void entoncesElUsuarioObtenidoEsCorrecto(
-      Usuario usuarioObtenido,
-      Usuario usuarioEsperado) {
+    Usuario usuarioObtenido,
+    Usuario usuarioEsperado
+  ) {
     assertThat(usuarioObtenido.getName(), is(equalTo(usuarioEsperado.getName())));
     assertThat(usuarioObtenido.getSurname(), is(equalTo(usuarioEsperado.getSurname())));
     assertThat(usuarioObtenido.getUsername(), is(equalTo(usuarioEsperado.getUsername())));
@@ -201,9 +210,10 @@ public class RepositorioUsuarioTest {
 
   private void entoncesSeLanzaUnaTransientObjectException(Usuario usuario) {
     assertThrows(
-        TransientObjectException.class,
-        () -> {
-          this.cuandoModificoUnUsuario(usuario);
-        });
+      TransientObjectException.class,
+      () -> {
+        this.cuandoModificoUnUsuario(usuario);
+      }
+    );
   }
 }

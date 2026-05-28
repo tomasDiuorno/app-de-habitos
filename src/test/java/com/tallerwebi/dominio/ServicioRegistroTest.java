@@ -54,7 +54,8 @@ public class ServicioRegistroTest {
     // preparacion
     DatosRegistro datos = new DatosRegistro();
     datos.setEmail("existe@test.com");
-    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(datos.getEmail())).thenReturn(new Usuario());
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(datos.getEmail()))
+      .thenReturn(new Usuario());
 
     // ejecucion y validacion
     assertThrows(UsuarioExistente.class, () -> this.servicioRegistro.registrar(datos));

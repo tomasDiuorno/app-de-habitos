@@ -26,20 +26,22 @@ public class ServicioRecuperacionContraseniaTest {
 
   @Test
   public void quieroRecuperarLaContraseniaExitosamente()
-      throws ContraseniasNoCoincidenException, EmailInexistenteException {
+    throws ContraseniasNoCoincidenException, EmailInexistenteException {
     String emailValido = "test@gmail.com";
     String contraseniaNueva1 = "4321";
     String contraseniaNueva2 = "4321";
 
     DatosRecuperacionContrasenia datos = new DatosRecuperacionContrasenia(
-        emailValido,
-        contraseniaNueva1,
-        contraseniaNueva2);
+      emailValido,
+      contraseniaNueva1,
+      contraseniaNueva2
+    );
 
     Usuario usuarioSimulado = new Usuario();
     usuarioSimulado.setEmail(emailValido);
 
-    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(emailValido)).thenReturn(usuarioSimulado);
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(emailValido))
+      .thenReturn(usuarioSimulado);
 
     this.servicioRecuperacion.recuperarContrasenia(datos);
 
@@ -52,15 +54,17 @@ public class ServicioRecuperacionContraseniaTest {
   public void SiElEmailNoExisteDebeLanzarException() {
     String emailInexistente = "noexiste@gmail.com";
     DatosRecuperacionContrasenia datos = new DatosRecuperacionContrasenia(
-        emailInexistente,
-        "4321",
-        "4321");
+      emailInexistente,
+      "4321",
+      "4321"
+    );
 
     when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(emailInexistente)).thenReturn(null);
 
     assertThrows(
-        EmailInexistenteException.class,
-        () -> this.servicioRecuperacion.recuperarContrasenia(datos));
+      EmailInexistenteException.class,
+      () -> this.servicioRecuperacion.recuperarContrasenia(datos)
+    );
     // assertThrows(RuntimeException.class, () -> {
     // this.servicioRecuperacion.recuperarContrasenia(datos);
     // }
@@ -73,17 +77,19 @@ public class ServicioRecuperacionContraseniaTest {
 
     // Las contraseñas son distintas
     DatosRecuperacionContrasenia datos = new DatosRecuperacionContrasenia(
-        emailValido,
-        "1234",
-        "9999");
+      emailValido,
+      "1234",
+      "9999"
+    );
 
     Usuario usuario = new Usuario();
     usuario.setEmail(emailValido);
     when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(emailValido)).thenReturn(usuario);
 
     assertThrows(
-        ContraseniasNoCoincidenException.class,
-        () -> this.servicioRecuperacion.recuperarContrasenia(datos));
+      ContraseniasNoCoincidenException.class,
+      () -> this.servicioRecuperacion.recuperarContrasenia(datos)
+    );
     // assertThrows(RuntimeException.class,
     // () -> {
     // this.servicioRecuperacion.recuperarContrasenia(datos);
@@ -94,9 +100,10 @@ public class ServicioRecuperacionContraseniaTest {
   @Test
   public void deberiaModificarLosDatosDeRecuperacionConSetters() {
     DatosRecuperacionContrasenia datos = new DatosRecuperacionContrasenia(
-        "viejo@mail.com",
-        "vieja1",
-        "vieja2");
+      "viejo@mail.com",
+      "vieja1",
+      "vieja2"
+    );
 
     datos.setEmail("nuevo@mail.com");
     datos.setContrasenia1("Password1!");

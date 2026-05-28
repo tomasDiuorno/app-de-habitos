@@ -6,13 +6,12 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Mockito.times;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.tallerwebi.dominio.Categoria;
 import com.tallerwebi.dominio.Habito;
 import com.tallerwebi.dominio.RepositorioHabito;
 import com.tallerwebi.infraestructura.config.HibernateInfraestructuraTestConfig;
+import java.util.Arrays;
+import java.util.List;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import org.hibernate.SessionFactory;
@@ -131,7 +130,11 @@ public class RepositorioHabitoTest {
     assertThat(habitosIniciales.get(2).getTitulo(), is(equalTo("Hacer ejercicio")));
   }
 
-  private void entoncesLosHabitosObtenidosSonCorrectos(List<Habito> obtenidos, Habito habito1, Habito habito2) {
+  private void entoncesLosHabitosObtenidosSonCorrectos(
+    List<Habito> obtenidos,
+    Habito habito1,
+    Habito habito2
+  ) {
     assertThat(obtenidos.size(), is(equalTo(2)));
     assertThat(obtenidos.contains(habito1), is(true));
     assertThat(obtenidos.contains(habito2), is(true));
