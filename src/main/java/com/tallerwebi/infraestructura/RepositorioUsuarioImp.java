@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("repositorioUsuario")
-public class RepositorioUsuarioImpl implements RepositorioUsuario {
+public class RepositorioUsuarioImp implements RepositorioUsuario {
 
   private SessionFactory sessionFactory;
 
   @Autowired
-  public RepositorioUsuarioImpl(SessionFactory sessionFactory) {
+  public RepositorioUsuarioImp(SessionFactory sessionFactory) {
     this.sessionFactory = sessionFactory;
   }
 
@@ -34,28 +34,18 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
   }
 
   @Override
-  public Usuario buscarPorEmail(String email) {
-    return (Usuario) sessionFactory
-      .getCurrentSession()
-      .createCriteria(Usuario.class)
-      .add(Restrictions.eq("email", email))
-      .uniqueResult();
-  }
-
-  @Override
   public void modificar(Usuario usuario) {
     sessionFactory.getCurrentSession().update(usuario);
   }
 
   @Override
-  public Usuario buscarPorEmailOrUsername(String emailorusername, String password) { //query personalizada pa
+  public Usuario buscarPorEmailOrUsername(String emailorusername) { //query personalizada pa
     String sql =
-      "from Usuario u where lower(u.email) = lower(:emailorusername) or lower(u.username) = lower(:emailorusername) and u.password = :password";
+      "from Usuario u where lower(u.email) = lower(:emailorusername) or lower(u.username) = lower(:emailorusername)";
     return sessionFactory
       .getCurrentSession()
       .createQuery(sql, Usuario.class)
       .setParameter("emailorusername", emailorusername)
-      .setParameter("password", password)
       .uniqueResult();
   }
 }

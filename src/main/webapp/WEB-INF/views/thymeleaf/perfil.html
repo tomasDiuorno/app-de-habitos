@@ -5,127 +5,136 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Taller Web I</title>
+  <title>Habitapp - Mi Perfil</title>
 
-  <!-- Boostrap core css -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- custom style -->
-  <link rel="stylesheet" th:href="@{/css/main.css}" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
+  <link rel="stylesheet" th:href="@{/css/perfil.css}" />
 </head>
 
-<body>
+<body class="perfil-body">
 
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">UNLAM</a>
-  </nav>
+  <nav class="perfil-navbar">
+    <div class="perfil-navbar-container">
 
-  <main role="main" class="container">
-    <div class="starter-template">
+      <a th:href="@{/home}" class="perfil-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="perfil-logo">
+      </a>
 
-        <h1>Mi Perfil</h1>
-
-        <hr>
-
-        <div class="card p-4 shadow-sm">
-
-            <div class="row">
-
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">
-                        <strong>Nombre</strong>
-                    </label>
-
-                    <div class="form-control">
-                        <span th:text="${usuario.name}">
-                        </span>
-                    </div>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">
-                        <strong>Apellido</strong>
-                    </label>
-
-                    <div class="form-control">
-                        <span th:text="${usuario.surname}">
-                        </span>
-                    </div>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">
-                        <strong>Usuario</strong>
-                    </label>
-
-                    <div class="form-control">
-                        <span th:text="${usuario.username}">
-                        </span>
-                    </div>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">
-                        <strong>Email</strong>
-                    </label>
-
-                    <div class="form-control">
-                        <span th:text="${usuario.email}">
-                        </span>
-                    </div>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">
-                        <strong>Género</strong>
-                    </label>
-
-                    <div class="form-control">
-                        <span th:text="${usuario.gender}">
-                        </span>
-                    </div>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">
-                        <strong>Estado</strong>
-                    </label>
-
-                    <div class="form-control">
-                        <span th:text="${usuario.activo} ? 'Activo' : 'Inactivo'">
-                        </span>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="mt-4">
-
-                <a href="home.html"
-                   class="btn btn-secondary">
-                    Volver
-                </a>
-
-                <a href="editar-perfil.html"
-                   class="btn btn-primary">
-                    Editar Perfil
-                </a>
-
-            </div>
-
-        </div>
+      <div class="perfil-nav-links">
+        <a th:href="@{/home}" class="perfil-nav-link">Inicio</a>
+        <a th:href="@{/habitos}" class="perfil-nav-link">Hábitos</a>
+        <a th:href="@{/perfil}" class="perfil-nav-link active">Perfil</a>
+        <a th:href="@{/login}" class="perfil-logout-button">Cerrar sesión</a>
+      </div>
 
     </div>
+  </nav>
+
+  <main class="perfil-main">
+
+    <section class="perfil-hero">
+      <p class="section-kicker">Cuenta de usuario</p>
+      <h1>Mi Perfil</h1>
+      <p>
+        Acá podés consultar la información principal de tu cuenta dentro de Habitapp.
+      </p>
+    </section>
+
+    <section class="perfil-card">
+
+      <div class="perfil-card-header">
+        <div>
+          <p class="section-kicker">Datos personales</p>
+          <h2>Información del usuario</h2>
+        </div>
+
+        <div class="perfil-status">
+          <span th:text="${usuario.activo} ? 'Activo' : 'Inactivo'"></span>
+        </div>
+      </div>
+
+      <div class="perfil-grid">
+
+        <div class="perfil-field">
+          <label>Nombre</label>
+          <div class="perfil-value">
+            <span th:text="${usuario.name}"></span>
+          </div>
+        </div>
+
+        <div class="perfil-field">
+          <label>Apellido</label>
+          <div class="perfil-value">
+            <span th:text="${usuario.surname}"></span>
+          </div>
+        </div>
+
+        <div class="perfil-field">
+          <label>Usuario</label>
+          <div class="perfil-value">
+            <span th:text="${usuario.username}"></span>
+          </div>
+        </div>
+
+        <div class="perfil-field">
+          <label>Email</label>
+          <div class="perfil-value">
+            <span th:text="${usuario.email}"></span>
+          </div>
+        </div>
+
+        <div class="perfil-field">
+          <label>Género</label>
+          <div class="perfil-value">
+            <span th:text="${usuario.gender}"></span>
+          </div>
+        </div>
+
+        <div class="perfil-field">
+          <label>Estado</label>
+          <div class="perfil-value">
+            <span th:text="${usuario.activo} ? 'Activo' : 'Inactivo'"></span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="perfil-actions">
+        <a th:href="@{/home}" class="perfil-button secondary">
+          Volver
+        </a>
+
+
+      </div>
+
+    </section>
 
   </main>
-  <!-- /.container -->
 
-  <!-- Boostrap core js -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-    crossorigin="anonymous"></script>
+  <footer class="perfil-footer">
+    <div class="perfil-footer-container">
+
+      <div class="footer-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="footer-logo">
+      </div>
+
+      <div class="footer-info">
+        <p>Proyecto desarrollado para Taller Web I.</p>
+        <p>Tomas Diuorno - Julieta Miño - Ramiro Bruzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
+      </div>
+
+      <div class="footer-copy">
+        <p>&copy; 2026 Habitapp. Todos los derechos reservados.</p>
+      </div>
+
+    </div>
+  </footer>
 
 </body>
 

@@ -26,7 +26,7 @@
 
   <main class="auth-container">
     <div class="auth-card">
-      <form th:action="@{/registrarme}" method="POST" th:object="${usuario}">
+      <form th:action="@{/registrarme}" method="POST" th:object="${datosRegistro}">
         <h1 class="auth-title">Crear Cuenta</h1>
 
         <p class="auth-subtitle">Registrate para comenzar</p>
@@ -38,6 +38,7 @@
               Nombre
             </label>
             <input th:field="*{name}" id="name" class="input-custom" placeholder="Ingresa tu nombre" required />
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
           </div>
 
           <div class="form-group">
@@ -45,6 +46,7 @@
               Apellido
             </label>
             <input th:field="*{surname}" id="surname" class="input-custom" placeholder="Ingresa tu apellido" required />
+            <p th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></p>
           </div>
         </div>
 
@@ -53,6 +55,7 @@
             Nombre de Usuario
           </label>
           <input th:field="*{username}" id="username" class="input-custom" placeholder="Elige un username" required />
+          <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
         </div>
 
         <div class="form-group">
@@ -81,26 +84,42 @@
           </label>
           <input th:field="*{email}" id="email" type="email" class="input-custom" placeholder="Ingresa tu email"
             required />
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
         </div>
 
         <div class="form-grid">
           <div class="form-group">
             <label for="password" class="form-label">
-              Contraseña
+              Contrasenia
             </label>
-            <input th:field="*{password}" type="password" id="password" class="input-custom" placeholder="********"
+            <input th:field="*{password}" type="password" id="password" class="input-custom" placeholder="***"
               required />
+            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>  
           </div>
 
           <div class="form-group">
             <label for="confirmPass" class="form-label">
               Confirmar
             </label>
-            <input th:field="*{confirmPass}" type="password" id="confirmPass" class="input-custom"
-              placeholder="********" required />
+            <input th:field="*{confirmPassword}" type="password" id="confirmPass" class="input-custom"
+              placeholder="****" required />
+            <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
           </div>
         </div>
 
+        <div class="habits-grid">
+          <label class="habit-card" th:each="habito : ${habitos}">
+            <input type="checkbox" th:field="*{habitosSeleccionados}" th:value="${habito.id}" class="habit-checkbox" />
+            <div class="habit-card-content">
+              <div class="habit-info">
+                <h3 class="habit-name" th:text="${habito.titulo}">
+                </h3>
+                <span class="habit-category" th:text="${habito.categoria.nombre}">
+                </span>
+              </div>
+            </div>
+          </label>
+        </div>
         <button id="btn-registrarme" class="btn-neon" type="submit">
           Registrarme
         </button>

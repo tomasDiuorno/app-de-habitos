@@ -3,16 +3,23 @@ package com.tallerwebi.presentacion;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+import com.tallerwebi.dominio.Habito;
+import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.ServicioLogin;
+import com.tallerwebi.dominio.ServicioRecuperacionContrasenia;
 import com.tallerwebi.dominio.ServicioRegistro;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 public class ControladorLoginTest {
@@ -25,18 +32,32 @@ public class ControladorLoginTest {
   private HttpSession sessionMock;
   private ServicioLogin servicioLoginMock;
   private ServicioRegistro servicioRegistroMock;
+  private ServicioRecuperacionContrasenia servicioRecuperacionContraseniaMock;
+  private DatosRegistro datosRegistroMock;
+  private ServicioHabito servicioHabitosMock;
+  private BindingResult bindingResultMock;
 
   @BeforeEach
   public void init() {
     datosLoginMock = new DatosLogin("juli@unlam.com", "123");
+    datosRegistroMock = mock(DatosRegistro.class);
     usuarioMock = mock(Usuario.class);
     when(usuarioMock.getEmail()).thenReturn("juli@unlam.com");
     requestMock = mock(HttpServletRequest.class);
     sessionMock = mock(HttpSession.class);
     servicioLoginMock = mock(ServicioLogin.class);
     servicioRegistroMock = mock(ServicioRegistro.class);
-    controladorLogin = new ControladorLogin(servicioLoginMock);
-    controladorRegistro = new ControladorRegistro(servicioRegistroMock);
+    servicioHabitosMock = mock(ServicioHabito.class);
+    servicioRecuperacionContraseniaMock = mock(ServicioRecuperacionContrasenia.class);
+    bindingResultMock = mock(BindingResult.class);
+    when(bindingResultMock.hasErrors()).thenReturn(false);
+    controladorLogin =
+      new ControladorLogin(
+        servicioLoginMock,
+        servicioRecuperacionContraseniaMock,
+        servicioHabitosMock
+      );
+    controladorRegistro = new ControladorRegistro(servicioRegistroMock, servicioHabitosMock);
   }
 
   @Test
@@ -78,21 +99,28 @@ public class ControladorLoginTest {
   public void registrameSiUsuarioNoExisteDeberiaCrearUsuarioYVolverAlLogin()
     throws UsuarioExistente {
     // ejecucion
-    ModelAndView modelAndView = controladorRegistro.registrarme(usuarioMock);
+    ModelAndView modelAndView = controladorRegistro.registrarme(
+      datosRegistroMock,
+      bindingResultMock
+    );
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
-    verify(servicioRegistroMock, times(1)).registrar(usuarioMock);
+    verify(servicioRegistroMock, times(1)).registrar(datosRegistroMock);
   }
 
   @Test
   public void registrarmeSiUsuarioExisteDeberiaVolverAFormularioYMostrarError()
     throws UsuarioExistente {
     // preparacion
-    doThrow(UsuarioExistente.class).when(servicioRegistroMock).registrar(usuarioMock);
+    doThrow(UsuarioExistente.class).when(servicioRegistroMock).registrar(datosRegistroMock);
+    when(servicioHabitosMock.obtenerHabitosIniciales()).thenReturn(new ArrayList<>());
 
     // ejecucion
-    ModelAndView modelAndView = controladorRegistro.registrarme(usuarioMock);
+    ModelAndView modelAndView = controladorRegistro.registrarme(
+      datosRegistroMock,
+      bindingResultMock
+    );
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("nuevo-usuario"));
@@ -100,15 +128,19 @@ public class ControladorLoginTest {
       modelAndView.getModel().get("error").toString(),
       equalToIgnoringCase("El usuario ya existe")
     );
+    assertThat(modelAndView.getModel().get("habitos"), instanceOf(List.class));
   }
 
   @Test
   public void errorEnRegistrarmeDeberiaVolverAFormularioYMostrarError() throws UsuarioExistente {
     // preparacion
-    doThrow(RuntimeException.class).when(servicioRegistroMock).registrar(usuarioMock);
+    doThrow(RuntimeException.class).when(servicioRegistroMock).registrar(datosRegistroMock);
 
     // ejecucion
-    ModelAndView modelAndView = controladorRegistro.registrarme(usuarioMock);
+    ModelAndView modelAndView = controladorRegistro.registrarme(
+      datosRegistroMock,
+      bindingResultMock
+    );
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("nuevo-usuario"));
@@ -130,12 +162,16 @@ public class ControladorLoginTest {
 
   @Test
   public void nuevoUsuarioDeberiaRetornarVistaNuevoUsuarioConUsuarioVacio() {
+    List<Habito> habitos = new ArrayList<>();
+    when(servicioHabitosMock.obtenerHabitosIniciales()).thenReturn(habitos);
+
     // ejecucion
     ModelAndView modelAndView = controladorLogin.nuevoUsuario();
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("nuevo-usuario"));
-    assertThat(modelAndView.getModel().get("usuario"), instanceOf(Usuario.class));
+    assertThat(modelAndView.getModel().get("datosRegistro"), instanceOf(DatosRegistro.class));
+    assertThat(modelAndView.getModel().get("habitos"), instanceOf(List.class));
   }
 
   @Test

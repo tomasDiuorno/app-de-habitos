@@ -1,6 +1,8 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.ServicioLogin;
+import com.tallerwebi.dominio.ServicioRecuperacionContrasenia;
 import com.tallerwebi.dominio.Usuario;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,18 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControladorLogin {
 
   private ServicioLogin servicioLogin;
+  private ServicioRecuperacionContrasenia servicioRecuperacionContrasenia;
+  private ServicioHabito servicioHabitos;
 
   @Autowired
-  public ControladorLogin(ServicioLogin servicioLogin) {
+  public ControladorLogin(
+    ServicioLogin servicioLogin,
+    ServicioRecuperacionContrasenia servicioRecuperacionContrasenia,
+    ServicioHabito servicioHabitos
+  ) {
     this.servicioLogin = servicioLogin;
+    this.servicioRecuperacionContrasenia = servicioRecuperacionContrasenia;
+    this.servicioHabitos = servicioHabitos;
   }
 
   @RequestMapping("/login")
@@ -56,7 +66,8 @@ public class ControladorLogin {
   @RequestMapping(path = "/nuevo-usuario", method = RequestMethod.GET)
   public ModelAndView nuevoUsuario() {
     ModelMap model = new ModelMap();
-    model.put("usuario", new Usuario());
+    model.put("datosRegistro", new DatosRegistro());
+    model.put("habitos", servicioHabitos.obtenerHabitosIniciales());
     return new ModelAndView("nuevo-usuario", model);
   }
 
@@ -68,5 +79,33 @@ public class ControladorLogin {
   @RequestMapping(path = "/", method = RequestMethod.GET)
   public ModelAndView inicio() {
     return new ModelAndView("redirect:/login");
+  }
+
+  @RequestMapping(path = "/recuperacion-contrasenia", method = RequestMethod.POST)
+  public ModelAndView recuperacionDeContrasenia(
+    @ModelAttribute("datosRecuperacion") DatosRecuperacionContrasenia datosRecuperacionContrasenia
+  ) {
+    ModelMap model = new ModelMap();
+    try {
+      servicioRecuperacionContrasenia.recuperarContrasenia(datosRecuperacionContrasenia);
+
+      model.put("mensaje", "Contraseña cambiada con exito");
+      return new ModelAndView("redirect:/login", model);
+    } catch (Exception e) {
+      model.put("error", e.getMessage());
+
+      model.put("datosRecuperacion", datosRecuperacionContrasenia);
+    }
+
+    return new ModelAndView("recuperacion-contrasenia", model);
+  }
+
+  @RequestMapping(path = "/recuperacion-contrasenia", method = RequestMethod.GET)
+  public ModelAndView irARecuperacionContrasenia() {
+    ModelMap modelo = new ModelMap();
+
+    modelo.put("datosRecuperacion", new DatosRecuperacionContrasenia(null, null, null));
+
+    return new ModelAndView("recuperacion-contrasenia", modelo);
   }
 }
