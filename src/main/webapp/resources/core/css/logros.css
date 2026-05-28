@@ -1,0 +1,173 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-main: #060913;
+  --bg-card: #0d1326;
+  --neon-blue: #00dfff;
+  --neon-purple: #9d4edd;
+  --text-main: #e2e8f0;
+  --text-muted: #707e94;
+  --border-color: #1e294b;
+}
+
+.logros-body {
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Rajdhani', sans-serif;
+  background-image:
+    radial-gradient(at 10% 20%, rgba(157, 78, 221, 0.15) 0px, transparent 50%),
+    radial-gradient(at 90% 80%, rgba(0, 223, 255, 0.1) 0px, transparent 50%);
+}
+
+/* NAVBAR */
+
+.logros-navbar {
+  width: 100%;
+  height: 72px;
+  background: rgba(6, 9, 19, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 223, 255, 0.2);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.logros-navbar-container {
+  width: 100%;
+  height: 100%;
+  padding: 0 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logros-logo {
+  height: 48px;
+}
+
+.logros-nav-links {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.logros-nav-link,
+.logros-logout-button {
+  font-family: 'Orbitron', sans-serif;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.logros-nav-link {
+  color: var(--text-muted);
+}
+
+.logros-nav-link:hover,
+.logros-nav-link.active {
+  color: var(--neon-blue);
+}
+
+.logros-logout-button {
+  border: 1px solid var(--neon-purple);
+  padding: 10px 16px;
+  border-radius: 4px;
+  color: white;
+}
+
+/* MAIN */
+
+.logros-main {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 120px 24px 60px;
+}
+
+/* HERO */
+
+.logros-hero-content {
+  background-color: rgba(13, 19, 38, 0.82);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  padding: 48px;
+  margin-bottom: 60px;
+}
+
+.logros-kicker {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-blue);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.logros-hero-content h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+/* GRID */
+
+.logros-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+/* CARD */
+
+.logro-card {
+  background-color: rgba(13, 19, 38, 0.92);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  padding: 28px;
+  transition: all 0.3s ease;
+}
+
+.logro-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon-blue);
+}
+
+.logro-icon {
+  font-size: 3rem;
+  margin-bottom: 18px;
+}
+
+.logro-content h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-blue);
+  margin-bottom: 12px;
+}
+
+.logro-content p {
+  color: var(--text-main);
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.estado {
+  font-weight: 700;
+}
+
+.desbloqueado {
+  box-shadow: 0 0 18px rgba(0, 223, 255, 0.2);
+}
+
+.bloqueado {
+  opacity: 0.6;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .logros-grid {
+    grid-template-columns: 1fr;
+  }
+}
