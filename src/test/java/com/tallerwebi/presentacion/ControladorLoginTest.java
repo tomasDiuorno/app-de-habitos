@@ -57,10 +57,12 @@ public class ControladorLoginTest {
   }
 
   @Test
-  public void loginConUsuarioYPasswordCorrectosDeberiaLLevarAHome() {
+  public void loginConUsuarioYPasswordCorrectosDeberiaLLevarAHomeYGuardarDatosEnSesion() {
     // preparacion
     Usuario usuarioEncontradoMock = mock(Usuario.class);
     when(usuarioEncontradoMock.getRol()).thenReturn("ADMIN");
+    when(usuarioEncontradoMock.getId()).thenReturn(1L);
+    when(usuarioEncontradoMock.getEmail()).thenReturn("dami@unlam.com");
 
     when(requestMock.getSession()).thenReturn(sessionMock);
     when(servicioLoginMock.consultarUsuario(anyString(), anyString()))
@@ -72,6 +74,8 @@ public class ControladorLoginTest {
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/home"));
     verify(sessionMock, times(1)).setAttribute("ROL", usuarioEncontradoMock.getRol());
+    verify(sessionMock, times(1)).setAttribute("ID_USUARIO", usuarioEncontradoMock.getId());
+    verify(sessionMock, times(1)).setAttribute("EMAIL_USUARIO", usuarioEncontradoMock.getEmail());
   }
 
   @Test
@@ -139,20 +143,31 @@ public class ControladorLoginTest {
   }
 
   @Test
-  public void irAHomeDeberiaRetornarVistaHome() {
-    // ejecucion
-    ModelAndView modelAndView = controladorLogin.irAHome();
-
-    // validacion
-    assertThat(modelAndView.getViewName(), equalToIgnoringCase("home"));
-  }
-
-  @Test
   public void inicioDeberiaRedirigirALogin() {
     // ejecucion
     ModelAndView modelAndView = controladorLogin.inicio();
 
     // validacion
+    assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
+  }
+
+  @Test
+  public void siHaySesionActivaDeberiaPermitirIrAHome() {
+    when(requestMock.getSession()).thenReturn(sessionMock);
+    when(sessionMock.getAttribute("ID_USUARIO")).thenReturn(1L); // Simulam sesión activa
+
+    ModelAndView modelAndView = controladorLogin.irAHome(requestMock);
+
+    assertThat(modelAndView.getViewName(), equalToIgnoringCase("home"));
+  }
+
+  @Test
+  public void siNoHaySesionActivaAlIrAHomeDeberiaRedirigirALogin() {
+    when(requestMock.getSession()).thenReturn(sessionMock);
+    when(sessionMock.getAttribute("ID_USUARIO")).thenReturn(null); // Simula falta de sesión
+
+    ModelAndView modelAndView = controladorLogin.irAHome(requestMock);
+
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
   }
 }
