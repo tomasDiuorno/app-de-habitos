@@ -2,6 +2,7 @@ package com.tallerwebi.dominio;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -10,25 +11,36 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
+import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 public class ServicioHabitoTest {
 
   private ServicioHabito servicioHabitos;
   private RepositorioHabito repositorioHabitoMock;
+  private RepositorioUsuarioHabito repositorioUsuarioHabitoMock;
+  private RepositorioCategoria repositorioCategoriaMock;
 
   @BeforeEach
   public void init() {
     this.repositorioHabitoMock = mock(RepositorioHabito.class);
-    this.servicioHabitos = new ServicioHabitoImp(this.repositorioHabitoMock);
+    this.repositorioUsuarioHabitoMock = mock(RepositorioUsuarioHabito.class);
+    this.repositorioCategoriaMock = mock(RepositorioCategoria.class);
+
+    this.servicioHabitos =
+      new ServicioHabitoImp(
+        this.repositorioHabitoMock,
+        this.repositorioUsuarioHabitoMock,
+        this.repositorioCategoriaMock
+      );
   }
 
   @Test
   public void obtenerHabitosInicialesDeberiaRetornarUnaListaDeHabitos() {
-    // preparacion
     List<Habito> habitosMock = new ArrayList<>();
     Habito habito1 = new Habito();
     habito1.setTitulo("Meditar");
@@ -43,10 +55,8 @@ public class ServicioHabitoTest {
 
     when(this.repositorioHabitoMock.obtenerHabitosIniciales()).thenReturn(habitosMock);
 
-    // ejecucion
     List<Habito> habitosObtenidos = this.servicioHabitos.obtenerHabitosIniciales();
 
-    // validacion
     assertThat(habitosObtenidos.size(), equalTo(3));
     assertThat(habitosObtenidos.get(0).getTitulo(), equalTo("Meditar"));
     assertThat(habitosObtenidos.get(1).getTitulo(), equalTo("Leer un libro"));
@@ -55,7 +65,6 @@ public class ServicioHabitoTest {
 
   @Test
   public void alCrearUnHabitoDeberiaGuardarloExisosamente() throws HabitoExistenteExeption {
-    // preparacion
     Habito habitoEsperado = new Habito();
     Categoria cat = new Categoria();
     cat.setNombre("Deportes");
@@ -64,16 +73,13 @@ public class ServicioHabitoTest {
 
     when(this.repositorioHabitoMock.buscarPorTitulo(habitoEsperado.getTitulo())).thenReturn(null);
 
-    // ejecucion
     this.servicioHabitos.agregarHabito(habitoEsperado);
 
-    // validacion
     verify(this.repositorioHabitoMock, times(1)).guardar(habitoEsperado);
   }
 
   @Test
   public void alBuscarUnHabitoExistenteDeberiaRetornarlo() {
-    // preparacion
     String titulo = "Correr";
     String categoria = "Deporte";
     Habito habitoEsperado = new Habito();
@@ -85,11 +91,67 @@ public class ServicioHabitoTest {
     when(this.repositorioHabitoMock.buscarPorTitulo(habitoEsperado.getTitulo()))
       .thenReturn(new Habito());
 
-    // validacion
     assertThrows(
       HabitoExistenteExeption.class,
       () -> this.servicioHabitos.agregarHabito(habitoEsperado)
     );
+
     verify(this.repositorioHabitoMock, times(0)).guardar(any(Habito.class));
+  }
+
+  @Test
+  public void alCrearUnHabitoParaUnUsuarioDeberiaGuardarloYAsignarloAlUsuario()
+    throws HabitoExistenteExeption, LimiteHabitosAlcanzadoException {
+    Usuario usuario = new Usuario();
+    usuario.setId(1);
+
+    Habito habito = new Habito();
+    Categoria categoria = new Categoria();
+    categoria.setNombre("Bienestar");
+    habito.setTitulo("Dormir temprano");
+    habito.setCategoria(categoria);
+
+    when(this.repositorioHabitoMock.buscarPorTitulo(habito.getTitulo())).thenReturn(null);
+
+    this.servicioHabitos.agregarHabitoParaUsuario(habito, usuario);
+
+    verify(this.repositorioCategoriaMock, times(1)).guardar(categoria);
+    verify(this.repositorioHabitoMock, times(1)).guardar(habito);
+
+    ArgumentCaptor<UsuarioHabito> captor = ArgumentCaptor.forClass(UsuarioHabito.class);
+    verify(this.repositorioUsuarioHabitoMock, times(1)).guardar(captor.capture());
+
+    UsuarioHabito usuarioHabitoGuardado = captor.getValue();
+
+    assertThat(usuarioHabitoGuardado.getUsuario(), is(usuario));
+    assertThat(usuarioHabitoGuardado.getHabito(), is(habito));
+    assertThat(usuarioHabitoGuardado.getActivo(), is(true));
+    assertThat(usuario.getUsuarioHabito().size(), equalTo(1));
+  }
+
+  @Test
+  public void alCrearUnHabitoParaUnUsuarioConCuatroHabitosDeberiaLanzarExcepcion()
+    throws HabitoExistenteExeption {
+    Usuario usuario = new Usuario();
+
+    List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
+    usuarioHabitos.add(new UsuarioHabito());
+    usuarioHabitos.add(new UsuarioHabito());
+    usuarioHabitos.add(new UsuarioHabito());
+    usuarioHabitos.add(new UsuarioHabito());
+
+    usuario.setUsuarioHabito(usuarioHabitos);
+
+    Habito habito = new Habito();
+    habito.setTitulo("Dormir temprano");
+
+    assertThrows(
+      LimiteHabitosAlcanzadoException.class,
+      () -> this.servicioHabitos.agregarHabitoParaUsuario(habito, usuario)
+    );
+
+    verify(this.repositorioCategoriaMock, times(0)).guardar(any(Categoria.class));
+    verify(this.repositorioHabitoMock, times(0)).guardar(any(Habito.class));
+    verify(this.repositorioUsuarioHabitoMock, times(0)).guardar(any(UsuarioHabito.class));
   }
 }
