@@ -164,8 +164,8 @@ public class ServicioHabitoTest {
     ItemChecklist itemCompletado = new ItemChecklist();
     ItemChecklist itemPendiente = new ItemChecklist();
 
-    itemCompletado.setItemCompletado(true);
-    itemPendiente.setItemCompletado(false);
+    itemCompletado.setEstadoChecklist(true);
+    itemPendiente.setEstadoChecklist(false);
     items.add(itemCompletado);
     items.add(itemPendiente);
     habito.setCantidadDeChecklist(items);

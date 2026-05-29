@@ -15,14 +15,14 @@ public class ItemChecklist {
   private Integer id;
 
   private String descripcion;
-  private Boolean itemCompletado;
+  private Boolean estadoChecklist;
 
   @ManyToOne
   @JoinColumn(name = "habito_id")
   private Habito habito;
 
   public ItemChecklist() {
-    this.itemCompletado = false;
+    this.estadoChecklist = false;
   }
 
   public Integer getId() {
@@ -49,11 +49,11 @@ public class ItemChecklist {
     this.habito = habito;
   }
 
-  public Boolean getItemCompletado() {
-    return itemCompletado;
+  public Boolean getEstadoChecklist() {
+    return estadoChecklist;
   }
 
-  public void setItemCompletado(Boolean itemCompletado) {
-    this.itemCompletado = itemCompletado;
+  public void setEstadoChecklist(Boolean itemCompletado) {
+    this.estadoChecklist = itemCompletado;
   }
 }

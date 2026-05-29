@@ -79,7 +79,7 @@ public class ServicioHabitoImp implements ServicioHabito {
     Long checklistCompletados = habito
       .getCantidadDeChecklist()
       .stream()
-      .filter(item -> Boolean.TRUE.equals(item.getItemCompletado()))
+      .filter(item -> Boolean.TRUE.equals(item.getEstadoChecklist()))
       .count();
     //guarda cuantos checklists estan completados y los cuenta.
 
