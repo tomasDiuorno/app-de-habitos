@@ -4,7 +4,6 @@ import com.tallerwebi.dominio.Categoria;
 import com.tallerwebi.dominio.RepositorioCategoria;
 import java.util.List;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -28,8 +27,8 @@ public class RepositorioCategoriaImp implements RepositorioCategoria {
   @Override
   public Categoria obtenerCategoriaPorId(Integer categoriaId) {
     return (Categoria) this.sessionFactory.getCurrentSession()
-      .createCriteria(Categoria.class)
-      .add(Restrictions.eq("id", categoriaId))
+      .createQuery("FROM Categoria WHERE id = :id")
+      .setParameter("id", categoriaId)
       .uniqueResult();
   }
 }

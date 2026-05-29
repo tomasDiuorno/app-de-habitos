@@ -37,33 +37,15 @@ public class RepositorioCategoriaTest {
   public void deberiaGuardarUnaNuevaCategoria() {
     Categoria cat = new Categoria();
     String nombre = "Bienestar";
-    cat.setId(1);
     cat.setNombre(nombre);
 
     this.dadoQueExisteUnCategoria(cat);
-    Categoria categoria = dadoQueTengoUnaCategoria(1);
+    Categoria categoria = dadoQueTengoUnaCategoria(cat.getId());
 
     Categoria obtenida = obtengoUnaCategoria(nombre);
     this.entoncesLaCategoriaObtenidaEsCorrecta(obtenida, categoria);
   }
 
-  
-  @Test
-  @Transactional
-  @Rollback
-  public void deberiaObtenerUnaCategoriaYAsignarseaAUnHabito() {
-    Categoria cat = new Categoria();
-    String nombre = "Bienestar";
-    cat.setId(1);
-    cat.setNombre(nombre);
-    this.dadoQueExisteUnCategoria(cat);
-
-    Categoria categoria = dadoQueTengoUnaCategoria(1);
-    
-    Categoria obtenida = obtengoUnaCategoria(nombre);
-    this.entoncesLaCategoriaObtenidaEsCorrecta(obtenida, categoria);
-  }
-  
   private void dadoQueExisteUnCategoria(Categoria cat) {
     this.sessionFactory.getCurrentSession().save(cat);
   }
@@ -71,17 +53,16 @@ public class RepositorioCategoriaTest {
   private void entoncesLaCategoriaObtenidaEsCorrecta(Categoria obtenida, Categoria categoria) {
     assertThat(obtenida.getNombre(), is(equalTo(categoria.getNombre())));
   }
-  
+
   private Categoria obtengoUnaCategoria(String nombre) {
     return (Categoria) this.sessionFactory.getCurrentSession()
-    .createQuery("FROM Categoria WHERE nombre = :nombre")
-    .setParameter("nombre", nombre)
-    .getSingleResult();
+      .createQuery("FROM Categoria WHERE nombre = :nombre")
+      .setParameter("nombre", nombre)
+      .getSingleResult();
   }
-  
+
   private Categoria dadoQueTengoUnaCategoria(Integer id) {
     Categoria cat = repositorioCategoria.obtenerCategoriaPorId(id);
     return cat;
   }
-  
 }

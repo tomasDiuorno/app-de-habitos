@@ -18,7 +18,6 @@ import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
 import com.tallerwebi.presentacion.DatosRegistroHabito;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,7 +54,8 @@ public class ControladorHabitosTest {
 
   @Test
   public void deberiaRetornarLaPaginaHabitosCuandoNavegoAHabitos() throws Exception {
-    MvcResult result = this.mockMvc.perform(get("/habitos").sessionAttr("usuario", usuarioMock))
+    MvcResult result =
+      this.mockMvc.perform(get("/habitos").sessionAttr("usuario", usuarioMock))
         .andExpect(status().isOk())
         .andReturn();
 
@@ -66,7 +66,8 @@ public class ControladorHabitosTest {
 
   @Test
   public void deberiaRetornarLaPaginaCrearHabitoCuandoQuieroCrearUnHaibto() throws Exception {
-    MvcResult result = this.mockMvc.perform(get("/crear-habito").sessionAttr("usuario", usuarioMock))
+    MvcResult result =
+      this.mockMvc.perform(get("/crear-habito").sessionAttr("usuario", usuarioMock))
         .andExpect(status().isOk())
         .andReturn();
 
