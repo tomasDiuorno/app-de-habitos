@@ -2,14 +2,23 @@ package com.tallerwebi.integracion;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.tallerwebi.dominio.Habito;
+import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
+import com.tallerwebi.presentacion.DatosRegistroHabito;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,6 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControladorHabitosTest {
 
   private Usuario usuarioMock;
+  private ServicioHabito servicioHabitoMock;
 
   @Autowired
   private WebApplicationContext wac;
@@ -38,16 +48,30 @@ public class ControladorHabitosTest {
   @BeforeEach
   public void init() {
     usuarioMock = mock(Usuario.class);
+    servicioHabitoMock = mock(ServicioHabito.class);
     when(usuarioMock.getEmail()).thenReturn("test@mail.com");
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 
   @Test
   public void deberiaRetornarLaPaginaHabitosCuandoNavegoAHabitos() throws Exception {
-    MvcResult result = this.mockMvc.perform(get("/habitos")).andExpect(status().isOk()).andReturn();
+    MvcResult result = this.mockMvc.perform(get("/habitos").sessionAttr("usuario", usuarioMock))
+        .andExpect(status().isOk())
+        .andReturn();
 
     ModelAndView modelAndView = result.getModelAndView();
     assert modelAndView != null;
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("habitos"));
+  }
+
+  @Test
+  public void deberiaRetornarLaPaginaCrearHabitoCuandoQuieroCrearUnHaibto() throws Exception {
+    MvcResult result = this.mockMvc.perform(get("/crear-habito").sessionAttr("usuario", usuarioMock))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    ModelAndView modelAndView = result.getModelAndView();
+    assert modelAndView != null;
+    assertThat(modelAndView.getViewName(), equalToIgnoringCase("crear-habito"));
   }
 }

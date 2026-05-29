@@ -35,32 +35,53 @@ public class RepositorioCategoriaTest {
   @Transactional
   @Rollback
   public void deberiaGuardarUnaNuevaCategoria() {
-    String nombre = "Deporte";
-    Categoria categoria = dadoQueTengoUnaCategoria(nombre);
-    this.dadoQueExisteLaCategoria(categoria);
+    Categoria cat = new Categoria();
+    String nombre = "Bienestar";
+    cat.setId(1);
+    cat.setNombre(nombre);
+
+    this.dadoQueExisteUnCategoria(cat);
+    Categoria categoria = dadoQueTengoUnaCategoria(1);
 
     Categoria obtenida = obtengoUnaCategoria(nombre);
     this.entoncesLaCategoriaObtenidaEsCorrecta(obtenida, categoria);
   }
 
+  
+  @Test
+  @Transactional
+  @Rollback
+  public void deberiaObtenerUnaCategoriaYAsignarseaAUnHabito() {
+    Categoria cat = new Categoria();
+    String nombre = "Bienestar";
+    cat.setId(1);
+    cat.setNombre(nombre);
+    this.dadoQueExisteUnCategoria(cat);
+
+    Categoria categoria = dadoQueTengoUnaCategoria(1);
+    
+    Categoria obtenida = obtengoUnaCategoria(nombre);
+    this.entoncesLaCategoriaObtenidaEsCorrecta(obtenida, categoria);
+  }
+  
+  private void dadoQueExisteUnCategoria(Categoria cat) {
+    this.sessionFactory.getCurrentSession().save(cat);
+  }
+
   private void entoncesLaCategoriaObtenidaEsCorrecta(Categoria obtenida, Categoria categoria) {
     assertThat(obtenida.getNombre(), is(equalTo(categoria.getNombre())));
   }
-
+  
   private Categoria obtengoUnaCategoria(String nombre) {
     return (Categoria) this.sessionFactory.getCurrentSession()
-      .createQuery("FROM Categoria WHERE nombre = :nombre")
-      .setParameter("nombre", nombre)
-      .getSingleResult();
+    .createQuery("FROM Categoria WHERE nombre = :nombre")
+    .setParameter("nombre", nombre)
+    .getSingleResult();
   }
-
-  private void dadoQueExisteLaCategoria(Categoria categoria) {
-    this.repositorioCategoria.guardar(categoria);
-  }
-
-  private Categoria dadoQueTengoUnaCategoria(String titulo) {
-    Categoria cat = new Categoria();
-    cat.setNombre(titulo);
+  
+  private Categoria dadoQueTengoUnaCategoria(Integer id) {
+    Categoria cat = repositorioCategoria.obtenerCategoriaPorId(id);
     return cat;
   }
+  
 }
