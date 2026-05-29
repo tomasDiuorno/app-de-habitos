@@ -60,7 +60,8 @@
             <section class="rewards-toolbar">
                 <div>
                     <h2>Trofeos disponibles</h2>
-                    <p> <span th:text="${#lists.size(recompensas)}"></span> recompensas distribuidas hasta el nivel máximo 100.</p>
+                    <p> <span th:text="${#lists.size(recompensas)}"></span> recompensas distribuidas hasta el nivel
+                        máximo 100.</p>
                 </div>
 
                 <span class="collection-badge">
@@ -72,12 +73,11 @@
             <section class="rewards-grid">
                 <article th:each="recompensa, status : ${recompensas}" th:with="
             nivelRequerido=${recompensa.nivelRequerido != null ? recompensa.nivelRequerido : (status.index + 1) * 5},
-            desbloqueada=${nivelUsuario >= nivelRequerido},
+            desbloqueada=${usuario.nivelUsuario >= nivelRequerido},
             rarezaClass=${#strings.toLowerCase(recompensa.rareza.toString())}
           " class="reward-card" th:classappend="${rarezaClass} + (${desbloqueada} ? ' unlocked' : ' locked')">
                     <div class="reward-image-wrap">
-                        <img class="reward-image" th:src="${recompensa.urlImg}" th:alt="${recompensa.nombre}"
-                            src="/images/logo.png" alt="Recompensa" />
+                        <img class="reward-image" th:src="@{${recompensa.urlImg}}" th:alt="${recompensa.nombre}" />
                         <div class="reward-image-overlay"></div>
                         <span class="reward-status unlocked-status" th:if="${desbloqueada}">
                             Desbloqueada

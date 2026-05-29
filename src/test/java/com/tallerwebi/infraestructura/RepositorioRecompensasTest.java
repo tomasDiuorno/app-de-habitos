@@ -53,7 +53,7 @@ public class RepositorioRecompensasTest {
           "llegaste al nivel 10",
           "imagen",
           10,
-          Rareza.EPICO,
+          Rareza.EPICA,
           true
         );
     this.dadoQueExisteLaRecompensa(recompensa1);
