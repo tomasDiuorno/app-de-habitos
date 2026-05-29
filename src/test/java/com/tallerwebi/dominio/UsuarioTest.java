@@ -14,7 +14,6 @@ public class UsuarioTest {
     Usuario usuario = new Usuario();
     usuario.setId(1);
     usuario.setName("Tomas");
-    usuario.setSurname("Diuorno");
     usuario.setUsername("Tomidiu");
     usuario.setEmail("tom.diuorno@example.com");
     usuario.setPassword("password123");
@@ -24,7 +23,6 @@ public class UsuarioTest {
 
     assertThat(usuario.getId(), is(1));
     assertThat(usuario.getName(), is("Tomas"));
-    assertThat(usuario.getSurname(), is("Diuorno"));
     assertThat(usuario.getUsername(), is("Tomidiu"));
     assertThat(usuario.getEmail(), is("tom.diuorno@example.com"));
     assertThat(usuario.getPassword(), is("password123"));
