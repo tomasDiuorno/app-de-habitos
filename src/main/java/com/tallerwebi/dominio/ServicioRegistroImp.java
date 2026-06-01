@@ -56,7 +56,6 @@ public class ServicioRegistroImp implements ServicioRegistro {
   private Usuario crearUsuario(DatosRegistro datos) {
     Usuario usuario = new Usuario();
     usuario.setName(datos.getName());
-    usuario.setSurname(datos.getSurname());
     usuario.setEmail(datos.getEmail());
     usuario.setGender(datos.getGender());
     usuario.setUsername(datos.getUsername());

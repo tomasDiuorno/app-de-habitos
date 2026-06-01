@@ -12,9 +12,6 @@ public class DatosRegistro {
   @NotBlank(message = "Nombre incompleto")
   private String name;
 
-  @NotBlank(message = "Apellido incompleto")
-  private String surname;
-
   @NotBlank(message = "Nombre de usuario incompleto")
   @Size(min = 3, max = 20, message = "El usuario debe tener entre 3 y 20 caracteres")
   private String username;
@@ -52,14 +49,6 @@ public class DatosRegistro {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public String getSurname() {
-    return surname;
-  }
-
-  public void setSurname(String surname) {
-    this.surname = surname;
   }
 
   public String getEmail() {
