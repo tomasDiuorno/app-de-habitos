@@ -159,9 +159,8 @@ public class ServicioHabitoTest {
   }
 
   @Test
-  public void alCrearUnHabitoParaUsuarioDeberiaVerificarLogros() 
+  public void alCrearUnHabitoParaUsuarioDeberiaVerificarLogros()
     throws HabitoExistenteExeption, LimiteHabitosAlcanzadoException {
-
     Usuario usuario = new Usuario();
 
     Habito habito = new Habito();

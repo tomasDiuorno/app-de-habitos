@@ -1,7 +1,8 @@
-package com.tallerwebi.dominio; 
+package com.tallerwebi.dominio;
 
-public interface ServicioLogro { 
-    
-    void verificarLogros(Usuario usuario); 
+import java.util.List;
 
+public interface ServicioLogro {
+  void verificarLogros(Usuario usuario);
+  List<UsuarioLogro> obtenerLogrosDeUsuario(Usuario usuario);
 }

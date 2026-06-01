@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.Logro;
 import com.tallerwebi.dominio.RepositorioUsuarioLogro;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.UsuarioLogro;
+import java.util.List;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,4 +35,12 @@ public class RepositorioUsuarioLogroImpl implements RepositorioUsuarioLogro {
       .uniqueResult();
   }
 
+  @Override
+  public List<UsuarioLogro> buscarPorUsuario(Integer idUsuario) {
+    return sessionFactory
+      .getCurrentSession()
+      .createQuery("FROM UsuarioLogro ul WHERE ul.usuario.id = :idUsuario", UsuarioLogro.class)
+      .setParameter("idUsuario", idUsuario)
+      .getResultList();
+  }
 }

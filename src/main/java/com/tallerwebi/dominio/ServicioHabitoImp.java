@@ -28,7 +28,7 @@ public class ServicioHabitoImp implements ServicioHabito {
     this.repositorioHabito = repositorioHabito;
     this.repositorioUsuarioHabito = repositorioUsuarioHabito;
     this.repositorioCategoria = repositorioCategoria;
-    this.servicioLogro= servicioLogro;
+    this.servicioLogro = servicioLogro;
   }
 
   @Override

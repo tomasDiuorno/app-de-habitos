@@ -9,7 +9,6 @@ public class LogroTest {
 
   @Test
   public void deberiaAsignarCorrectamenteLosValoresDelLogro() {
-
     Logro logro = new Logro();
 
     logro.setId(1);

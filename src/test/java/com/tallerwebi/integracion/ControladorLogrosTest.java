@@ -2,6 +2,7 @@ package com.tallerwebi.integracion;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -26,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = { SpringWebTestConfig.class, HibernateTestConfig.class })
-public class ControladorHabitosTest {
+public class ControladorLogrosTest {
 
   private Usuario usuarioMock;
 
@@ -39,18 +40,31 @@ public class ControladorHabitosTest {
   public void init() {
     usuarioMock = mock(Usuario.class);
     when(usuarioMock.getEmail()).thenReturn("test@mail.com");
+    when(usuarioMock.getId()).thenReturn(1);
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 
   @Test
-  public void deberiaRetornarLaPaginaHabitosCuandoNavegoAHabitos() throws Exception {
+  public void deberiaRetornarLaVistaLogrosCuandoNavegoALogros() throws Exception {
     MvcResult result =
-      this.mockMvc.perform(get("/habitos").sessionAttr("usuario", usuarioMock))
+      this.mockMvc.perform(get("/logros").sessionAttr("usuario", usuarioMock))
         .andExpect(status().isOk())
         .andReturn();
 
     ModelAndView modelAndView = result.getModelAndView();
     assert modelAndView != null;
-    assertThat(modelAndView.getViewName(), equalToIgnoringCase("habitos"));
+    assertThat(modelAndView.getViewName(), equalToIgnoringCase("logros"));
+  }
+
+  @Test
+  public void deberiaEnviarLosLogrosDelUsuarioALaVista() throws Exception {
+    MvcResult result =
+      this.mockMvc.perform(get("/logros").sessionAttr("usuario", usuarioMock))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    ModelAndView modelAndView = result.getModelAndView();
+    assert modelAndView != null;
+    assertThat(modelAndView.getModel().containsKey("logros"), is(true));
   }
 }

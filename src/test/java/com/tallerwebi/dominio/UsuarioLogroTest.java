@@ -9,7 +9,6 @@ public class UsuarioLogroTest {
 
   @Test
   public void unUsuarioLogroDeberiaRelacionarUnUsuarioConUnLogro() {
-
     Usuario usuario = new Usuario();
     usuario.setEmail("test@mail.com");
 

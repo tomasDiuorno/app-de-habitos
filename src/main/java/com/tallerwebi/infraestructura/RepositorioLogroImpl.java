@@ -3,7 +3,6 @@ package com.tallerwebi.infraestructura;
 import com.tallerwebi.dominio.Logro;
 import com.tallerwebi.dominio.RepositorioLogro;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -24,10 +23,9 @@ public class RepositorioLogroImpl implements RepositorioLogro {
 
   @Override
   public Logro buscarPorNombre(String nombre) {
-  return (Logro) this.sessionFactory
-    .getCurrentSession()
-    .createCriteria(Logro.class)
-    .add(Restrictions.eq("nombre", nombre))
-    .uniqueResult();
+    return (Logro) this.sessionFactory.getCurrentSession()
+      .createQuery("FROM Logro l WHERE l.nombre = :nombre", Logro.class)
+      .setParameter("nombre", nombre)
+      .uniqueResult();
   }
 }

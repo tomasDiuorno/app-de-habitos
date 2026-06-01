@@ -2,11 +2,9 @@ package com.tallerwebi.dominio;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,20 +17,14 @@ public class ServicioLogroTest {
 
   @BeforeEach
   public void init() {
-
     repositorioLogroMock = mock(RepositorioLogro.class);
     repositorioUsuarioLogroMock = mock(RepositorioUsuarioLogro.class);
 
-    servicioLogro =
-      new ServicioLogroImpl(
-        repositorioLogroMock,
-        repositorioUsuarioLogroMock
-      );
+    servicioLogro = new ServicioLogroImpl(repositorioLogroMock, repositorioUsuarioLogroMock);
   }
 
   @Test
   public void siElUsuarioTieneUnHabitoDeberiaDesbloquearElPrimerLogro() {
-
     Usuario usuario = new Usuario();
 
     List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
@@ -43,96 +35,89 @@ public class ServicioLogroTest {
     Logro logro = new Logro();
     logro.setNombre("Primer hábito creado");
 
-    when(repositorioLogroMock.buscarPorNombre("Primer hábito creado"))
-      .thenReturn(logro);
+    when(repositorioLogroMock.buscarPorNombre("Primer hábito creado")).thenReturn(logro);
 
-    when(
-      repositorioUsuarioLogroMock.buscarPorUsuarioYLogro(usuario, logro)
-    ).thenReturn(null);
+    when(repositorioUsuarioLogroMock.buscarPorUsuarioYLogro(usuario, logro)).thenReturn(null);
 
     servicioLogro.verificarLogros(usuario);
 
-    verify(repositorioUsuarioLogroMock, times(1))
-      .guardar(any(UsuarioLogro.class));
+    verify(repositorioUsuarioLogroMock, times(1)).guardar(any(UsuarioLogro.class));
   }
 
   @Test
-public void siElUsuarioYaTieneElLogroNoDeberiaGuardarloOtraVez() {
+  public void siElUsuarioYaTieneElLogroNoDeberiaGuardarloOtraVez() {
+    Usuario usuario = new Usuario();
 
-  Usuario usuario = new Usuario();
+    List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
+    usuarioHabitos.add(new UsuarioHabito());
 
-  List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
-  usuarioHabitos.add(new UsuarioHabito());
+    usuario.setUsuarioHabito(usuarioHabitos);
 
-  usuario.setUsuarioHabito(usuarioHabitos);
+    Logro logro = new Logro();
+    logro.setNombre("Primer hábito creado");
 
-  Logro logro = new Logro();
-  logro.setNombre("Primer hábito creado");
+    UsuarioLogro usuarioLogroExistente = new UsuarioLogro();
+    usuarioLogroExistente.setUsuario(usuario);
+    usuarioLogroExistente.setLogro(logro);
 
-  UsuarioLogro usuarioLogroExistente = new UsuarioLogro();
-  usuarioLogroExistente.setUsuario(usuario);
-  usuarioLogroExistente.setLogro(logro);
+    when(repositorioLogroMock.buscarPorNombre("Primer hábito creado")).thenReturn(logro);
 
-  when(repositorioLogroMock.buscarPorNombre("Primer hábito creado")).thenReturn(logro);
+    when(repositorioUsuarioLogroMock.buscarPorUsuarioYLogro(usuario, logro))
+      .thenReturn(usuarioLogroExistente);
 
-  when(repositorioUsuarioLogroMock.buscarPorUsuarioYLogro(usuario, logro)).thenReturn(usuarioLogroExistente);
+    servicioLogro.verificarLogros(usuario);
 
-  servicioLogro.verificarLogros(usuario);
+    verify(repositorioUsuarioLogroMock, times(0)).guardar(any(UsuarioLogro.class));
+  }
 
-  verify(repositorioUsuarioLogroMock, times(0)).guardar(any(UsuarioLogro.class));
-}
+  @Test
+  public void siElUsuarioTieneTresHabitosDeberiaDesbloquearElLogroTresHabitos() {
+    Usuario usuario = new Usuario();
 
-@Test
-public void siElUsuarioTieneTresHabitosDeberiaDesbloquearElLogroTresHabitos() {
+    List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
+    usuarioHabitos.add(new UsuarioHabito());
+    usuarioHabitos.add(new UsuarioHabito());
+    usuarioHabitos.add(new UsuarioHabito());
 
-  Usuario usuario = new Usuario();
+    usuario.setUsuarioHabito(usuarioHabitos);
 
-  List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
-  usuarioHabitos.add(new UsuarioHabito());
-  usuarioHabitos.add(new UsuarioHabito());
-  usuarioHabitos.add(new UsuarioHabito());
+    Logro logro = new Logro();
+    logro.setNombre("3 hábitos creados");
 
-  usuario.setUsuarioHabito(usuarioHabitos);
+    when(repositorioLogroMock.buscarPorNombre("3 hábitos creados")).thenReturn(logro);
 
-  Logro logro = new Logro();
-  logro.setNombre("3 hábitos creados");
+    when(repositorioUsuarioLogroMock.buscarPorUsuarioYLogro(usuario, logro)).thenReturn(null);
 
-  when(repositorioLogroMock.buscarPorNombre("3 hábitos creados")).thenReturn(logro);
+    servicioLogro.verificarLogros(usuario);
 
-  when(repositorioUsuarioLogroMock.buscarPorUsuarioYLogro(usuario, logro)).thenReturn(null);
+    verify(repositorioUsuarioLogroMock, times(2)).guardar(any(UsuarioLogro.class));
+  }
 
-  servicioLogro.verificarLogros(usuario);
+  @Test
+  public void siElUsuarioTieneTresHabitosDeberiaDesbloquearDosLogros() {
+    Usuario usuario = new Usuario();
 
-  verify(repositorioUsuarioLogroMock, times(2)).guardar(any(UsuarioLogro.class));
-}
+    List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
+    usuarioHabitos.add(new UsuarioHabito());
+    usuarioHabitos.add(new UsuarioHabito());
+    usuarioHabitos.add(new UsuarioHabito());
 
+    usuario.setUsuarioHabito(usuarioHabitos);
 
-@Test
-public void siElUsuarioTieneTresHabitosDeberiaDesbloquearDosLogros() {
+    Logro logroUno = new Logro();
+    logroUno.setNombre("Primer hábito creado");
 
-  Usuario usuario = new Usuario();
+    Logro logroTres = new Logro();
+    logroTres.setNombre("3 hábitos creados");
 
-  List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
-  usuarioHabitos.add(new UsuarioHabito());
-  usuarioHabitos.add(new UsuarioHabito());
-  usuarioHabitos.add(new UsuarioHabito());
+    when(repositorioLogroMock.buscarPorNombre("Primer hábito creado")).thenReturn(logroUno);
 
-  usuario.setUsuarioHabito(usuarioHabitos);
+    when(repositorioLogroMock.buscarPorNombre("3 hábitos creados")).thenReturn(logroTres);
 
-  Logro logroUno = new Logro();
-  logroUno.setNombre("Primer hábito creado");
+    when(repositorioUsuarioLogroMock.buscarPorUsuarioYLogro(any(), any())).thenReturn(null);
 
-  Logro logroTres = new Logro();
-  logroTres.setNombre("3 hábitos creados");
+    servicioLogro.verificarLogros(usuario);
 
-  when(repositorioLogroMock.buscarPorNombre("Primer hábito creado")).thenReturn(logroUno);
-
-  when(repositorioLogroMock.buscarPorNombre("3 hábitos creados")).thenReturn(logroTres);
-
-  when( repositorioUsuarioLogroMock.buscarPorUsuarioYLogro(any(), any())).thenReturn(null);
-
-  servicioLogro.verificarLogros(usuario);
-
-  verify(repositorioUsuarioLogroMock, times(2)).guardar(any(UsuarioLogro.class));
-}
+    verify(repositorioUsuarioLogroMock, times(2)).guardar(any(UsuarioLogro.class));
+  }
 }

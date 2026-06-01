@@ -1,4 +1,4 @@
-package com.tallerwebi.infraestructura.config;
+package com.tallerwebi.infraestructura;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import com.tallerwebi.infraestructura.RepositorioUsuarioLogroImpl;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { HibernateInfraestructuraTestConfig.class })
@@ -38,28 +37,22 @@ public class RepositorioUsuarioLogroTest {
   @Transactional
   @Rollback
   public void deberiaGuardarUsuarioLogroCorrectamente() {
-
     Usuario usuario = dadoQueTengoUnUsuario();
     Logro logro = dadoQueTengoUnLogro();
 
     guardarUsuario(usuario);
     guardarLogro(logro);
 
-    UsuarioLogro usuarioLogro = dadoQueTengoUnUsuarioLogro(
-      usuario,
-      logro
-    );
+    UsuarioLogro usuarioLogro = dadoQueTengoUnUsuarioLogro(usuario, logro);
 
     cuandoGuardoUsuarioLogro(usuarioLogro);
 
-    UsuarioLogro obtenido =
-      cuandoBuscoUsuarioLogro(usuario, logro);
+    UsuarioLogro obtenido = cuandoBuscoUsuarioLogro(usuario, logro);
 
     entoncesUsuarioLogroEsCorrecto(usuarioLogro, obtenido);
   }
 
   private Usuario dadoQueTengoUnUsuario() {
-
     Usuario usuario = new Usuario();
     usuario.setEmail("test@mail.com");
 
@@ -67,7 +60,6 @@ public class RepositorioUsuarioLogroTest {
   }
 
   private Logro dadoQueTengoUnLogro() {
-
     Logro logro = new Logro();
     logro.setNombre("Primer hábito creado");
     logro.setDescripcion("Crear un hábito");
@@ -75,11 +67,7 @@ public class RepositorioUsuarioLogroTest {
     return logro;
   }
 
-  private UsuarioLogro dadoQueTengoUnUsuarioLogro(
-    Usuario usuario,
-    Logro logro
-  ) {
-
+  private UsuarioLogro dadoQueTengoUnUsuarioLogro(Usuario usuario, Logro logro) {
     UsuarioLogro usuarioLogro = new UsuarioLogro();
 
     usuarioLogro.setUsuario(usuario);
@@ -97,45 +85,24 @@ public class RepositorioUsuarioLogroTest {
     sessionFactory.getCurrentSession().save(logro);
   }
 
-  private void cuandoGuardoUsuarioLogro(
-    UsuarioLogro usuarioLogro
-  ) {
+  private void cuandoGuardoUsuarioLogro(UsuarioLogro usuarioLogro) {
     repositorioUsuarioLogro.guardar(usuarioLogro);
   }
 
-  private UsuarioLogro cuandoBuscoUsuarioLogro(
-    Usuario usuario,
-    Logro logro
-  ) {
-
+  private UsuarioLogro cuandoBuscoUsuarioLogro(Usuario usuario, Logro logro) {
     return (UsuarioLogro) sessionFactory
       .getCurrentSession()
-      .createQuery(
-        "FROM UsuarioLogro WHERE usuario = :usuario AND logro = :logro"
-      )
+      .createQuery("FROM UsuarioLogro WHERE usuario = :usuario AND logro = :logro")
       .setParameter("usuario", usuario)
       .setParameter("logro", logro)
       .getSingleResult();
   }
 
-  private void entoncesUsuarioLogroEsCorrecto(
-    UsuarioLogro esperado,
-    UsuarioLogro obtenido
-  ) {
+  private void entoncesUsuarioLogroEsCorrecto(UsuarioLogro esperado, UsuarioLogro obtenido) {
+    assertThat(obtenido.getUsuario().getEmail(), is(equalTo(esperado.getUsuario().getEmail())));
 
-    assertThat(
-      obtenido.getUsuario().getEmail(),
-      is(equalTo(esperado.getUsuario().getEmail()))
-    );
+    assertThat(obtenido.getLogro().getNombre(), is(equalTo(esperado.getLogro().getNombre())));
 
-    assertThat(
-      obtenido.getLogro().getNombre(),
-      is(equalTo(esperado.getLogro().getNombre()))
-    );
-
-    assertThat(
-      obtenido.getDesbloqueado(),
-      is(true)
-    );
+    assertThat(obtenido.getDesbloqueado(), is(true));
   }
 }

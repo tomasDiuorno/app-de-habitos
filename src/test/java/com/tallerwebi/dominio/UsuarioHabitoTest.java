@@ -1,10 +1,8 @@
 package com.tallerwebi.dominio;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-import javax.servlet.http.HttpUtils;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.annotation.Rollback;

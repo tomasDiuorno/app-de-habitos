@@ -15,7 +15,6 @@ public class Logro {
 
   private String descripcion;
 
-
   @OneToMany(mappedBy = "logro")
   private List<UsuarioLogro> usuarioLogros = new ArrayList<>();
 

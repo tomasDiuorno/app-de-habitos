@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio;
 
+import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,10 @@ public class ServicioLogroImpl implements ServicioLogro {
 
   private RepositorioLogro repositorioLogro;
   private RepositorioUsuarioLogro repositorioUsuarioLogro;
+
+  private static final int PRIMER_LOGRO = 1;
+  private static final int TRES_HABITOS = 3;
+  private static final int DIEZ_HABITOS = 4;
 
   @Autowired
   public ServicioLogroImpl(
@@ -24,34 +29,36 @@ public class ServicioLogroImpl implements ServicioLogro {
   public void verificarLogros(Usuario usuario) {
     int cantidadHabitos = usuario.getUsuarioHabito().size();
 
-    if (cantidadHabitos >= 1) {
+    if (cantidadHabitos >= PRIMER_LOGRO) {
       desbloquearLogro(usuario, "Primer hábito creado");
     }
 
-    if (cantidadHabitos >= 3) {
+    if (cantidadHabitos >= TRES_HABITOS) {
       desbloquearLogro(usuario, "3 hábitos creados");
     }
 
-    if (cantidadHabitos >= 10) {
-      desbloquearLogro(usuario, "10 hábitos creados");
+    if (cantidadHabitos >= DIEZ_HABITOS) {
+      desbloquearLogro(usuario, "4 hábitos creados");
     }
   }
 
-  private void desbloquearLogro(
-    Usuario usuario,
-    String nombreLogro
-  ) {
+  @Override
+  public List<UsuarioLogro> obtenerLogrosDeUsuario(Usuario usuario) {
+    return repositorioUsuarioLogro.buscarPorUsuario(usuario.getId());
+  }
 
+  private void desbloquearLogro(Usuario usuario, String nombreLogro) {
     Logro logro = repositorioLogro.buscarPorNombre(nombreLogro);
+    if (logro == null) {
+      throw new RuntimeException("NO SE ENCONTRO EL LOGRO: " + nombreLogro);
+    }
 
-    UsuarioLogro usuarioLogroExistente =
-      repositorioUsuarioLogro.buscarPorUsuarioYLogro(
-        usuario,
-        logro
-      );
+    UsuarioLogro usuarioLogroExistente = repositorioUsuarioLogro.buscarPorUsuarioYLogro(
+      usuario,
+      logro
+    );
 
     if (usuarioLogroExistente == null) {
-
       UsuarioLogro usuarioLogro = new UsuarioLogro();
 
       usuarioLogro.setUsuario(usuario);
@@ -60,7 +67,5 @@ public class ServicioLogroImpl implements ServicioLogro {
 
       repositorioUsuarioLogro.guardar(usuarioLogro);
     }
-
   }
-
 }
