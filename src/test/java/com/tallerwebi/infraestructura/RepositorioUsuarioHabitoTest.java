@@ -9,7 +9,6 @@ import com.tallerwebi.dominio.RepositorioUsuarioHabito;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.UsuarioHabito;
 import com.tallerwebi.infraestructura.config.HibernateInfraestructuraTestConfig;
-import javax.transaction.TransactionScoped;
 import javax.transaction.Transactional;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
