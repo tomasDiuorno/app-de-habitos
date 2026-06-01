@@ -24,18 +24,21 @@ public class ServicioHabitoTest {
   private RepositorioHabito repositorioHabitoMock;
   private RepositorioUsuarioHabito repositorioUsuarioHabitoMock;
   private RepositorioCategoria repositorioCategoriaMock;
+  private ServicioLogro servicioLogroMock;
 
   @BeforeEach
   public void init() {
     this.repositorioHabitoMock = mock(RepositorioHabito.class);
     this.repositorioUsuarioHabitoMock = mock(RepositorioUsuarioHabito.class);
     this.repositorioCategoriaMock = mock(RepositorioCategoria.class);
+    this.servicioLogroMock = mock(ServicioLogro.class);
 
     this.servicioHabitos =
       new ServicioHabitoImp(
         this.repositorioHabitoMock,
         this.repositorioUsuarioHabitoMock,
-        this.repositorioCategoriaMock
+        this.repositorioCategoriaMock,
+        this.servicioLogroMock
       );
   }
 
@@ -154,5 +157,4 @@ public class ServicioHabitoTest {
     verify(this.repositorioHabitoMock, times(0)).guardar(any(Habito.class));
     verify(this.repositorioUsuarioHabitoMock, times(0)).guardar(any(UsuarioHabito.class));
   }
-
 }

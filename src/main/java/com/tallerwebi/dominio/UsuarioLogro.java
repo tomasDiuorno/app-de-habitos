@@ -10,33 +10,39 @@ import javax.persistence.ManyToOne;
 @Entity
 public class UsuarioLogro {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+  @ManyToOne
+  @JoinColumn(name = "usuario_id")
+  private Usuario usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "logro_id")
-    private Logro logro;
+  @ManyToOne
+  @JoinColumn(name = "logro_id")
+  private Logro logro;
 
-    public Integer getId() { 
-        return id; }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setId(Integer id) { 
-        this.id = id; }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public Usuario getUsuario() { 
-        return usuario; }
+  public Usuario getUsuario() {
+    return usuario;
+  }
 
-    public void setUsuario(Usuario usuario) { 
-        this.usuario = usuario; }
+  public void setUsuario(Usuario usuario) {
+    this.usuario = usuario;
+  }
 
-    public Logro getLogro() { 
-        return logro; }
+  public Logro getLogro() {
+    return logro;
+  }
 
-    public void setLogro(Logro logro) { 
-        this.logro = logro; }
+  public void setLogro(Logro logro) {
+    this.logro = logro;
+  }
 }

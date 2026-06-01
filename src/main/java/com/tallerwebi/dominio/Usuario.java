@@ -29,7 +29,6 @@ public class Usuario {
   @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
   private List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
 
-
   public Integer getId() {
     return id;
   }

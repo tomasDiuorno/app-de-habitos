@@ -23,104 +23,104 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ContextConfiguration(classes = { HibernateInfraestructuraTestConfig.class })
 public class RepositorioLogroTest {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+  @Autowired
+  private SessionFactory sessionFactory;
 
-    private RepositorioLogro repositorioLogro;
+  private RepositorioLogro repositorioLogro;
 
-    @BeforeEach
-    public void init() {
-        repositorioLogro = new RepositorioLogroImpl(sessionFactory);
-    }
+  @BeforeEach
+  public void init() {
+    repositorioLogro = new RepositorioLogroImpl(sessionFactory);
+  }
 
-    @Test
-    @Transactional
-    @Rollback
-    public void deberiaGuardarUnNuevoLogro() {
-        // preparacion
-        Logro logro = dadoQueTengoUnLogro("Primer Paso", "PRIMER_HABITO");
+  @Test
+  @Transactional
+  @Rollback
+  public void deberiaGuardarUnNuevoLogro() {
+    // preparacion
+    Logro logro = dadoQueTengoUnLogro("Primer Paso", "PRIMER_HABITO");
 
-        // ejecucion
-        cuandoGuardoUnLogro(logro);
+    // ejecucion
+    cuandoGuardoUnLogro(logro);
 
-        // validacion
-        entoncesSeGuardoElLogro("Primer Paso", logro);
-    }
+    // validacion
+    entoncesSeGuardoElLogro("Primer Paso", logro);
+  }
 
-    @Test
-    @Transactional
-    @Rollback
-    public void deberiaEncontrarUnLogroCuandoLoBuscoPorSuNombre() {
-        // preparacion
-        Logro logro = dadoQueTengoUnLogro("Constante", "CINCO_HABITOS");
-        dadoQueExisteElLogro(logro);
+  @Test
+  @Transactional
+  @Rollback
+  public void deberiaEncontrarUnLogroCuandoLoBuscoPorSuNombre() {
+    // preparacion
+    Logro logro = dadoQueTengoUnLogro("Constante", "CINCO_HABITOS");
+    dadoQueExisteElLogro(logro);
 
-        // ejecucion
-        Logro obtenido = cuandoBuscoUnLogro("Constante");
+    // ejecucion
+    Logro obtenido = cuandoBuscoUnLogro("Constante");
 
-        // validacion
-        entoncesElLogroObtenidoEsCorrecto(obtenido, logro);
-    }
+    // validacion
+    entoncesElLogroObtenidoEsCorrecto(obtenido, logro);
+  }
 
-    @Test
-    @Transactional
-    public void noDeberiaEncontrarUnLogroInexistente() {
-        // ejecucion
-        Logro obtenido = cuandoBuscoUnLogro("Logro Inexistente");
+  @Test
+  @Transactional
+  public void noDeberiaEncontrarUnLogroInexistente() {
+    // ejecucion
+    Logro obtenido = cuandoBuscoUnLogro("Logro Inexistente");
 
-        // validacion
-        entoncesElLogroObtenidoEsNull(obtenido);
-    }
+    // validacion
+    entoncesElLogroObtenidoEsNull(obtenido);
+  }
 
-    @Test
-    @Transactional
-    @Rollback
-    public void deberiaObtenerTodosLosLogros() {
-        // preparacion
-        dadoQueExisteElLogro(dadoQueTengoUnLogro("Primer Paso", "PRIMER_HABITO"));
-        dadoQueExisteElLogro(dadoQueTengoUnLogro("Constante", "CINCO_HABITOS"));
-        dadoQueExisteElLogro(dadoQueTengoUnLogro("Experto", "DIEZ_HABITOS"));
+  @Test
+  @Transactional
+  @Rollback
+  public void deberiaObtenerTodosLosLogros() {
+    // preparacion
+    dadoQueExisteElLogro(dadoQueTengoUnLogro("Primer Paso", "PRIMER_HABITO"));
+    dadoQueExisteElLogro(dadoQueTengoUnLogro("Constante", "CINCO_HABITOS"));
+    dadoQueExisteElLogro(dadoQueTengoUnLogro("Experto", "DIEZ_HABITOS"));
 
-        // ejecucion
-        List<Logro> logros = repositorioLogro.obtenerTodos();
+    // ejecucion
+    List<Logro> logros = repositorioLogro.obtenerTodos();
 
-        // validacion
-        assertThat(logros.size(), is(equalTo(3)));
-    }
+    // validacion
+    assertThat(logros.size(), is(equalTo(3)));
+  }
 
-    // --- Métodos auxiliares ---
+  // --- Métodos auxiliares ---
 
-    private Logro dadoQueTengoUnLogro(String nombre, String condicion) {
-        Logro logro = new Logro();
-        logro.setNombre(nombre);
-        logro.setDescripcion("Descripcion de " + nombre);
-        logro.setCondicion(condicion);
-        return logro;
-    }
+  private Logro dadoQueTengoUnLogro(String nombre, String condicion) {
+    Logro logro = new Logro();
+    logro.setNombre(nombre);
+    logro.setDescripcion("Descripcion de " + nombre);
+    logro.setCondicion(condicion);
+    return logro;
+  }
 
-    private void dadoQueExisteElLogro(Logro logro) {
-        this.sessionFactory.getCurrentSession().save(logro);
-    }
+  private void dadoQueExisteElLogro(Logro logro) {
+    this.sessionFactory.getCurrentSession().save(logro);
+  }
 
-    private void cuandoGuardoUnLogro(Logro logro) {
-        repositorioLogro.guardar(logro);
-    }
+  private void cuandoGuardoUnLogro(Logro logro) {
+    repositorioLogro.guardar(logro);
+  }
 
-    private Logro cuandoBuscoUnLogro(String nombre) {
-        return repositorioLogro.buscarPorNombre(nombre);
-    }
+  private Logro cuandoBuscoUnLogro(String nombre) {
+    return repositorioLogro.buscarPorNombre(nombre);
+  }
 
-    private void entoncesSeGuardoElLogro(String nombre, Logro logroEsperado) {
-        Logro logroObtenido = repositorioLogro.buscarPorNombre(nombre);
-        entoncesElLogroObtenidoEsCorrecto(logroObtenido, logroEsperado);
-    }
+  private void entoncesSeGuardoElLogro(String nombre, Logro logroEsperado) {
+    Logro logroObtenido = repositorioLogro.buscarPorNombre(nombre);
+    entoncesElLogroObtenidoEsCorrecto(logroObtenido, logroEsperado);
+  }
 
-    private void entoncesElLogroObtenidoEsCorrecto(Logro obtenido, Logro esperado) {
-        assertThat(obtenido.getNombre(), is(equalTo(esperado.getNombre())));
-        assertThat(obtenido.getCondicion(), is(equalTo(esperado.getCondicion())));
-    }
+  private void entoncesElLogroObtenidoEsCorrecto(Logro obtenido, Logro esperado) {
+    assertThat(obtenido.getNombre(), is(equalTo(esperado.getNombre())));
+    assertThat(obtenido.getCondicion(), is(equalTo(esperado.getCondicion())));
+  }
 
-    private void entoncesElLogroObtenidoEsNull(Logro obtenido) {
-        assertThat(obtenido, is(nullValue()));
-    }
+  private void entoncesElLogroObtenidoEsNull(Logro obtenido) {
+    assertThat(obtenido, is(nullValue()));
+  }
 }
