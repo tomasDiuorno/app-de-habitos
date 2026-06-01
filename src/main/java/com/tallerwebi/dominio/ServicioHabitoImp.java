@@ -16,19 +16,16 @@ public class ServicioHabitoImp implements ServicioHabito {
   private RepositorioHabito repositorioHabito;
   private RepositorioUsuarioHabito repositorioUsuarioHabito;
   private RepositorioCategoria repositorioCategoria;
-  private ServicioLogro servicioLogro;
 
   @Autowired
   public ServicioHabitoImp(
     RepositorioHabito repositorioHabito,
     RepositorioUsuarioHabito repositorioUsuarioHabito,
-    RepositorioCategoria repositorioCategoria,
-    ServicioLogro servicioLogro
+    RepositorioCategoria repositorioCategoria
   ) {
     this.repositorioHabito = repositorioHabito;
     this.repositorioUsuarioHabito = repositorioUsuarioHabito;
     this.repositorioCategoria = repositorioCategoria;
-    this.servicioLogro = servicioLogro;
   }
 
   @Override
@@ -62,7 +59,6 @@ public class ServicioHabitoImp implements ServicioHabito {
 
     this.repositorioUsuarioHabito.guardar(usuarioHabito);
     usuario.getUsuarioHabito().add(usuarioHabito);
-    this.servicioLogro.verificarLogros(usuario);
   }
 
   @Override

@@ -24,7 +24,6 @@
     radial-gradient(at 90% 80%, rgba(0, 223, 255, 0.1) 0px, transparent 50%);
 }
 
-/* NAVBAR */
 
 .logros-navbar {
   width: 100%;
@@ -80,7 +79,6 @@
   color: white;
 }
 
-/* MAIN */
 
 .logros-main {
   width: 100%;
@@ -89,7 +87,6 @@
   padding: 120px 24px 60px;
 }
 
-/* HERO */
 
 .logros-hero-content {
   background-color: rgba(13, 19, 38, 0.82);
@@ -112,7 +109,6 @@
   margin-bottom: 20px;
 }
 
-/* GRID */
 
 .logros-grid {
   display: grid;
@@ -120,7 +116,6 @@
   gap: 28px;
 }
 
-/* CARD */
 
 .logro-card {
   background-color: rgba(13, 19, 38, 0.92);
@@ -164,7 +159,21 @@
   opacity: 0.6;
 }
 
-/* RESPONSIVE */
+.logro-card.bloqueado:hover {
+    transform: none;
+    border-color: var(--border-color);
+    cursor: default;
+}
+
+.logro-card.bloqueado .logro-content h2 {
+    color: var(--text-muted);  
+}
+
+.logro-card.bloqueado .logro-icon {
+    filter: grayscale(100%);
+}
+
+
 
 @media (max-width: 900px) {
   .logros-grid {

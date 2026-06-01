@@ -1,53 +1,42 @@
 package com.tallerwebi.dominio;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class UsuarioLogro {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-  @ManyToOne
-  @JoinColumn(name = "usuario_id")
-  private Usuario usuario;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
-  @ManyToOne
-  @JoinColumn(name = "logro_id")
-  private Logro logro;
+    @ManyToOne
+    @JoinColumn(name = "logro_id")
+    private Logro logro;
 
-  private Boolean desbloqueado = false;
+    public Integer getId() { 
+        return id; }
 
-  public Integer getId() {
-    return id;
-  }
+    public void setId(Integer id) { 
+        this.id = id; }
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
+    public Usuario getUsuario() { 
+        return usuario; }
 
-  public Usuario getUsuario() {
-    return usuario;
-  }
+    public void setUsuario(Usuario usuario) { 
+        this.usuario = usuario; }
 
-  public void setUsuario(Usuario usuario) {
-    this.usuario = usuario;
-  }
+    public Logro getLogro() { 
+        return logro; }
 
-  public Logro getLogro() {
-    return logro;
-  }
-
-  public void setLogro(Logro logro) {
-    this.logro = logro;
-  }
-
-  public Boolean getDesbloqueado() {
-    return desbloqueado;
-  }
-
-  public void setDesbloqueado(Boolean desbloqueado) {
-    this.desbloqueado = desbloqueado;
-  }
+    public void setLogro(Logro logro) { 
+        this.logro = logro; }
 }

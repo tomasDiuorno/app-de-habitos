@@ -4,16 +4,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
   <title>Habitapp | Logros</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/css/logros.css}" />
 </head>
 
@@ -21,18 +15,15 @@
 
   <nav class="logros-navbar">
     <div class="logros-navbar-container">
-
       <a th:href="@{/home}" class="logros-brand">
         <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="logros-logo">
       </a>
-
       <div class="logros-nav-links">
         <a th:href="@{/habitos}" class="logros-nav-link">Hábitos</a>
         <a th:href="@{/perfil}" class="logros-nav-link">Perfil</a>
         <a th:href="@{/logros}" class="logros-nav-link active">Logros</a>
         <a th:href="@{/login}" class="logros-logout-button">Cerrar sesión</a>
       </div>
-
     </div>
   </nav>
 
@@ -40,55 +31,37 @@
 
     <section class="logros-hero-section">
       <div class="logros-hero-content">
-
         <p class="logros-kicker">Tu progreso</p>
-
         <h1>Logros desbloqueados</h1>
-
-        <p>
-          Cada hábito completado te acerca a nuevos objetivos.
-          Desbloqueá medallas, mantené la constancia y seguí avanzando.
-        </p>
-
+        <p>Cada hábito completado te acerca a nuevos objetivos. Desbloqueá medallas, mantené la constancia y seguí avanzando.</p>
       </div>
     </section>
 
     <section class="logros-section">
-
       <div class="logros-grid">
 
         <article class="logro-card"
-         th:each="logro : ${logros}"
-         th:classappend="${logro.desbloqueado} ? ' desbloqueado' : ' bloqueado'">
+          th:each="logro : ${logros}"
+          th:classappend="${logro.desbloqueado} ? ' desbloqueado' : ' bloqueado'">
 
-    <div class="logro-icon">
-        🏆
-    </div>
+          <div class="logro-icon">
+            🏆
+          </div>
 
-    <div class="logro-content">
+          <div class="logro-content">
+            <h2 th:text="${logro.logro.nombre}">Nombre del logro</h2>
+            <p th:text="${logro.logro.descripcion}">Descripción del logro</p>
+            <span class="estado"
+              th:text="${logro.desbloqueado} ? 'Desbloqueado ✓' : 'Bloqueado 🔒'">
+            </span>
+          </div>
 
-            <h2 th:text="${logro.logro == null ? 'NULL' : logro.logro.nombre}">
-                Nombre del logro
-            </h2>
-
-            <p th:text="${logro.logro == null ? 'LOGRO NULL' : logro.logro.descripcion}">
-                Descripción del logro
-            </p>
-
-              <span class="estado"
-                  th:text="${logro.desbloqueado} ? 'Desbloqueado' : 'Bloqueado'">
-                </span>
-
-        </div>
-
-    </article>
+        </article>
 
       </div>
-
     </section>
 
   </main>
 
 </body>
-
 </html>

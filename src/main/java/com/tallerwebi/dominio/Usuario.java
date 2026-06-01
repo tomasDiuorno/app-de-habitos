@@ -29,8 +29,6 @@ public class Usuario {
   @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
   private List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
 
-  @OneToMany(mappedBy = "usuario")
-  private List<UsuarioLogro> usuarioLogros = new ArrayList<>();
 
   public Integer getId() {
     return id;
@@ -114,13 +112,5 @@ public class Usuario {
 
   public void setUsuarioHabito(List<UsuarioHabito> usuarioHabitos) {
     this.usuarioHabitos = usuarioHabitos;
-  }
-
-  public List<UsuarioLogro> getUsuarioLogros() {
-    return usuarioLogros;
-  }
-
-  public void setUsuarioLogros(List<UsuarioLogro> usuarioLogros) {
-    this.usuarioLogros = usuarioLogros;
   }
 }

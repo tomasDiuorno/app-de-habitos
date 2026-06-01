@@ -24,21 +24,18 @@ public class ServicioHabitoTest {
   private RepositorioHabito repositorioHabitoMock;
   private RepositorioUsuarioHabito repositorioUsuarioHabitoMock;
   private RepositorioCategoria repositorioCategoriaMock;
-  private ServicioLogro servicioLogroMock;
 
   @BeforeEach
   public void init() {
     this.repositorioHabitoMock = mock(RepositorioHabito.class);
     this.repositorioUsuarioHabitoMock = mock(RepositorioUsuarioHabito.class);
     this.repositorioCategoriaMock = mock(RepositorioCategoria.class);
-    this.servicioLogroMock = mock(ServicioLogro.class);
 
     this.servicioHabitos =
       new ServicioHabitoImp(
         this.repositorioHabitoMock,
         this.repositorioUsuarioHabitoMock,
-        this.repositorioCategoriaMock,
-        this.servicioLogroMock
+        this.repositorioCategoriaMock
       );
   }
 
@@ -158,21 +155,4 @@ public class ServicioHabitoTest {
     verify(this.repositorioUsuarioHabitoMock, times(0)).guardar(any(UsuarioHabito.class));
   }
 
-  @Test
-  public void alCrearUnHabitoParaUsuarioDeberiaVerificarLogros()
-    throws HabitoExistenteExeption, LimiteHabitosAlcanzadoException {
-    Usuario usuario = new Usuario();
-
-    Habito habito = new Habito();
-    Categoria categoria = new Categoria();
-
-    habito.setTitulo("Leer");
-    habito.setCategoria(categoria);
-
-    when(this.repositorioHabitoMock.buscarPorTitulo(habito.getTitulo())).thenReturn(null);
-
-    this.servicioHabitos.agregarHabitoParaUsuario(habito, usuario);
-
-    verify(this.servicioLogroMock, times(1)).verificarLogros(usuario);
-  }
 }

@@ -1,71 +1,55 @@
 package com.tallerwebi.dominio;
 
-import java.util.List;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service("servicioLogro")
 @Transactional
 public class ServicioLogroImpl implements ServicioLogro {
 
-  private RepositorioLogro repositorioLogro;
-  private RepositorioUsuarioLogro repositorioUsuarioLogro;
+    private RepositorioLogro repositorioLogro;
+    private RepositorioUsuarioLogro repositorioUsuarioLogro;
 
-  private static final int PRIMER_LOGRO = 1;
-  private static final int TRES_HABITOS = 3;
-  private static final int DIEZ_HABITOS = 4;
-
-  @Autowired
-  public ServicioLogroImpl(
-    RepositorioLogro repositorioLogro,
-    RepositorioUsuarioLogro repositorioUsuarioLogro
-  ) {
-    this.repositorioLogro = repositorioLogro;
-    this.repositorioUsuarioLogro = repositorioUsuarioLogro;
-  }
-
-  @Override
-  public void verificarLogros(Usuario usuario) {
-    int cantidadHabitos = usuario.getUsuarioHabito().size();
-
-    if (cantidadHabitos >= PRIMER_LOGRO) {
-      desbloquearLogro(usuario, "Primer hábito creado");
+    @Autowired
+    public ServicioLogroImpl(
+        RepositorioLogro repositorioLogro,
+        RepositorioUsuarioLogro repositorioUsuarioLogro
+    ) {
+        this.repositorioLogro = repositorioLogro;
+        this.repositorioUsuarioLogro = repositorioUsuarioLogro;
     }
 
-    if (cantidadHabitos >= TRES_HABITOS) {
-      desbloquearLogro(usuario, "3 hábitos creados");
+    @Override
+    public void verificarYAsignarLogros(Usuario usuario) {
+        int cantidadHabitos = usuario.getUsuarioHabito().size();
+
+        verificarLogro("Primer Paso", 1, cantidadHabitos, usuario);
+        verificarLogro("Constante",   3, cantidadHabitos, usuario);
+        verificarLogro("Experto",    4, cantidadHabitos, usuario);
     }
 
-    if (cantidadHabitos >= DIEZ_HABITOS) {
-      desbloquearLogro(usuario, "4 hábitos creados");
+    private void verificarLogro(
+        String nombreLogro,
+        int cantidadRequerida,
+        int cantidadActual,
+        Usuario usuario
+    ) {
+        if (cantidadActual >= cantidadRequerida) {
+            Logro logro = repositorioLogro.buscarPorNombre(nombreLogro);
+            if (logro != null &&
+                !repositorioUsuarioLogro.existeLogroParaUsuario(usuario, logro)) {
+                UsuarioLogro usuarioLogro = new UsuarioLogro();
+                usuarioLogro.setUsuario(usuario);
+                usuarioLogro.setLogro(logro);
+                repositorioUsuarioLogro.guardar(usuarioLogro);
+            }
+        }
     }
-  }
 
-  @Override
-  public List<UsuarioLogro> obtenerLogrosDeUsuario(Usuario usuario) {
-    return repositorioUsuarioLogro.buscarPorUsuario(usuario.getId());
-  }
-
-  private void desbloquearLogro(Usuario usuario, String nombreLogro) {
-    Logro logro = repositorioLogro.buscarPorNombre(nombreLogro);
-    if (logro == null) {
-      throw new RuntimeException("NO SE ENCONTRO EL LOGRO: " + nombreLogro);
+    @Override
+    public List<UsuarioLogro> obtenerLogrosDeUsuario(Usuario usuario) {
+        return repositorioUsuarioLogro.buscarPorUsuario(usuario);
     }
-
-    UsuarioLogro usuarioLogroExistente = repositorioUsuarioLogro.buscarPorUsuarioYLogro(
-      usuario,
-      logro
-    );
-
-    if (usuarioLogroExistente == null) {
-      UsuarioLogro usuarioLogro = new UsuarioLogro();
-
-      usuarioLogro.setUsuario(usuario);
-      usuarioLogro.setLogro(logro);
-      usuarioLogro.setDesbloqueado(true);
-
-      repositorioUsuarioLogro.guardar(usuarioLogro);
-    }
-  }
 }
