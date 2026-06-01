@@ -47,41 +47,32 @@
         Completá los datos para agregar un hábito personalizado a tu rutina.
       </p>
 
-      <form th:action="@{/crear-habito}" method="POST" class="crear-habito-form">
+      <form th:action="@{/crear-habito}" method="POST" class="crear-habito-form" th:object="${datosRegistroHabito}">
 
         <div class="form-group">
           <label for="titulo">Nombre del hábito</label>
-          <input
-            type="text"
-            id="titulo"
-            name="titulo"
-            placeholder="Ej: Dormir temprano"
-            required>
+          <input type="text" id="titulo" th:field="*{titulo}" placeholder="Ej: Dormir temprano" required>
         </div>
 
         <div class="form-group">
           <label for="descripcion">Descripción</label>
-          <textarea
-            id="descripcion"
-            name="descripcion"
-            placeholder="Ej: Acostarme antes de las 23 hs"
+          <textarea id="descripcion" th:field="*{descripcion}" placeholder="Ej: Acostarme antes de las 23 hs"
             required></textarea>
         </div>
 
         <div class="form-grid">
           <div class="form-group">
-            <label for="categoria">Categoría</label>
-            <input
-              type="text"
-              id="categoria"
-              name="categoria"
-              placeholder="Ej: Bienestar"
-              required>
+            <select th:field="*{categoriaId}" required>
+              <option value="">Seleccionar</option>
+              <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}">
+              </option>
+            </select>
           </div>
 
           <div class="form-group">
             <label for="frecuencia">Frecuencia</label>
-            <select id="frecuencia" name="frecuencia" required>
+            <select id="frecuencia" th:field="*{frecuencia}" required>
+
               <option value="">Seleccionar</option>
               <option value="Diaria">Diaria</option>
               <option value="Semanal">Semanal</option>
@@ -91,21 +82,25 @@
         </div>
 
         <div class="form-group">
-          <label for="duracionEstimada">Duración estimada en minutos</label>
-          <input
-            type="number"
-            id="duracionEstimada"
-            name="duracionEstimada"
-            min="1"
-            placeholder="Ej: 30"
+          <label for="duracionEstimada">
+            Duración estimada en minutos
+          </label>
+
+          <input type="number" id="duracionEstimada" th:field="*{duracionEstimada}" min="1" placeholder="Ej: 30"
             required>
         </div>
 
-        <p th:if="${error != null}" class="form-error" th:text="${error}"></p>
+        <p th:if="${error != null}" class="form-error" th:text="${error}">
+        </p>
 
         <div class="form-actions">
-          <a th:href="@{/habitos}" class="button-secondary">Cancelar</a>
-          <button type="submit" class="button-primary">Guardar hábito</button>
+          <a th:href="@{/habitos}" class="button-secondary">
+            Cancelar
+          </a>
+
+          <button type="submit" class="button-primary">
+            Guardar hábito
+          </button>
         </div>
 
       </form>

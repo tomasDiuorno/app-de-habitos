@@ -14,6 +14,8 @@ public class DatosRegistro {
   private String surname;
 
   @NotBlank(message = "El nombre de usuario es obligatorio")
+  @NotBlank(message = "Nombre de usuario incompleto")
+  @Size(min = 3, max = 20, message = "El usuario debe tener entre 3 y 20 caracteres")
   private String username;
 
   @NotBlank(message = "El correo electrónico es obligatorio")
@@ -51,6 +53,7 @@ public class DatosRegistro {
     this.name = name;
   }
 
+<<<<<<< HEAD
   public String getSurname() {
     return surname;
   }
@@ -63,6 +66,8 @@ public class DatosRegistro {
     return username;
   }
 
+=======
+>>>>>>> 385eb2062303763cc4ebe7ea30c5736d31306bb5
   public String getEmail() {
     return email;
   }

@@ -35,12 +35,19 @@ public class RepositorioCategoriaTest {
   @Transactional
   @Rollback
   public void deberiaGuardarUnaNuevaCategoria() {
-    String nombre = "Deporte";
-    Categoria categoria = dadoQueTengoUnaCategoria(nombre);
-    this.dadoQueExisteLaCategoria(categoria);
+    Categoria cat = new Categoria();
+    String nombre = "Bienestar";
+    cat.setNombre(nombre);
+
+    this.dadoQueExisteUnCategoria(cat);
+    Categoria categoria = dadoQueTengoUnaCategoria(cat.getId());
 
     Categoria obtenida = obtengoUnaCategoria(nombre);
     this.entoncesLaCategoriaObtenidaEsCorrecta(obtenida, categoria);
+  }
+
+  private void dadoQueExisteUnCategoria(Categoria cat) {
+    this.sessionFactory.getCurrentSession().save(cat);
   }
 
   private void entoncesLaCategoriaObtenidaEsCorrecta(Categoria obtenida, Categoria categoria) {
@@ -54,13 +61,8 @@ public class RepositorioCategoriaTest {
       .getSingleResult();
   }
 
-  private void dadoQueExisteLaCategoria(Categoria categoria) {
-    this.repositorioCategoria.guardar(categoria);
-  }
-
-  private Categoria dadoQueTengoUnaCategoria(String titulo) {
-    Categoria cat = new Categoria();
-    cat.setNombre(titulo);
+  private Categoria dadoQueTengoUnaCategoria(Integer id) {
+    Categoria cat = repositorioCategoria.obtenerCategoriaPorId(id);
     return cat;
   }
 }

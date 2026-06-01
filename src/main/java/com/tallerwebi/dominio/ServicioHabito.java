@@ -3,6 +3,7 @@ package com.tallerwebi.dominio;
 import com.tallerwebi.dominio.excepcion.ChecklistInsuficienteExeption;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
+import com.tallerwebi.presentacion.DatosRegistroHabito;
 import java.util.List;
 
 public interface ServicioHabito {
@@ -17,4 +18,5 @@ public interface ServicioHabito {
   void eliminarItemChecklistDelHabito(ItemChecklist item, Integer idHabito)
     throws ChecklistInsuficienteExeption;
   Habito buscarHabitoPorId(Integer id);
+  Habito obtenerHabito(DatosRegistroHabito datos);
 }

@@ -12,10 +12,6 @@ public class VistaNuevoUsuario extends VistaWeb {
     this.escribirEnElElemento("#name", nombre);
   }
 
-  public void escribirApellido(String apellido) {
-    this.escribirEnElElemento("#surname", apellido);
-  }
-
   public void escribirUsername(String username) {
     this.escribirEnElElemento("#username", username);
   }
