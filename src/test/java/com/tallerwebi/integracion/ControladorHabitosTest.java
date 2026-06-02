@@ -44,7 +44,10 @@ public class ControladorHabitosTest {
 
   @Test
   public void deberiaRetornarLaPaginaHabitosCuandoNavegoAHabitos() throws Exception {
-    MvcResult result = this.mockMvc.perform(get("/habitos").sessionAttr("usuario", usuarioMock)).andExpect(status().isOk()).andReturn();
+    MvcResult result =
+      this.mockMvc.perform(get("/habitos").sessionAttr("usuario", usuarioMock))
+        .andExpect(status().isOk())
+        .andReturn();
 
     ModelAndView modelAndView = result.getModelAndView();
     assert modelAndView != null;
