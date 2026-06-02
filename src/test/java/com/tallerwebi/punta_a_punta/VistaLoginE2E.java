@@ -73,7 +73,6 @@ public class VistaLoginE2E {
     dadoQueElUsuarioNavegaALaVistaDeRegistro();
     dadoQueElUsuarioSeRegistraCon(
       "Tomas",
-      "Diuorno",
       "Tomidiu",
       "Masculino",
       "juan@unlam.edu.ar",
@@ -121,7 +120,6 @@ public class VistaLoginE2E {
 
   private void dadoQueElUsuarioSeRegistraCon(
     String nombre,
-    String apellido,
     String username,
     String genero,
     String email,
@@ -130,7 +128,6 @@ public class VistaLoginE2E {
   ) {
     VistaNuevoUsuario vistaNuevoUsuario = new VistaNuevoUsuario(context.pages().get(0));
     vistaNuevoUsuario.escribirNombre(nombre);
-    vistaNuevoUsuario.escribirApellido(apellido);
     vistaNuevoUsuario.escribirUsername(username);
     vistaNuevoUsuario.escribirGenero(genero);
     vistaNuevoUsuario.escribirEMAIL(email);

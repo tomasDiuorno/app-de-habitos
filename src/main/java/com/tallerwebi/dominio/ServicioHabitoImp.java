@@ -2,6 +2,7 @@ package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
+import com.tallerwebi.presentacion.DatosRegistroHabito;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +17,19 @@ public class ServicioHabitoImp implements ServicioHabito {
   private RepositorioHabito repositorioHabito;
   private RepositorioUsuarioHabito repositorioUsuarioHabito;
   private RepositorioCategoria repositorioCategoria;
+  private ServicioLogro servicioLogro;
 
   @Autowired
   public ServicioHabitoImp(
     RepositorioHabito repositorioHabito,
     RepositorioUsuarioHabito repositorioUsuarioHabito,
-    RepositorioCategoria repositorioCategoria
+    RepositorioCategoria repositorioCategoria,
+    ServicioLogro servicioLogro
   ) {
     this.repositorioHabito = repositorioHabito;
     this.repositorioUsuarioHabito = repositorioUsuarioHabito;
     this.repositorioCategoria = repositorioCategoria;
+    this.servicioLogro = servicioLogro;
   }
 
   @Override
@@ -38,7 +42,6 @@ public class ServicioHabitoImp implements ServicioHabito {
     if (this.repositorioHabito.buscarPorTitulo(habito.getTitulo()) != null) {
       throw new HabitoExistenteExeption();
     }
-
     this.repositorioHabito.guardar(habito);
   }
 
@@ -48,17 +51,33 @@ public class ServicioHabitoImp implements ServicioHabito {
     if (usuario.getUsuarioHabito().size() >= CANTIDAD_MAXIMA_HABITOS) {
       throw new LimiteHabitosAlcanzadoException();
     }
-
-    this.repositorioCategoria.guardar(habito.getCategoria());
+    UsuarioHabito usuarioHabito = this.crearRelacion(habito, usuario);
     this.agregarHabito(habito);
+    this.repositorioUsuarioHabito.guardar(usuarioHabito);
+    usuario.getUsuarioHabito().add(usuarioHabito);
 
+    if (usuario.getId() != null) {
+        this.servicioLogro.verificarYAsignarLogros(usuario);
+    }
+  }
+
+  private UsuarioHabito crearRelacion(Habito habito, Usuario usuario) {
     UsuarioHabito usuarioHabito = new UsuarioHabito();
     usuarioHabito.setUsuario(usuario);
     usuarioHabito.setHabito(habito);
     usuarioHabito.setActivo(true);
+    return usuarioHabito;
+  }
 
-    this.repositorioUsuarioHabito.guardar(usuarioHabito);
-    usuario.getUsuarioHabito().add(usuarioHabito);
+
+  private Habito crearHabito(DatosRegistroHabito datos, Categoria categoria) {
+    Habito habito = new Habito();
+    habito.setTitulo(datos.getTitulo());
+    habito.setDescripcion(datos.getDescripcion());
+    habito.setDuracionEstimada(datos.getDuracionEstimada());
+    habito.setCategoria(categoria);
+    habito.setFrecuencia(datos.getFrecuencia());
+    return habito;
   }
 
   @Override
@@ -69,5 +88,8 @@ public class ServicioHabitoImp implements ServicioHabito {
   @Override
   public Habito buscarHabitoPorId(Integer id) {
     return this.repositorioHabito.buscarPorId(id);
+  public Habito obtenerHabito(DatosRegistroHabito datos) {
+    Categoria categoria = repositorioCategoria.obtenerCategoriaPorId(datos.getCategoriaId());
+    return this.crearHabito(datos, categoria);
   }
 }

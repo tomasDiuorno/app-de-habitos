@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
+@SuppressWarnings("PMD.TooManyFields")
 public class Usuario {
 
   @Id
@@ -17,12 +18,12 @@ public class Usuario {
   private Integer id;
 
   private String name;
-  private String surname;
   private String username;
   private String email;
   private String password;
   private String rol;
   private String gender;
+  private Integer nivelUsuario = 0;
   private Boolean activo = false;
 
   @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
@@ -46,14 +47,6 @@ public class Usuario {
 
   public String getEmail() {
     return email;
-  }
-
-  public String getSurname() {
-    return surname;
-  }
-
-  public void setSurname(String surname) {
-    this.surname = surname;
   }
 
   public String getUsername() {
@@ -110,5 +103,13 @@ public class Usuario {
 
   public void setUsuarioHabito(List<UsuarioHabito> usuarioHabitos) {
     this.usuarioHabitos = usuarioHabitos;
+  }
+
+  public Integer getNivelUsuario() {
+    return nivelUsuario;
+  }
+
+  public void setNivelUsuario(Integer nivelUsuario) {
+    this.nivelUsuario = nivelUsuario;
   }
 }

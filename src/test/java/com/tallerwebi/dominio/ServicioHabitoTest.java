@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
+import com.tallerwebi.presentacion.DatosRegistroHabito;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,18 +25,21 @@ public class ServicioHabitoTest {
   private RepositorioHabito repositorioHabitoMock;
   private RepositorioUsuarioHabito repositorioUsuarioHabitoMock;
   private RepositorioCategoria repositorioCategoriaMock;
+  private ServicioLogro servicioLogroMock;
 
   @BeforeEach
   public void init() {
     this.repositorioHabitoMock = mock(RepositorioHabito.class);
     this.repositorioUsuarioHabitoMock = mock(RepositorioUsuarioHabito.class);
     this.repositorioCategoriaMock = mock(RepositorioCategoria.class);
+    this.servicioLogroMock = mock(ServicioLogro.class);
 
     this.servicioHabitos =
       new ServicioHabitoImp(
         this.repositorioHabitoMock,
         this.repositorioUsuarioHabitoMock,
-        this.repositorioCategoriaMock
+        this.repositorioCategoriaMock,
+        this.servicioLogroMock
       );
   }
 
@@ -105,17 +109,15 @@ public class ServicioHabitoTest {
     Usuario usuario = new Usuario();
     usuario.setId(1);
 
-    Habito habito = new Habito();
-    Categoria categoria = new Categoria();
-    categoria.setNombre("Bienestar");
-    habito.setTitulo("Dormir temprano");
-    habito.setCategoria(categoria);
+    DatosRegistroHabito datosHabito = new DatosRegistroHabito();
+    datosHabito.setTitulo("Dormir temprano");
+    datosHabito.setCategoriaId(1);
+    Habito habito = this.servicioHabitos.obtenerHabito(datosHabito);
 
     when(this.repositorioHabitoMock.buscarPorTitulo(habito.getTitulo())).thenReturn(null);
 
     this.servicioHabitos.agregarHabitoParaUsuario(habito, usuario);
 
-    verify(this.repositorioCategoriaMock, times(1)).guardar(categoria);
     verify(this.repositorioHabitoMock, times(1)).guardar(habito);
 
     ArgumentCaptor<UsuarioHabito> captor = ArgumentCaptor.forClass(UsuarioHabito.class);
@@ -132,6 +134,8 @@ public class ServicioHabitoTest {
   @Test
   public void alCrearUnHabitoParaUnUsuarioConCuatroHabitosDeberiaLanzarExcepcion()
     throws HabitoExistenteExeption {
+    DatosRegistroHabito datosHabito = new DatosRegistroHabito();
+    datosHabito.setTitulo("Dormir temprano");
     Usuario usuario = new Usuario();
 
     List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
@@ -143,14 +147,13 @@ public class ServicioHabitoTest {
     usuario.setUsuarioHabito(usuarioHabitos);
 
     Habito habito = new Habito();
-    habito.setTitulo("Dormir temprano");
+    habito.setTitulo(datosHabito.getTitulo());
 
     assertThrows(
       LimiteHabitosAlcanzadoException.class,
       () -> this.servicioHabitos.agregarHabitoParaUsuario(habito, usuario)
     );
 
-    verify(this.repositorioCategoriaMock, times(0)).guardar(any(Categoria.class));
     verify(this.repositorioHabitoMock, times(0)).guardar(any(Habito.class));
     verify(this.repositorioUsuarioHabitoMock, times(0)).guardar(any(UsuarioHabito.class));
   }

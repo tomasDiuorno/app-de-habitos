@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Habitapp — Logros</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" th:href="@{/css/logros.css}" />
+</head>
+
+<body class="logros-body">
+
+  <nav class="home-navbar">
+    <div class="home-navbar-container">
+
+      <a th:href="@{/home}" class="home-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="home-logo">
+      </a>
+
+      <div class="home-nav-links">
+        <a th:href="@{/habitos}" class="home-nav-link">Hábitos</a>
+        <a th:href="@{/logros}"  class="home-nav-link active">Logros</a>
+        <a th:href="@{/perfil}"  class="home-nav-link">Perfil</a>
+        <a th:href="@{/login}"   class="home-logout-button">Cerrar sesión</a>
+      </div>
+
+    </div>
+  </nav>
+
+  <main class="logros-main">
+
+    <div class="logros-header">
+      <p class="section-kicker">Tu progreso</p>
+      <h1>Logros</h1>
+      <p class="logros-intro">
+        Completá hábitos para desbloquear logros. Los logros bloqueados se muestran en gris
+        hasta que cumplas la condición requerida.
+      </p>
+    </div>
+
+    <div class="logros-grid">
+
+      <div th:classappend="${#lists.contains(nombresDesbloqueados, 'Primer Paso')} ? 'desbloqueado' : 'bloqueado'"
+           class="logro-card">
+        <div class="logro-info">
+          <h3 class="logro-nombre">Primer Paso</h3>
+          <p class="logro-desc">Agregaste tu primer hábito</p>
+        </div>
+        <span class="logro-badge"
+              th:text="${#lists.contains(nombresDesbloqueados, 'Primer Paso')} ? 'Desbloqueado' : 'Bloqueado'">
+        </span>
+      </div>
+
+      <div th:classappend="${#lists.contains(nombresDesbloqueados, 'Constante')} ? 'desbloqueado' : 'bloqueado'"
+           class="logro-card">
+        <div class="logro-info">
+          <h3 class="logro-nombre">Constante</h3>
+          <p class="logro-desc">Llegaste a 3 hábitos activos</p>
+        </div>
+        <span class="logro-badge"
+              th:text="${#lists.contains(nombresDesbloqueados, 'Constante')} ? 'Desbloqueado' : 'Bloqueado'">
+        </span>
+      </div>
+
+      <div th:classappend="${#lists.contains(nombresDesbloqueados, 'Experto')} ? 'desbloqueado' : 'bloqueado'"
+           class="logro-card">
+        <div class="logro-info">
+          <h3 class="logro-nombre">Experto</h3>
+          <p class="logro-desc">Llegaste a 4 hábitos activos</p>
+        </div>
+        <span class="logro-badge"
+              th:text="${#lists.contains(nombresDesbloqueados, 'Experto')} ? 'Desbloqueado' : 'Bloqueado'">
+        </span>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="home-footer">
+    <div class="home-footer-container">
+      <div class="footer-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="footer-logo">
+      </div>
+      <div class="footer-info">
+        <p>Proyecto desarrollado para Taller Web I.</p>
+        <p>Tomas Diuorno - Julieta Miño - Ramiro Bruzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
+      </div>
+      <div class="footer-copy">
+        <p>&copy; 2026 Habitapp. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -29,6 +29,7 @@
       <div class="perfil-nav-links">
         <a th:href="@{/home}" class="perfil-nav-link">Inicio</a>
         <a th:href="@{/habitos}" class="perfil-nav-link">Hábitos</a>
+        <a th:href="@{/recompensas}" class="habitos-nav-link active">Recompensas</a>
         <a th:href="@{/perfil}" class="perfil-nav-link active">Perfil</a>
         <a th:href="@{/login}" class="perfil-logout-button">Cerrar sesión</a>
       </div>
@@ -69,13 +70,6 @@
         </div>
 
         <div class="perfil-field">
-          <label>Apellido</label>
-          <div class="perfil-value">
-            <span th:text="${usuario.surname}"></span>
-          </div>
-        </div>
-
-        <div class="perfil-field">
           <label>Usuario</label>
           <div class="perfil-value">
             <span th:text="${usuario.username}"></span>
@@ -106,12 +100,16 @@
       </div>
 
       <div class="perfil-actions">
-        <a th:href="@{/home}" class="perfil-button secondary">
-          Volver
-        </a>
 
+  <a th:href="@{/logros}" class="perfil-button primary">
+    Ver mis logros
+  </a>
 
-      </div>
+  <a th:href="@{/home}" class="perfil-button secondary">
+    Volver
+  </a>
+
+</div>
 
     </section>
 

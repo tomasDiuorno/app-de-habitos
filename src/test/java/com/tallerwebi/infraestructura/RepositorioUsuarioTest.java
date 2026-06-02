@@ -44,7 +44,6 @@ public class RepositorioUsuarioTest {
     Usuario usuario =
       this.dadoQueTengoUnUsuario(
           "Test",
-          "User",
           "testuser",
           emailNuevoUsuario,
           "1234",
@@ -66,7 +65,7 @@ public class RepositorioUsuarioTest {
     String email = "test@test.com";
     String password = "1234";
     Usuario usuario =
-      this.dadoQueTengoUnUsuario("Test", "User", "username", email, password, "USER", "Masculino");
+      this.dadoQueTengoUnUsuario("Test", "username", email, password, "USER", "Masculino");
     this.dadoQueExisteElUsuario(usuario);
 
     Usuario obtenido = this.cuandoBuscoUnUsuario(email, password);
@@ -87,7 +86,7 @@ public class RepositorioUsuarioTest {
   public void deberiaEncontrarUnUsuarioExistenteCuandoBuscoPorEmail() {
     String email = "test@test.com";
     Usuario usuario =
-      this.dadoQueTengoUnUsuario("Test", "User", "testuser", email, "1234", "USER", "Masculino");
+      this.dadoQueTengoUnUsuario("Test", "testuser", email, "1234", "USER", "Masculino");
     this.dadoQueExisteElUsuario(usuario);
 
     Usuario obtenido = this.cuandoObtengoUnUsuarioPorEmail(email);
@@ -108,7 +107,7 @@ public class RepositorioUsuarioTest {
   public void deberiaModificarUnUsuarioExistente() {
     String email = "test@test.com";
     Usuario usuario =
-      this.dadoQueTengoUnUsuario("Test", "User", "testuser", email, "1234", "USER", "Masculino");
+      this.dadoQueTengoUnUsuario("Test", "testuser", email, "1234", "USER", "Masculino");
     this.dadoQueExisteElUsuario(usuario);
 
     usuario.setPassword("4567");
@@ -128,7 +127,6 @@ public class RepositorioUsuarioTest {
     Usuario usuario =
       this.dadoQueTengoUnUsuario(
           "test",
-          "user",
           "testuser",
           "noexiste@test.com",
           "123",
@@ -143,7 +141,6 @@ public class RepositorioUsuarioTest {
 
   private Usuario dadoQueTengoUnUsuario(
     String nombre,
-    String apellido,
     String username,
     String email,
     String password,
@@ -152,7 +149,6 @@ public class RepositorioUsuarioTest {
   ) {
     Usuario usuario = new Usuario();
     usuario.setName(nombre);
-    usuario.setSurname(apellido);
     usuario.setUsername(username);
     usuario.setEmail(email);
     usuario.setPassword(password);
@@ -195,7 +191,6 @@ public class RepositorioUsuarioTest {
     Usuario usuarioEsperado
   ) {
     assertThat(usuarioObtenido.getName(), is(equalTo(usuarioEsperado.getName())));
-    assertThat(usuarioObtenido.getSurname(), is(equalTo(usuarioEsperado.getSurname())));
     assertThat(usuarioObtenido.getUsername(), is(equalTo(usuarioEsperado.getUsername())));
     assertThat(usuarioObtenido.getEmail(), is(equalTo(usuarioEsperado.getEmail())));
     assertThat(usuarioObtenido.getPassword(), is(equalTo(usuarioEsperado.getPassword())));

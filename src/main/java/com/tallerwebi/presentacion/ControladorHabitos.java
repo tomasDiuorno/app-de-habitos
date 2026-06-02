@@ -2,14 +2,18 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Categoria;
 import com.tallerwebi.dominio.Habito;
+import com.tallerwebi.dominio.ServicioCategoria;
 import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,10 +23,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControladorHabitos {
 
   private ServicioHabito servicioHabito;
+  private ServicioCategoria servicioCategoria;
 
   @Autowired
-  public ControladorHabitos(ServicioHabito servicioHabito) {
+  public ControladorHabitos(ServicioHabito servicioHabito, ServicioCategoria servicioCategoria) {
     this.servicioHabito = servicioHabito;
+    this.servicioCategoria = servicioCategoria;
   }
 
   @RequestMapping(path = "/habitos", method = RequestMethod.GET)
@@ -41,30 +47,27 @@ public class ControladorHabitos {
 
   @RequestMapping(path = "/crear-habito", method = RequestMethod.GET)
   public ModelAndView irACrearHabito() {
-    return new ModelAndView("crear-habito");
+    ModelMap model = new ModelMap();
+    List<Categoria> categorias = this.servicioCategoria.obtenerCategorias();
+    model.put("categorias", categorias);
+    model.put("datosRegistroHabito", new DatosRegistroHabito());
+    return new ModelAndView("crear-habito", model);
   }
 
   @RequestMapping(path = "/crear-habito", method = RequestMethod.POST)
-  public ModelAndView crearHabito(HttpServletRequest request) {
+  public ModelAndView crearHabito(
+    @ModelAttribute("datosRegistroHabitos") DatosRegistroHabito datos,
+    HttpServletRequest request
+  ) {
     Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
     if (usuario == null) {
       return new ModelAndView("redirect:/login");
     }
 
-    Habito habito = new Habito();
-    habito.setTitulo(request.getParameter("titulo"));
-    habito.setDescripcion(request.getParameter("descripcion"));
-    habito.setFrecuencia(request.getParameter("frecuencia"));
-    habito.setDuracionEstimada(Integer.valueOf(request.getParameter("duracionEstimada")));
-
-    Categoria categoria = new Categoria();
-    categoria.setNombre(request.getParameter("categoria"));
-    habito.setCategoria(categoria);
-
     try {
+      Habito habito = this.servicioHabito.obtenerHabito(datos);
       this.servicioHabito.agregarHabitoParaUsuario(habito, usuario);
-      return new ModelAndView("redirect:/habitos");
     } catch (HabitoExistenteExeption excepcion) {
       ModelAndView modelAndView = new ModelAndView("crear-habito");
       modelAndView.addObject("error", "Ya existe un hábito con ese nombre");
@@ -74,6 +77,7 @@ public class ControladorHabitos {
       modelAndView.addObject("error", "No podés tener más de 4 hábitos activos");
       return modelAndView;
     }
+    return new ModelAndView("redirect:/habitos");
   }
 
   @RequestMapping(path = "/habito/{id}", method = RequestMethod.GET)
