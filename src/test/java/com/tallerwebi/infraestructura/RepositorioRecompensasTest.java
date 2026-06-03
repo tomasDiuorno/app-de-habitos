@@ -67,7 +67,6 @@ public class RepositorioRecompensasTest {
     assertThat(recompensas.get(0).getUrlImg(), is(equalTo("imagen")));
     assertThat(recompensas.get(0).getNivelRequerido(), is(equalTo(5)));
     assertThat(recompensas.get(0).getRareza(), is(equalTo(Rareza.COMUN)));
-    assertThat(recompensas.get(0).getActivo(), is(true));
   }
 
   private void dadoQueExisteLaRecompensa(Recompensa recompensa) {
@@ -90,7 +89,6 @@ public class RepositorioRecompensasTest {
     recomp.setUrlImg(imagen);
     recomp.setNivelRequerido(nivelRequerido);
     recomp.setRareza(rareza);
-    recomp.setActivo(activo);
     return recomp;
   }
 }

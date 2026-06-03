@@ -1,11 +1,14 @@
 package com.tallerwebi.dominio;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Recompensa {
@@ -22,7 +25,8 @@ public class Recompensa {
   @Enumerated(EnumType.STRING)
   private Rareza rareza;
 
-  private Boolean activo = false;
+  @OneToMany(mappedBy = "recompensa")
+  private List<UsuarioRecompensa> usuario = new ArrayList<>();
 
   public Integer getId() {
     return id;
@@ -70,13 +74,5 @@ public class Recompensa {
 
   public void setRareza(Rareza rareza) {
     this.rareza = rareza;
-  }
-
-  public Boolean getActivo() {
-    return activo;
-  }
-
-  public void setActivo(Boolean activo) {
-    this.activo = activo;
   }
 }
