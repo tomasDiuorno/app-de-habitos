@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
+@SuppressWarnings("PMD.TooManyFields")
 public class Usuario {
 
   @Id

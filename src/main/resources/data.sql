@@ -12,6 +12,10 @@ INSERT INTO Habito(id, titulo, categoria_id) VALUES(null, 'Meditar', 1);
 INSERT INTO Habito(id, titulo, categoria_id) VALUES(null, 'Leer un libro', 2);
 INSERT INTO Habito(id, titulo, categoria_id) VALUES(null, 'Hacer ejercicio', 3);
 
+INSERT INTO Logro(nombre, descripcion, condicion) VALUES ('Primer Paso', 'Agregaste tu primer hábito', 'PRIMER_HABITO');
+INSERT INTO Logro(nombre, descripcion, condicion) VALUES ('Constante', 'Llegaste a 3 hábitos activos', 'TRES_HABITOS');
+INSERT INTO Logro(nombre, descripcion, condicion) VALUES ('Experto', 'Llegaste a 4 hábitos activos', 'CUATRO_HABITOS');
+
 INSERT INTO Recompensa (nombre, descripcion, urlImg, nivelRequerido, rareza, activo) VALUES
 ('Café Gratis', 'Canjeá un café o bebida pequeña en cafeterías asociadas.', '/images/recompensas/lvl3.jpg', 3, 'COMUN', true),
 ('10% OFF Fast Food', 'Descuento en locales de comida rápida adheridos.', '/images/recompensas/lvl5.png', 5, 'COMUN', true),

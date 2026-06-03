@@ -18,16 +18,19 @@ public class ServicioHabitoImp implements ServicioHabito {
   private RepositorioHabito repositorioHabito;
   private RepositorioUsuarioHabito repositorioUsuarioHabito;
   private RepositorioCategoria repositorioCategoria;
+  private ServicioLogro servicioLogro;
 
   @Autowired
   public ServicioHabitoImp(
     RepositorioHabito repositorioHabito,
     RepositorioUsuarioHabito repositorioUsuarioHabito,
-    RepositorioCategoria repositorioCategoria
+    RepositorioCategoria repositorioCategoria,
+    ServicioLogro servicioLogro
   ) {
     this.repositorioHabito = repositorioHabito;
     this.repositorioUsuarioHabito = repositorioUsuarioHabito;
     this.repositorioCategoria = repositorioCategoria;
+    this.servicioLogro = servicioLogro;
   }
 
   @Override
@@ -53,6 +56,10 @@ public class ServicioHabitoImp implements ServicioHabito {
     this.agregarHabito(habito);
     this.repositorioUsuarioHabito.guardar(usuarioHabito);
     usuario.getUsuarioHabito().add(usuarioHabito);
+
+    if (usuario.getId() != null) {
+      this.servicioLogro.verificarYAsignarLogros(usuario);
+    }
   }
 
   private UsuarioHabito crearRelacion(Habito habito, Usuario usuario) {
@@ -118,11 +125,12 @@ public class ServicioHabitoImp implements ServicioHabito {
     this.actualizarProgresoActualHabito(habitoEncontrado);
     this.repositorioHabito.modificar(habitoEncontrado);
   }
-
+  
   public Habito buscarHabitoPorId(Integer id) {
     return this.repositorioHabito.buscarPorId(id);
   }
-  
+
+  @Override
   public Habito obtenerHabito(DatosRegistroHabito datos) {
     Categoria categoria = repositorioCategoria.obtenerCategoriaPorId(datos.getCategoriaId());
     return this.crearHabito(datos, categoria);
