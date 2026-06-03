@@ -55,7 +55,7 @@ openButtons.forEach((button) => {
         });
 
     } catch (error) {
-
+asdssad;
       console.error("Error al obtener hábito:", error);
     }
 
