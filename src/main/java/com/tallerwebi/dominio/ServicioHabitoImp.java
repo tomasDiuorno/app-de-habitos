@@ -126,8 +126,17 @@ public class ServicioHabitoImp implements ServicioHabito {
     this.repositorioHabito.modificar(habitoEncontrado);
   }
 
+  @Override
   public Habito buscarHabitoPorId(Integer id) {
-    return this.repositorioHabito.buscarPorId(id);
+    Habito habito = this.repositorioHabito.buscarPorId(id);
+
+    if (habito != null) {
+      // Al pedirle el "size()", forzamos a Hibernate a ir a la base de datos
+      // y traer los items del checklist mientras la conexión sigue abierta.
+      habito.getCantidadDeChecklist().size();
+    }
+
+    return habito;
   }
 
   @Override
@@ -151,6 +160,26 @@ public class ServicioHabitoImp implements ServicioHabito {
     item.setEstadoChecklist(!item.getEstadoChecklist());
 
     this.actualizarProgresoActualHabito(habito);
+    this.repositorioHabito.modificar(habito);
+  }
+
+  @Override
+  public void editarDescripcionItemChecklist(
+    Integer itemId,
+    Integer habitoId,
+    String nuevaDescripcion
+  ) throws ChecklistInsuficienteExeption {
+    Habito habito = this.buscarHabitoPorId(habitoId);
+
+    ItemChecklist item = habito
+      .getCantidadDeChecklist()
+      .stream()
+      .filter(i -> i.getId().equals(itemId))
+      .findFirst()
+      .orElseThrow();
+
+    item.setDescripcion(nuevaDescripcion);
+
     this.repositorioHabito.modificar(habito);
   }
 }

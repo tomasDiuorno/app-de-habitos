@@ -5,8 +5,10 @@ import com.tallerwebi.dominio.ItemChecklist;
 import com.tallerwebi.dominio.ServicioCategoria;
 import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.excepcion.ChecklistInsuficienteExeption;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,6 +44,7 @@ public class ControladorHabitos {
 
   private ServicioHabito servicioHabito;
   private ServicioCategoria servicioCategoria;
+  private static final String PRODUCES_JSON = "application/json";
 
   @Autowired
   public ControladorHabitos(ServicioHabito servicioHabito, ServicioCategoria servicioCategoria) {
@@ -151,32 +154,133 @@ public class ControladorHabitos {
     modelAndView.addObject(ATRIBUTO_DESCRIPCION_LOGRO, descripcionLogro);
   }
 
+  // 1. Agregar un nuevo checklist
+  @RequestMapping(
+    path = "/habito/{idHabito}/agregar-checklist",
+    method = RequestMethod.POST,
+    produces = PRODUCES_JSON
+  )
+  @ResponseBody
+  public String agregarChecklist(
+    @PathVariable Integer idHabito,
+    @RequestParam("descripcion") String descripcion
+  ) {
+    try {
+      ItemChecklist nuevoItem = new ItemChecklist();
+      nuevoItem.setDescripcion(descripcion);
+      // El estadoChecklist ya es 'false' por defecto gracias al constructor de ItemChecklist
+
+      servicioHabito.agregarItemChecklistAlHabito(nuevoItem, idHabito);
+
+      return "{\"status\":\"success\", \"mensaje\":\"Checklist agregado correctamente\"}";
+    } catch (ChecklistInsuficienteExeption e) {
+      return "{\"status\":\"error\", \"mensaje\":\"" + e.getMessage() + "\"}";
+    }
+  }
+
+  // 2. Eliminar un checklist
+  @RequestMapping(
+    path = "/habito/{idHabito}/eliminar-checklist/{idItem}",
+    method = RequestMethod.POST,
+    produces = PRODUCES_JSON
+  )
+  @ResponseBody
+  public String eliminarChecklist(@PathVariable Integer idHabito, @PathVariable Integer idItem) {
+    try {
+      // Buscamos el hábito para obtener la referencia exacta del item a eliminar
+      Habito habito = servicioHabito.buscarHabitoPorId(idHabito);
+      ItemChecklist itemAEliminar = habito
+        .getCantidadDeChecklist()
+        .stream()
+        .filter(item -> item.getId().equals(idItem))
+        .findFirst()
+        .orElse(null);
+
+      if (itemAEliminar != null) {
+        servicioHabito.eliminarItemChecklistDelHabito(itemAEliminar, idHabito);
+        return "{\"status\":\"success\", \"mensaje\":\"Checklist eliminado\"}";
+      }
+      return "{\"status\":\"error\", \"mensaje\":\"Item no encontrado\"}";
+    } catch (ChecklistInsuficienteExeption e) {
+      return "{\"status\":\"error\", \"mensaje\":\"" + e.getMessage() + "\"}";
+    }
+  }
+
+  // 3. Cambiar el estado del checklist (Marcar / Desmarcar)
+  @RequestMapping(
+    path = "/habito/{idHabito}/toggle-checklist/{idItem}",
+    method = RequestMethod.POST,
+    produces = PRODUCES_JSON
+  )
+  @ResponseBody
+  public String toggleChecklist(@PathVariable Integer idHabito, @PathVariable Integer idItem) {
+    try {
+      servicioHabito.actualizarEstadoItemChecklist(idItem, idHabito);
+      return "{\"status\":\"success\", \"mensaje\":\"Estado actualizado\"}";
+    } catch (ChecklistInsuficienteExeption e) {
+      return "{\"status\":\"error\", \"mensaje\":\"" + e.getMessage() + "\"}";
+    }
+  }
+
+  // 4. Editar la descripción de un checklist existente
+  @RequestMapping(
+    path = "/habito/{idHabito}/editar-checklist/{idItem}",
+    method = RequestMethod.POST,
+    produces = PRODUCES_JSON
+  )
+  @ResponseBody
+  public String editarChecklist(
+    @PathVariable Integer idHabito,
+    @PathVariable Integer idItem,
+    @RequestParam("nuevaDescripcion") String nuevaDescripcion
+  ) {
+    try {
+      servicioHabito.editarDescripcionItemChecklist(idItem, idHabito, nuevaDescripcion);
+      return "{\"status\":\"success\", \"mensaje\":\"Checklist editado correctamente\"}";
+    } catch (Exception e) {
+      return "{\"status\":\"error\", \"mensaje\":\"Hubo un error al editar el item\"}";
+    }
+  }
+
   @RequestMapping(
     path = "/habito/{id}",
     method = RequestMethod.GET,
-    produces = "application/json;charset=UTF-8"
+    produces = "application/json" // O tu constante PRODUCES_JSON si la habías creado por PMD
   )
   @ResponseBody
   public String obtenerHabito(@PathVariable Integer id) {
     Habito habito = servicioHabito.buscarHabitoPorId(id);
 
-    // Simulamos un checklist en formato JSON.
-    String checklistJson =
-      "[" +
-      "{\"id\": 1, \"tarea\": \"Preparar los materiales\", \"completado\": true}," +
-      "{\"id\": 2, \"tarea\": \"Completar la actividad\", \"completado\": false}," +
-      "{\"id\": 3, \"tarea\": \"Marcar registro diario\", \"completado\": false}" +
-      "]";
+    // Armamos el JSON real recorriendo SOLAMENTE los items de la base de datos
+    StringBuilder checklistJson = new StringBuilder("[");
+    List<ItemChecklist> items = habito.getCantidadDeChecklist();
 
-    // Usamos String.format para armar el JSON sin repetir literales de comillas y comas
+    if (items != null && !items.isEmpty()) {
+      for (int i = 0; i < items.size(); i++) {
+        ItemChecklist item = items.get(i);
+        checklistJson.append(
+          String.format(
+            "{\"id\": %d, \"descripcion\": \"%s\", \"estadoChecklist\": %b}",
+            item.getId(),
+            item.getDescripcion(),
+            item.getEstadoChecklist()
+          )
+        );
+
+        if (i < items.size() - 1) {
+          checklistJson.append(",");
+        }
+      }
+    }
+    checklistJson.append("]");
+
     return String.format(
       "{\"titulo\":\"%s\",\"descripcion\":\"%s\",\"frecuencia\":\"%s\",\"duracionEstimada\":\"%s\",\"checklist\":%s}",
       habito.getTitulo(),
       habito.getDescripcion(),
       habito.getFrecuencia(),
       habito.getDuracionEstimada(),
-      checklistJson
+      checklistJson.toString()
     );
   }
-
 }

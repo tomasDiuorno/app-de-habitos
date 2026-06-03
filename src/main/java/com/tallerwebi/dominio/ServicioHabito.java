@@ -21,4 +21,6 @@ public interface ServicioHabito {
   Habito obtenerHabito(DatosRegistroHabito datos);
   void actualizarEstadoItemChecklist(Integer itemId, Integer habitoId)
     throws ChecklistInsuficienteExeption;
+  void editarDescripcionItemChecklist(Integer idItem, Integer idHabito, String nuevaDescripcion)
+    throws ChecklistInsuficienteExeption;
 }
