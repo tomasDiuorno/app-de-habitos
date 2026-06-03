@@ -33,7 +33,7 @@ public class Habito {
   private List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
 
   @OneToMany(mappedBy = "habito", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<ItemChecklist> cantidadDeChecklist;
+  private List<ItemChecklist> cantidadDeChecklist = new ArrayList<>();
 
   public Integer getId() {
     return id;

@@ -91,7 +91,7 @@ public class ServicioHabitoImp implements ServicioHabito {
 
     if (cantidadDeChecklist == 0) {
       habito.setProgresoActual(0);
-      throw new ChecklistInsuficienteExeption("Agrega una checklist personalizada");
+      return;
     }
 
     Long checklistCompletados = habito
@@ -102,7 +102,6 @@ public class ServicioHabitoImp implements ServicioHabito {
     // guarda cuantos checklists estan completados y los cuenta.
 
     Integer porcentajeFinal = (int) ((checklistCompletados * 100) / cantidadDeChecklist);
-
     habito.setProgresoActual(porcentajeFinal);
   }
 
@@ -117,14 +116,22 @@ public class ServicioHabitoImp implements ServicioHabito {
   }
 
   @Override
-  public void eliminarItemChecklistDelHabito(ItemChecklist item, Integer idHabito)
-    throws ChecklistInsuficienteExeption {
+public void eliminarItemChecklistDelHabito(ItemChecklist item, Integer idHabito) throws ChecklistInsuficienteExeption {
     Habito habitoEncontrado = this.buscarHabitoPorId(idHabito);
 
-    habitoEncontrado.eliminarItemChecklist(item);
+    ItemChecklist itemAEliminar = habitoEncontrado
+            .getCantidadDeChecklist()
+            .stream()
+            .filter(itemChecklist -> itemChecklist.getId().equals(item.getId()))
+            .findFirst()
+            .orElseThrow();
+
+    habitoEncontrado.eliminarItemChecklist(itemAEliminar);
+
     this.actualizarProgresoActualHabito(habitoEncontrado);
+
     this.repositorioHabito.modificar(habitoEncontrado);
-  }
+}
 
   @Override
   public Habito buscarHabitoPorId(Integer id) {
