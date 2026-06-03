@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Habito;
+import com.tallerwebi.dominio.ItemChecklist;
 import com.tallerwebi.dominio.ServicioCategoria;
 import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.Usuario;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -149,26 +151,32 @@ public class ControladorHabitos {
     modelAndView.addObject(ATRIBUTO_DESCRIPCION_LOGRO, descripcionLogro);
   }
 
-  @RequestMapping(path = "/habito/{id}", method = RequestMethod.GET)
+  @RequestMapping(
+    path = "/habito/{id}",
+    method = RequestMethod.GET,
+    produces = "application/json;charset=UTF-8"
+  )
   @ResponseBody
   public String obtenerHabito(@PathVariable Integer id) {
     Habito habito = servicioHabito.buscarHabitoPorId(id);
 
-    return (
-      "{" +
-      "\"titulo\":\"" +
-      habito.getTitulo() +
-      "\"," +
-      "\"descripcion\":\"" +
-      habito.getDescripcion() +
-      "\"," +
-      "\"frecuencia\":\"" +
-      habito.getFrecuencia() +
-      "\"," +
-      "\"duracionEstimada\":\"" +
-      habito.getDuracionEstimada() +
-      "\"" +
-      "}"
+    // Simulamos un checklist en formato JSON.
+    String checklistJson =
+      "[" +
+      "{\"id\": 1, \"tarea\": \"Preparar los materiales\", \"completado\": true}," +
+      "{\"id\": 2, \"tarea\": \"Completar la actividad\", \"completado\": false}," +
+      "{\"id\": 3, \"tarea\": \"Marcar registro diario\", \"completado\": false}" +
+      "]";
+
+    // Usamos String.format para armar el JSON sin repetir literales de comillas y comas
+    return String.format(
+      "{\"titulo\":\"%s\",\"descripcion\":\"%s\",\"frecuencia\":\"%s\",\"duracionEstimada\":\"%s\",\"checklist\":%s}",
+      habito.getTitulo(),
+      habito.getDescripcion(),
+      habito.getFrecuencia(),
+      habito.getDuracionEstimada(),
+      checklistJson
     );
   }
+
 }
