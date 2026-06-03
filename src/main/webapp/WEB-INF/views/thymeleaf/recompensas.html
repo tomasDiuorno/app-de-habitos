@@ -43,13 +43,15 @@
 
                 <aside class="level-panel">
                     <span class="level-label">Nivel actual</span>
-                    <strong class="level-value" th:text="${usuario.nivelUsuario}">12</strong>
+                        <strong class="level-value" th:text="${usuario.nivelUsuario != null ? usuario.nivelUsuario : 0}">
+                            0
+                        </strong>
 
-                    <div class="level-progress">
-                        <div class="level-progress-fill"
-                            th:style="'width:' + (${usuario.nivelUsuario} > 100 ? 100 : ${usuario.nivelUsuario}) + '%'">
+                        <div class="level-progress">
+                            <div class="level-progress-fill"
+                                th:style="'width:' + (${usuario.nivelUsuario != null and usuario.nivelUsuario > 100} ? 100 : (${usuario.nivelUsuario != null} ? ${usuario.nivelUsuario} : 0)) + '%'">
+                            </div>
                         </div>
-                    </div>
 
                     <span class="level-caption">
                         <span th:text="${usuario.nivelUsuario}">12</span>/100 XP de progreso

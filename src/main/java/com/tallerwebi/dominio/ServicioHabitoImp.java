@@ -57,7 +57,7 @@ public class ServicioHabitoImp implements ServicioHabito {
     usuario.getUsuarioHabito().add(usuarioHabito);
 
     if (usuario.getId() != null) {
-        this.servicioLogro.verificarYAsignarLogros(usuario);
+      this.servicioLogro.verificarYAsignarLogros(usuario);
     }
   }
 
@@ -68,7 +68,6 @@ public class ServicioHabitoImp implements ServicioHabito {
     usuarioHabito.setActivo(true);
     return usuarioHabito;
   }
-
 
   private Habito crearHabito(DatosRegistroHabito datos, Categoria categoria) {
     Habito habito = new Habito();
@@ -83,6 +82,11 @@ public class ServicioHabitoImp implements ServicioHabito {
   @Override
   public Habito buscarHabito(String titulo) {
     return this.repositorioHabito.buscarPorTitulo(titulo);
+  }
+
+  @Override
+  public Habito buscarHabitoPorId(Integer id) {
+    return this.repositorioHabito.buscarPorId(id);
   }
 
   @Override
