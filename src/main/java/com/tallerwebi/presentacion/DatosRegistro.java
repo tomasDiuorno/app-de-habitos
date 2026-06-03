@@ -4,6 +4,7 @@ import java.util.List;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 public class DatosRegistro {
 
@@ -53,7 +54,6 @@ public class DatosRegistro {
     this.name = name;
   }
 
-<<<<<<< HEAD
   public String getSurname() {
     return surname;
   }
@@ -66,8 +66,6 @@ public class DatosRegistro {
     return username;
   }
 
-=======
->>>>>>> 385eb2062303763cc4ebe7ea30c5736d31306bb5
   public String getEmail() {
     return email;
   }
