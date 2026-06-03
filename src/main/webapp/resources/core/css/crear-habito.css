@@ -276,3 +276,98 @@
     padding: 30px 22px;
   }
 }
+
+.achievement-popup {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 2000;
+
+  width: 380px;
+  padding: 18px 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  background: linear-gradient(135deg, rgba(13, 19, 38, 0.98), rgba(6, 9, 19, 0.98));
+  border: 2px solid var(--neon-blue);
+  border-radius: 8px;
+
+  box-shadow:
+    0 0 18px rgba(0, 223, 255, 0.45),
+    0 0 35px rgba(157, 78, 221, 0.28),
+    0 12px 35px rgba(0, 0, 0, 0.75);
+
+  animation: achievementIn 0.6s ease forwards, achievementOut 0.6s ease forwards 3s;
+}
+
+.achievement-icon {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: rgba(0, 223, 255, 0.12);
+  border: 1px solid var(--neon-blue);
+
+  color: var(--neon-blue);
+  font-size: 1.7rem;
+  text-shadow: 0 0 10px rgba(0, 223, 255, 0.8);
+}
+
+.achievement-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.achievement-label {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-purple);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+}
+
+.achievement-content strong {
+  font-family: 'Orbitron', sans-serif;
+  color: #ffffff;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.achievement-content p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+@keyframes achievementIn {
+  from {
+    opacity: 0;
+    transform: translateY(120px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes achievementOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(120px);
+  }
+}

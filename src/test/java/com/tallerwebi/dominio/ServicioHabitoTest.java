@@ -129,6 +129,8 @@ public class ServicioHabitoTest {
     assertThat(usuarioHabitoGuardado.getHabito(), is(habito));
     assertThat(usuarioHabitoGuardado.getActivo(), is(true));
     assertThat(usuario.getUsuarioHabito().size(), equalTo(1));
+
+    verify(this.servicioLogroMock, times(1)).verificarYAsignarLogros(usuario);
   }
 
   @Test
