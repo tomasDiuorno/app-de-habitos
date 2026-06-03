@@ -63,11 +63,11 @@ openButtons.forEach((button) => {
 
 });
 
-    window.addEventListener("click", (event) => {
+window.addEventListener("click", (event) => {
 
-    if (event.target === modal) {
+  if (event.target === modal) {
 
-        modal.classList.remove("active");
-    }
+    modal.classList.remove("active");
+  }
 
 });
