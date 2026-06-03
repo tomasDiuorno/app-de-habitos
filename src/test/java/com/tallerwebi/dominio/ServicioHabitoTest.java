@@ -181,6 +181,82 @@ public class ServicioHabitoTest {
   }
 
   @Test
+  public void deberiaActualizarElProgresoEnCeroCuandoNingunItemEstaCompletado()
+    throws ChecklistInsuficienteExeption {
+    Habito habito = new Habito();
+    List<ItemChecklist> items = new ArrayList<>();
+    ItemChecklist primerItem = new ItemChecklist();
+    ItemChecklist segundoItem = new ItemChecklist();
+
+    primerItem.setEstadoChecklist(false);
+    segundoItem.setEstadoChecklist(false);
+    items.add(primerItem);
+    items.add(segundoItem);
+    habito.setCantidadDeChecklist(items);
+
+    this.servicioHabitos.actualizarProgresoActualHabito(habito);
+
+    assertThat(habito.getProgresoActual(), is(0));
+  }
+
+  @Test
+  public void deberiaActualizarElProgresoEnCienCuandoTodosLosItemsEstanCompletados()
+    throws ChecklistInsuficienteExeption {
+    Habito habito = new Habito();
+    List<ItemChecklist> items = new ArrayList<>();
+    ItemChecklist primerItem = new ItemChecklist();
+    ItemChecklist segundoItem = new ItemChecklist();
+
+    primerItem.setEstadoChecklist(true);
+    segundoItem.setEstadoChecklist(true);
+    items.add(primerItem);
+    items.add(segundoItem);
+    habito.setCantidadDeChecklist(items);
+
+    this.servicioHabitos.actualizarProgresoActualHabito(habito);
+
+    assertThat(habito.getProgresoActual(), is(100));
+  }
+
+  @Test
+  public void deberiaGuardarElHabitoCuandoSeAgregaUnItemChecklist()
+    throws ChecklistInsuficienteExeption {
+    Integer idHabito = 1;
+    Habito habito = new Habito();
+    ItemChecklist item = new ItemChecklist();
+
+    habito.setCantidadDeChecklist(new ArrayList<>());
+    when(this.repositorioHabitoMock.buscarPorId(idHabito)).thenReturn(habito);
+
+    this.servicioHabitos.agregarItemChecklistAlHabito(item, idHabito);
+
+    assertThat(habito.getCantidadDeChecklist().size(), is(1));
+    assertThat(item.getHabito(), is(habito));
+    verify(this.repositorioHabitoMock, times(1)).modificar(habito);
+  }
+
+  @Test
+  public void deberiaGuardarElHabitoCuandoSeEliminaUnItemChecklist()
+    throws ChecklistInsuficienteExeption {
+    Integer idHabito = 1;
+    Habito habito = new Habito();
+    ItemChecklist itemAEliminar = new ItemChecklist();
+    ItemChecklist itemRestante = new ItemChecklist();
+
+    itemRestante.setEstadoChecklist(true);
+    habito.setCantidadDeChecklist(new ArrayList<>());
+    habito.agregarItemChecklist(itemAEliminar);
+    habito.agregarItemChecklist(itemRestante);
+    when(this.repositorioHabitoMock.buscarPorId(idHabito)).thenReturn(habito);
+
+    this.servicioHabitos.eliminarItemChecklistDelHabito(itemAEliminar, idHabito);
+
+    assertThat(habito.getCantidadDeChecklist().size(), is(1));
+    assertThat(itemAEliminar.getHabito(), is((Habito) null));
+    verify(this.repositorioHabitoMock, times(1)).modificar(habito);
+  }
+
+  @Test
   public void deberiaLanzarExcepcionCuandoSeActualizaProgresoSinItemsChecklist() {
     Habito habito = new Habito();
     habito.setCantidadDeChecklist(new ArrayList<>());
@@ -191,5 +267,57 @@ public class ServicioHabitoTest {
     );
 
     assertThat(habito.getProgresoActual(), is(0));
+  }
+
+  @Test
+  public void deberiaActualizarElProgresoEnCeroCuandoNoHayItemsChecklist() {
+    Habito habito = new Habito();
+    habito.setCantidadDeChecklist(new ArrayList<>());
+
+    assertThrows(
+      ChecklistInsuficienteExeption.class,
+      () -> this.servicioHabitos.actualizarProgresoActualHabito(habito)
+    );
+
+    assertThat(habito.getProgresoActual(), is(0));
+  }
+
+  @Test
+  public void cuandoUnUsuarioMarcaUnItemChecklistDeberiaActualizarElEstadoDelMismo()
+    throws ChecklistInsuficienteExeption {
+    ItemChecklist item = new ItemChecklist();
+    item.setId(1);
+
+    Habito habito = new Habito();
+    habito.setId(1);
+    habito.setCantidadDeChecklist(new ArrayList<>());
+
+    habito.agregarItemChecklist(item);
+
+    when(repositorioHabitoMock.buscarPorId(habito.getId())).thenReturn(habito);
+
+    this.servicioHabitos.actualizarEstadoItemChecklist(item.getId(), habito.getId());
+
+    assertThat(item.getEstadoChecklist(), is(true));
+  }
+
+  @Test
+  public void cuandoUnUsuarioDesmarcaUnItemChecklistDeberiaActualizarElEstadoDelMismo()
+    throws ChecklistInsuficienteExeption {
+    ItemChecklist item = new ItemChecklist();
+    item.setId(1);
+    item.setEstadoChecklist(true);
+
+    Habito habito = new Habito();
+    habito.setId(1);
+    habito.setCantidadDeChecklist(new ArrayList<>());
+
+    habito.agregarItemChecklist(item);
+
+    when(repositorioHabitoMock.buscarPorId(habito.getId())).thenReturn(habito);
+
+    this.servicioHabitos.actualizarEstadoItemChecklist(item.getId(), habito.getId());
+
+    assertThat(item.getEstadoChecklist(), is(false));
   }
 }

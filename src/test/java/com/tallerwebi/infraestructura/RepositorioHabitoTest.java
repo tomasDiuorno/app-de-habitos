@@ -68,19 +68,19 @@ public class RepositorioHabitoTest {
     this.entoncesElUsuarioObtenidoEsCorrecto(obtenido, habito);
   }
 
-@Test
-@Transactional
-@Rollback
-public void deberiaEncontrarUnHabitoCuandoLoBuscoPorSuId() {
-  String titulo = "Meditar";
+  @Test
+  @Transactional
+  @Rollback
+  public void deberiaEncontrarUnHabitoCuandoLoBuscoPorSuId() {
+    String titulo = "Meditar";
 
-  Habito habito = dadoQuetengoUnHabito(titulo);
-  this.dadoQueExisteElHabito(habito);
+    Habito habito = dadoQuetengoUnHabito(titulo);
+    this.dadoQueExisteElHabito(habito);
 
-  Habito obtenido = this.cuandoBuscoUnHabitoPorId(habito.getId());
+    Habito obtenido = this.cuandoBuscoUnHabitoPorId(habito.getId());
 
-  this.entoncesElUsuarioObtenidoEsCorrecto(obtenido, habito);
-}
+    this.entoncesElUsuarioObtenidoEsCorrecto(obtenido, habito);
+  }
 
   @Test
   @Transactional

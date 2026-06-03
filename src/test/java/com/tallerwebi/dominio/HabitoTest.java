@@ -46,6 +46,19 @@ public class HabitoTest {
   }
 
   @Test
+  public void deberiaAgregarUnItemChecklistAlHabito() {
+    Habito habito = new Habito();
+    ItemChecklist item = new ItemChecklist();
+    List<ItemChecklist> items = new ArrayList<>();
+
+    habito.setCantidadDeChecklist(items);
+
+    habito.agregarItemChecklist(item);
+
+    assertThat(habito.getCantidadDeChecklist().contains(item), is(true));
+  }
+
+  @Test
   public void deberiaQuitarElHabitoDelItemCuandoSeEliminaDelChecklist() {
     Habito habito = new Habito();
     ItemChecklist item = new ItemChecklist();
@@ -58,5 +71,19 @@ public class HabitoTest {
 
     assertThat(habito.getCantidadDeChecklist().size(), is(0));
     assertThat(item.getHabito(), is((Habito) null));
+  }
+
+  @Test
+  public void deberiaEliminarUnItemChecklistDelHabito() {
+    Habito habito = new Habito();
+    ItemChecklist item = new ItemChecklist();
+    List<ItemChecklist> items = new ArrayList<>();
+
+    habito.setCantidadDeChecklist(items);
+    habito.agregarItemChecklist(item);
+
+    habito.eliminarItemChecklist(item);
+
+    assertThat(habito.getCantidadDeChecklist().contains(item), is(false));
   }
 }

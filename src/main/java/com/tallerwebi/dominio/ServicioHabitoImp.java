@@ -99,7 +99,7 @@ public class ServicioHabitoImp implements ServicioHabito {
       .stream()
       .filter(item -> Boolean.TRUE.equals(item.getEstadoChecklist()))
       .count();
-    //guarda cuantos checklists estan completados y los cuenta.
+    // guarda cuantos checklists estan completados y los cuenta.
 
     Integer porcentajeFinal = (int) ((checklistCompletados * 100) / cantidadDeChecklist);
 
@@ -125,7 +125,7 @@ public class ServicioHabitoImp implements ServicioHabito {
     this.actualizarProgresoActualHabito(habitoEncontrado);
     this.repositorioHabito.modificar(habitoEncontrado);
   }
-  
+
   public Habito buscarHabitoPorId(Integer id) {
     return this.repositorioHabito.buscarPorId(id);
   }
@@ -134,5 +134,23 @@ public class ServicioHabitoImp implements ServicioHabito {
   public Habito obtenerHabito(DatosRegistroHabito datos) {
     Categoria categoria = repositorioCategoria.obtenerCategoriaPorId(datos.getCategoriaId());
     return this.crearHabito(datos, categoria);
+  }
+
+  @Override
+  public void actualizarEstadoItemChecklist(Integer itemId, Integer habitoId)
+    throws ChecklistInsuficienteExeption {
+    Habito habito = this.buscarHabitoPorId(habitoId);
+
+    ItemChecklist item = habito
+      .getCantidadDeChecklist()
+      .stream()
+      .filter(i -> i.getId().equals(itemId))
+      .findFirst()
+      .orElseThrow(); //recorre los items, se querda con el primer item que coincide. Si encontro uno que esta vacio lanza una excepcion
+
+    item.setEstadoChecklist(!item.getEstadoChecklist());
+
+    this.actualizarProgresoActualHabito(habito);
+    this.repositorioHabito.modificar(habito);
   }
 }
