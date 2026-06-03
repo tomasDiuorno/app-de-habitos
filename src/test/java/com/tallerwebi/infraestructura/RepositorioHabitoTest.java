@@ -68,6 +68,23 @@ public class RepositorioHabitoTest {
     this.entoncesElUsuarioObtenidoEsCorrecto(obtenido, habito);
   }
 
+<<<<<<< Updated upstream
+=======
+  @Test
+  @Transactional
+  @Rollback
+  public void deberiaEncontrarUnHabitoCuandoLoBuscoPorSuId() {
+    String titulo = "Meditar";
+
+    Habito habito = dadoQuetengoUnHabito(titulo);
+    this.dadoQueExisteElHabito(habito);
+
+    Habito obtenido = this.cuandoBuscoUnHabitoPorId(habito.getId());
+
+    this.entoncesElUsuarioObtenidoEsCorrecto(obtenido, habito);
+  }
+
+>>>>>>> Stashed changes
   @Test
   @Transactional
   public void noDeberiaEncontrarUnHabitoInexistenteCuandoLoBuscoPorTituloYCategoria() {
