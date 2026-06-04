@@ -30,6 +30,7 @@
         <a th:href="@{/home}" class="habitos-nav-link">Inicio</a>
         <a th:href="@{/recompensas}" class="habitos-nav-link active">Recompensas</a>
         <a th:href="@{/habitos}" class="habitos-nav-link active">Hábitos</a>
+        <a th:href="@{/historial}" class="habitos-nav-link">Historial</a>
         <a th:href="@{/perfil}" class="habitos-nav-link">Perfil</a>
         <a th:href="@{/login}" class="habitos-logout-button">Cerrar sesión</a>
       </div>
@@ -63,10 +64,17 @@
             Creá tu primer hábito personalizado para empezar a registrar tu progreso diario.
           </p>
         </div>
-
-        <a th:href="@{/crear-habito}" class="habit-button">
-          Crear hábito
-        </a>
+        
+        <div class="habitos-header-content">
+          <h2>Tus Hábitos Activos</h2>
+          <a th:href="@{/crear-habito}" class="add-habit-button">+ Añadir Hábito</a>
+        </div>
+        
+        <div th:if="${session.errorCompletar}" style="background-color: #ffebee; color: #c62828; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: center;">
+            <span th:text="${session.errorCompletar}"></span>
+            <!-- Limpiamos el error después de mostrarlo -->
+            <span th:text="${#session.removeAttribute('errorCompletar')}" style="display:none;"></span>
+        </div>
 
       </article>
 
@@ -110,9 +118,17 @@
 
         </div>
 
-        <a href="#" class="habit-button">
-          Ver progreso
-        </a>
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+          <a href="#" class="habit-button" style="flex: 1; text-align: center;">
+            Ver progreso
+          </a>
+          <form th:action="@{/habitos/completar}" method="POST" style="flex: 1;">
+            <input type="hidden" name="habitoId" th:value="${usuarioHabito.habito.id}" />
+            <button type="submit" class="habit-button" style="width: 100%; border: none; cursor: pointer; background-color: #28a745;">
+              Completar hoy
+            </button>
+          </form>
+        </div>
 
       </article>
 

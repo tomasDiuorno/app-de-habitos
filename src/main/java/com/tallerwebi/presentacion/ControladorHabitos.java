@@ -7,6 +7,10 @@ import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
+import com.tallerwebi.dominio.excepcion.HabitoNoPerteneceAlUsuarioException;
+import com.tallerwebi.dominio.excepcion.HabitoYaCompletadoHoyException;
+import com.tallerwebi.dominio.ServicioHistorialHabito;
+import com.tallerwebi.dominio.HistorialHabito;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +26,13 @@ public class ControladorHabitos {
 
   private ServicioHabito servicioHabito;
   private ServicioCategoria servicioCategoria;
+  private ServicioHistorialHabito servicioHistorialHabito;
 
   @Autowired
-  public ControladorHabitos(ServicioHabito servicioHabito, ServicioCategoria servicioCategoria) {
+  public ControladorHabitos(ServicioHabito servicioHabito, ServicioCategoria servicioCategoria, ServicioHistorialHabito servicioHistorialHabito) {
     this.servicioHabito = servicioHabito;
     this.servicioCategoria = servicioCategoria;
+    this.servicioHistorialHabito = servicioHistorialHabito;
   }
 
   @RequestMapping(path = "/habitos", method = RequestMethod.GET)
@@ -76,5 +82,36 @@ public class ControladorHabitos {
       return modelAndView;
     }
     return new ModelAndView("redirect:/habitos");
+  }
+
+  @RequestMapping(path = "/habitos/completar", method = RequestMethod.POST)
+  public ModelAndView completarHabito(Integer habitoId, HttpServletRequest request) {
+    Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+    if (usuario == null) {
+      return new ModelAndView("redirect:/login");
+    }
+
+    try {
+      this.servicioHistorialHabito.marcarHabitoComoCompletado(usuario, habitoId);
+    } catch (HabitoNoPerteneceAlUsuarioException e) {
+      request.getSession().setAttribute("errorCompletar", e.getMessage());
+    } catch (HabitoYaCompletadoHoyException e) {
+      request.getSession().setAttribute("errorCompletar", e.getMessage());
+    }
+    return new ModelAndView("redirect:/habitos");
+  }
+
+  @RequestMapping(path = "/historial", method = RequestMethod.GET)
+  public ModelAndView verHistorial(HttpServletRequest request) {
+    Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+    if (usuario == null) {
+      return new ModelAndView("redirect:/login");
+    }
+
+    ModelAndView modelAndView = new ModelAndView("historial");
+    List<HistorialHabito> historial = this.servicioHistorialHabito.obtenerHistorial(usuario);
+    modelAndView.addObject("historial", historial);
+
+    return modelAndView;
   }
 }
