@@ -53,4 +53,16 @@ public class ControladorRecompensasTest {
     assert modelAndView != null;
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("recompensas"));
   }
+
+  @Test
+  public void deberiaRetornarLaPaginaBaulCuandoNavegoAIrAlBaul() throws Exception {
+    MvcResult result =
+      this.mockMvc.perform(get("/baul").sessionAttr("usuario", usuarioMock))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    ModelAndView modelAndView = result.getModelAndView();
+    assert modelAndView != null;
+    assertThat(modelAndView.getViewName(), equalToIgnoringCase("baul"));
+  }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControladorRecompensas {
 
   private ServicioRecompensas servicioRecompensas;
+  private String usuario = "usuario";
 
   @Autowired
   public ControladorRecompensas(ServicioRecompensas servicioRecompensas) {
@@ -23,9 +24,19 @@ public class ControladorRecompensas {
   @RequestMapping(path = "/recompensas", method = RequestMethod.GET)
   public ModelAndView irARecompensas(HttpServletRequest request) {
     ModelMap model = new ModelMap();
-    Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-    model.put("usuario", usuario);
+    Usuario usuario = (Usuario) request.getSession().getAttribute(this.usuario);
+    model.put(this.usuario, usuario);
     model.put("recompensas", this.servicioRecompensas.obtenerRecompensas());
     return new ModelAndView("recompensas", model);
+  }
+
+  @RequestMapping(path = "/baul", method = RequestMethod.GET)
+  public ModelAndView irAlBaul(HttpServletRequest request) {
+    ModelMap model = new ModelMap();
+    Usuario usuario = (Usuario) request.getSession().getAttribute(this.usuario);
+    this.servicioRecompensas.verificarRecompensas(usuario);
+    model.put(this.usuario, usuario);
+    model.put("recompensas", this.servicioRecompensas.obtenerBaul(usuario));
+    return new ModelAndView("baul", model);
   }
 }
