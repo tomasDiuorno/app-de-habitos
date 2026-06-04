@@ -1,0 +1,373 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-main: #060913;
+  --bg-card: #0d1326;
+  --neon-blue: #00dfff;
+  --neon-purple: #9d4edd;
+  --text-main: #e2e8f0;
+  --text-muted: #707e94;
+  --border-color: #1e294b;
+}
+
+.crear-habito-body {
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(at 10% 20%, rgba(157, 78, 221, 0.15) 0px, transparent 50%),
+    radial-gradient(at 90% 80%, rgba(0, 223, 255, 0.1) 0px, transparent 50%);
+}
+
+.crear-habito-navbar {
+  width: 100%;
+  height: 72px;
+  background: rgba(6, 9, 19, 0.85);
+  border-bottom: 1px solid rgba(0, 223, 255, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.crear-habito-navbar-container {
+  width: 100%;
+  height: 100%;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.crear-habito-logo {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+.crear-habito-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.crear-habito-nav-link,
+.crear-habito-logout-button {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.crear-habito-nav-link:hover {
+  color: var(--neon-blue);
+}
+
+.crear-habito-logout-button {
+  color: #ffffff;
+  border: 1px solid var(--neon-purple);
+  padding: 10px 16px;
+  border-radius: 4px;
+}
+
+.crear-habito-main {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 120px 24px 40px;
+}
+
+.crear-habito-card {
+  padding: 42px;
+  background-color: rgba(13, 19, 38, 0.92);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.65),
+    inset 0 0 15px rgba(157, 78, 221, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.crear-habito-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+}
+
+.section-kicker {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-blue);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.crear-habito-card h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 14px;
+  text-shadow: 0 0 16px rgba(157, 78, 221, 0.6);
+}
+
+.crear-habito-intro {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 32px;
+}
+
+.crear-habito-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  color: var(--neon-blue);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  background-color: rgba(6, 9, 19, 0.6);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-main);
+  padding: 12px 15px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  outline: none;
+}
+
+.form-group textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--neon-blue);
+  box-shadow:
+    0 0 10px rgba(0, 223, 255, 0.3),
+    inset 0 0 5px rgba(0, 223, 255, 0.1);
+}
+
+.form-group option {
+  background-color: var(--bg-card);
+}
+
+.form-error {
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+  background-color: rgba(239, 68, 68, 0.1);
+  padding: 12px;
+  border-radius: 4px;
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.button-primary,
+.button-secondary {
+  display: inline-block;
+  padding: 13px 18px;
+  border-radius: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+}
+
+.button-primary {
+  background: transparent;
+  border: 2px solid var(--neon-purple);
+  color: #ffffff;
+}
+
+.button-primary:hover {
+  background-color: var(--neon-purple);
+  border-color: var(--neon-blue);
+  color: #060913;
+}
+
+.button-secondary {
+  border: 2px solid var(--border-color);
+  color: var(--text-main);
+}
+
+.button-secondary:hover {
+  border-color: var(--neon-blue);
+  color: var(--neon-blue);
+}
+
+@media (max-width: 700px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .crear-habito-navbar {
+    height: auto;
+  }
+
+  .crear-habito-navbar-container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 20px;
+    gap: 14px;
+  }
+
+  .crear-habito-nav-links {
+    flex-wrap: wrap;
+  }
+
+  .crear-habito-main {
+    padding-top: 170px;
+  }
+
+  .crear-habito-card {
+    padding: 30px 22px;
+  }
+}
+
+.achievement-popup {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 2000;
+
+  width: 380px;
+  padding: 18px 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  background: linear-gradient(135deg, rgba(13, 19, 38, 0.98), rgba(6, 9, 19, 0.98));
+  border: 2px solid var(--neon-blue);
+  border-radius: 8px;
+
+  box-shadow:
+    0 0 18px rgba(0, 223, 255, 0.45),
+    0 0 35px rgba(157, 78, 221, 0.28),
+    0 12px 35px rgba(0, 0, 0, 0.75);
+
+  animation: achievementIn 0.6s ease forwards, achievementOut 0.6s ease forwards 3s;
+}
+
+.achievement-icon {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: rgba(0, 223, 255, 0.12);
+  border: 1px solid var(--neon-blue);
+
+  color: var(--neon-blue);
+  font-size: 1.7rem;
+  text-shadow: 0 0 10px rgba(0, 223, 255, 0.8);
+}
+
+.achievement-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.achievement-label {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-purple);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+}
+
+.achievement-content strong {
+  font-family: 'Orbitron', sans-serif;
+  color: #ffffff;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.achievement-content p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+@keyframes achievementIn {
+  from {
+    opacity: 0;
+    transform: translateY(120px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes achievementOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(120px);
+  }
+}

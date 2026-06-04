@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recompensas | Habit Quest</title>
+
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+    <link rel="stylesheet" th:href="@{/css/recompensas.css}" />
+</head>
+
+<body class="rewards-body">
+    <div class="app-shell">
+        <nav class="navbar">
+            <a class="brand" th:href="@{/home}">
+                <span class="brand-mark"></span>
+                <span>Habit Quest</span>
+            </a>
+
+            <div class="nav-links">
+                <a th:href="@{/home}">Inicio</a>
+                <a th:href="@{/habitos}">Habitos</a>
+                <a class="active" th:href="@{/recompensas}">Recompensas</a>
+                <a th:href="@{/perfil}">Perfil</a>
+            </div>
+
+            <a class="nav-action" th:href="@{/login}">Salir</a>
+        </nav>
+
+        <main class="rewards-page">
+            <header class="rewards-hero">
+                <div class="hero-content">
+                    <span class="eyebrow">Sistema de progreso</span>
+
+                    <h1>Recompensas de disciplina</h1>
+
+                    <p>
+                        Desbloqueá trofeos cada 5 niveles y convertí tus hábitos diarios
+                        en progreso visible, constante y medible.
+                    </p>
+                </div>
+
+                <aside class="level-panel">
+                    <span class="level-label">Nivel actual</span>
+                        <strong class="level-value" th:text="${usuario.nivelUsuario != null ? usuario.nivelUsuario : 0}">
+                            0
+                        </strong>
+
+                        <div class="level-progress">
+                            <div class="level-progress-fill"
+                                th:style="'width:' + (${usuario.nivelUsuario != null and usuario.nivelUsuario > 100} ? 100 : (${usuario.nivelUsuario != null} ? ${usuario.nivelUsuario} : 0)) + '%'">
+                            </div>
+                        </div>
+
+                    <span class="level-caption">
+                        <span th:text="${usuario.nivelUsuario}">12</span>/100 XP de progreso
+                    </span>
+                </aside>
+            </header>
+
+            <section class="rewards-toolbar">
+                <div>
+                    <h2>Trofeos disponibles</h2>
+                    <p> <span th:text="${#lists.size(recompensas)}"></span> recompensas distribuidas hasta el nivel
+                        máximo 100.</p>
+                </div>
+
+                <span class="collection-badge">
+                    <span th:text="${#lists.size(recompensas)}"></span>
+                    recompensas
+                </span>
+            </section>
+
+            <section class="rewards-grid">
+                <article th:each="recompensa, status : ${recompensas}" th:with="
+            nivelRequerido=${recompensa.nivelRequerido != null ? recompensa.nivelRequerido : (status.index + 1) * 5},
+            desbloqueada=${usuario.nivelUsuario >= nivelRequerido},
+            rarezaClass=${#strings.toLowerCase(recompensa.rareza.toString())}"
+            class="reward-card" th:classappend="${rarezaClass} + (${desbloqueada} ? ' unlocked' : ' locked')">
+                    <div class="reward-image-wrap">
+                        <img class="reward-image" th:src="@{${recompensa.urlImg}}" th:alt="${recompensa.nombre}" />
+                        <div class="reward-image-overlay"></div>
+                        <span class="reward-status unlocked-status" th:if="${desbloqueada}">
+                            Desbloqueada
+                        </span>
+                        <span class="reward-status locked-status" th:if="${!desbloqueada}">
+                            Bloqueada
+                        </span>
+                    </div>
+
+                    <div class="reward-content">
+                        <div class="reward-meta">
+                            <span class="rarity-badge" th:text="${recompensa.rareza}"></span>
+                            <span class="level-required">
+                                LVL
+                                <strong th:text="${nivelRequerido}"></strong>
+                            </span>
+                        </div>
+                        <h3 th:text="${recompensa.nombre}"></h3>
+                        <p th:text="${recompensa.descripcion}"></p>
+                    </div>
+
+                    <div class="reward-footer">
+                        <div class="unlock-info" th:if="${desbloqueada}">
+                            <span class="status-dot"></span>
+                            Logro obtenido
+                        </div>
+                        <div class="unlock-info locked-info" th:if="${!desbloqueada}">
+                            Requiere nivel
+                            <strong th:text="${nivelRequerido}">5</strong>
+                        </div>
+                    </div>
+
+                    <div class="locked-overlay" th:if="${!desbloqueada}">
+                        <div class="lock-panel">
+                            <span class="lock-icon">◆</span>
+                            <strong>
+                                Nivel
+                                <span th:text="${nivelRequerido}">5</span>
+                            </strong>
+                            <small>Continuá completando misiones</small>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>
