@@ -15,7 +15,7 @@ function actualizarProgresoVisual() {
 
     if (checkboxes.length === 0) {
         progressBar.style.width = "0%";
-        progressText.innerText = "0%";
+        progressText.innerText = "0% completado";
         return;
     }
 
@@ -24,7 +24,7 @@ function actualizarProgresoVisual() {
     const porcentaje = Math.round((completados / total) * 100);
 
     progressBar.style.width = porcentaje + "%";
-    progressText.innerText = porcentaje + "%";
+    progressText.innerText = porcentaje + "% completado";
 }
 
 function escaparHtml(texto) {
@@ -35,12 +35,11 @@ function escaparHtml(texto) {
 
 function crearHtmlItem(idItem, idHabito, descripcion, completado) {
     const isChecked = completado ? "checked" : "";
-    const textDecoration = completado ? "line-through" : "none";
-    const textColor = completado ? "#888" : "var(--text-main)";
+    const itemCompletado = completado ? "checklist-item-completado" : "";
 
     return `
-        <div id="item-row-${idItem}" class="checklist-item">
-            <label>
+        <div id="item-row-${idItem}" class="checklist-item ${itemCompletado}">
+            <div class="checklist-left">
                 <input
                     type="checkbox"
                     class="habit-check checklist-checkbox"
@@ -51,13 +50,20 @@ function crearHtmlItem(idItem, idHabito, descripcion, completado) {
 
                 <span
                     id="text-item-${idItem}"
-                    style="text-decoration: ${textDecoration}; color: ${textColor};"
+                    class="checklist-text"
                 >
                     ${escaparHtml(descripcion)}
                 </span>
-            </label>
 
-            <div class="checklist-actions">
+                <input
+                    id="edit-input-${idItem}"
+                    class="checklist-edit-input"
+                    type="text"
+                    value="${escaparHtml(descripcion)}"
+                >
+            </div>
+
+            <div id="normal-actions-${idItem}" class="checklist-actions">
                 <button
                     type="button"
                     class="btn-editar-item"
@@ -74,6 +80,25 @@ function crearHtmlItem(idItem, idHabito, descripcion, completado) {
                     data-habito-id="${idHabito}"
                 >
                     Eliminar
+                </button>
+            </div>
+
+            <div id="edit-actions-${idItem}" class="checklist-actions checklist-edit-actions">
+                <button
+                    type="button"
+                    class="btn-guardar-item"
+                    data-id="${idItem}"
+                    data-habito-id="${idHabito}"
+                >
+                    Guardar
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-cancelar-edicion"
+                    data-id="${idItem}"
+                >
+                    Cancelar
                 </button>
             </div>
         </div>
@@ -94,17 +119,22 @@ async function cargarHabitoEnModal(button) {
 
         let checklistHTML = `
             <div class="progress-section">
-                <h3>Progreso</h3>
+                <div class="popup-section-header">
+                    <h3>Progreso</h3>
+                    <span class="popup-chip">Checklist diario</span>
+                </div>
 
                 <div class="progress-bar-container">
                     <div id="progressBar" class="progress-bar"></div>
                 </div>
 
-                <p id="progressText">0%</p>
+                <p id="progressText">0% completado</p>
             </div>
 
             <div class="checklist-section">
-                <h3>Checklist diario</h3>
+                <div class="popup-section-header">
+                    <h3>Tareas</h3>
+                </div>
 
                 <div id="checklistItemsContainer">
         `;
@@ -116,6 +146,12 @@ async function cargarHabitoEnModal(button) {
 
                 checklistHTML += crearHtmlItem(item.id, habitoId, texto, estado);
             });
+        } else {
+            checklistHTML += `
+                <p id="emptyChecklistMessage" class="empty-checklist-message">
+                    Todavía no agregaste tareas para este hábito.
+                </p>
+            `;
         }
 
         checklistHTML += `
@@ -125,7 +161,7 @@ async function cargarHabitoEnModal(button) {
                     <input
                         type="text"
                         id="inputNuevaTarea"
-                        placeholder="Agregá una tarea"
+                        placeholder="Escribí una nueva tarea"
                     >
 
                     <button
@@ -141,13 +177,16 @@ async function cargarHabitoEnModal(button) {
         modalContent.innerHTML = `
             <button type="button" id="closeModal" class="habit-modal-close">X</button>
 
+            <p class="habit-modal-kicker">Progreso del hábito</p>
+
             <h2>${escaparHtml(habito.titulo)}</h2>
 
-            <p>${escaparHtml(habito.descripcion)}</p>
+            <p class="habit-modal-description">${escaparHtml(habito.descripcion)}</p>
 
-            <p>Frecuencia: ${escaparHtml(habito.frecuencia)}</p>
-
-            <p>Duración estimada: ${habito.duracionEstimada} minutos</p>
+            <div class="habit-modal-info">
+                <span>Frecuencia: ${escaparHtml(habito.frecuencia)}</span>
+                <span>${habito.duracionEstimada} minutos</span>
+            </div>
 
             ${checklistHTML}
         `;
@@ -164,6 +203,7 @@ async function cargarHabitoEnModal(button) {
 function configurarEventosDelModal(button, habitoId) {
     const container = document.getElementById("checklistItemsContainer");
     const botonAgregar = document.getElementById("btnAgregarTarea");
+    const inputNuevaTarea = document.getElementById("inputNuevaTarea");
     const botonCerrar = document.getElementById("closeModal");
 
     container.addEventListener("click", async (event) => {
@@ -176,12 +216,49 @@ function configurarEventosDelModal(button, habitoId) {
         }
 
         if (event.target.classList.contains("btn-editar-item")) {
-            await editarChecklist(event.target);
+            activarModoEdicion(event.target);
+        }
+
+        if (event.target.classList.contains("btn-cancelar-edicion")) {
+            cancelarEdicion(event.target);
+        }
+
+        if (event.target.classList.contains("btn-guardar-item")) {
+            await guardarEdicion(event.target);
+        }
+    });
+
+    container.addEventListener("keydown", async (event) => {
+        if (!event.target.classList.contains("checklist-edit-input")) {
+            return;
+        }
+
+        const idItem = event.target.id.replace("edit-input-", "");
+
+        if (event.key === "Enter") {
+            event.preventDefault();
+
+            const botonGuardar = document.querySelector(`.btn-guardar-item[data-id="${idItem}"]`);
+            await guardarEdicion(botonGuardar);
+        }
+
+        if (event.key === "Escape") {
+            event.preventDefault();
+
+            const botonCancelar = document.querySelector(`.btn-cancelar-edicion[data-id="${idItem}"]`);
+            cancelarEdicion(botonCancelar);
         }
     });
 
     botonAgregar.addEventListener("click", async () => {
         await agregarChecklist(button, habitoId);
+    });
+
+    inputNuevaTarea.addEventListener("keydown", async (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            await agregarChecklist(button, habitoId);
+        }
     });
 
     botonCerrar.addEventListener("click", () => {
@@ -192,10 +269,13 @@ function configurarEventosDelModal(button, habitoId) {
 async function marcarODesmarcarChecklist(checkbox) {
     const idItem = checkbox.getAttribute("data-id");
     const idHabito = checkbox.getAttribute("data-habito-id");
-    const spanTexto = document.getElementById(`text-item-${idItem}`);
+    const row = document.getElementById(`item-row-${idItem}`);
 
-    spanTexto.style.textDecoration = checkbox.checked ? "line-through" : "none";
-    spanTexto.style.color = checkbox.checked ? "#888" : "var(--text-main)";
+    if (checkbox.checked) {
+        row.classList.add("checklist-item-completado");
+    } else {
+        row.classList.remove("checklist-item-completado");
+    }
 
     actualizarProgresoVisual();
 
@@ -234,6 +314,18 @@ async function eliminarChecklist(boton) {
 
         if (data.status === "success") {
             document.getElementById(`item-row-${idItem}`).remove();
+
+            const emptyMessage = document.getElementById("emptyChecklistMessage");
+            const itemsRestantes = document.querySelectorAll(".checklist-item");
+
+            if (itemsRestantes.length === 0 && !emptyMessage) {
+                document.getElementById("checklistItemsContainer").innerHTML = `
+                    <p id="emptyChecklistMessage" class="empty-checklist-message">
+                        Todavía no agregaste tareas para este hábito.
+                    </p>
+                `;
+            }
+
             actualizarProgresoVisual();
         } else {
             alert(data.mensaje);
@@ -244,20 +336,45 @@ async function eliminarChecklist(boton) {
     }
 }
 
-async function editarChecklist(boton) {
+function activarModoEdicion(boton) {
+    const idItem = boton.getAttribute("data-id");
+
+    const row = document.getElementById(`item-row-${idItem}`);
+    const input = document.getElementById(`edit-input-${idItem}`);
+    const texto = document.getElementById(`text-item-${idItem}`);
+
+    input.value = texto.innerText.trim();
+
+    row.classList.add("editing");
+    input.focus();
+    input.select();
+}
+
+function cancelarEdicion(boton) {
+    const idItem = boton.getAttribute("data-id");
+    const row = document.getElementById(`item-row-${idItem}`);
+
+    row.classList.remove("editing");
+}
+
+async function guardarEdicion(boton) {
     const idItem = boton.getAttribute("data-id");
     const idHabito = boton.getAttribute("data-habito-id");
+
+    const row = document.getElementById(`item-row-${idItem}`);
     const spanTexto = document.getElementById(`text-item-${idItem}`);
+    const input = document.getElementById(`edit-input-${idItem}`);
+
     const textoActual = spanTexto.innerText.trim();
+    const nuevoTexto = input.value.trim();
 
-    const nuevoTexto = prompt("Editá la tarea:", textoActual);
-
-    if (!nuevoTexto || nuevoTexto.trim() === "" || nuevoTexto.trim() === textoActual) {
+    if (nuevoTexto === "" || nuevoTexto === textoActual) {
+        row.classList.remove("editing");
         return;
     }
 
     const formData = new URLSearchParams();
-    formData.append("nuevaDescripcion", nuevoTexto.trim());
+    formData.append("nuevaDescripcion", nuevoTexto);
 
     try {
         const response = await fetch(`/spring/habito/${idHabito}/editar-checklist/${idItem}`, {
@@ -271,7 +388,8 @@ async function editarChecklist(boton) {
         const data = await response.json();
 
         if (data.status === "success") {
-            spanTexto.innerText = nuevoTexto.trim();
+            spanTexto.innerText = nuevoTexto;
+            row.classList.remove("editing");
         } else {
             alert(data.mensaje);
         }

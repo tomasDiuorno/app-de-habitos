@@ -10,7 +10,7 @@ public class DatosRegistroHabito {
   private Integer categoriaId;
   private String frecuencia;
   private Integer duracionEstimada;
-  private List<String> tareas; // <-- Agregá esto
+  private List<String> tareas;
 
   public DatosRegistroHabito() {
     this.tareas = new ArrayList<>();

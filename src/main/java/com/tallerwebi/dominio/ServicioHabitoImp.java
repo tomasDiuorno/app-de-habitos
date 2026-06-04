@@ -116,22 +116,23 @@ public class ServicioHabitoImp implements ServicioHabito {
   }
 
   @Override
-public void eliminarItemChecklistDelHabito(ItemChecklist item, Integer idHabito) throws ChecklistInsuficienteExeption {
+  public void eliminarItemChecklistDelHabito(ItemChecklist item, Integer idHabito)
+    throws ChecklistInsuficienteExeption {
     Habito habitoEncontrado = this.buscarHabitoPorId(idHabito);
 
     ItemChecklist itemAEliminar = habitoEncontrado
-            .getCantidadDeChecklist()
-            .stream()
-            .filter(itemChecklist -> itemChecklist.getId().equals(item.getId()))
-            .findFirst()
-            .orElseThrow();
+      .getCantidadDeChecklist()
+      .stream()
+      .filter(itemChecklist -> itemChecklist.getId().equals(item.getId()))
+      .findFirst()
+      .orElseThrow();
 
     habitoEncontrado.eliminarItemChecklist(itemAEliminar);
 
     this.actualizarProgresoActualHabito(habitoEncontrado);
 
     this.repositorioHabito.modificar(habitoEncontrado);
-}
+  }
 
   @Override
   public Habito buscarHabitoPorId(Integer id) {

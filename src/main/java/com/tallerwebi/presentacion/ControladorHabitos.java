@@ -153,7 +153,6 @@ public class ControladorHabitos {
     modelAndView.addObject(ATRIBUTO_DESCRIPCION_LOGRO, descripcionLogro);
   }
 
-  // 1. Agregar un nuevo checklist
   @RequestMapping(
     path = "/habito/{idHabito}/agregar-checklist",
     method = RequestMethod.POST,
