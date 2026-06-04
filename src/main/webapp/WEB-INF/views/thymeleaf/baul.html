@@ -63,6 +63,7 @@
 
                 <div class="rewards-grid">
                     <div class="reward-card" th:each="ur : ${recompensas}">
+
                         <div class="reward-icon">
                             <img th:src="@{${ur.recompensa.urlImg}}" alt="Icono de recompensa" />
                         </div>
@@ -73,6 +74,10 @@
                                 Descripción de la recompensa
                             </p>
                         </div>
+                        <form th:action="@{/usar-recompensa}" method="POST">
+                            <input type="hidden" name="idUsuarioRecompensa" th:value="${ur.id}"/>
+                            <button type="submit" class="card-btn">Utilizar</button>
+                        </form>
                     </div>
                 </div>
             </section>
