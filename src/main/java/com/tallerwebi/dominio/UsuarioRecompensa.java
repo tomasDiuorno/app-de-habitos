@@ -19,8 +19,6 @@ public class UsuarioRecompensa {
   @ManyToOne
   private Recompensa recompensa;
 
-  private Boolean obtenida = false;
-
   public Integer getId() {
     return id;
   }
@@ -43,13 +41,5 @@ public class UsuarioRecompensa {
 
   public void setRecompensa(Recompensa recompensa) {
     this.recompensa = recompensa;
-  }
-
-  public Boolean getObtenida() {
-    return obtenida;
-  }
-
-  public void setObtenida(Boolean obtenida) {
-    this.obtenida = obtenida;
   }
 }

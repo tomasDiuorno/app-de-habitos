@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -148,6 +149,20 @@ public class ControladorLoginTest {
       modelAndView.getModel().get("error").toString(),
       equalToIgnoringCase("Error al registrar el nuevo usuario")
     );
+  }
+
+  @Test
+  public void deberiaDarmeErrorSiElUsuarioDejaCamposVacios() throws Exception {
+    DatosRegistro datosRegistro = new DatosRegistro();
+
+    when(bindingResultMock.hasErrors()).thenReturn(true);
+    when(servicioHabitosMock.obtenerHabitosIniciales()).thenReturn(new ArrayList<>());
+
+    ModelAndView modelAndView = controladorRegistro.registrarme(datosRegistro, bindingResultMock);
+
+    assertThat(modelAndView.getViewName(), equalToIgnoringCase("nuevo-usuario"));
+    assertThat(modelAndView.getModel().containsKey("datosRegistro"), is(true));
+    verify(servicioRegistroMock, times(0)).registrar(datosRegistro);
   }
 
   @Test

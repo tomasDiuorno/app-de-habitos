@@ -43,8 +43,7 @@ public class RepositorioRecompensasTest {
           "llegaste al nivel 5",
           "imagen",
           5,
-          Rareza.COMUN,
-          true
+          Rareza.COMUN
         );
     Recompensa recompensa2 =
       this.dadoQueTengoUnaRecompensa(
@@ -53,8 +52,7 @@ public class RepositorioRecompensasTest {
           "llegaste al nivel 10",
           "imagen",
           10,
-          Rareza.EPICA,
-          true
+          Rareza.EPICA
         );
     this.dadoQueExisteLaRecompensa(recompensa1);
     this.dadoQueExisteLaRecompensa(recompensa2);
@@ -79,8 +77,7 @@ public class RepositorioRecompensasTest {
     String descripcion,
     String imagen,
     Integer nivelRequerido,
-    Rareza rareza,
-    Boolean activo
+    Rareza rareza
   ) {
     Recompensa recomp = new Recompensa();
     recomp.setId(id);
