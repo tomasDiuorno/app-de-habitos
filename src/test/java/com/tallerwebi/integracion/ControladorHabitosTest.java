@@ -269,6 +269,7 @@ public class ControladorHabitosTest {
     assertTrue(respuesta.contains("Linea 1\\nLinea 2"));
     assertTrue(respuesta.contains("Texto con \\\"comillas\\\" y salto\\n"));
   }
+
   public void deberiaRetornarAlLoginCuandoQuieroCrearUnHabitoPeroNoHayUnUsuarioLogueado()
     throws Exception {
     MvcResult result =
