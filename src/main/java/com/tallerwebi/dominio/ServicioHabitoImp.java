@@ -91,7 +91,7 @@ public class ServicioHabitoImp implements ServicioHabito {
 
     if (cantidadDeChecklist == 0) {
       habito.setProgresoActual(0);
-      throw new ChecklistInsuficienteExeption("Agrega una checklist personalizada");
+      return;
     }
 
     Long checklistCompletados = habito
@@ -102,7 +102,6 @@ public class ServicioHabitoImp implements ServicioHabito {
     // guarda cuantos checklists estan completados y los cuenta.
 
     Integer porcentajeFinal = (int) ((checklistCompletados * 100) / cantidadDeChecklist);
-
     habito.setProgresoActual(porcentajeFinal);
   }
 
@@ -121,13 +120,29 @@ public class ServicioHabitoImp implements ServicioHabito {
     throws ChecklistInsuficienteExeption {
     Habito habitoEncontrado = this.buscarHabitoPorId(idHabito);
 
-    habitoEncontrado.eliminarItemChecklist(item);
+    ItemChecklist itemAEliminar = habitoEncontrado
+      .getCantidadDeChecklist()
+      .stream()
+      .filter(itemChecklist -> itemChecklist.getId().equals(item.getId()))
+      .findFirst()
+      .orElseThrow();
+
+    habitoEncontrado.eliminarItemChecklist(itemAEliminar);
+
     this.actualizarProgresoActualHabito(habitoEncontrado);
+
     this.repositorioHabito.modificar(habitoEncontrado);
   }
 
+  @Override
   public Habito buscarHabitoPorId(Integer id) {
-    return this.repositorioHabito.buscarPorId(id);
+    Habito habito = this.repositorioHabito.buscarPorId(id);
+
+    if (habito != null) {
+      habito.getCantidadDeChecklist().size();
+    }
+
+    return habito;
   }
 
   @Override
@@ -151,6 +166,26 @@ public class ServicioHabitoImp implements ServicioHabito {
     item.setEstadoChecklist(!item.getEstadoChecklist());
 
     this.actualizarProgresoActualHabito(habito);
+    this.repositorioHabito.modificar(habito);
+  }
+
+  @Override
+  public void editarDescripcionItemChecklist(
+    Integer itemId,
+    Integer habitoId,
+    String nuevaDescripcion
+  ) throws ChecklistInsuficienteExeption {
+    Habito habito = this.buscarHabitoPorId(habitoId);
+
+    ItemChecklist item = habito
+      .getCantidadDeChecklist()
+      .stream()
+      .filter(i -> i.getId().equals(itemId))
+      .findFirst()
+      .orElseThrow();
+
+    item.setDescripcion(nuevaDescripcion);
+
     this.repositorioHabito.modificar(habito);
   }
 }
