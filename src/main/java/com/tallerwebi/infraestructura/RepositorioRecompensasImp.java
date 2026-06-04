@@ -24,4 +24,14 @@ public class RepositorioRecompensasImp implements RepositorioRecompensas {
       .createQuery("FROM Recompensa", Recompensa.class)
       .getResultList();
   }
+
+  @Override
+  public List<Recompensa> obtenerPorNivel(Integer nivelUsuario) {
+    String query = "FROM Recompensa WHERE nivelRequerido <= :nivelUsuario";
+    return sessionFactory
+      .getCurrentSession()
+      .createQuery(query, Recompensa.class)
+      .setParameter("nivelUsuario", nivelUsuario)
+      .getResultList();
+  }
 }

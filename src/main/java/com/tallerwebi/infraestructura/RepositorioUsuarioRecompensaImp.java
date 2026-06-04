@@ -1,0 +1,48 @@
+package com.tallerwebi.infraestructura;
+
+import com.tallerwebi.dominio.Recompensa;
+import com.tallerwebi.dominio.RepositorioUsuarioRecompensa;
+import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.UsuarioRecompensa;
+import java.util.List;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository("repositorioUsuarioRecompensa")
+public class RepositorioUsuarioRecompensaImp implements RepositorioUsuarioRecompensa {
+
+  private SessionFactory sessionFactory;
+
+  @Autowired
+  public RepositorioUsuarioRecompensaImp(SessionFactory sessionFactory) {
+    this.sessionFactory = sessionFactory;
+  }
+
+  @Override
+  public void guardar(UsuarioRecompensa usuarioRecompensa) {
+    this.sessionFactory.getCurrentSession().save(usuarioRecompensa);
+  }
+
+  @Override
+  public List<UsuarioRecompensa> obtenerPorUsuario(Integer idUsuario) {
+    String query = "FROM UsuarioRecompensa WHERE usuario.id = :idUsuario";
+    return this.sessionFactory.getCurrentSession()
+      .createQuery(query, UsuarioRecompensa.class)
+      .setParameter("idUsuario", idUsuario)
+      .getResultList();
+  }
+
+  @Override
+  public Boolean existeRecompensaUsuario(Recompensa recompensa, Usuario usuario) {
+    String query =
+      "FROM UsuarioRecompensa WHERE usuario.id = :idUsuario AND recompensa.id = :idRecompensa";
+    List<UsuarioRecompensa> resultado =
+      this.sessionFactory.getCurrentSession()
+        .createQuery(query, UsuarioRecompensa.class)
+        .setParameter("idUsuario", usuario.getId())
+        .setParameter("idRecompensa", recompensa.getId())
+        .getResultList();
+    return !resultado.isEmpty();
+  }
+}
