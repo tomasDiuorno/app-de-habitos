@@ -44,10 +44,7 @@ public class RepositorioRecompensasTest {
           5,
           Rareza.COMUN
         );
-<<<<<<< HEAD
-=======
     
->>>>>>> acc33d1af39de91d5487f85f2168a4512297fff9
     this.dadoQueExisteLaRecompensa(recompensa1);
 
     List<Recompensa> recompensas = repositorioRecompensas.obtenerTodas();

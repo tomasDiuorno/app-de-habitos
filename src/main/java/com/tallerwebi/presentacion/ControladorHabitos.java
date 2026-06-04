@@ -5,9 +5,18 @@ import com.tallerwebi.dominio.ItemChecklist;
 import com.tallerwebi.dominio.ServicioCategoria;
 import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.excepcion.ChecklistInsuficienteExeption;
+import com.tallerwebi.dominio.excepcion.DescripcionChecklistInvalidaException;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
+import com.tallerwebi.dominio.excepcion.HabitoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.ItemChecklistNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,6 +53,10 @@ public class ControladorHabitos {
   private ServicioHabito servicioHabito;
   private ServicioCategoria servicioCategoria;
   private static final String PRODUCES_JSON = "application/json";
+  private static final String STATUS = "status";
+  private static final String SUCCESS = "success";
+  private static final String ERROR = "error";
+  private static final String MENSAJE = "mensaje";
 
   @Autowired
   public ControladorHabitos(ServicioHabito servicioHabito, ServicioCategoria servicioCategoria) {
@@ -72,9 +85,8 @@ public class ControladorHabitos {
 
   @RequestMapping(path = "/crear-habito", method = RequestMethod.POST)
   public ModelAndView crearHabito(
-    @ModelAttribute(ATRIBUTO_DATOS_REGISTRO_HABITO) DatosRegistroHabito datos,
-    HttpServletRequest request
-  ) {
+      @ModelAttribute(ATRIBUTO_DATOS_REGISTRO_HABITO) DatosRegistroHabito datos,
+      HttpServletRequest request) {
     Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
     if (usuario == null) {
@@ -118,24 +130,21 @@ public class ControladorHabitos {
   }
 
   private void cargarLogroDesbloqueado(
-    ModelAndView modelAndView,
-    int cantidadHabitosAntes,
-    int cantidadHabitosDespues
-  ) {
+      ModelAndView modelAndView,
+      int cantidadHabitosAntes,
+      int cantidadHabitosDespues) {
     if (cantidadHabitosAntes == CERO_HABITOS && cantidadHabitosDespues == UN_HABITO) {
       cargarDatosDelLogro(
-        modelAndView,
-        "Primer hábito creado",
-        "Creaste tu primer hábito. Tu rutina acaba de empezar."
-      );
+          modelAndView,
+          "Primer hábito creado",
+          "Creaste tu primer hábito. Tu rutina acaba de empezar.");
     }
 
     if (cantidadHabitosAntes == DOS_HABITOS && cantidadHabitosDespues == TRES_HABITOS) {
       cargarDatosDelLogro(
-        modelAndView,
-        "Constante",
-        "Ya tenés 3 hábitos activos. Estás construyendo una rutina."
-      );
+          modelAndView,
+          "Constante",
+          "Ya tenés 3 hábitos activos. Estás construyendo una rutina.");
     }
 
     if (cantidadHabitosAntes == TRES_HABITOS && cantidadHabitosDespues == CUATRO_HABITOS) {
@@ -144,150 +153,138 @@ public class ControladorHabitos {
   }
 
   private void cargarDatosDelLogro(
-    ModelAndView modelAndView,
-    String tituloLogro,
-    String descripcionLogro
-  ) {
+      ModelAndView modelAndView,
+      String tituloLogro,
+      String descripcionLogro) {
     modelAndView.addObject(ATRIBUTO_MOSTRAR_LOGRO, true);
     modelAndView.addObject(ATRIBUTO_TITULO_LOGRO, tituloLogro);
     modelAndView.addObject(ATRIBUTO_DESCRIPCION_LOGRO, descripcionLogro);
   }
 
-  @RequestMapping(
-    path = "/habito/{idHabito}/agregar-checklist",
-    method = RequestMethod.POST,
-    produces = PRODUCES_JSON
-  )
+  @RequestMapping(path = "/habito/{idHabito}/agregar-checklist", method = RequestMethod.POST, produces = PRODUCES_JSON)
   @ResponseBody
-  public String agregarChecklist(
-    @PathVariable Integer idHabito,
-    @RequestParam("descripcion") String descripcion
-  ) {
+  public Map<String, Object> agregarChecklist(
+      @PathVariable Integer idHabito, @RequestParam("descripcion") String descripcion)
+      throws ChecklistInsuficienteExeption {
+
+    Map<String, Object> respuesta = new HashMap<>();
+    ItemChecklist itemChecklist = new ItemChecklist();
+    itemChecklist.setDescripcion(descripcion);
+
     try {
-      ItemChecklist nuevoItem = new ItemChecklist();
-      nuevoItem.setDescripcion(descripcion);
-
-      servicioHabito.agregarItemChecklistAlHabito(nuevoItem, idHabito);
-
-      return "{\"status\":\"success\", \"mensaje\":\"Checklist agregado correctamente\"}";
-    } catch (Exception excepcion) {
-      return "{\"status\":\"error\", \"mensaje\":\"No se pudo agregar el checklist\"}";
+      servicioHabito.agregarItemChecklistAlHabito(itemChecklist, idHabito);
+      respuesta.put("ok", true);
+      respuesta.put("mensaje", "Item agregado correctamente");
+    } catch (HabitoNoEncontradoException e) {
+      respuesta.put("ok", false);
+      respuesta.put("error", "No se encontró el hábito");
     }
+    return respuesta;
   }
 
-  @RequestMapping(
-    path = "/habito/{idHabito}/eliminar-checklist/{idItem}",
-    method = RequestMethod.POST,
-    produces = PRODUCES_JSON
-  )
+  @RequestMapping(path = "/habito/{idHabito}/eliminar-checklist/{idItem}", method = RequestMethod.POST, produces = PRODUCES_JSON)
   @ResponseBody
-  public String eliminarChecklist(@PathVariable Integer idHabito, @PathVariable Integer idItem) {
+  public Map<String, Object> eliminarChecklist(@PathVariable Integer idHabito, @PathVariable Integer idItem) {
+    Map<String, Object> respuesta = new HashMap<>();
+
     try {
-      Habito habito = servicioHabito.buscarHabitoPorId(idHabito);
-
-      ItemChecklist itemAEliminar = habito
-        .getCantidadDeChecklist()
-        .stream()
-        .filter(item -> item.getId().equals(idItem))
-        .findFirst()
-        .orElse(null);
-
-      if (itemAEliminar == null) {
-        return "{\"status\":\"error\", \"mensaje\":\"Item no encontrado\"}";
-      }
-
-      servicioHabito.eliminarItemChecklistDelHabito(itemAEliminar, idHabito);
-
-      return "{\"status\":\"success\", \"mensaje\":\"Checklist eliminado\"}";
-    } catch (Exception excepcion) {
-      return "{\"status\":\"error\", \"mensaje\":\"No se pudo eliminar el checklist\"}";
+      servicioHabito.eliminarItemChecklistDelHabito(idHabito, idItem);
+      respuesta.put("mensaje", "Checklist eliminado");
+    } catch (HabitoNoEncontradoException exception) {
+      respuesta.put("error", "No se encontró el hábito");
+    } catch (ItemChecklistNoEncontradoException exception) {
+      respuesta.put("error", "No se encontró el item");
+    } catch (Exception exception) {
+      respuesta.put("error", "No se pudo eliminar el checklist");
     }
+
+    return respuesta;
   }
 
-  @RequestMapping(
-    path = "/habito/{idHabito}/toggle-checklist/{idItem}",
-    method = RequestMethod.POST,
-    produces = PRODUCES_JSON
-  )
+  @RequestMapping(path = "/habito/{idHabito}/toggle-checklist/{idItem}", method = RequestMethod.POST, produces = PRODUCES_JSON)
   @ResponseBody
-  public String toggleChecklist(@PathVariable Integer idHabito, @PathVariable Integer idItem) {
+  public Map<String, Object> alternarEstadoChecklist(@PathVariable Integer idHabito,
+      @PathVariable Integer idItem) {
+    Map<String, Object> respuesta = new HashMap<>();
+
     try {
       servicioHabito.actualizarEstadoItemChecklist(idItem, idHabito);
 
-      return "{\"status\":\"success\", \"mensaje\":\"Estado actualizado\"}";
-    } catch (Exception excepcion) {
-      return "{\"status\":\"error\", \"mensaje\":\"No se pudo actualizar el estado\"}";
+      respuesta.put(STATUS, SUCCESS);
+      respuesta.put(MENSAJE, "Estado actualizado");
+
+    } catch (HabitoNoEncontradoException | ItemChecklistNoEncontradoException exception) {
+      respuesta.put(STATUS, ERROR);
+      respuesta.put(MENSAJE, "No se pudo actualizar la tarea. Intentá nuevamente.");
+
+    } catch (Exception exception) {
+      respuesta.put(STATUS, ERROR);
+      respuesta.put(MENSAJE, "Ocurrió un error inesperado al actualizar la tarea.");
     }
+
+    return respuesta;
   }
 
-  @RequestMapping(
-    path = "/habito/{idHabito}/editar-checklist/{idItem}",
-    method = RequestMethod.POST,
-    produces = PRODUCES_JSON
-  )
+  @RequestMapping(path = "/habito/{idHabito}/editar-checklist/{idItem}", method = RequestMethod.POST, produces = PRODUCES_JSON)
   @ResponseBody
-  public String editarChecklist(
-    @PathVariable Integer idHabito,
-    @PathVariable Integer idItem,
-    @RequestParam("nuevaDescripcion") String nuevaDescripcion
-  ) {
+  public Map<String, Object> editarChecklist(@PathVariable Integer idHabito,
+      @PathVariable Integer idItem, @RequestParam("nuevaDescripcion") String nuevaDescripcion) {
+    Map<String, Object> respuesta = new HashMap<>();
+
     try {
       servicioHabito.editarDescripcionItemChecklist(idItem, idHabito, nuevaDescripcion);
 
-      return "{\"status\":\"success\", \"mensaje\":\"Checklist editado correctamente\"}";
-    } catch (Exception excepcion) {
-      return "{\"status\":\"error\", \"mensaje\":\"No se pudo editar el checklist\"}";
+      respuesta.put(STATUS, SUCCESS);
+      respuesta.put("mensaje", "Checklist editado correctamente");
+
+    } catch (HabitoNoEncontradoException | ItemChecklistNoEncontradoException exception) {
+      respuesta.put(STATUS, ERROR);
+      respuesta.put("mensaje", "No se pudo editar la tarea. Intentá nuevamente.");
+
+    } catch (DescripcionChecklistInvalidaException exception) {
+      respuesta.put(STATUS, ERROR);
+      respuesta.put("mensaje", "La descripción no puede estar vacía.");
+
+    } catch (Exception exception) {
+       respuesta.put(STATUS, ERROR);
+      respuesta.put("mensaje", "Ocurrió un error inesperado al editar la tarea.");
     }
+
+    return respuesta;
   }
 
   @RequestMapping(path = "/habito/{id}", method = RequestMethod.GET, produces = PRODUCES_JSON)
   @ResponseBody
-  public String obtenerHabito(@PathVariable Integer id) {
+  public Map<String, Object> obtenerHabito(@PathVariable Integer id) throws HabitoNoEncontradoException {
     Habito habito = servicioHabito.buscarHabitoPorId(id);
 
-    StringBuilder checklistJson = new StringBuilder("[");
-    List<ItemChecklist> items = habito.getCantidadDeChecklist();
+    Map<String, Object> respuesta = new HashMap<>();
 
-    if (items != null && !items.isEmpty()) {
-      for (int i = 0; i < items.size(); i++) {
-        ItemChecklist item = items.get(i);
+    respuesta.put("titulo", habito.getTitulo());
+    respuesta.put("descripcion", habito.getDescripcion());
+    respuesta.put("frecuencia", habito.getFrecuencia());
+    respuesta.put("duracionEstimada", habito.getDuracionEstimada());
 
-        checklistJson.append(
-          String.format(
-            "{\"id\": %d, \"descripcion\": \"%s\", \"estadoChecklist\": %b}",
-            item.getId(),
-            escaparJson(item.getDescripcion()),
-            item.getEstadoChecklist()
-          )
-        );
+    List<Map<String, Object>> checklist = new ArrayList<>();
 
-        if (i < items.size() - 1) {
-          checklistJson.append(",");
-        }
+    if (habito.getCantidadDeChecklist() != null) {
+      for (ItemChecklist item : habito.getCantidadDeChecklist()) {
+        checklist.add(convertirItemChecklistAJson(item));
       }
     }
 
-    checklistJson.append("]");
+    respuesta.put("checklist", checklist);
 
-    return String.format(
-      "{\"titulo\":\"%s\",\"descripcion\":\"%s\",\"frecuencia\":\"%s\",\"duracionEstimada\":\"%s\",\"checklist\":%s}",
-      escaparJson(habito.getTitulo()),
-      escaparJson(habito.getDescripcion()),
-      escaparJson(habito.getFrecuencia()),
-      habito.getDuracionEstimada(),
-      checklistJson.toString()
-    );
+    return respuesta;
   }
 
-  private String escaparJson(String texto) {
-    if (texto == null) {
-      return "";
-    }
+  private Map<String, Object> convertirItemChecklistAJson(ItemChecklist item) {
+    Map<String, Object> itemJson = new HashMap<>();
 
-    return texto
-      .replace("\\", "\\\\")
-      .replace("\"", "\\\"")
-      .replace("\n", "\\n")
-      .replace("\r", "\\r");
+    itemJson.put("id", item.getId());
+    itemJson.put("descripcion", item.getDescripcion());
+    itemJson.put("estadoChecklist", item.getEstadoChecklist());
+
+    return itemJson;
   }
 }

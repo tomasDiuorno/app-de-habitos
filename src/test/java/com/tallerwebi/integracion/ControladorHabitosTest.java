@@ -173,7 +173,7 @@ public class ControladorHabitosTest {
 
   @Test
   public void toggleChecklistDeberiaActualizarEstadoYResponderSuccess() throws Exception {
-    String respuesta = controladorHabitos.toggleChecklist(1, 10);
+    String respuesta = controladorHabitos.alternarEstadoChecklist(1, 10);
 
     verify(servicioHabitoMock).actualizarEstadoItemChecklist(10, 1);
     assertEquals("{\"status\":\"success\", \"mensaje\":\"Estado actualizado\"}", respuesta);
@@ -183,7 +183,7 @@ public class ControladorHabitosTest {
   public void toggleChecklistSiFallaElServicioDeberiaResponderError() throws Exception {
     doThrow(new RuntimeException()).when(servicioHabitoMock).actualizarEstadoItemChecklist(10, 1);
 
-    String respuesta = controladorHabitos.toggleChecklist(1, 10);
+    String respuesta = controladorHabitos.alternarEstadoChecklist(1, 10);
 
     assertEquals(
       "{\"status\":\"error\", \"mensaje\":\"No se pudo actualizar el estado\"}",

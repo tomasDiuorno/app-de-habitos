@@ -1,7 +1,10 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.ChecklistInsuficienteExeption;
+import com.tallerwebi.dominio.excepcion.DescripcionChecklistInvalidaException;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
+import com.tallerwebi.dominio.excepcion.HabitoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.ItemChecklistNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
 import com.tallerwebi.presentacion.DatosRegistroHabito;
 import java.util.List;
@@ -22,11 +25,10 @@ public class ServicioHabitoImp implements ServicioHabito {
 
   @Autowired
   public ServicioHabitoImp(
-    RepositorioHabito repositorioHabito,
-    RepositorioUsuarioHabito repositorioUsuarioHabito,
-    RepositorioCategoria repositorioCategoria,
-    ServicioLogro servicioLogro
-  ) {
+      RepositorioHabito repositorioHabito,
+      RepositorioUsuarioHabito repositorioUsuarioHabito,
+      RepositorioCategoria repositorioCategoria,
+      ServicioLogro servicioLogro) {
     this.repositorioHabito = repositorioHabito;
     this.repositorioUsuarioHabito = repositorioUsuarioHabito;
     this.repositorioCategoria = repositorioCategoria;
@@ -48,7 +50,7 @@ public class ServicioHabitoImp implements ServicioHabito {
 
   @Override
   public void agregarHabitoParaUsuario(Habito habito, Usuario usuario)
-    throws HabitoExistenteExeption, LimiteHabitosAlcanzadoException {
+      throws HabitoExistenteExeption, LimiteHabitosAlcanzadoException {
     if (usuario.getUsuarioHabito().size() >= CANTIDAD_MAXIMA_HABITOS) {
       throw new LimiteHabitosAlcanzadoException();
     }
@@ -95,10 +97,10 @@ public class ServicioHabitoImp implements ServicioHabito {
     }
 
     Long checklistCompletados = habito
-      .getCantidadDeChecklist()
-      .stream()
-      .filter(item -> Boolean.TRUE.equals(item.getEstadoChecklist()))
-      .count();
+        .getCantidadDeChecklist()
+        .stream()
+        .filter(item -> Boolean.TRUE.equals(item.getEstadoChecklist()))
+        .count();
     // guarda cuantos checklists estan completados y los cuenta.
 
     Integer porcentajeFinal = (int) ((checklistCompletados * 100) / cantidadDeChecklist);
@@ -107,7 +109,7 @@ public class ServicioHabitoImp implements ServicioHabito {
 
   @Override
   public void agregarItemChecklistAlHabito(ItemChecklist item, Integer idHabito)
-    throws ChecklistInsuficienteExeption {
+      throws ChecklistInsuficienteExeption, HabitoNoEncontradoException {
     Habito habitoEncontrado = this.buscarHabitoPorId(idHabito);
 
     habitoEncontrado.agregarItemChecklist(item);
@@ -116,16 +118,12 @@ public class ServicioHabitoImp implements ServicioHabito {
   }
 
   @Override
-  public void eliminarItemChecklistDelHabito(ItemChecklist item, Integer idHabito)
-    throws ChecklistInsuficienteExeption {
+  public void eliminarItemChecklistDelHabito(Integer idHabito, Integer idItem)
+      throws HabitoNoEncontradoException, ItemChecklistNoEncontradoException, ChecklistInsuficienteExeption {
+
     Habito habitoEncontrado = this.buscarHabitoPorId(idHabito);
 
-    ItemChecklist itemAEliminar = habitoEncontrado
-      .getCantidadDeChecklist()
-      .stream()
-      .filter(itemChecklist -> itemChecklist.getId().equals(item.getId()))
-      .findFirst()
-      .orElseThrow();
+    ItemChecklist itemAEliminar = this.buscarItemChecklistEnHabito(habitoEncontrado, idItem);
 
     habitoEncontrado.eliminarItemChecklist(itemAEliminar);
 
@@ -135,11 +133,13 @@ public class ServicioHabitoImp implements ServicioHabito {
   }
 
   @Override
-  public Habito buscarHabitoPorId(Integer id) {
+  public Habito buscarHabitoPorId(Integer id) throws HabitoNoEncontradoException {
     Habito habito = this.repositorioHabito.buscarPorId(id);
 
     if (habito != null) {
       habito.getCantidadDeChecklist().size();
+    } else {
+      throw new HabitoNoEncontradoException();
     }
 
     return habito;
@@ -153,15 +153,10 @@ public class ServicioHabitoImp implements ServicioHabito {
 
   @Override
   public void actualizarEstadoItemChecklist(Integer itemId, Integer habitoId)
-    throws ChecklistInsuficienteExeption {
+      throws ChecklistInsuficienteExeption, HabitoNoEncontradoException, ItemChecklistNoEncontradoException {
     Habito habito = this.buscarHabitoPorId(habitoId);
 
-    ItemChecklist item = habito
-      .getCantidadDeChecklist()
-      .stream()
-      .filter(i -> i.getId().equals(itemId))
-      .findFirst()
-      .orElseThrow(); //recorre los items, se querda con el primer item que coincide. Si encontro uno que esta vacio lanza una excepcion
+    ItemChecklist item = this.buscarItemChecklistEnHabito(habito, itemId);
 
     item.setEstadoChecklist(!item.getEstadoChecklist());
 
@@ -170,22 +165,33 @@ public class ServicioHabitoImp implements ServicioHabito {
   }
 
   @Override
-  public void editarDescripcionItemChecklist(
-    Integer itemId,
-    Integer habitoId,
-    String nuevaDescripcion
-  ) throws ChecklistInsuficienteExeption {
-    Habito habito = this.buscarHabitoPorId(habitoId);
+  public void editarDescripcionItemChecklist(Integer idItem, Integer idHabito, String nuevaDescripcion)
+      throws HabitoNoEncontradoException, ItemChecklistNoEncontradoException, DescripcionChecklistInvalidaException {
 
-    ItemChecklist item = habito
-      .getCantidadDeChecklist()
-      .stream()
-      .filter(i -> i.getId().equals(itemId))
-      .findFirst()
-      .orElseThrow();
+    if (nuevaDescripcion == null || nuevaDescripcion.trim().isEmpty()) {
+      throw new DescripcionChecklistInvalidaException();
+    }
 
-    item.setDescripcion(nuevaDescripcion);
+    Habito habito = this.buscarHabitoPorId(idHabito);
+
+    ItemChecklist item = this.buscarItemChecklistEnHabito(habito, idItem);
+
+    item.setDescripcion(nuevaDescripcion.trim());
 
     this.repositorioHabito.modificar(habito);
   }
+
+  private ItemChecklist buscarItemChecklistEnHabito(Habito habito, Integer idItem)
+      throws ItemChecklistNoEncontradoException {
+    ItemChecklist item = habito
+        .getCantidadDeChecklist()
+        .stream()
+        .filter(i -> i.getId().equals(idItem))
+        .findFirst()
+        .orElseThrow(ItemChecklistNoEncontradoException::new); // recorre los items, se querda con el primer item que
+                                                               // coincide. Si encontro uno que esta vacio lanza una
+                                                               // excepcion
+    return item;
+  }
+
 }
