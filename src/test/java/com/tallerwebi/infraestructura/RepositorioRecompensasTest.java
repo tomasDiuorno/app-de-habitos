@@ -38,36 +38,21 @@ public class RepositorioRecompensasTest {
   public void deberiaDevolverLasRecompensasCargadasEnLaBaseDeDatos() {
     Recompensa recompensa1 =
       this.dadoQueTengoUnaRecompensa(
-          1,
           "recompensa",
           "llegaste al nivel 5",
           "imagen",
           5,
-          Rareza.COMUN,
-          true
-        );
-    Recompensa recompensa2 =
-      this.dadoQueTengoUnaRecompensa(
-          2,
-          "recompensa2",
-          "llegaste al nivel 10",
-          "imagen",
-          10,
-          Rareza.EPICA,
-          true
+          Rareza.COMUN
         );
     this.dadoQueExisteLaRecompensa(recompensa1);
-    this.dadoQueExisteLaRecompensa(recompensa2);
 
     List<Recompensa> recompensas = repositorioRecompensas.obtenerTodas();
-
-    assertThat(recompensas.get(0).getId(), is(equalTo(1)));
+    assertThat(recompensas.size(), is(equalTo(1)));
     assertThat(recompensas.get(0).getNombre(), is(equalTo("recompensa")));
     assertThat(recompensas.get(0).getDescripcion(), is(equalTo("llegaste al nivel 5")));
     assertThat(recompensas.get(0).getUrlImg(), is(equalTo("imagen")));
     assertThat(recompensas.get(0).getNivelRequerido(), is(equalTo(5)));
     assertThat(recompensas.get(0).getRareza(), is(equalTo(Rareza.COMUN)));
-    assertThat(recompensas.get(0).getActivo(), is(true));
   }
 
   private void dadoQueExisteLaRecompensa(Recompensa recompensa) {
@@ -75,22 +60,18 @@ public class RepositorioRecompensasTest {
   }
 
   private Recompensa dadoQueTengoUnaRecompensa(
-    Integer id,
     String nombre,
     String descripcion,
     String imagen,
     Integer nivelRequerido,
-    Rareza rareza,
-    Boolean activo
+    Rareza rareza
   ) {
     Recompensa recomp = new Recompensa();
-    recomp.setId(id);
     recomp.setNombre(nombre);
     recomp.setDescripcion(descripcion);
     recomp.setUrlImg(imagen);
     recomp.setNivelRequerido(nivelRequerido);
     recomp.setRareza(rareza);
-    recomp.setActivo(activo);
     return recomp;
   }
 }

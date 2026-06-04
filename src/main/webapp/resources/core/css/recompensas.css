@@ -594,6 +594,42 @@ a {
   border: 1px solid rgba(240, 179, 90, 0.34);
 }
 
+/* ==========================================================
+   CARD BUTTON
+========================================================== */
+
+.card-btn {
+  width: 100%;
+  margin-top: 16px;
+  height: 42px;
+  border: 1px solid rgba(139, 92, 246, .25);
+  border-radius: 12px;
+  background:rgba(139, 92, 246, .08);
+  color: var(--text);
+  font-family: "Rajdhani", sans-serif;
+  font-size: .95rem;
+  font-weight: 700;
+  letter-spacing: .5px;
+  cursor: pointer;
+  transition: transform .25s ease, background .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+.card-btn:hover {
+  transform: translateY(-2px);
+  background:rgba(139, 92, 246, .15);
+  border-color: rgba(139, 92, 246, .55);
+  box-shadow: 0 8px 20px rgba(139, 92, 246, .18);
+}
+
+.card-btn:active {
+  transform: scale(.98);
+}
+
+.card-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, .15);
+}
+
 /* =========================
    Responsive
 ========================= */

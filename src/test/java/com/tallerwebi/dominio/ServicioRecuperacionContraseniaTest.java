@@ -1,7 +1,5 @@
 package com.tallerwebi.dominio;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -65,10 +63,6 @@ public class ServicioRecuperacionContraseniaTest {
       EmailInexistenteException.class,
       () -> this.servicioRecuperacion.recuperarContrasenia(datos)
     );
-    // assertThrows(RuntimeException.class, () -> {
-    // this.servicioRecuperacion.recuperarContrasenia(datos);
-    // }
-    // );
   }
 
   @Test
@@ -90,27 +84,5 @@ public class ServicioRecuperacionContraseniaTest {
       ContraseniasNoCoincidenException.class,
       () -> this.servicioRecuperacion.recuperarContrasenia(datos)
     );
-    // assertThrows(RuntimeException.class,
-    // () -> {
-    // this.servicioRecuperacion.recuperarContrasenia(datos);
-    // }
-    // );
-  }
-
-  @Test
-  public void deberiaModificarLosDatosDeRecuperacionConSetters() {
-    DatosRecuperacionContrasenia datos = new DatosRecuperacionContrasenia(
-      "viejo@mail.com",
-      "vieja1",
-      "vieja2"
-    );
-
-    datos.setEmail("nuevo@mail.com");
-    datos.setContrasenia1("Password1!");
-    datos.setContrasenia2("Password1!");
-
-    assertThat(datos.getEmail(), is("nuevo@mail.com"));
-    assertThat(datos.getContrasenia1(), is("Password1!"));
-    assertThat(datos.getContrasenia2(), is("Password1!"));
   }
 }

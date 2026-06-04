@@ -22,6 +22,7 @@
                 <a th:href="@{/home}">Inicio</a>
                 <a th:href="@{/habitos}">Habitos</a>
                 <a class="active" th:href="@{/recompensas}">Recompensas</a>
+                <a th:href="@{/historial}">Historial</a>
                 <a th:href="@{/perfil}">Perfil</a>
             </div>
 
@@ -76,8 +77,8 @@
                 <article th:each="recompensa, status : ${recompensas}" th:with="
             nivelRequerido=${recompensa.nivelRequerido != null ? recompensa.nivelRequerido : (status.index + 1) * 5},
             desbloqueada=${usuario.nivelUsuario >= nivelRequerido},
-            rarezaClass=${#strings.toLowerCase(recompensa.rareza.toString())}
-          " class="reward-card" th:classappend="${rarezaClass} + (${desbloqueada} ? ' unlocked' : ' locked')">
+            rarezaClass=${#strings.toLowerCase(recompensa.rareza.toString())}"
+            class="reward-card" th:classappend="${rarezaClass} + (${desbloqueada} ? ' unlocked' : ' locked')">
                     <div class="reward-image-wrap">
                         <img class="reward-image" th:src="@{${recompensa.urlImg}}" th:alt="${recompensa.nombre}" />
                         <div class="reward-image-overlay"></div>
