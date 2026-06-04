@@ -68,4 +68,14 @@ public class ControladorHabitosTest {
     assert modelAndView != null;
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("crear-habito"));
   }
+
+  @Test
+  public void deberiaRetornarAlLoginCuandoNoHayUnUsuarioLogueado() throws Exception {
+    MvcResult result =
+      this.mockMvc.perform(get("/habitos")).andExpect(status().is3xxRedirection()).andReturn();
+
+    ModelAndView modelAndView = result.getModelAndView();
+    assert modelAndView != null;
+    assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
+  }
 }

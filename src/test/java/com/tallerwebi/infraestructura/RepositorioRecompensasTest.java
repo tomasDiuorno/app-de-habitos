@@ -43,8 +43,7 @@ public class RepositorioRecompensasTest {
           "llegaste al nivel 5",
           "imagen",
           5,
-          Rareza.COMUN,
-          true
+          Rareza.COMUN
         );
     Recompensa recompensa2 =
       this.dadoQueTengoUnaRecompensa(
@@ -53,8 +52,7 @@ public class RepositorioRecompensasTest {
           "llegaste al nivel 10",
           "imagen",
           10,
-          Rareza.EPICA,
-          true
+          Rareza.EPICA
         );
     this.dadoQueExisteLaRecompensa(recompensa1);
     this.dadoQueExisteLaRecompensa(recompensa2);
@@ -67,7 +65,6 @@ public class RepositorioRecompensasTest {
     assertThat(recompensas.get(0).getUrlImg(), is(equalTo("imagen")));
     assertThat(recompensas.get(0).getNivelRequerido(), is(equalTo(5)));
     assertThat(recompensas.get(0).getRareza(), is(equalTo(Rareza.COMUN)));
-    assertThat(recompensas.get(0).getActivo(), is(true));
   }
 
   private void dadoQueExisteLaRecompensa(Recompensa recompensa) {
@@ -80,8 +77,7 @@ public class RepositorioRecompensasTest {
     String descripcion,
     String imagen,
     Integer nivelRequerido,
-    Rareza rareza,
-    Boolean activo
+    Rareza rareza
   ) {
     Recompensa recomp = new Recompensa();
     recomp.setId(id);
@@ -90,7 +86,6 @@ public class RepositorioRecompensasTest {
     recomp.setUrlImg(imagen);
     recomp.setNivelRequerido(nivelRequerido);
     recomp.setRareza(rareza);
-    recomp.setActivo(activo);
     return recomp;
   }
 }

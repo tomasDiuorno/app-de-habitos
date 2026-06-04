@@ -29,6 +29,9 @@ public class Usuario {
   @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
   private List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
 
+  @OneToMany(mappedBy = "usuario")
+  private List<UsuarioRecompensa> recompensas = new ArrayList<>();
+
   public Integer getId() {
     return id;
   }
