@@ -5,11 +5,13 @@ import com.tallerwebi.dominio.RepositorioUsuarioRecompensa;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.UsuarioRecompensa;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("repositorioUsuarioRecompensa")
+@Transactional
 public class RepositorioUsuarioRecompensaImp implements RepositorioUsuarioRecompensa {
 
   private SessionFactory sessionFactory;
@@ -26,7 +28,7 @@ public class RepositorioUsuarioRecompensaImp implements RepositorioUsuarioRecomp
 
   @Override
   public List<UsuarioRecompensa> obtenerPorUsuario(Integer idUsuario) {
-    String query = "FROM UsuarioRecompensa WHERE usuario.id = :idUsuario";
+    String query = "FROM UsuarioRecompensa WHERE usuario.id = :idUsuario AND utilizada = false";
     return this.sessionFactory.getCurrentSession()
       .createQuery(query, UsuarioRecompensa.class)
       .setParameter("idUsuario", idUsuario)
@@ -44,5 +46,14 @@ public class RepositorioUsuarioRecompensaImp implements RepositorioUsuarioRecomp
         .setParameter("idRecompensa", recompensa.getId())
         .getResultList();
     return !resultado.isEmpty();
+  }
+
+  @Override
+  public void utilizar(Integer idUsuarioRecompensa) {
+    String query = "UPDATE UsuarioRecompensa SET utilizada = true WHERE id = :idUsuarioRecompensa";
+    this.sessionFactory.getCurrentSession()
+      .createQuery(query)
+      .setParameter("idUsuarioRecompensa", idUsuarioRecompensa)
+      .executeUpdate();
   }
 }

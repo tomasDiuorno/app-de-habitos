@@ -8,7 +8,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.tallerwebi.dominio.Habito;
@@ -232,8 +231,6 @@ public class ControladorLoginTest {
       )
       .andExpect(status().is3xxRedirection())
       .andReturn();
-
-    System.out.println(result.getModelAndView().getModel().get("error"));
 
     ModelAndView modelAndView = result.getModelAndView();
 

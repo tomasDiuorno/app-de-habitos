@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.tallerwebi.dominio.Usuario;
@@ -64,5 +65,17 @@ public class ControladorRecompensasTest {
     ModelAndView modelAndView = result.getModelAndView();
     assert modelAndView != null;
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("baul"));
+  }
+
+  @Test
+  public void deberiaRetornarLaPaginaBaulCuandoMarcoUnaRecompensaComoUtilizada() throws Exception {
+    MvcResult result =
+      this.mockMvc.perform(post("/usar-recompensa").param("idUsuarioRecompensa", "1"))
+        .andExpect(status().is3xxRedirection())
+        .andReturn();
+
+    ModelAndView modelAndView = result.getModelAndView();
+    assert modelAndView != null;
+    assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/baul"));
   }
 }
