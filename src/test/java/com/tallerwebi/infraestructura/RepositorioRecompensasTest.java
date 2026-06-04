@@ -45,17 +45,7 @@ public class RepositorioRecompensasTest {
           5,
           Rareza.COMUN
         );
-    Recompensa recompensa2 =
-      this.dadoQueTengoUnaRecompensa(
-          2,
-          "recompensa2",
-          "llegaste al nivel 10",
-          "imagen",
-          10,
-          Rareza.EPICA
-        );
     this.dadoQueExisteLaRecompensa(recompensa1);
-    this.dadoQueExisteLaRecompensa(recompensa2);
 
     List<Recompensa> recompensas = repositorioRecompensas.obtenerTodas();
 
