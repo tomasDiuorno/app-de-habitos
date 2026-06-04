@@ -1,5 +1,8 @@
 package com.tallerwebi.presentacion;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DatosRegistroHabito {
 
   private String titulo;
@@ -7,6 +10,19 @@ public class DatosRegistroHabito {
   private Integer categoriaId;
   private String frecuencia;
   private Integer duracionEstimada;
+  private List<String> tareas;
+
+  public DatosRegistroHabito() {
+    this.tareas = new ArrayList<>();
+  }
+
+  public List<String> getTareas() {
+    return tareas;
+  }
+
+  public void setTareas(List<String> tareas) {
+    this.tareas = tareas;
+  }
 
   public String getTitulo() {
     return titulo;

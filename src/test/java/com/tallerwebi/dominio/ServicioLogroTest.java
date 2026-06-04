@@ -88,6 +88,60 @@ public class ServicioLogroTest {
     verify(repositorioUsuarioLogroMock, times(1)).buscarPorUsuario(usuario);
   }
 
+  @Test
+  public void deberiaAsignarElLogroConstanteCuandoUsuarioTieneTresHabitos() {
+    Usuario usuario = dadoQueTengoUnUsuarioConHabitos(3);
+
+    Logro logroPrimerPaso = dadoQueTengoUnLogro("Primer Paso", "PRIMER_HABITO");
+    Logro logroConstante = dadoQueTengoUnLogro("Constante", "TRES_HABITOS");
+
+    when(repositorioLogroMock.buscarPorNombre("Primer Paso")).thenReturn(logroPrimerPaso);
+    when(repositorioLogroMock.buscarPorNombre("Constante")).thenReturn(logroConstante);
+
+    when(repositorioUsuarioLogroMock.existeLogroParaUsuario(usuario, logroPrimerPaso))
+      .thenReturn(true);
+    when(repositorioUsuarioLogroMock.existeLogroParaUsuario(usuario, logroConstante))
+      .thenReturn(false);
+
+    servicioLogro.verificarYAsignarLogros(usuario);
+
+    ArgumentCaptor<UsuarioLogro> captor = ArgumentCaptor.forClass(UsuarioLogro.class);
+    verify(repositorioUsuarioLogroMock, times(1)).guardar(captor.capture());
+
+    UsuarioLogro usuarioLogroGuardado = captor.getValue();
+    assertThat(usuarioLogroGuardado.getUsuario(), is(usuario));
+    assertThat(usuarioLogroGuardado.getLogro().getNombre(), is("Constante"));
+  }
+
+  @Test
+  public void deberiaAsignarElLogroExpertoCuandoUsuarioTieneCuatroHabitos() {
+    Usuario usuario = dadoQueTengoUnUsuarioConHabitos(4);
+
+    Logro logroPrimerPaso = dadoQueTengoUnLogro("Primer Paso", "PRIMER_HABITO");
+    Logro logroConstante = dadoQueTengoUnLogro("Constante", "TRES_HABITOS");
+    Logro logroExperto = dadoQueTengoUnLogro("Experto", "CUATRO_HABITOS");
+
+    when(repositorioLogroMock.buscarPorNombre("Primer Paso")).thenReturn(logroPrimerPaso);
+    when(repositorioLogroMock.buscarPorNombre("Constante")).thenReturn(logroConstante);
+    when(repositorioLogroMock.buscarPorNombre("Experto")).thenReturn(logroExperto);
+
+    when(repositorioUsuarioLogroMock.existeLogroParaUsuario(usuario, logroPrimerPaso))
+      .thenReturn(true);
+    when(repositorioUsuarioLogroMock.existeLogroParaUsuario(usuario, logroConstante))
+      .thenReturn(true);
+    when(repositorioUsuarioLogroMock.existeLogroParaUsuario(usuario, logroExperto))
+      .thenReturn(false);
+
+    servicioLogro.verificarYAsignarLogros(usuario);
+
+    ArgumentCaptor<UsuarioLogro> captor = ArgumentCaptor.forClass(UsuarioLogro.class);
+    verify(repositorioUsuarioLogroMock, times(1)).guardar(captor.capture());
+
+    UsuarioLogro usuarioLogroGuardado = captor.getValue();
+    assertThat(usuarioLogroGuardado.getUsuario(), is(usuario));
+    assertThat(usuarioLogroGuardado.getLogro().getNombre(), is("Experto"));
+  }
+
   private Usuario dadoQueTengoUnUsuarioConHabitos(int cantidadHabitos) {
     Usuario usuario = new Usuario();
     usuario.setEmail("test@mail.com");

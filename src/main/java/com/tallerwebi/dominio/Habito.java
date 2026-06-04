@@ -2,6 +2,7 @@ package com.tallerwebi.dominio;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,12 +23,17 @@ public class Habito {
   private String frecuencia;
   private Integer duracionEstimada;
 
+  private Integer progresoActual;
+
   @ManyToOne
   @JoinColumn(name = "categoria_id")
   private Categoria categoria;
 
   @OneToMany(mappedBy = "habito")
   private List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
+
+  @OneToMany(mappedBy = "habito", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<ItemChecklist> cantidadDeChecklist = new ArrayList<>();
 
   public Integer getId() {
     return id;
@@ -83,5 +89,31 @@ public class Habito {
 
   public void setDuracionEstimada(Integer duracionEstimada) {
     this.duracionEstimada = duracionEstimada;
+  }
+
+  public List<ItemChecklist> getCantidadDeChecklist() {
+    return cantidadDeChecklist;
+  }
+
+  public void setCantidadDeChecklist(List<ItemChecklist> cantidadDeChecklist) {
+    this.cantidadDeChecklist = cantidadDeChecklist;
+  }
+
+  public Integer getProgresoActual() {
+    return progresoActual;
+  }
+
+  public void setProgresoActual(Integer progresoActual) {
+    this.progresoActual = progresoActual;
+  }
+
+  public void agregarItemChecklist(ItemChecklist item) {
+    this.cantidadDeChecklist.add(item);
+    item.setHabito(this);
+  }
+
+  public void eliminarItemChecklist(ItemChecklist item) {
+    this.cantidadDeChecklist.remove(item);
+    item.setHabito(null);
   }
 }

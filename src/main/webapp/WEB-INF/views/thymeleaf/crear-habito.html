@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>Habitapp - Crear Hábito</title>
@@ -18,6 +18,22 @@
 </head>
 
 <body class="crear-habito-body">
+
+<div th:if="${mostrarLogro}" class="achievement-popup">
+  <div class="achievement-icon">
+    ★
+  </div>
+
+  <div class="achievement-content">
+    <span class="achievement-label">Logro desbloqueado</span>
+    <strong th:text="${tituloLogro}">
+      Primer hábito creado
+    </strong>
+    <p th:text="${descripcionLogro}">
+      Creaste tu primer hábito. Tu rutina acaba de empezar.
+    </p>
+  </div>
+</div>
 
   <nav class="crear-habito-navbar">
     <div class="crear-habito-navbar-container">
@@ -108,6 +124,11 @@
     </section>
 
   </main>
+<script th:if="${mostrarLogro}" th:inline="javascript">
+  setTimeout(function () {
+    window.location.href = /*[[@{/habitos}]]*/ '/spring/habitos';
+  }, 3500);
+</script>
 
 </body>
 

@@ -44,13 +44,15 @@
 
                 <aside class="level-panel">
                     <span class="level-label">Nivel actual</span>
-                    <strong class="level-value" th:text="${usuario.nivelUsuario}">12</strong>
+                        <strong class="level-value" th:text="${usuario.nivelUsuario != null ? usuario.nivelUsuario : 0}">
+                            0
+                        </strong>
 
-                    <div class="level-progress">
-                        <div class="level-progress-fill"
-                            th:style="'width:' + (${usuario.nivelUsuario} > 100 ? 100 : ${usuario.nivelUsuario}) + '%'">
+                        <div class="level-progress">
+                            <div class="level-progress-fill"
+                                th:style="'width:' + (${usuario.nivelUsuario != null and usuario.nivelUsuario > 100} ? 100 : (${usuario.nivelUsuario != null} ? ${usuario.nivelUsuario} : 0)) + '%'">
+                            </div>
                         </div>
-                    </div>
 
                     <span class="level-caption">
                         <span th:text="${usuario.nivelUsuario}">12</span>/100 XP de progreso
@@ -75,8 +77,8 @@
                 <article th:each="recompensa, status : ${recompensas}" th:with="
             nivelRequerido=${recompensa.nivelRequerido != null ? recompensa.nivelRequerido : (status.index + 1) * 5},
             desbloqueada=${usuario.nivelUsuario >= nivelRequerido},
-            rarezaClass=${#strings.toLowerCase(recompensa.rareza.toString())}
-          " class="reward-card" th:classappend="${rarezaClass} + (${desbloqueada} ? ' unlocked' : ' locked')">
+            rarezaClass=${#strings.toLowerCase(recompensa.rareza.toString())}"
+            class="reward-card" th:classappend="${rarezaClass} + (${desbloqueada} ? ' unlocked' : ' locked')">
                     <div class="reward-image-wrap">
                         <img class="reward-image" th:src="@{${recompensa.urlImg}}" th:alt="${recompensa.nombre}" />
                         <div class="reward-image-overlay"></div>
