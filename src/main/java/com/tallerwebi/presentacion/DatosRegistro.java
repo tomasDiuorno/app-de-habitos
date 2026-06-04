@@ -102,7 +102,7 @@ public class DatosRegistro {
     this.habitosSeleccionados = habitosSeleccionados;
   }
 
-  public String isPasswordConfirmada() {
-    return this.confirmPassword;
-  }
+ public Boolean isPasswordConfirmada() {
+    return this.password != null && this.password.equals(this.confirmPassword);
+}
 }

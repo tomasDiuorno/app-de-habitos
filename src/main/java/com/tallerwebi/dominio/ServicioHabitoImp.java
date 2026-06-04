@@ -139,8 +139,6 @@ public class ServicioHabitoImp implements ServicioHabito {
     Habito habito = this.repositorioHabito.buscarPorId(id);
 
     if (habito != null) {
-      // Al pedirle el "size()", forzamos a Hibernate a ir a la base de datos
-      // y traer los items del checklist mientras la conexión sigue abierta.
       habito.getCantidadDeChecklist().size();
     }
 
