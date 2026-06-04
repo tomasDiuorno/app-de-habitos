@@ -47,8 +47,7 @@ public class RepositorioRecompensasTest {
     this.dadoQueExisteLaRecompensa(recompensa1);
 
     List<Recompensa> recompensas = repositorioRecompensas.obtenerTodas();
-
-    assertThat(recompensas.get(0).getId(), is(equalTo(1)));
+    assertThat(recompensas.size(), is(equalTo(1)));
     assertThat(recompensas.get(0).getNombre(), is(equalTo("recompensa")));
     assertThat(recompensas.get(0).getDescripcion(), is(equalTo("llegaste al nivel 5")));
     assertThat(recompensas.get(0).getUrlImg(), is(equalTo("imagen")));

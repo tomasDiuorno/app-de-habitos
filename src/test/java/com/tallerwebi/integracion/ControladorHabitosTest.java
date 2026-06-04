@@ -69,7 +69,6 @@ public class ControladorHabitosTest {
 
   @Test
   public void deberiaRetornarAlLoginCuandoNoHayUnUsuarioLogueado() throws Exception {
-    
     MvcResult result =
       this.mockMvc.perform(get("/habitos")).andExpect(status().is3xxRedirection()).andReturn();
 
@@ -79,10 +78,12 @@ public class ControladorHabitosTest {
   }
 
   @Test
-  public void deberiaRetornarAlLoginCuandoQuieroCrearUnHabitoPeroNoHayUnUsuarioLogueado() throws Exception {
-    
+  public void deberiaRetornarAlLoginCuandoQuieroCrearUnHabitoPeroNoHayUnUsuarioLogueado()
+    throws Exception {
     MvcResult result =
-      this.mockMvc.perform(post("/crear-habito").param("nombre", "Habito de prueba")).andExpect(status().is3xxRedirection()).andReturn();
+      this.mockMvc.perform(post("/crear-habito").param("nombre", "Habito de prueba"))
+        .andExpect(status().is3xxRedirection())
+        .andReturn();
 
     ModelAndView modelAndView = result.getModelAndView();
     assert modelAndView != null;

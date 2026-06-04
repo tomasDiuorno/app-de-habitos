@@ -18,7 +18,6 @@ import com.tallerwebi.dominio.ServicioRecuperacionContrasenia;
 import com.tallerwebi.dominio.ServicioRegistro;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -62,10 +61,12 @@ public class ControladorLoginTest {
     servicioRecuperacionContraseniaMock = mock(ServicioRecuperacionContrasenia.class);
     bindingResultMock = mock(BindingResult.class);
     when(bindingResultMock.hasErrors()).thenReturn(false);
-    controladorLogin = new ControladorLogin(
+    controladorLogin =
+      new ControladorLogin(
         servicioLoginMock,
         servicioRecuperacionContraseniaMock,
-        servicioHabitosMock);
+        servicioHabitosMock
+      );
     controladorRegistro = new ControladorRegistro(servicioRegistroMock, servicioHabitosMock);
     this.mockMvc = MockMvcBuilders.standaloneSetup(controladorLogin).build();
   }
@@ -81,8 +82,9 @@ public class ControladorLoginTest {
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("login"));
     assertThat(
-        modelAndView.getModel().get("error").toString(),
-        equalToIgnoringCase("Usuario o clave incorrecta"));
+      modelAndView.getModel().get("error").toString(),
+      equalToIgnoringCase("Usuario o clave incorrecta")
+    );
     verify(sessionMock, times(0)).setAttribute("ROL", "ADMIN");
   }
 
@@ -94,7 +96,7 @@ public class ControladorLoginTest {
 
     when(requestMock.getSession()).thenReturn(sessionMock);
     when(servicioLoginMock.consultarUsuario(anyString(), anyString()))
-        .thenReturn(usuarioEncontradoMock);
+      .thenReturn(usuarioEncontradoMock);
 
     // ejecucion
     ModelAndView modelAndView = controladorLogin.validarLogin(datosLoginMock, requestMock);
@@ -106,11 +108,12 @@ public class ControladorLoginTest {
 
   @Test
   public void registrameSiUsuarioNoExisteDeberiaCrearUsuarioYVolverAlLogin()
-      throws UsuarioExistente {
+    throws UsuarioExistente {
     // ejecucion
     ModelAndView modelAndView = controladorRegistro.registrarme(
-        datosRegistroMock,
-        bindingResultMock);
+      datosRegistroMock,
+      bindingResultMock
+    );
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
@@ -119,21 +122,23 @@ public class ControladorLoginTest {
 
   @Test
   public void registrarmeSiUsuarioExisteDeberiaVolverAFormularioYMostrarError()
-      throws UsuarioExistente {
+    throws UsuarioExistente {
     // preparacion
     doThrow(UsuarioExistente.class).when(servicioRegistroMock).registrar(datosRegistroMock);
     when(servicioHabitosMock.obtenerHabitosIniciales()).thenReturn(new ArrayList<>());
 
     // ejecucion
     ModelAndView modelAndView = controladorRegistro.registrarme(
-        datosRegistroMock,
-        bindingResultMock);
+      datosRegistroMock,
+      bindingResultMock
+    );
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("nuevo-usuario"));
     assertThat(
-        modelAndView.getModel().get("error").toString(),
-        equalToIgnoringCase("El usuario ya existe"));
+      modelAndView.getModel().get("error").toString(),
+      equalToIgnoringCase("El usuario ya existe")
+    );
     assertThat(modelAndView.getModel().get("habitos"), instanceOf(List.class));
   }
 
@@ -144,14 +149,16 @@ public class ControladorLoginTest {
 
     // ejecucion
     ModelAndView modelAndView = controladorRegistro.registrarme(
-        datosRegistroMock,
-        bindingResultMock);
+      datosRegistroMock,
+      bindingResultMock
+    );
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("nuevo-usuario"));
     assertThat(
-        modelAndView.getModel().get("error").toString(),
-        equalToIgnoringCase("Error al registrar el nuevo usuario"));
+      modelAndView.getModel().get("error").toString(),
+      equalToIgnoringCase("Error al registrar el nuevo usuario")
+    );
   }
 
   @Test
@@ -212,29 +219,27 @@ public class ControladorLoginTest {
 
   @Test
   public void deberiaRedirigirAlLoginCuandoLaContraseniaSeRecuperaCorrectamente() throws Exception {
-
     doNothing()
-        .when(servicioRecuperacionContraseniaMock)
-        .recuperarContrasenia(any(DatosRecuperacionContrasenia.class));
+      .when(servicioRecuperacionContraseniaMock)
+      .recuperarContrasenia(any(DatosRecuperacionContrasenia.class));
 
-    MvcResult result = mockMvc.perform(
+    MvcResult result = mockMvc
+      .perform(
         post("/recuperacion-contrasenia")
-            .param("email", "test@mail.com")
-            .param("contrasenia1", "Password1!")
-            .param("contrasenia2", "Password1!"))
-        .andExpect(status().is3xxRedirection())
-        .andReturn();
+          .param("email", "test@mail.com")
+          .param("contrasenia1", "Password1!")
+          .param("contrasenia2", "Password1!")
+      )
+      .andExpect(status().is3xxRedirection())
+      .andReturn();
 
-    System.out.println(
-        result.getModelAndView().getModel().get("error"));
+    System.out.println(result.getModelAndView().getModel().get("error"));
 
     ModelAndView modelAndView = result.getModelAndView();
 
-    assertThat(
-        modelAndView.getViewName(),
-        equalToIgnoringCase("redirect:/login"));
+    assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
 
     verify(servicioRecuperacionContraseniaMock, times(1))
-        .recuperarContrasenia(any(DatosRecuperacionContrasenia.class));
+      .recuperarContrasenia(any(DatosRecuperacionContrasenia.class));
   }
 }
