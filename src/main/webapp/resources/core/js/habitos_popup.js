@@ -5,12 +5,12 @@ const openButtons = document.querySelectorAll(".open-modal-button");
 const modalContent = document.querySelector(".habit-modal-content");
 
 function actualizarProgresoVisual() {
-    const checkboxes = document.querySelectorAll(".checklist-checkbox");
-    const progressBar = document.getElementById("progressBar");
-    const progressText = document.getElementById("progressText");
+  const checkboxes = document.querySelectorAll(".checklist-checkbox");
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.getElementById("progressText");
 
-    if (!progressBar || !progressText) {
-        return;
+  if (!progressBar || !progressText) {
+    return;
     }
 
     if (checkboxes.length === 0) {
