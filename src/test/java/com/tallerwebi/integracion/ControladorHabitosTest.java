@@ -5,9 +5,9 @@ import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.tallerwebi.dominio.ServicioHabito;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
@@ -30,7 +30,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControladorHabitosTest {
 
   private Usuario usuarioMock;
-  private ServicioHabito servicioHabitoMock;
 
   @Autowired
   private WebApplicationContext wac;
@@ -40,7 +39,6 @@ public class ControladorHabitosTest {
   @BeforeEach
   public void init() {
     usuarioMock = mock(Usuario.class);
-    servicioHabitoMock = mock(ServicioHabito.class);
     when(usuarioMock.getEmail()).thenReturn("test@mail.com");
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
@@ -71,8 +69,20 @@ public class ControladorHabitosTest {
 
   @Test
   public void deberiaRetornarAlLoginCuandoNoHayUnUsuarioLogueado() throws Exception {
+    
     MvcResult result =
       this.mockMvc.perform(get("/habitos")).andExpect(status().is3xxRedirection()).andReturn();
+
+    ModelAndView modelAndView = result.getModelAndView();
+    assert modelAndView != null;
+    assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
+  }
+
+  @Test
+  public void deberiaRetornarAlLoginCuandoQuieroCrearUnHabitoPeroNoHayUnUsuarioLogueado() throws Exception {
+    
+    MvcResult result =
+      this.mockMvc.perform(post("/crear-habito").param("nombre", "Habito de prueba")).andExpect(status().is3xxRedirection()).andReturn();
 
     ModelAndView modelAndView = result.getModelAndView();
     assert modelAndView != null;

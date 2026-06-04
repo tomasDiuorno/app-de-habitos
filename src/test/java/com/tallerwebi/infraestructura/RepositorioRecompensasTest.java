@@ -38,7 +38,6 @@ public class RepositorioRecompensasTest {
   public void deberiaDevolverLasRecompensasCargadasEnLaBaseDeDatos() {
     Recompensa recompensa1 =
       this.dadoQueTengoUnaRecompensa(
-          1,
           "recompensa",
           "llegaste al nivel 5",
           "imagen",
@@ -62,7 +61,6 @@ public class RepositorioRecompensasTest {
   }
 
   private Recompensa dadoQueTengoUnaRecompensa(
-    Integer id,
     String nombre,
     String descripcion,
     String imagen,
@@ -70,7 +68,6 @@ public class RepositorioRecompensasTest {
     Rareza rareza
   ) {
     Recompensa recomp = new Recompensa();
-    recomp.setId(id);
     recomp.setNombre(nombre);
     recomp.setDescripcion(descripcion);
     recomp.setUrlImg(imagen);
