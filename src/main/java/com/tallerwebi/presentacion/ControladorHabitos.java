@@ -81,13 +81,13 @@ public class ControladorHabitos {
       return new ModelAndView(REDIRECT_LOGIN);
     }
 
-    int cantidadHabitosAntes = usuario.getUsuarioHabito().size();
+    Integer cantidadHabitosAntes = usuario.getUsuarioHabito().size();
 
     try {
       Habito habito = this.servicioHabito.obtenerHabito(datos);
       this.servicioHabito.agregarHabitoParaUsuario(habito, usuario);
 
-      int cantidadHabitosDespues = usuario.getUsuarioHabito().size();
+      Integer cantidadHabitosDespues = usuario.getUsuarioHabito().size();
 
       ModelAndView modelAndView = crearVistaCrearHabito(new DatosRegistroHabito());
       cargarLogroDesbloqueado(modelAndView, cantidadHabitosAntes, cantidadHabitosDespues);
