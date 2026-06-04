@@ -11,6 +11,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.tallerwebi.dominio.Habito;
@@ -267,5 +268,16 @@ public class ControladorHabitosTest {
     assertTrue(respuesta.contains("Habito con \\\"comillas\\\""));
     assertTrue(respuesta.contains("Linea 1\\nLinea 2"));
     assertTrue(respuesta.contains("Texto con \\\"comillas\\\" y salto\\n"));
+  }
+  public void deberiaRetornarAlLoginCuandoQuieroCrearUnHabitoPeroNoHayUnUsuarioLogueado()
+    throws Exception {
+    MvcResult result =
+      this.mockMvc.perform(post("/crear-habito").param("nombre", "Habito de prueba"))
+        .andExpect(status().is3xxRedirection())
+        .andReturn();
+
+    ModelAndView modelAndView = result.getModelAndView();
+    assert modelAndView != null;
+    assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
   }
 }

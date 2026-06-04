@@ -4,8 +4,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.tallerwebi.dominio.Habito;
 import com.tallerwebi.dominio.ServicioHabito;
@@ -21,6 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -38,6 +44,8 @@ public class ControladorLoginTest {
   private DatosRegistro datosRegistroMock;
   private ServicioHabito servicioHabitosMock;
   private BindingResult bindingResultMock;
+
+  private MockMvc mockMvc;
 
   @BeforeEach
   public void init() {
@@ -60,6 +68,7 @@ public class ControladorLoginTest {
         servicioHabitosMock
       );
     controladorRegistro = new ControladorRegistro(servicioRegistroMock, servicioHabitosMock);
+    this.mockMvc = MockMvcBuilders.standaloneSetup(controladorLogin).build();
   }
 
   @Test
@@ -207,5 +216,29 @@ public class ControladorLoginTest {
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
+  }
+
+  @Test
+  public void deberiaRedirigirAlLoginCuandoLaContraseniaSeRecuperaCorrectamente() throws Exception {
+    doNothing()
+      .when(servicioRecuperacionContraseniaMock)
+      .recuperarContrasenia(any(DatosRecuperacionContrasenia.class));
+
+    MvcResult result = mockMvc
+      .perform(
+        post("/recuperacion-contrasenia")
+          .param("email", "test@mail.com")
+          .param("contrasenia1", "Password1!")
+          .param("contrasenia2", "Password1!")
+      )
+      .andExpect(status().is3xxRedirection())
+      .andReturn();
+
+    ModelAndView modelAndView = result.getModelAndView();
+
+    assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
+
+    verify(servicioRecuperacionContraseniaMock, times(1))
+      .recuperarContrasenia(any(DatosRecuperacionContrasenia.class));
   }
 }

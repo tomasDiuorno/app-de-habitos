@@ -38,19 +38,16 @@ public class RepositorioRecompensasTest {
   public void deberiaDevolverLasRecompensasCargadasEnLaBaseDeDatos() {
     Recompensa recompensa1 =
       this.dadoQueTengoUnaRecompensa(
-          1,
           "recompensa",
           "llegaste al nivel 5",
           "imagen",
           5,
           Rareza.COMUN
         );
-    
     this.dadoQueExisteLaRecompensa(recompensa1);
 
     List<Recompensa> recompensas = repositorioRecompensas.obtenerTodas();
-
-    assertThat(recompensas.get(0).getId(), is(equalTo(1)));
+    assertThat(recompensas.size(), is(equalTo(1)));
     assertThat(recompensas.get(0).getNombre(), is(equalTo("recompensa")));
     assertThat(recompensas.get(0).getDescripcion(), is(equalTo("llegaste al nivel 5")));
     assertThat(recompensas.get(0).getUrlImg(), is(equalTo("imagen")));
@@ -63,7 +60,6 @@ public class RepositorioRecompensasTest {
   }
 
   private Recompensa dadoQueTengoUnaRecompensa(
-    Integer id,
     String nombre,
     String descripcion,
     String imagen,
@@ -71,7 +67,6 @@ public class RepositorioRecompensasTest {
     Rareza rareza
   ) {
     Recompensa recomp = new Recompensa();
-    recomp.setId(id);
     recomp.setNombre(nombre);
     recomp.setDescripcion(descripcion);
     recomp.setUrlImg(imagen);

@@ -44,4 +44,9 @@ public class ServicioRecompensasImp implements ServicioRecompensas {
   public List<UsuarioRecompensa> obtenerBaul(Usuario usuario) {
     return this.repositorioUsuarioRecompensa.obtenerPorUsuario(usuario.getId());
   }
+
+  @Override
+  public void marcarComoUtilizada(Integer idUsuarioRecompensa) {
+    this.repositorioUsuarioRecompensa.utilizar(idUsuarioRecompensa);
+  }
 }

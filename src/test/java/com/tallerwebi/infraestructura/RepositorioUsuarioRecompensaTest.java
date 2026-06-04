@@ -3,9 +3,6 @@ package com.tallerwebi.infraestructura;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 import com.tallerwebi.dominio.Rareza;
 import com.tallerwebi.dominio.Recompensa;
