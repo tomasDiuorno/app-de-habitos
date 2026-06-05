@@ -75,8 +75,10 @@ public class ControladorLoginTest {
   }
 
   @Test
-  public void deberiaRetornarRecuperacionContraseniaCuandoSolicitoRecuperarLaContrasenia() throws Exception{
-    MvcResult result = this.mockMvc.perform(get("/recuperacion-contrasenia")).andExpect(status().isOk()).andReturn();
+  public void deberiaRetornarRecuperacionContraseniaCuandoSolicitoRecuperarLaContrasenia()
+    throws Exception {
+    MvcResult result =
+      this.mockMvc.perform(get("/recuperacion-contrasenia")).andExpect(status().isOk()).andReturn();
 
     ModelAndView modelAndView = result.getModelAndView();
     assert modelAndView != null;

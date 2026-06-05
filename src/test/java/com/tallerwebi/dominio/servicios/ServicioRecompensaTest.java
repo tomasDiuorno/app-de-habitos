@@ -12,7 +12,6 @@ import com.tallerwebi.dominio.entidades.UsuarioRecompensa;
 import com.tallerwebi.dominio.interfaz.RepositorioRecompensas;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuarioRecompensa;
 import com.tallerwebi.dominio.interfaz.ServicioRecompensas;
-import com.tallerwebi.dominio.servicios.ServicioRecompensasImpl;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

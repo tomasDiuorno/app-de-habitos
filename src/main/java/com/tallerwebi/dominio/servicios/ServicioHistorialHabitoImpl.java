@@ -1,6 +1,5 @@
 package com.tallerwebi.dominio.servicios;
 
-import com.tallerwebi.dominio.entidades.Habito;
 import com.tallerwebi.dominio.entidades.HistorialHabito;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.entidades.UsuarioHabito;

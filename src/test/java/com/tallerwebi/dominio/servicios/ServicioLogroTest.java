@@ -17,7 +17,6 @@ import com.tallerwebi.dominio.entidades.UsuarioLogro;
 import com.tallerwebi.dominio.interfaz.RepositorioLogro;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuarioLogro;
 import com.tallerwebi.dominio.interfaz.ServicioLogro;
-import com.tallerwebi.dominio.servicios.ServicioLogroImpl;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

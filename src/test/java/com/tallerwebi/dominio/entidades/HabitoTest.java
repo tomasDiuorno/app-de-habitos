@@ -3,10 +3,6 @@ package com.tallerwebi.dominio.entidades;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import com.tallerwebi.dominio.entidades.Habito;
-import com.tallerwebi.dominio.entidades.ItemChecklist;
-import com.tallerwebi.dominio.entidades.Usuario;
-import com.tallerwebi.dominio.entidades.UsuarioHabito;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;

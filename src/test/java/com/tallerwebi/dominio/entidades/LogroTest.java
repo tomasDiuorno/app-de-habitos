@@ -4,9 +4,6 @@ package com.tallerwebi.dominio.entidades;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import com.tallerwebi.dominio.entidades.Logro;
-import com.tallerwebi.dominio.entidades.Usuario;
-import com.tallerwebi.dominio.entidades.UsuarioLogro;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;

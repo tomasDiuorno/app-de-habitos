@@ -15,7 +15,6 @@ import com.tallerwebi.dominio.interfaz.RepositorioHabito;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuario;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuarioHabito;
 import com.tallerwebi.dominio.interfaz.ServicioRegistro;
-import com.tallerwebi.dominio.servicios.ServicioRegistroImpl;
 import com.tallerwebi.presentacion.DTO.RegistroDTO;
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;

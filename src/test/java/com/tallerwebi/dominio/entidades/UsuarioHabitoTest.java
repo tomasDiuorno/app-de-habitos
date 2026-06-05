@@ -2,6 +2,7 @@ package com.tallerwebi.dominio.entidades;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.annotation.Rollback;
