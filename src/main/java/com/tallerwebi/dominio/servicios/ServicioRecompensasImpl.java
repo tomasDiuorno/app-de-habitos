@@ -1,16 +1,15 @@
 package com.tallerwebi.dominio.servicios;
 
-import java.util.List;
-import javax.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.tallerwebi.dominio.entidades.Recompensa;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.entidades.UsuarioRecompensa;
 import com.tallerwebi.dominio.interfaz.RepositorioRecompensas;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuarioRecompensa;
 import com.tallerwebi.dominio.interfaz.ServicioRecompensas;
+import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service("servicioRecompensas")
 @Transactional

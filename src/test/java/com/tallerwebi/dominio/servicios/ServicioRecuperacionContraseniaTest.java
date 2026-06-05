@@ -1,4 +1,4 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.servicios;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -10,9 +10,7 @@ import com.tallerwebi.dominio.excepcion.ContraseniasNoCoincidenException;
 import com.tallerwebi.dominio.excepcion.EmailInexistenteException;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuario;
 import com.tallerwebi.dominio.interfaz.ServicioRecuperacionContrasenia;
-import com.tallerwebi.dominio.servicios.ServicioRecuperacionContraseniaImpl;
 import com.tallerwebi.presentacion.DTO.RecuperacionContraseniaDTO;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +22,8 @@ public class ServicioRecuperacionContraseniaTest {
   @BeforeEach
   public void init() {
     this.repositorioUsuarioMock = mock(RepositorioUsuario.class);
-    this.servicioRecuperacion = new ServicioRecuperacionContraseniaImpl(this.repositorioUsuarioMock);
+    this.servicioRecuperacion =
+      new ServicioRecuperacionContraseniaImpl(this.repositorioUsuarioMock);
   }
 
   @Test
@@ -75,11 +74,7 @@ public class ServicioRecuperacionContraseniaTest {
     String emailValido = "test@gmail.com";
 
     // Las contraseñas son distintas
-    RecuperacionContraseniaDTO datos = new RecuperacionContraseniaDTO(
-      emailValido,
-      "1234",
-      "9999"
-    );
+    RecuperacionContraseniaDTO datos = new RecuperacionContraseniaDTO(emailValido, "1234", "9999");
 
     Usuario usuario = new Usuario();
     usuario.setEmail(emailValido);
@@ -87,6 +82,20 @@ public class ServicioRecuperacionContraseniaTest {
 
     assertThrows(
       ContraseniasNoCoincidenException.class,
+      () -> this.servicioRecuperacion.recuperarContrasenia(datos)
+    );
+  }
+
+  @Test
+  public void SiElMailNoExisteDebeLanzarException() {
+    String email = "test@gmail.com";
+    when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(email)).thenReturn(null);
+
+    // Las contraseñas son distintas
+    RecuperacionContraseniaDTO datos = new RecuperacionContraseniaDTO(email, "1234", "1234");
+
+    assertThrows(
+      EmailInexistenteException.class,
       () -> this.servicioRecuperacion.recuperarContrasenia(datos)
     );
   }

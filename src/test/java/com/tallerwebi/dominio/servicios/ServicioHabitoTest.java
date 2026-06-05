@@ -1,4 +1,4 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.servicios;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -23,9 +23,7 @@ import com.tallerwebi.dominio.interfaz.RepositorioHabito;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuarioHabito;
 import com.tallerwebi.dominio.interfaz.ServicioHabito;
 import com.tallerwebi.dominio.interfaz.ServicioLogro;
-import com.tallerwebi.dominio.servicios.ServicioHabitoImpl;
 import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

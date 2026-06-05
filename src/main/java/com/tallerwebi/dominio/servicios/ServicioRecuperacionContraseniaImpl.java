@@ -6,7 +6,6 @@ import com.tallerwebi.dominio.excepcion.EmailInexistenteException;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuario;
 import com.tallerwebi.dominio.interfaz.ServicioRecuperacionContrasenia;
 import com.tallerwebi.presentacion.DTO.RecuperacionContraseniaDTO;
-
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ public class ServicioRecuperacionContraseniaImpl implements ServicioRecuperacion
   public void recuperarContrasenia(RecuperacionContraseniaDTO datosRecuperacionContrasenia)
     throws ContraseniasNoCoincidenException, EmailInexistenteException {
     if (!verificarSiLasContraseniasSonIguales(datosRecuperacionContrasenia)) {
-      throw new ContraseniasNoCoincidenException("Error, las contrasenias no coinciden");
+      throw new ContraseniasNoCoincidenException();
     }
 
     Usuario usuarioEncontradoPorEmail = repositorioUsuario.buscarPorEmailOrUsername(
@@ -36,7 +35,7 @@ public class ServicioRecuperacionContraseniaImpl implements ServicioRecuperacion
     if (usuarioEncontradoPorEmail != null) {
       usuarioEncontradoPorEmail.setPassword(datosRecuperacionContrasenia.getContrasenia1());
     } else {
-      throw new EmailInexistenteException("El email ingresado no existe");
+      throw new EmailInexistenteException();
     }
   }
 

@@ -3,9 +3,8 @@ package com.tallerwebi.presentacion;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import org.junit.jupiter.api.Test;
-
 import com.tallerwebi.presentacion.DTO.RegistroDTO;
+import org.junit.jupiter.api.Test;
 
 public class DatosRecuperacionTest {
 

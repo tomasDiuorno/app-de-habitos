@@ -1,16 +1,15 @@
 // src/test/java/com/tallerwebi/dominio/LogroTest.java
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.entidades;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-
 import com.tallerwebi.dominio.entidades.Logro;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.entidades.UsuarioLogro;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 public class LogroTest {
 

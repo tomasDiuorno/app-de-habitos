@@ -70,7 +70,16 @@ public class ControladorLoginTest {
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("login"));
     assertThat(
       modelAndView.getModel().get("datosLogin").toString(),
-      containsString("com.tallerwebi.presentacion.DatosLogin")
+      containsString("com.tallerwebi.presentacion.DTO.LoginDTO")
     );
+  }
+
+  @Test
+  public void deberiaRetornarRecuperacionContraseniaCuandoSolicitoRecuperarLaContrasenia() throws Exception{
+    MvcResult result = this.mockMvc.perform(get("/recuperacion-contrasenia")).andExpect(status().isOk()).andReturn();
+
+    ModelAndView modelAndView = result.getModelAndView();
+    assert modelAndView != null;
+    assertThat(modelAndView.getViewName(), equalToIgnoringCase("recuperacion-contrasenia"));
   }
 }

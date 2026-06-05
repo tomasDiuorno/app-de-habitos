@@ -1,16 +1,10 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.entidades;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.annotation.Rollback;
-
-import com.tallerwebi.dominio.entidades.Categoria;
-import com.tallerwebi.dominio.entidades.Habito;
-import com.tallerwebi.dominio.entidades.Usuario;
-import com.tallerwebi.dominio.entidades.UsuarioHabito;
 
 public class UsuarioHabitoTest {
 

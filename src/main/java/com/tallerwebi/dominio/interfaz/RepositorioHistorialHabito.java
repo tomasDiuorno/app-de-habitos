@@ -1,11 +1,10 @@
 package com.tallerwebi.dominio.interfaz;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import com.tallerwebi.dominio.entidades.Habito;
 import com.tallerwebi.dominio.entidades.HistorialHabito;
 import com.tallerwebi.dominio.entidades.Usuario;
+import java.time.LocalDate;
+import java.util.List;
 
 public interface RepositorioHistorialHabito {
   void guardar(HistorialHabito historialHabito);

@@ -1,18 +1,16 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.servicios;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mindrot.jbcrypt.BCrypt;
-
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuario;
 import com.tallerwebi.dominio.interfaz.ServicioLogin;
-import com.tallerwebi.dominio.servicios.ServicioLoginImpl;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class ServicioLoginTest {
 

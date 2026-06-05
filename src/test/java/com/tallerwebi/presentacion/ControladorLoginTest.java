@@ -21,7 +21,6 @@ import com.tallerwebi.dominio.interfaz.ServicioRegistro;
 import com.tallerwebi.presentacion.DTO.LoginDTO;
 import com.tallerwebi.presentacion.DTO.RecuperacionContraseniaDTO;
 import com.tallerwebi.presentacion.DTO.RegistroDTO;
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;

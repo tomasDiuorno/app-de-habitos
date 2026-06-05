@@ -4,7 +4,6 @@ import com.tallerwebi.dominio.entidades.Recompensa;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.entidades.UsuarioRecompensa;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuarioRecompensa;
-
 import java.util.List;
 import javax.transaction.Transactional;
 import org.hibernate.SessionFactory;

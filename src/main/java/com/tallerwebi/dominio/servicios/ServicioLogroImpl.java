@@ -1,16 +1,15 @@
 package com.tallerwebi.dominio.servicios;
 
-import java.util.List;
-import javax.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.tallerwebi.dominio.entidades.Logro;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.entidades.UsuarioLogro;
 import com.tallerwebi.dominio.interfaz.RepositorioLogro;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuarioLogro;
 import com.tallerwebi.dominio.interfaz.ServicioLogro;
+import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service("servicioLogro")
 @Transactional

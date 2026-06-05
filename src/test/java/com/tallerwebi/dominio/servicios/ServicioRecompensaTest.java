@@ -1,16 +1,10 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.servicios;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.tallerwebi.dominio.entidades.Recompensa;
 import com.tallerwebi.dominio.entidades.Usuario;
@@ -19,6 +13,11 @@ import com.tallerwebi.dominio.interfaz.RepositorioRecompensas;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuarioRecompensa;
 import com.tallerwebi.dominio.interfaz.ServicioRecompensas;
 import com.tallerwebi.dominio.servicios.ServicioRecompensasImpl;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 public class ServicioRecompensaTest {
 

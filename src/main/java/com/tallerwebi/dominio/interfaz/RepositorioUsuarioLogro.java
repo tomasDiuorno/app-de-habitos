@@ -1,10 +1,9 @@
 package com.tallerwebi.dominio.interfaz;
 
-import java.util.List;
-
 import com.tallerwebi.dominio.entidades.Logro;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.entidades.UsuarioLogro;
+import java.util.List;
 
 public interface RepositorioUsuarioLogro {
   void guardar(UsuarioLogro usuarioLogro);

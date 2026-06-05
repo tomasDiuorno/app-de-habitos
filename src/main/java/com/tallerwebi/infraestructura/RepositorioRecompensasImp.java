@@ -2,7 +2,6 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.entidades.Recompensa;
 import com.tallerwebi.dominio.interfaz.RepositorioRecompensas;
-
 import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

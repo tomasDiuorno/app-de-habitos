@@ -9,7 +9,6 @@ import com.tallerwebi.dominio.excepcion.HabitoYaCompletadoHoyException;
 import com.tallerwebi.dominio.interfaz.RepositorioHistorialHabito;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuarioHabito;
 import com.tallerwebi.dominio.interfaz.ServicioHistorialHabito;
-
 import java.time.LocalDate;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -36,16 +35,15 @@ public class ServicioHistorialHabitoImpl implements ServicioHistorialHabito {
   public void marcarHabitoComoCompletado(Usuario usuario, Integer habitoId)
     throws HabitoNoPerteneceAlUsuarioException, HabitoYaCompletadoHoyException {
     UsuarioHabito usuarioHabito = repositorioUsuarioHabito.obtenerPorIds(usuario.getId(), habitoId);
-    Habito habitoDelUsuario = usuarioHabito.getHabito();
 
-    if (habitoDelUsuario == null) {
+    if (usuarioHabito == null) {
       throw new HabitoNoPerteneceAlUsuarioException();
     }
 
     LocalDate hoy = LocalDate.now();
     HistorialHabito existente = repositorioHistorialHabito.obtenerPorUsuarioHabitoYFecha(
-      usuario,
-      habitoDelUsuario,
+      usuarioHabito.getUsuario(),
+      usuarioHabito.getHabito(),
       hoy
     );
 
@@ -54,8 +52,8 @@ public class ServicioHistorialHabitoImpl implements ServicioHistorialHabito {
     }
 
     HistorialHabito nuevo = new HistorialHabito();
-    nuevo.setUsuario(usuario);
-    nuevo.setHabito(habitoDelUsuario);
+    nuevo.setUsuario(usuarioHabito.getUsuario());
+    nuevo.setHabito(usuarioHabito.getHabito());
     nuevo.setFechaCompletado(hoy);
     repositorioHistorialHabito.guardar(nuevo);
   }

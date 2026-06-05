@@ -1,8 +1,7 @@
 package com.tallerwebi.dominio.interfaz;
 
-import java.util.List;
-
 import com.tallerwebi.dominio.entidades.Habito;
+import java.util.List;
 
 public interface RepositorioHabito {
   Habito buscarPorTitulo(String titulo);

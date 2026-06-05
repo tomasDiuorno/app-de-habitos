@@ -1,13 +1,12 @@
 package com.tallerwebi.dominio.servicios;
 
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.interfaz.RepositorioUsuario;
+import com.tallerwebi.dominio.interfaz.ServicioLogin;
 import javax.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.tallerwebi.dominio.entidades.Usuario;
-import com.tallerwebi.dominio.interfaz.RepositorioUsuario;
-import com.tallerwebi.dominio.interfaz.ServicioLogin;
 
 @Service("servicioLogin")
 @Transactional

@@ -8,7 +8,6 @@ import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
 import com.tallerwebi.dominio.interfaz.ServicioCategoria;
 import com.tallerwebi.dominio.interfaz.ServicioHabito;
 import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
-
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;

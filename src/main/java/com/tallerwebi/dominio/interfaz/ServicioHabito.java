@@ -7,7 +7,6 @@ import com.tallerwebi.dominio.excepcion.ChecklistInsuficienteExeption;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
 import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
-
 import java.util.List;
 
 public interface ServicioHabito {
