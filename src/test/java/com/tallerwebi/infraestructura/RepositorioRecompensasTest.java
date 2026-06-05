@@ -44,7 +44,7 @@ public class RepositorioRecompensasTest {
           5,
           Rareza.COMUN
         );
-    
+
     this.dadoQueExisteLaRecompensa(recompensa1);
 
     List<Recompensa> recompensas = repositorioRecompensas.obtenerTodas();

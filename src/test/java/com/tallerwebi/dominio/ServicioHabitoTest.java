@@ -11,7 +11,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.tallerwebi.dominio.excepcion.ChecklistInsuficienteExeption;
+import com.tallerwebi.dominio.excepcion.DescripcionChecklistInvalidaException;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
+import com.tallerwebi.dominio.excepcion.HabitoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.ItemChecklistNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
 import com.tallerwebi.presentacion.DatosRegistroHabito;
 import java.util.ArrayList;
@@ -229,7 +232,7 @@ public class ServicioHabitoTest {
 
   @Test
   public void agregarItemChecklistAlHabitoDeberiaAgregarElItemYModificarElHabito()
-    throws ChecklistInsuficienteExeption {
+    throws Exception {
     Integer idHabito = 1;
 
     Habito habito = new Habito();
@@ -254,16 +257,18 @@ public class ServicioHabitoTest {
 
   @Test
   public void eliminarItemChecklistDelHabitoDeberiaEliminarElItemYModificarElHabito()
-    throws ChecklistInsuficienteExeption {
+    throws Exception {
     Integer idHabito = 1;
+    Integer idItem = 10;
 
     Habito habito = new Habito();
     habito.setId(idHabito);
     habito.setCantidadDeChecklist(new ArrayList<>());
 
     ItemChecklist itemAEliminar = new ItemChecklist();
-    itemAEliminar.setId(10);
+    itemAEliminar.setId(idItem);
     itemAEliminar.setDescripcion("Leer");
+    itemAEliminar.setEstadoChecklist(false);
 
     ItemChecklist itemRestante = new ItemChecklist();
     itemRestante.setId(20);
@@ -273,12 +278,9 @@ public class ServicioHabitoTest {
     habito.agregarItemChecklist(itemAEliminar);
     habito.agregarItemChecklist(itemRestante);
 
-    ItemChecklist itemRecibido = new ItemChecklist();
-    itemRecibido.setId(10);
-
     when(this.repositorioHabitoMock.buscarPorId(idHabito)).thenReturn(habito);
 
-    this.servicioHabitos.eliminarItemChecklistDelHabito(itemRecibido, idHabito);
+    this.servicioHabitos.eliminarItemChecklistDelHabito(idHabito, idItem);
 
     assertThat(habito.getCantidadDeChecklist().size(), is(1));
     assertThat(habito.getCantidadDeChecklist().get(0), is(itemRestante));
@@ -290,8 +292,10 @@ public class ServicioHabitoTest {
   }
 
   @Test
-  public void eliminarItemChecklistDelHabitoCuandoNoExisteElItemDeberiaLanzarExcepcion() {
+  public void eliminarItemChecklistDelHabitoCuandoNoExisteElItemDeberiaLanzarExcepcion()
+    throws Exception {
     Integer idHabito = 1;
+    Integer idItemInexistente = 99;
 
     Habito habito = new Habito();
     habito.setId(idHabito);
@@ -302,14 +306,11 @@ public class ServicioHabitoTest {
 
     habito.agregarItemChecklist(itemExistente);
 
-    ItemChecklist itemInexistente = new ItemChecklist();
-    itemInexistente.setId(99);
-
     when(this.repositorioHabitoMock.buscarPorId(idHabito)).thenReturn(habito);
 
     assertThrows(
-      RuntimeException.class,
-      () -> this.servicioHabitos.eliminarItemChecklistDelHabito(itemInexistente, idHabito)
+      ItemChecklistNoEncontradoException.class,
+      () -> this.servicioHabitos.eliminarItemChecklistDelHabito(idHabito, idItemInexistente)
     );
 
     verify(this.repositorioHabitoMock, times(1)).buscarPorId(idHabito);
@@ -317,7 +318,7 @@ public class ServicioHabitoTest {
   }
 
   @Test
-  public void buscarHabitoPorIdDeberiaRetornarElHabitoEncontrado() {
+  public void buscarHabitoPorIdDeberiaRetornarElHabitoEncontrado() throws Exception {
     Integer idHabito = 1;
 
     Habito habito = new Habito();
@@ -336,47 +337,22 @@ public class ServicioHabitoTest {
   }
 
   @Test
-  public void buscarHabitoPorIdCuandoNoExisteDeberiaRetornarNull() {
+  public void buscarHabitoPorIdCuandoNoExisteDeberiaLanzarExcepcion() {
     Integer idHabito = 99;
 
     when(this.repositorioHabitoMock.buscarPorId(idHabito)).thenReturn(null);
 
-    Habito resultado = this.servicioHabitos.buscarHabitoPorId(idHabito);
-
-    assertThat(resultado, is((Habito) null));
+    assertThrows(
+      HabitoNoEncontradoException.class,
+      () -> this.servicioHabitos.buscarHabitoPorId(idHabito)
+    );
 
     verify(this.repositorioHabitoMock, times(1)).buscarPorId(idHabito);
   }
 
   @Test
-  public void obtenerHabitoDeberiaCrearUnHabitoConLosDatosRecibidos() {
-    DatosRegistroHabito datos = new DatosRegistroHabito();
-    datos.setTitulo("Dormir temprano");
-    datos.setDescripcion("Acostarme antes de las 23");
-    datos.setFrecuencia("Diaria");
-    datos.setDuracionEstimada(30);
-    datos.setCategoriaId(1);
-
-    Categoria categoria = new Categoria();
-    categoria.setId(1);
-    categoria.setNombre("Salud");
-
-    when(this.repositorioCategoriaMock.obtenerCategoriaPorId(1)).thenReturn(categoria);
-
-    Habito habito = this.servicioHabitos.obtenerHabito(datos);
-
-    assertThat(habito.getTitulo(), equalTo("Dormir temprano"));
-    assertThat(habito.getDescripcion(), equalTo("Acostarme antes de las 23"));
-    assertThat(habito.getFrecuencia(), equalTo("Diaria"));
-    assertThat(habito.getDuracionEstimada(), is(30));
-    assertThat(habito.getCategoria(), is(categoria));
-
-    verify(this.repositorioCategoriaMock, times(1)).obtenerCategoriaPorId(1);
-  }
-
-  @Test
   public void actualizarEstadoItemChecklistDeberiaMarcarComoCompletadoUnItemPendiente()
-    throws ChecklistInsuficienteExeption {
+    throws Exception {
     Integer idHabito = 1;
     Integer idItem = 10;
 
@@ -402,8 +378,7 @@ public class ServicioHabitoTest {
   }
 
   @Test
-  public void actualizarEstadoItemChecklistDeberiaDesmarcarUnItemCompletado()
-    throws ChecklistInsuficienteExeption {
+  public void actualizarEstadoItemChecklistDeberiaDesmarcarUnItemCompletado() throws Exception {
     Integer idHabito = 1;
     Integer idItem = 10;
 
@@ -429,7 +404,8 @@ public class ServicioHabitoTest {
   }
 
   @Test
-  public void actualizarEstadoItemChecklistCuandoNoExisteElItemDeberiaLanzarExcepcion() {
+  public void actualizarEstadoItemChecklistCuandoNoExisteElItemDeberiaLanzarExcepcion()
+    throws Exception {
     Integer idHabito = 1;
 
     Habito habito = new Habito();
@@ -444,7 +420,7 @@ public class ServicioHabitoTest {
     when(this.repositorioHabitoMock.buscarPorId(idHabito)).thenReturn(habito);
 
     assertThrows(
-      RuntimeException.class,
+      ItemChecklistNoEncontradoException.class,
       () -> this.servicioHabitos.actualizarEstadoItemChecklist(99, idHabito)
     );
 
@@ -454,7 +430,7 @@ public class ServicioHabitoTest {
 
   @Test
   public void editarDescripcionItemChecklistDeberiaCambiarLaDescripcionYModificarElHabito()
-    throws ChecklistInsuficienteExeption {
+    throws Exception {
     Integer idHabito = 1;
     Integer idItem = 10;
 
@@ -464,22 +440,23 @@ public class ServicioHabitoTest {
 
     ItemChecklist item = new ItemChecklist();
     item.setId(idItem);
-    item.setDescripcion("Descripcion vieja");
+    item.setDescripcion("Descripción vieja");
 
     habito.agregarItemChecklist(item);
 
     when(this.repositorioHabitoMock.buscarPorId(idHabito)).thenReturn(habito);
 
-    this.servicioHabitos.editarDescripcionItemChecklist(idItem, idHabito, "Descripcion nueva");
+    this.servicioHabitos.editarDescripcionItemChecklist(idItem, idHabito, "Descripción nueva");
 
-    assertThat(item.getDescripcion(), equalTo("Descripcion nueva"));
+    assertThat(item.getDescripcion(), equalTo("Descripción nueva"));
 
     verify(this.repositorioHabitoMock, times(1)).buscarPorId(idHabito);
     verify(this.repositorioHabitoMock, times(1)).modificar(habito);
   }
 
   @Test
-  public void editarDescripcionItemChecklistCuandoNoExisteElItemDeberiaLanzarExcepcion() {
+  public void editarDescripcionItemChecklistCuandoNoExisteElItemDeberiaLanzarExcepcion()
+    throws Exception {
     Integer idHabito = 1;
 
     Habito habito = new Habito();
@@ -494,11 +471,63 @@ public class ServicioHabitoTest {
     when(this.repositorioHabitoMock.buscarPorId(idHabito)).thenReturn(habito);
 
     assertThrows(
-      RuntimeException.class,
-      () -> this.servicioHabitos.editarDescripcionItemChecklist(99, idHabito, "Nueva descripcion")
+      ItemChecklistNoEncontradoException.class,
+      () -> this.servicioHabitos.editarDescripcionItemChecklist(99, idHabito, "Nueva descripción")
     );
 
     verify(this.repositorioHabitoMock, times(1)).buscarPorId(idHabito);
+    verify(this.repositorioHabitoMock, times(0)).modificar(habito);
+  }
+
+  @Test
+  public void editarDescripcionItemChecklistConDescripcionVaciaDeberiaLanzarExcepcion()
+    throws Exception {
+    Integer idHabito = 1;
+    Integer idItem = 10;
+
+    Habito habito = new Habito();
+    habito.setId(idHabito);
+    habito.setCantidadDeChecklist(new ArrayList<>());
+
+    ItemChecklist item = new ItemChecklist();
+    item.setId(idItem);
+    item.setDescripcion("Vieja descripción");
+
+    habito.agregarItemChecklist(item);
+
+    when(this.repositorioHabitoMock.buscarPorId(idHabito)).thenReturn(habito);
+
+    assertThrows(
+      DescripcionChecklistInvalidaException.class,
+      () -> this.servicioHabitos.editarDescripcionItemChecklist(idItem, idHabito, "")
+    );
+
+    verify(this.repositorioHabitoMock, times(0)).modificar(habito);
+  }
+
+  @Test
+  public void editarDescripcionItemChecklistConDescripcionNullDeberiaLanzarExcepcion()
+    throws Exception {
+    Integer idHabito = 1;
+    Integer idItem = 10;
+
+    Habito habito = new Habito();
+    habito.setId(idHabito);
+    habito.setCantidadDeChecklist(new ArrayList<>());
+
+    ItemChecklist item = new ItemChecklist();
+    item.setId(idItem);
+    item.setDescripcion("Vieja descripción");
+
+    habito.agregarItemChecklist(item);
+
+    when(this.repositorioHabitoMock.buscarPorId(idHabito)).thenReturn(habito);
+
+    assertThrows(
+      DescripcionChecklistInvalidaException.class,
+      () -> this.servicioHabitos.editarDescripcionItemChecklist(idItem, idHabito, null)
+    );
+
     verify(this.repositorioHabitoMock, times(0)).modificar(habito);
   }
 }

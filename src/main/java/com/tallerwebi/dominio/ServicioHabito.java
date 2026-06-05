@@ -26,5 +26,4 @@ public interface ServicioHabito {
     throws ChecklistInsuficienteExeption, HabitoNoEncontradoException, ItemChecklistNoEncontradoException;
   void editarDescripcionItemChecklist(Integer idItem, Integer idHabito, String nuevaDescripcion)
     throws ChecklistInsuficienteExeption, HabitoNoEncontradoException, ItemChecklistNoEncontradoException, DescripcionChecklistInvalidaException;
-   
 }
