@@ -5,9 +5,9 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-import com.tallerwebi.dominio.Categoria;
-import com.tallerwebi.dominio.Habito;
-import com.tallerwebi.dominio.RepositorioHabito;
+import com.tallerwebi.dominio.entidades.Categoria;
+import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.interfaz.RepositorioHabito;
 import com.tallerwebi.infraestructura.config.HibernateInfraestructuraTestConfig;
 import java.util.Arrays;
 import java.util.List;

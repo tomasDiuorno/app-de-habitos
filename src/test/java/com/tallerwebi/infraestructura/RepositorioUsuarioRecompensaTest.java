@@ -4,10 +4,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-import com.tallerwebi.dominio.Rareza;
-import com.tallerwebi.dominio.Recompensa;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.UsuarioRecompensa;
+import com.tallerwebi.dominio.entidades.RarezaEnum;
+import com.tallerwebi.dominio.entidades.Recompensa;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioRecompensa;
 import com.tallerwebi.infraestructura.config.HibernateInfraestructuraTestConfig;
 import javax.transaction.Transactional;
 import org.hibernate.SessionFactory;
@@ -43,7 +43,7 @@ public class RepositorioUsuarioRecompensaTest {
       "Llegaste al nivel 5",
       "imagen",
       5,
-      Rareza.COMUN
+      RarezaEnum.COMUN
     );
     this.dadoQueExisteElUsuario(u);
     this.dadoQueExisteLaRecompensa(r);
@@ -65,7 +65,7 @@ public class RepositorioUsuarioRecompensaTest {
       "descripcion",
       "imagen",
       5,
-      Rareza.COMUN
+      RarezaEnum.COMUN
     );
 
     dadoQueExisteElUsuario(usuario);
@@ -104,7 +104,7 @@ public class RepositorioUsuarioRecompensaTest {
     String descripcion,
     String imagen,
     Integer nivelRequerido,
-    Rareza rareza
+    RarezaEnum rareza
   ) {
     Recompensa r = new Recompensa();
     r.setNombre(nombre);

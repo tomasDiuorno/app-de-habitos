@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.tallerwebi.config.SpringWebConfig;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

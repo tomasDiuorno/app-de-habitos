@@ -4,10 +4,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-import com.tallerwebi.dominio.Habito;
-import com.tallerwebi.dominio.RepositorioUsuarioHabito;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.UsuarioHabito;
+import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioHabito;
+import com.tallerwebi.dominio.interfaz.RepositorioUsuarioHabito;
 import com.tallerwebi.infraestructura.config.HibernateInfraestructuraTestConfig;
 import javax.transaction.Transactional;
 import org.hibernate.SessionFactory;
