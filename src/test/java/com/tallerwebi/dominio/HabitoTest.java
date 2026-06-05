@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
+import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.entidades.ItemChecklist;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioHabito;
+
 public class HabitoTest {
 
   @Test

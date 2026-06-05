@@ -1,9 +1,10 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Habito;
-import com.tallerwebi.dominio.HistorialHabito;
-import com.tallerwebi.dominio.RepositorioHistorialHabito;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.entidades.HistorialHabito;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.interfaz.RepositorioHistorialHabito;
+
 import java.time.LocalDate;
 import java.util.List;
 import org.hibernate.SessionFactory;

@@ -7,8 +7,17 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioHabito;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
-import com.tallerwebi.presentacion.DatosRegistro;
+import com.tallerwebi.dominio.interfaz.RepositorioHabito;
+import com.tallerwebi.dominio.interfaz.RepositorioUsuario;
+import com.tallerwebi.dominio.interfaz.RepositorioUsuarioHabito;
+import com.tallerwebi.dominio.interfaz.ServicioRegistro;
+import com.tallerwebi.dominio.servicios.ServicioRegistroImpl;
+import com.tallerwebi.presentacion.DTO.RegistroDTO;
+
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +35,7 @@ public class ServicioRegistroTest {
     this.repositorioHabitoMock = mock(RepositorioHabito.class);
     this.repositorioUsuarioHabitoMock = mock(RepositorioUsuarioHabito.class);
     this.servicioRegistro =
-      new ServicioRegistroImp(
+      new ServicioRegistroImpl(
         this.repositorioUsuarioMock,
         this.repositorioHabitoMock,
         this.repositorioUsuarioHabitoMock
@@ -36,7 +45,7 @@ public class ServicioRegistroTest {
   @Test
   public void registrarUsuarioSiNoExisteDeberiaGuardarlo() throws UsuarioExistente {
     // preparacion
-    DatosRegistro datos = new DatosRegistro();
+    RegistroDTO datos = new RegistroDTO();
     datos.setEmail("nuevo@test.com");
     when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(datos.getEmail())).thenReturn(null);
 
@@ -50,7 +59,7 @@ public class ServicioRegistroTest {
   @Test
   public void registrarUsuarioSiExisteDeberiaLanzarExcepcion() {
     // preparacion
-    DatosRegistro datos = new DatosRegistro();
+    RegistroDTO datos = new RegistroDTO();
     datos.setEmail("existe@test.com");
     when(this.repositorioUsuarioMock.buscarPorEmailOrUsername(datos.getEmail()))
       .thenReturn(new Usuario());
@@ -63,7 +72,7 @@ public class ServicioRegistroTest {
   @Test
   public void registrarUnUsuarioConHabitosSeleccionadosDeberiaGuardarUsuarioHabito()
     throws UsuarioExistente {
-    DatosRegistro datos = new DatosRegistro();
+    RegistroDTO datos = new RegistroDTO();
     datos.setEmail("test@email.com");
     datos.setPassword("Password1!");
     datos.setHabitosSeleccionados(Arrays.asList(1, 2));

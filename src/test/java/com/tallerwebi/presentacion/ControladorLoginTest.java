@@ -10,14 +10,18 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.tallerwebi.dominio.Habito;
-import com.tallerwebi.dominio.ServicioHabito;
-import com.tallerwebi.dominio.ServicioLogin;
-import com.tallerwebi.dominio.ServicioRecuperacionContrasenia;
-import com.tallerwebi.dominio.ServicioRegistro;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.ContraseniasNoCoincidenException;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import com.tallerwebi.dominio.interfaz.ServicioHabito;
+import com.tallerwebi.dominio.interfaz.ServicioLogin;
+import com.tallerwebi.dominio.interfaz.ServicioRecuperacionContrasenia;
+import com.tallerwebi.dominio.interfaz.ServicioRegistro;
+import com.tallerwebi.presentacion.DTO.LoginDTO;
+import com.tallerwebi.presentacion.DTO.RecuperacionContraseniaDTO;
+import com.tallerwebi.presentacion.DTO.RegistroDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -35,13 +39,13 @@ public class ControladorLoginTest {
   private ControladorLogin controladorLogin;
   private ControladorRegistro controladorRegistro;
   private Usuario usuarioMock;
-  private DatosLogin datosLoginMock;
+  private LoginDTO datosLoginMock;
   private HttpServletRequest requestMock;
   private HttpSession sessionMock;
   private ServicioLogin servicioLoginMock;
   private ServicioRegistro servicioRegistroMock;
   private ServicioRecuperacionContrasenia servicioRecuperacionContraseniaMock;
-  private DatosRegistro datosRegistroMock;
+  private RegistroDTO datosRegistroMock;
   private ServicioHabito servicioHabitosMock;
   private BindingResult bindingResultMock;
 
@@ -49,8 +53,8 @@ public class ControladorLoginTest {
 
   @BeforeEach
   public void init() {
-    datosLoginMock = new DatosLogin("juli@unlam.com", "123");
-    datosRegistroMock = mock(DatosRegistro.class);
+    datosLoginMock = new LoginDTO("juli@unlam.com", "123");
+    datosRegistroMock = mock(RegistroDTO.class);
     usuarioMock = mock(Usuario.class);
     when(usuarioMock.getEmail()).thenReturn("juli@unlam.com");
     requestMock = mock(HttpServletRequest.class);
@@ -164,7 +168,7 @@ public class ControladorLoginTest {
 
   @Test
   public void deberiaDarmeErrorSiElUsuarioDejaCamposVacios() throws Exception {
-    DatosRegistro datosRegistro = new DatosRegistro();
+    RegistroDTO datosRegistro = new RegistroDTO();
 
     when(bindingResultMock.hasErrors()).thenReturn(true);
     when(servicioHabitosMock.obtenerHabitosIniciales()).thenReturn(new ArrayList<>());
@@ -183,7 +187,7 @@ public class ControladorLoginTest {
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("login"));
-    assertThat(modelAndView.getModel().get("datosLogin"), instanceOf(DatosLogin.class));
+    assertThat(modelAndView.getModel().get("datosLogin"), instanceOf(LoginDTO.class));
   }
 
   @Test
@@ -196,7 +200,7 @@ public class ControladorLoginTest {
 
     // validacion
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("nuevo-usuario"));
-    assertThat(modelAndView.getModel().get("datosRegistro"), instanceOf(DatosRegistro.class));
+    assertThat(modelAndView.getModel().get("datosRegistro"), instanceOf(RegistroDTO.class));
     assertThat(modelAndView.getModel().get("habitos"), instanceOf(List.class));
   }
 
@@ -222,7 +226,7 @@ public class ControladorLoginTest {
   public void deberiaRedirigirAlLoginCuandoLaContraseniaSeRecuperaCorrectamente() throws Exception {
     doNothing()
       .when(servicioRecuperacionContraseniaMock)
-      .recuperarContrasenia(any(DatosRecuperacionContrasenia.class));
+      .recuperarContrasenia(any(RecuperacionContraseniaDTO.class));
 
     MvcResult result = mockMvc
       .perform(
@@ -239,6 +243,6 @@ public class ControladorLoginTest {
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
 
     verify(servicioRecuperacionContraseniaMock, times(1))
-      .recuperarContrasenia(any(DatosRecuperacionContrasenia.class));
+      .recuperarContrasenia(any(RecuperacionContraseniaDTO.class));
   }
 }

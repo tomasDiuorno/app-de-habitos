@@ -4,10 +4,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-import com.tallerwebi.dominio.Logro;
-import com.tallerwebi.dominio.RepositorioUsuarioLogro;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.UsuarioLogro;
+import com.tallerwebi.dominio.entidades.Logro;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioLogro;
+import com.tallerwebi.dominio.interfaz.RepositorioUsuarioLogro;
 import com.tallerwebi.infraestructura.config.HibernateInfraestructuraTestConfig;
 import java.util.List;
 import javax.transaction.Transactional;

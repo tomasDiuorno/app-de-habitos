@@ -5,11 +5,13 @@ import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.Test;
 
+import com.tallerwebi.presentacion.DTO.LoginDTO;
+
 public class DatosLoginTest {
 
   @Test
   public void validacionDeDatosLogin() {
-    DatosLogin datos = new DatosLogin();
+    LoginDTO datos = new LoginDTO();
     datos.setEmailorusername("pedrito123");
     datos.setPassword("1234");
 

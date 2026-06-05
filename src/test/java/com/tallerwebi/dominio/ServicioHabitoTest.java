@@ -10,10 +10,22 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.tallerwebi.dominio.entidades.Categoria;
+import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.entidades.ItemChecklist;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioHabito;
 import com.tallerwebi.dominio.excepcion.ChecklistInsuficienteExeption;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
-import com.tallerwebi.presentacion.DatosRegistroHabito;
+import com.tallerwebi.dominio.interfaz.RepositorioCategoria;
+import com.tallerwebi.dominio.interfaz.RepositorioHabito;
+import com.tallerwebi.dominio.interfaz.RepositorioUsuarioHabito;
+import com.tallerwebi.dominio.interfaz.ServicioHabito;
+import com.tallerwebi.dominio.interfaz.ServicioLogro;
+import com.tallerwebi.dominio.servicios.ServicioHabitoImpl;
+import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +49,7 @@ public class ServicioHabitoTest {
     this.servicioLogroMock = mock(ServicioLogro.class);
 
     this.servicioHabitos =
-      new ServicioHabitoImp(
+      new ServicioHabitoImpl(
         this.repositorioHabitoMock,
         this.repositorioUsuarioHabitoMock,
         this.repositorioCategoriaMock,
@@ -111,7 +123,7 @@ public class ServicioHabitoTest {
     Usuario usuario = new Usuario();
     usuario.setId(1);
 
-    DatosRegistroHabito datosHabito = new DatosRegistroHabito();
+    RegistroHabitoDTO datosHabito = new RegistroHabitoDTO();
     datosHabito.setTitulo("Dormir temprano");
     datosHabito.setCategoriaId(1);
     Habito habito = this.servicioHabitos.obtenerHabito(datosHabito);
@@ -138,7 +150,7 @@ public class ServicioHabitoTest {
   @Test
   public void alCrearUnHabitoParaUnUsuarioConCuatroHabitosDeberiaLanzarExcepcion()
     throws HabitoExistenteExeption {
-    DatosRegistroHabito datosHabito = new DatosRegistroHabito();
+    RegistroHabitoDTO datosHabito = new RegistroHabitoDTO();
     datosHabito.setTitulo("Dormir temprano");
     Usuario usuario = new Usuario();
 
@@ -350,7 +362,7 @@ public class ServicioHabitoTest {
 
   @Test
   public void obtenerHabitoDeberiaCrearUnHabitoConLosDatosRecibidos() {
-    DatosRegistroHabito datos = new DatosRegistroHabito();
+    RegistroHabitoDTO datos = new RegistroHabitoDTO();
     datos.setTitulo("Dormir temprano");
     datos.setDescripcion("Acostarme antes de las 23");
     datos.setFrecuencia("Diaria");

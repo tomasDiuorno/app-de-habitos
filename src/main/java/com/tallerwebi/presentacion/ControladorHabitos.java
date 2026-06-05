@@ -1,12 +1,14 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Habito;
-import com.tallerwebi.dominio.ItemChecklist;
-import com.tallerwebi.dominio.ServicioCategoria;
-import com.tallerwebi.dominio.ServicioHabito;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.entidades.ItemChecklist;
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
+import com.tallerwebi.dominio.interfaz.ServicioCategoria;
+import com.tallerwebi.dominio.interfaz.ServicioHabito;
+import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
+
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,12 +69,12 @@ public class ControladorHabitos {
 
   @RequestMapping(path = "/crear-habito", method = RequestMethod.GET)
   public ModelAndView irACrearHabito() {
-    return crearVistaCrearHabito(new DatosRegistroHabito());
+    return crearVistaCrearHabito(new RegistroHabitoDTO());
   }
 
   @RequestMapping(path = "/crear-habito", method = RequestMethod.POST)
   public ModelAndView crearHabito(
-    @ModelAttribute(ATRIBUTO_DATOS_REGISTRO_HABITO) DatosRegistroHabito datos,
+    @ModelAttribute(ATRIBUTO_DATOS_REGISTRO_HABITO) RegistroHabitoDTO datos,
     HttpServletRequest request
   ) {
     Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
@@ -89,7 +91,7 @@ public class ControladorHabitos {
 
       Integer cantidadHabitosDespues = usuario.getUsuarioHabito().size();
 
-      ModelAndView modelAndView = crearVistaCrearHabito(new DatosRegistroHabito());
+      ModelAndView modelAndView = crearVistaCrearHabito(new RegistroHabitoDTO());
       cargarLogroDesbloqueado(modelAndView, cantidadHabitosAntes, cantidadHabitosDespues);
 
       if (modelAndView.getModel().containsKey(ATRIBUTO_MOSTRAR_LOGRO)) {
@@ -108,7 +110,7 @@ public class ControladorHabitos {
     }
   }
 
-  private ModelAndView crearVistaCrearHabito(DatosRegistroHabito datosRegistroHabito) {
+  private ModelAndView crearVistaCrearHabito(RegistroHabitoDTO datosRegistroHabito) {
     ModelAndView modelAndView = new ModelAndView(VISTA_CREAR_HABITO);
 
     modelAndView.addObject(ATRIBUTO_CATEGORIAS, this.servicioCategoria.obtenerCategorias());

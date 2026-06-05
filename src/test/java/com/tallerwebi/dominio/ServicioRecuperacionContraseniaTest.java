@@ -5,9 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.ContraseniasNoCoincidenException;
 import com.tallerwebi.dominio.excepcion.EmailInexistenteException;
-import com.tallerwebi.presentacion.DatosRecuperacionContrasenia;
+import com.tallerwebi.dominio.interfaz.RepositorioUsuario;
+import com.tallerwebi.dominio.interfaz.ServicioRecuperacionContrasenia;
+import com.tallerwebi.dominio.servicios.ServicioRecuperacionContraseniaImpl;
+import com.tallerwebi.presentacion.DTO.RecuperacionContraseniaDTO;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +24,7 @@ public class ServicioRecuperacionContraseniaTest {
   @BeforeEach
   public void init() {
     this.repositorioUsuarioMock = mock(RepositorioUsuario.class);
-    this.servicioRecuperacion = new ServicioRecuperacionContraseniaImp(this.repositorioUsuarioMock);
+    this.servicioRecuperacion = new ServicioRecuperacionContraseniaImpl(this.repositorioUsuarioMock);
   }
 
   @Test
@@ -29,7 +34,7 @@ public class ServicioRecuperacionContraseniaTest {
     String contraseniaNueva1 = "4321";
     String contraseniaNueva2 = "4321";
 
-    DatosRecuperacionContrasenia datos = new DatosRecuperacionContrasenia(
+    RecuperacionContraseniaDTO datos = new RecuperacionContraseniaDTO(
       emailValido,
       contraseniaNueva1,
       contraseniaNueva2
@@ -51,7 +56,7 @@ public class ServicioRecuperacionContraseniaTest {
   @Test
   public void SiElEmailNoExisteDebeLanzarException() {
     String emailInexistente = "noexiste@gmail.com";
-    DatosRecuperacionContrasenia datos = new DatosRecuperacionContrasenia(
+    RecuperacionContraseniaDTO datos = new RecuperacionContraseniaDTO(
       emailInexistente,
       "4321",
       "4321"
@@ -70,7 +75,7 @@ public class ServicioRecuperacionContraseniaTest {
     String emailValido = "test@gmail.com";
 
     // Las contraseñas son distintas
-    DatosRecuperacionContrasenia datos = new DatosRecuperacionContrasenia(
+    RecuperacionContraseniaDTO datos = new RecuperacionContraseniaDTO(
       emailValido,
       "1234",
       "9999"

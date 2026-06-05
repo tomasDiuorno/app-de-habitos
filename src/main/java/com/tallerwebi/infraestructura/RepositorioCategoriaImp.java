@@ -1,7 +1,8 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Categoria;
-import com.tallerwebi.dominio.RepositorioCategoria;
+import com.tallerwebi.dominio.entidades.Categoria;
+import com.tallerwebi.dominio.interfaz.RepositorioCategoria;
+
 import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -19,6 +19,13 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.tallerwebi.dominio.entidades.HistorialHabito;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.interfaz.RepositorioHistorialHabito;
+import com.tallerwebi.dominio.interfaz.RepositorioUsuarioHabito;
+import com.tallerwebi.dominio.interfaz.ServicioHistorialHabito;
+import com.tallerwebi.dominio.servicios.ServicioHistorialHabitoImpl;
+
 //import org.mockito.ArgumentCaptor;
 
 public class ServicioHistorialHabitoTest {
@@ -33,7 +40,7 @@ public class ServicioHistorialHabitoTest {
     this.repositorioUsuarioHabitoMock = mock(RepositorioUsuarioHabito.class);
 
     this.servicioHistorialHabito =
-      new ServicioHistorialHabitoImp(
+      new ServicioHistorialHabitoImpl(
         this.repositorioHistorialHabitoMock,
         this.repositorioUsuarioHabitoMock
       );

@@ -9,6 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mindrot.jbcrypt.BCrypt;
 
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.interfaz.RepositorioUsuario;
+import com.tallerwebi.dominio.interfaz.ServicioLogin;
+import com.tallerwebi.dominio.servicios.ServicioLoginImpl;
+
 public class ServicioLoginTest {
 
   private ServicioLogin servicioLogin;

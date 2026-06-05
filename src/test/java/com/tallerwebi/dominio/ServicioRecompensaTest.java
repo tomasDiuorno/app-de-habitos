@@ -12,6 +12,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tallerwebi.dominio.entidades.Recompensa;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioRecompensa;
+import com.tallerwebi.dominio.interfaz.RepositorioRecompensas;
+import com.tallerwebi.dominio.interfaz.RepositorioUsuarioRecompensa;
+import com.tallerwebi.dominio.interfaz.ServicioRecompensas;
+import com.tallerwebi.dominio.servicios.ServicioRecompensasImpl;
+
 public class ServicioRecompensaTest {
 
   private ServicioRecompensas servicioRecompensas;
@@ -23,7 +31,7 @@ public class ServicioRecompensaTest {
     this.repositorioRecompensasMock = mock(RepositorioRecompensas.class);
     this.repositorioUsuarioRecompensaMock = mock(RepositorioUsuarioRecompensa.class);
     this.servicioRecompensas =
-      new ServicioRecompensasImp(
+      new ServicioRecompensasImpl(
         this.repositorioRecompensasMock,
         this.repositorioUsuarioRecompensaMock
       );

@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
+import com.tallerwebi.dominio.entidades.Logro;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioLogro;
+
 public class LogroTest {
 
   @Test

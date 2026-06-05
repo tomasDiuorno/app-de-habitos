@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
+import com.tallerwebi.dominio.entidades.Categoria;
+import com.tallerwebi.dominio.entidades.Habito;
+
 public class CategoriaTest {
 
   @Test

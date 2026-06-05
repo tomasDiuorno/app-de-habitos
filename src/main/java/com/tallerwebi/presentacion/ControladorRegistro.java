@@ -1,8 +1,10 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.ServicioHabito;
-import com.tallerwebi.dominio.ServicioRegistro;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import com.tallerwebi.dominio.interfaz.ServicioHabito;
+import com.tallerwebi.dominio.interfaz.ServicioRegistro;
+import com.tallerwebi.presentacion.DTO.RegistroDTO;
+
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,7 +27,7 @@ public class ControladorRegistro {
 
   @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
   public ModelAndView registrarme(
-    @Valid @ModelAttribute("datosRegistro") DatosRegistro datos,
+    @Valid @ModelAttribute("datosRegistro") RegistroDTO datos,
     BindingResult result
   ) {
     ModelMap model = new ModelMap();
