@@ -84,6 +84,7 @@ public class RepositorioUsuarioHabitoTest {
     UsuarioHabito usuarioHabito = new UsuarioHabito();
     usuarioHabito.setUsuario(usuario);
     usuarioHabito.setHabito(habito);
+    usuarioHabito.setActivo(true);
     return usuarioHabito;
   }
 

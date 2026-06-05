@@ -4,42 +4,42 @@ import com.tallerwebi.dominio.excepcion.HabitoNoPerteneceAlUsuarioException;
 import com.tallerwebi.dominio.excepcion.HabitoYaCompletadoHoyException;
 import java.time.LocalDate;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import javax.transaction.Transactional;
 
 @Service("servicioHistorialHabito")
 @Transactional
 public class ServicioHistorialHabitoImp implements ServicioHistorialHabito {
 
   private RepositorioHistorialHabito repositorioHistorialHabito;
-  private RepositorioHabito repositorioHabito;
+  private RepositorioUsuarioHabito repositorioUsuarioHabito;
 
   @Autowired
-  public ServicioHistorialHabitoImp(RepositorioHistorialHabito repositorioHistorialHabito, RepositorioHabito repositorioHabito) {
+  public ServicioHistorialHabitoImp(
+    RepositorioHistorialHabito repositorioHistorialHabito,
+    RepositorioUsuarioHabito repositorioUsuarioHabito
+  ) {
     this.repositorioHistorialHabito = repositorioHistorialHabito;
-    this.repositorioHabito = repositorioHabito;
+    this.repositorioUsuarioHabito = repositorioUsuarioHabito;
   }
 
   @Override
-  public void marcarHabitoComoCompletado(Usuario usuario, Integer habitoId) throws HabitoNoPerteneceAlUsuarioException, HabitoYaCompletadoHoyException {
-    Habito habitoDelUsuario = null;
-
-    if (usuario.getUsuarioHabito() != null) {
-      for (UsuarioHabito uh : usuario.getUsuarioHabito()) {
-        if (uh.getHabito() != null && uh.getHabito().getId().equals(habitoId)) {
-          habitoDelUsuario = uh.getHabito();
-          break;
-        }
-      }
-    }
+  public void marcarHabitoComoCompletado(Usuario usuario, Integer habitoId)
+    throws HabitoNoPerteneceAlUsuarioException, HabitoYaCompletadoHoyException {
+    UsuarioHabito usuarioHabito = repositorioUsuarioHabito.obtenerPorIds(usuario.getId(), habitoId);
+    Habito habitoDelUsuario = usuarioHabito.getHabito();
 
     if (habitoDelUsuario == null) {
       throw new HabitoNoPerteneceAlUsuarioException();
     }
 
     LocalDate hoy = LocalDate.now();
-    HistorialHabito existente = repositorioHistorialHabito.obtenerPorUsuarioHabitoYFecha(usuario, habitoDelUsuario, hoy);
+    HistorialHabito existente = repositorioHistorialHabito.obtenerPorUsuarioHabitoYFecha(
+      usuario,
+      habitoDelUsuario,
+      hoy
+    );
 
     if (existente != null) {
       throw new HabitoYaCompletadoHoyException();

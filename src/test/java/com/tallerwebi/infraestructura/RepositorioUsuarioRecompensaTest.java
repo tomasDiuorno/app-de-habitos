@@ -54,6 +54,28 @@ public class RepositorioUsuarioRecompensaTest {
     this.entoncesDeberiaExistirLaRecompensaUsuario(ur);
   }
 
+  @Test
+  @Transactional
+  @Rollback
+  public void deberiaRetornarFalseCuandoLaRecompensaNoPerteneceAlUsuario() {
+    Usuario usuario = dadoQueTengoUnUsuarioConNivelDiez("user", "test@mail.com", 10);
+
+    Recompensa recompensa = dadoQueTengoUnaRecompensa(
+      "recompensa",
+      "descripcion",
+      "imagen",
+      5,
+      Rareza.COMUN
+    );
+
+    dadoQueExisteElUsuario(usuario);
+    dadoQueExisteLaRecompensa(recompensa);
+
+    Boolean existe = repositorioUsuarioRecompensa.existeRecompensaUsuario(recompensa, usuario);
+
+    assertThat(existe, is(false));
+  }
+
   private void entoncesDeberiaExistirLaRecompensaUsuario(UsuarioRecompensa ur) {
     Boolean existe = repositorioUsuarioRecompensa.existeRecompensaUsuario(
       ur.getRecompensa(),
