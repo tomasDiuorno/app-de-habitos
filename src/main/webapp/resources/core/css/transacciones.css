@@ -1,0 +1,197 @@
+@import url('perfil.css');
+
+.saldo-card {
+  margin-top: 32px;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue));
+  border-radius: 8px;
+  box-shadow: 0 0 40px rgba(157, 78, 221, 0.35), 0 0 20px rgba(0, 223, 255, 0.15);
+}
+
+.saldo-card-inner {
+  background: var(--bg-card);
+  border-radius: 7px;
+  padding: 40px 44px;
+  text-align: center;
+}
+
+.saldo-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 16px;
+}
+
+.saldo-icono {
+  font-size: 2.8rem;
+  color: var(--neon-blue);
+  text-shadow: 0 0 18px rgba(0, 223, 255, 0.7);
+  line-height: 1;
+}
+
+.saldo-numero {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 4rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 2px;
+  text-shadow: 0 0 24px rgba(157, 78, 221, 0.7), 0 0 8px rgba(0, 223, 255, 0.4);
+}
+
+.saldo-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  align-self: flex-end;
+  padding-bottom: 8px;
+}
+
+/* ====== TRANSACCIONES CARD ====== */
+
+.transacciones-card {
+  margin-top: 32px;
+}
+
+/* Estado vacío */
+
+.transacciones-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 52px 24px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.empty-icono {
+  font-size: 2.4rem;
+  color: var(--neon-purple);
+  opacity: 0.5;
+  margin-bottom: 8px;
+}
+
+.transacciones-empty p {
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* Lista */
+
+.transacciones-lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.transaccion-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 20px;
+  background: rgba(6, 9, 19, 0.55);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.transaccion-item:hover {
+  border-color: rgba(0, 223, 255, 0.3);
+  box-shadow: 0 0 12px rgba(0, 223, 255, 0.08);
+}
+
+/* Badge tipo */
+
+.transaccion-tipo-badge {
+  flex-shrink: 0;
+  min-width: 110px;
+  text-align: center;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.badge-logro {
+  border: 1px solid var(--neon-purple);
+  color: var(--neon-purple);
+  background: rgba(157, 78, 221, 0.1);
+  box-shadow: 0 0 8px rgba(157, 78, 221, 0.2);
+}
+
+.badge-recompensa {
+  border: 1px solid var(--neon-blue);
+  color: var(--neon-blue);
+  background: rgba(0, 223, 255, 0.07);
+  box-shadow: 0 0 8px rgba(0, 223, 255, 0.15);
+}
+
+/* Descripción */
+
+.transaccion-info {
+  flex: 1;
+}
+
+.transaccion-descripcion {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+/* Monto */
+
+.transaccion-monto {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #4ade80;
+  text-shadow: 0 0 10px rgba(74, 222, 128, 0.45);
+}
+
+.monto-label {
+  font-size: 1rem;
+  color: var(--neon-blue);
+  margin-left: 2px;
+}
+
+/* ACCIONES */
+
+.transacciones-actions {
+  margin-top: 32px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 600px) {
+  .saldo-numero {
+    font-size: 2.8rem;
+  }
+
+  .saldo-icono {
+    font-size: 2rem;
+  }
+
+  .transaccion-item {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .transaccion-tipo-badge {
+    min-width: unset;
+  }
+}

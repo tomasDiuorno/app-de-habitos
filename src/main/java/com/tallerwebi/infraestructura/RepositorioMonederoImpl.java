@@ -31,8 +31,8 @@ public class RepositorioMonederoImpl implements RepositorioMonedero {
     @Override
     public Monedero buscarPorUsuario(Usuario usuario) {
         return (Monedero) sessionFactory.getCurrentSession()
-            .createQuery("FROM Monedero WHERE usuario = :usuario")
-            .setParameter("usuario", usuario)
+            .createQuery("FROM Monedero m WHERE m.usuario.email = :email")
+            .setParameter("email", usuario.getEmail())
             .uniqueResult();
     }
 }
