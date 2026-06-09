@@ -5,8 +5,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-import com.tallerwebi.dominio.Logro;
-import com.tallerwebi.dominio.RepositorioLogro;
+import com.tallerwebi.dominio.entidades.Logro;
+import com.tallerwebi.dominio.interfaz.RepositorioLogro;
 import com.tallerwebi.infraestructura.config.HibernateInfraestructuraTestConfig;
 import java.util.List;
 import javax.transaction.Transactional;

@@ -14,11 +14,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.tallerwebi.dominio.Habito;
-import com.tallerwebi.dominio.ItemChecklist;
-import com.tallerwebi.dominio.ServicioCategoria;
-import com.tallerwebi.dominio.ServicioHabito;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.entidades.ItemChecklist;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.interfaz.ServicioCategoria;
+import com.tallerwebi.dominio.interfaz.ServicioHabito;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
 import com.tallerwebi.presentacion.ControladorHabitos;

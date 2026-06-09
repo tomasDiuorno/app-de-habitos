@@ -1,7 +1,7 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.ServicioRecompensas;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.interfaz.ServicioRecompensas;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
