@@ -6,6 +6,7 @@ import com.tallerwebi.dominio.entidades.UsuarioLogro;
 import com.tallerwebi.dominio.interfaz.RepositorioLogro;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuarioLogro;
 import com.tallerwebi.dominio.interfaz.ServicioLogro;
+import com.tallerwebi.dominio.interfaz.ServicioMonedero;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,17 @@ public class ServicioLogroImpl implements ServicioLogro {
 
   private RepositorioLogro repositorioLogro;
   private RepositorioUsuarioLogro repositorioUsuarioLogro;
+  private ServicioMonedero servicioMonedero;
 
   @Autowired
   public ServicioLogroImpl(
     RepositorioLogro repositorioLogro,
-    RepositorioUsuarioLogro repositorioUsuarioLogro
+    RepositorioUsuarioLogro repositorioUsuarioLogro,
+    ServicioMonedero servicioMonedero
   ) {
     this.repositorioLogro = repositorioLogro;
     this.repositorioUsuarioLogro = repositorioUsuarioLogro;
+    this.servicioMonedero = servicioMonedero;
   }
 
   @Override
@@ -49,6 +53,8 @@ public class ServicioLogroImpl implements ServicioLogro {
         usuarioLogro.setUsuario(usuario);
         usuarioLogro.setLogro(logro);
         repositorioUsuarioLogro.guardar(usuarioLogro);
+
+        servicioMonedero.acreditarPorLogro(usuario);
       }
     }
   }
