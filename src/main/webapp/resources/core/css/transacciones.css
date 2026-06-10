@@ -14,6 +14,7 @@
   --border-color: #1e294b;
 }
 
+
 .transacciones-body {
   min-height: 100vh;
   background-color: var(--bg-main);
@@ -21,47 +22,38 @@
   font-family: 'Rajdhani', sans-serif;
   font-weight: 500;
   overflow-x: hidden;
+
   background-image:
     radial-gradient(at 10% 20%, rgba(157, 78, 221, 0.15) 0px, transparent 50%),
     radial-gradient(at 90% 80%, rgba(0, 223, 255, 0.1) 0px, transparent 50%);
 }
-
-/* ====== NAVBAR ====== */
 
 .perfil-navbar {
   width: 100%;
   height: 72px;
   background: rgba(6, 9, 19, 0.85);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0, 223, 255, 0.2);
+
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
+
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .perfil-navbar-container {
-  width: 100%;
   height: 100%;
   padding: 0 24px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.perfil-brand {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-}
-
 .perfil-logo {
   height: 48px;
-  width: auto;
-  display: block;
-  object-fit: contain;
 }
 
 .perfil-nav-links {
@@ -74,457 +66,341 @@
   font-family: 'Orbitron', sans-serif;
   color: var(--text-muted);
   text-decoration: none;
+  text-transform: uppercase;
   font-size: 0.9rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
+  transition: 0.3s;
 }
 
-.perfil-nav-link:hover,
-.perfil-nav-link.active {
+.perfil-nav-link:hover {
   color: var(--neon-blue);
-  text-shadow: 0 0 8px rgba(0, 223, 255, 0.6);
+  text-shadow: 0 0 8px rgba(0,223,255,.6);
 }
 
 .perfil-logout-button {
   font-family: 'Orbitron', sans-serif;
-  color: #ffffff;
+  color: white;
   text-decoration: none;
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
   border: 1px solid var(--neon-purple);
   padding: 10px 16px;
   border-radius: 4px;
-  transition: all 0.3s ease;
+  transition: .3s;
 }
 
 .perfil-logout-button:hover {
-  background-color: var(--neon-purple);
-  border-color: var(--neon-blue);
+  background: var(--neon-purple);
   color: #060913;
-  box-shadow: 0 0 18px rgba(157, 78, 221, 0.7);
+  box-shadow: 0 0 18px rgba(157,78,221,.7);
 }
 
-/* ====== MAIN ====== */
 
 .transacciones-main {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 120px 24px 0;
 }
 
-/* ====== HERO ====== */
-
-.perfil-hero {
-  padding: 44px;
-  background-color: rgba(13, 19, 38, 0.82);
-  border: 2px solid var(--border-color);
-  border-radius: 6px;
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.7),
-    inset 0 0 15px rgba(157, 78, 221, 0.1);
-  position: relative;
-  overflow: hidden;
-}
-
-.perfil-hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 3px;
-  width: 100%;
-  background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
-}
 
 .section-kicker {
   font-family: 'Orbitron', sans-serif;
   color: var(--neon-blue);
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: .85rem;
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-bottom: 12px;
 }
 
-.perfil-hero h1 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 3.2rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #ffffff;
-  margin-bottom: 18px;
-  text-shadow: 0 0 16px rgba(157, 78, 221, 0.6);
-}
 
-.perfil-hero p {
-  max-width: 760px;
-  font-size: 1.15rem;
-  line-height: 1.7;
-  color: var(--text-main);
-}
-
-/* ====== CARD BASE ====== */
-
-.perfil-card {
-  padding: 36px;
-  background-color: rgba(13, 19, 38, 0.92);
-  border: 2px solid var(--border-color);
+.perfil-hero {
+  padding: 48px;
   border-radius: 6px;
+  background: rgba(13,19,38,.82);
+  border: 2px solid var(--border-color);
+
   box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.65),
-    inset 0 0 15px rgba(0, 223, 255, 0.04);
+    0 10px 30px rgba(0,0,0,.7),
+    inset 0 0 15px rgba(157,78,221,.1);
+
   position: relative;
   overflow: hidden;
 }
 
-.perfil-card::before {
-  content: '';
+.perfil-hero::before {
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
+
+  width: 100%;
   height: 3px;
-  width: 100%;
-  background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+
+  background:
+  linear-gradient(
+    90deg,
+    var(--neon-purple),
+    var(--neon-blue)
+  );
 }
 
-.perfil-card-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 32px;
-}
-
-.perfil-card-header h2 {
+.perfil-hero h1 {
   font-family: 'Orbitron', sans-serif;
-  color: #ffffff;
-  font-size: 1.8rem;
+  font-size: 3.4rem;
+  color: white;
+  margin-bottom: 20px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+
+  text-shadow:
+  0 0 16px rgba(157,78,221,.6);
 }
 
-/* ====== BOTONES ====== */
-
-.perfil-button {
-  display: inline-block;
-  text-align: center;
-  padding: 13px 20px;
-  border-radius: 4px;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  transition: all 0.35s ease;
+.perfil-hero p {
+  max-width: 850px;
+  font-size: 1.15rem;
+  line-height: 1.7;
 }
 
-.perfil-button.primary {
-  border: 2px solid var(--neon-purple);
-  color: #ffffff;
-}
-
-.perfil-button.primary:hover {
-  background-color: var(--neon-purple);
-  border-color: var(--neon-blue);
-  color: #060913;
-  box-shadow:
-    0 0 22px rgba(157, 78, 221, 0.8),
-    0 0 35px rgba(0, 223, 255, 0.25);
-}
-
-.perfil-button.secondary {
-  border: 2px solid var(--border-color);
-  color: var(--text-main);
-}
-
-.perfil-button.secondary:hover {
-  border-color: var(--neon-blue);
-  color: var(--neon-blue);
-  box-shadow: 0 0 15px rgba(0, 223, 255, 0.2);
-}
-
-/* ====== FOOTER ====== */
-
-.perfil-footer {
-  margin-top: 90px;
-  padding: 32px 0;
-  background: rgba(6, 9, 19, 0.9);
-  border-top: 1px solid rgba(0, 223, 255, 0.2);
-}
-
-.perfil-footer-container {
-  width: 100%;
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-}
-
-.footer-brand {
-  display: flex;
-  align-items: center;
-}
-
-.footer-logo {
-  height: 48px;
-  width: auto;
-  object-fit: contain;
-  display: block;
-}
-
-.footer-info {
-  text-align: center;
-}
-
-.footer-info p {
-  margin: 4px 0;
-  font-size: 0.95rem;
-  color: var(--text-muted);
-}
-
-.footer-copy p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  text-align: right;
-}
-
-/* ====== SALDO CARD ====== */
 
 .saldo-card {
-  margin-top: 32px;
-  padding: 2px;
-  background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue));
-  border-radius: 8px;
-  box-shadow: 0 0 40px rgba(157, 78, 221, 0.35), 0 0 20px rgba(0, 223, 255, 0.15);
+  margin-top: 40px;
 }
 
 .saldo-card-inner {
-  background: var(--bg-card);
-  border-radius: 7px;
-  padding: 40px 44px;
+  padding: 36px;
   text-align: center;
+
+  border-radius: 6px;
+  background: rgba(13,19,38,.92);
+
+  border: 2px solid var(--border-color);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.65),
+    inset 0 0 15px rgba(0,223,255,.05);
 }
 
 .saldo-display {
+  margin-top: 12px;
+
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 18px;
-  margin-top: 16px;
+  align-items: center;
+  gap: 12px;
 }
 
 .saldo-icono {
-  font-size: 2.8rem;
-  color: var(--neon-blue);
-  text-shadow: 0 0 18px rgba(0, 223, 255, 0.7);
-  line-height: 1;
+  color: #ffd700;
+  font-size: 2rem;
 }
 
 .saldo-numero {
   font-family: 'Orbitron', sans-serif;
-  font-size: 4rem;
-  font-weight: 800;
-  color: #ffffff;
-  letter-spacing: 2px;
-  text-shadow: 0 0 24px rgba(157, 78, 221, 0.7), 0 0 8px rgba(0, 223, 255, 0.4);
+  font-size: 3rem;
+  color: var(--neon-blue);
 }
 
 .saldo-label {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
   color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  align-self: flex-end;
-  padding-bottom: 8px;
+  font-size: 1.1rem;
 }
 
-/* ====== TRANSACCIONES CARD ====== */
 
 .transacciones-card {
-  margin-top: 32px;
+  margin-top: 40px;
+
+  background: rgba(13,19,38,.92);
+  border: 2px solid var(--border-color);
+
+  border-radius: 6px;
+  padding: 30px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.65);
 }
 
+.perfil-card-header h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: white;
+  text-transform: uppercase;
+}
+
+
 .transacciones-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 52px 24px;
-  color: var(--text-muted);
+  margin-top: 30px;
   text-align: center;
+  padding: 50px;
+
+  border: 1px dashed rgba(0,223,255,.25);
+  border-radius: 6px;
 }
 
 .empty-icono {
-  font-size: 2.4rem;
-  color: var(--neon-purple);
-  opacity: 0.5;
-  margin-bottom: 8px;
-}
-
-.transacciones-empty p {
-  font-size: 1.05rem;
-  line-height: 1.6;
+  display: block;
+  font-size: 3rem;
+  color: #ffd700;
+  margin-bottom: 12px;
 }
 
 .transacciones-lista {
   list-style: none;
+  margin-top: 25px;
+
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .transaccion-item {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 16px 20px;
-  background: rgba(6, 9, 19, 0.55);
-  border: 1px solid var(--border-color);
+  padding: 18px;
+
   border-radius: 6px;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid rgba(0,223,255,.12);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(157,78,221,.08),
+      rgba(0,223,255,.04)
+    );
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  transition: .25s;
 }
 
 .transaccion-item:hover {
-  border-color: rgba(0, 223, 255, 0.3);
-  box-shadow: 0 0 12px rgba(0, 223, 255, 0.08);
+  transform: translateY(-2px);
+
+  border-color: rgba(0,223,255,.4);
+
+  box-shadow:
+    0 0 18px rgba(0,223,255,.12);
 }
 
+
 .transaccion-tipo-badge {
-  flex-shrink: 0;
-  min-width: 110px;
-  text-align: center;
-  padding: 6px 12px;
-  border-radius: 4px;
+  padding: 8px 12px;
+  border-radius: 999px;
+
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: .7rem;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
 }
 
 .badge-logro {
-  border: 1px solid var(--neon-purple);
-  color: var(--neon-purple);
-  background: rgba(157, 78, 221, 0.1);
-  box-shadow: 0 0 8px rgba(157, 78, 221, 0.2);
+  background: rgba(0,223,255,.12);
+  border: 1px solid var(--neon-blue);
+  color: var(--neon-blue);
 }
 
 .badge-recompensa {
-  border: 1px solid var(--neon-blue);
-  color: var(--neon-blue);
-  background: rgba(0, 223, 255, 0.07);
-  box-shadow: 0 0 8px rgba(0, 223, 255, 0.15);
-}
-
-.transaccion-info {
-  flex: 1;
+  background: rgba(157,78,221,.15);
+  border: 1px solid var(--neon-purple);
+  color: var(--neon-purple);
 }
 
 .transaccion-descripcion {
   font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--text-main);
 }
 
 .transaccion-monto {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: 4px;
   font-family: 'Orbitron', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #4ade80;
-  text-shadow: 0 0 10px rgba(74, 222, 128, 0.45);
+  color: #6dff8d;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
-.monto-label {
-  font-size: 1rem;
-  color: var(--neon-blue);
-  margin-left: 2px;
-}
-
-/* ====== ACCIONES ====== */
 
 .transacciones-actions {
-  margin-top: 32px;
-  margin-bottom: 32px;
+  margin-top: 36px;
+
   display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
 }
 
-/* ====== RESPONSIVE ====== */
+.perfil-button {
+  padding: 14px 20px;
+
+  text-decoration: none;
+  border-radius: 4px;
+
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+
+  transition: .3s;
+}
+
+.perfil-button.primary {
+  border: 2px solid var(--neon-blue);
+  color: white;
+}
+
+.perfil-button.primary:hover {
+  background: var(--neon-blue);
+  color: #060913;
+  box-shadow: 0 0 20px rgba(0,223,255,.6);
+}
+
+.perfil-button.secondary {
+  border: 2px solid var(--neon-purple);
+  color: white;
+}
+
+.perfil-button.secondary:hover {
+  background: var(--neon-purple);
+  color: #060913;
+  box-shadow: 0 0 20px rgba(157,78,221,.6);
+}
+
+
+.perfil-footer {
+  margin-top: 90px;
+  padding: 32px 0;
+
+  background: rgba(6,9,19,.9);
+  border-top: 1px solid rgba(0,223,255,.2);
+}
+
+.perfil-footer-container {
+  padding: 0 24px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+
+.footer-logo {
+  height: 48px;
+}
+
+.footer-info p,
+.footer-copy p {
+  color: var(--text-muted);
+}
+
 
 @media (max-width: 768px) {
-  .perfil-card-header {
-    flex-direction: column;
-  }
 
   .perfil-hero h1 {
     font-size: 2.4rem;
   }
-}
-
-@media (max-width: 600px) {
-  .perfil-navbar {
-    height: auto;
-  }
-
-  .perfil-navbar-container {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 16px 20px;
-    gap: 14px;
-  }
-
-  .perfil-nav-links {
-    flex-wrap: wrap;
-  }
-
-  .transacciones-main {
-    padding-top: 160px;
-  }
-
-  .perfil-hero,
-  .perfil-card {
-    padding: 28px 22px;
-  }
-
-  .saldo-numero {
-    font-size: 2.8rem;
-  }
-
-  .saldo-icono {
-    font-size: 2rem;
-  }
 
   .transaccion-item {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 12px;
   }
 
-  .transaccion-tipo-badge {
-    min-width: unset;
+  .transacciones-actions {
+    flex-direction: column;
   }
 
   .perfil-footer-container {
     flex-direction: column;
-    text-align: center;
-  }
-
-  .footer-copy p {
     text-align: center;
   }
 }
