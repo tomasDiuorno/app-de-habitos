@@ -17,6 +17,7 @@ import com.tallerwebi.dominio.entidades.UsuarioLogro;
 import com.tallerwebi.dominio.interfaz.RepositorioLogro;
 import com.tallerwebi.dominio.interfaz.RepositorioUsuarioLogro;
 import com.tallerwebi.dominio.interfaz.ServicioLogro;
+import com.tallerwebi.dominio.interfaz.ServicioMonedero;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,12 +29,19 @@ public class ServicioLogroTest {
   private ServicioLogro servicioLogro;
   private RepositorioLogro repositorioLogroMock;
   private RepositorioUsuarioLogro repositorioUsuarioLogroMock;
+  private ServicioMonedero servicioMonederoMock;
 
   @BeforeEach
   public void init() {
     repositorioLogroMock = mock(RepositorioLogro.class);
     repositorioUsuarioLogroMock = mock(RepositorioUsuarioLogro.class);
-    servicioLogro = new ServicioLogroImpl(repositorioLogroMock, repositorioUsuarioLogroMock);
+    servicioMonederoMock = mock(ServicioMonedero.class);
+    servicioLogro =
+      new ServicioLogroImpl(
+        repositorioLogroMock,
+        repositorioUsuarioLogroMock,
+        servicioMonederoMock
+      );
   }
 
   @Test
@@ -93,6 +101,32 @@ public class ServicioLogroTest {
 
     assertThat(logrosObtenidos.size(), equalTo(1));
     verify(repositorioUsuarioLogroMock, times(1)).buscarPorUsuario(usuario);
+  }
+
+  @Test
+  public void deberiaAcreditar20MonedasCuandoSeDesbloqueeUnLogro() {
+    Usuario usuario = dadoQueTengoUnUsuarioConHabitos(1);
+    Logro logroPrimerPaso = dadoQueTengoUnLogro("Primer Paso", "PRIMER_HABITO");
+    when(repositorioLogroMock.buscarPorNombre("Primer Paso")).thenReturn(logroPrimerPaso);
+    when(repositorioUsuarioLogroMock.existeLogroParaUsuario(usuario, logroPrimerPaso))
+      .thenReturn(false);
+
+    servicioLogro.verificarYAsignarLogros(usuario);
+
+    verify(servicioMonederoMock, times(1)).acreditarPorLogro(usuario);
+  }
+
+  @Test
+  public void noDeberiaAcreditarMonedasSiElLogroYaEstabaDesbloqueado() {
+    Usuario usuario = dadoQueTengoUnUsuarioConHabitos(1);
+    Logro logroPrimerPaso = dadoQueTengoUnLogro("Primer Paso", "PRIMER_HABITO");
+    when(repositorioLogroMock.buscarPorNombre("Primer Paso")).thenReturn(logroPrimerPaso);
+    when(repositorioUsuarioLogroMock.existeLogroParaUsuario(usuario, logroPrimerPaso))
+      .thenReturn(true);
+
+    servicioLogro.verificarYAsignarLogros(usuario);
+
+    verify(servicioMonederoMock, never()).acreditarPorLogro(any(Usuario.class));
   }
 
   @Test

@@ -3,6 +3,7 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.interfaz.ServicioHabito;
 import com.tallerwebi.dominio.interfaz.ServicioLogin;
+import com.tallerwebi.dominio.interfaz.ServicioMonedero;
 import com.tallerwebi.dominio.interfaz.ServicioRecuperacionContrasenia;
 import com.tallerwebi.presentacion.DTO.LoginDTO;
 import com.tallerwebi.presentacion.DTO.RecuperacionContraseniaDTO;
@@ -22,16 +23,19 @@ public class ControladorLogin {
   private ServicioLogin servicioLogin;
   private ServicioRecuperacionContrasenia servicioRecuperacionContrasenia;
   private ServicioHabito servicioHabitos;
+  private ServicioMonedero servicioMonedero;
 
   @Autowired
   public ControladorLogin(
     ServicioLogin servicioLogin,
     ServicioRecuperacionContrasenia servicioRecuperacionContrasenia,
-    ServicioHabito servicioHabitos
+    ServicioHabito servicioHabitos,
+    ServicioMonedero servicioMonedero
   ) {
     this.servicioLogin = servicioLogin;
     this.servicioRecuperacionContrasenia = servicioRecuperacionContrasenia;
     this.servicioHabitos = servicioHabitos;
+    this.servicioMonedero = servicioMonedero;
   }
 
   @RequestMapping("/login")
@@ -52,6 +56,7 @@ public class ControladorLogin {
     );
 
     if (usuarioBuscado != null) {
+      servicioMonedero.inicializarMonedero(usuarioBuscado);
       request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
       request.getSession().setAttribute("usuario", usuarioBuscado);
       return new ModelAndView("redirect:/home");

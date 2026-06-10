@@ -19,6 +19,7 @@ import com.tallerwebi.dominio.entidades.ItemChecklist;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.interfaz.ServicioCategoria;
 import com.tallerwebi.dominio.interfaz.ServicioHabito;
+import com.tallerwebi.dominio.interfaz.ServicioLogro;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
 import com.tallerwebi.presentacion.ControladorHabitos;
@@ -56,7 +57,8 @@ public class ControladorHabitosTest {
   public void init() {
     usuarioMock = mock(Usuario.class);
     servicioHabitoMock = mock(ServicioHabito.class);
-    controladorHabitos = new ControladorHabitos(servicioHabitoMock, servicioCategoria);
+    controladorHabitos =
+      new ControladorHabitos(servicioHabitoMock, servicioCategoria, mock(ServicioLogro.class));
     servicioCategoria = mock(ServicioCategoria.class);
 
     when(usuarioMock.getEmail()).thenReturn("test@mail.com");

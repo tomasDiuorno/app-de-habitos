@@ -56,8 +56,9 @@
           <h2>Información del usuario</h2>
         </div>
 
+
         <div class="perfil-status">
-          <span th:text="${usuario.activo} ? 'Activo' : 'Inactivo'"></span>
+            <span th:text="${usuario.activo} ? 'Activo' : 'Inactivo'"></span>
         </div>
       </div>
 
@@ -104,6 +105,10 @@
 
         <a th:href="@{/logros}" class="perfil-button primary">
           Ver mis logros
+        </a>
+
+        <a th:href="@{/transacciones}" class="perfil-button secondary">
+        Mi monedero
         </a>
 
         <a th:href="@{/baul}" class="perfil-button secondary">

@@ -11,9 +11,6 @@ public class RegistroDTO {
   @NotBlank(message = "El nombre es obligatorio")
   private String name;
 
-  @NotBlank(message = "El apellido es obligatorio")
-  private String surname;
-
   @NotBlank(message = "El nombre de usuario es obligatorio")
   @NotBlank(message = "Nombre de usuario incompleto")
   @Size(min = 3, max = 20, message = "El usuario debe tener entre 3 y 20 caracteres")
@@ -54,14 +51,6 @@ public class RegistroDTO {
     this.name = name;
   }
 
-  public String getSurname() {
-    return surname;
-  }
-
-  public void setSurname(String surname) {
-    this.surname = surname;
-  }
-
   public String getUsername() {
     return username;
   }
@@ -100,6 +89,10 @@ public class RegistroDTO {
 
   public void setHabitosSeleccionados(List<Integer> habitosSeleccionados) {
     this.habitosSeleccionados = habitosSeleccionados;
+  }
+
+  public String getConfirmPassword() {
+    return confirmPassword;
   }
 
   public Boolean isPasswordConfirmada() {

@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface ServicioLogro {
   void verificarYAsignarLogros(Usuario usuario);
+  void verificarYAsignarLogros(Usuario usuario, int cantidadHabitos);
   List<UsuarioLogro> obtenerLogrosDeUsuario(Usuario usuario);
 }

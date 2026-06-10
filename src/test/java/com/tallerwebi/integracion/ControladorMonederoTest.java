@@ -3,8 +3,7 @@ package com.tallerwebi.integracion;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,9 +26,9 @@ import org.springframework.web.servlet.ModelAndView;
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = { SpringWebTestConfig.class, HibernateTestConfig.class })
-public class ControladorPerfilTest {
+public class ControladorMonederoTest {
 
-  private Usuario usuarioMock;
+  private Usuario usuario;
 
   @Autowired
   private WebApplicationContext wac;
@@ -38,33 +37,61 @@ public class ControladorPerfilTest {
 
   @BeforeEach
   public void init() {
-    usuarioMock = mock(Usuario.class);
-    when(usuarioMock.getEmail()).thenReturn("test@mail.com");
+    usuario = new Usuario();
+    usuario.setEmail("test@mail.com");
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 
   @Test
-  public void deberiaRetornarLaPaginaPerfilCuandoNavegoAPerfil() throws Exception {
+  public void deberiaRetornarLaVistaTransaccionesCuandoHayUsuarioEnSesion() throws Exception {
     MvcResult result =
-      this.mockMvc.perform(get("/perfil").sessionAttr("usuario", usuarioMock))
+      this.mockMvc.perform(get("/transacciones").sessionAttr("usuario", usuario))
         .andExpect(status().isOk())
         .andReturn();
 
     ModelAndView modelAndView = result.getModelAndView();
 
     assert modelAndView != null;
-    assertThat(modelAndView.getViewName(), is(equalToIgnoringCase("perfil")));
+    assertThat(modelAndView.getViewName(), is(equalToIgnoringCase("transacciones")));
   }
 
   @Test
   public void deberiaRedirigirALoginSiNoHayUsuarioEnSesion() throws Exception {
     MvcResult result =
-      this.mockMvc.perform(get("/perfil"))
+      this.mockMvc.perform(get("/transacciones"))
         .andExpect(status().isFound())
         .andExpect(status().is3xxRedirection())
         .andReturn();
+
     ModelAndView modelAndView = result.getModelAndView();
+
     assert modelAndView != null;
     assertThat(modelAndView.getViewName(), is(equalToIgnoringCase("redirect:/login")));
+  }
+
+  @Test
+  public void deberiaExponerElSaldoEnElModeloCuandoHayUsuarioEnSesion() throws Exception {
+    MvcResult result =
+      this.mockMvc.perform(get("/transacciones").sessionAttr("usuario", usuario))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    ModelAndView modelAndView = result.getModelAndView();
+
+    assert modelAndView != null;
+    assertThat(modelAndView.getModel().get("saldo"), is(notNullValue()));
+  }
+
+  @Test
+  public void deberiaExponerLasTransaccionesEnElModeloCuandoHayUsuarioEnSesion() throws Exception {
+    MvcResult result =
+      this.mockMvc.perform(get("/transacciones").sessionAttr("usuario", usuario))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    ModelAndView modelAndView = result.getModelAndView();
+
+    assert modelAndView != null;
+    assertThat(modelAndView.getModel().get("transacciones"), is(notNullValue()));
   }
 }
