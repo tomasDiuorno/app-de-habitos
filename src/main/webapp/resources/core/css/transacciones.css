@@ -1,4 +1,303 @@
-@import url('perfil.css');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-main: #060913;
+  --bg-card: #0d1326;
+  --neon-blue: #00dfff;
+  --neon-purple: #9d4edd;
+  --text-main: #e2e8f0;
+  --text-muted: #707e94;
+  --border-color: #1e294b;
+}
+
+.transacciones-body {
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(at 10% 20%, rgba(157, 78, 221, 0.15) 0px, transparent 50%),
+    radial-gradient(at 90% 80%, rgba(0, 223, 255, 0.1) 0px, transparent 50%);
+}
+
+/* ====== NAVBAR ====== */
+
+.perfil-navbar {
+  width: 100%;
+  height: 72px;
+  background: rgba(6, 9, 19, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 223, 255, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.perfil-navbar-container {
+  width: 100%;
+  height: 100%;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.perfil-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.perfil-logo {
+  height: 48px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.perfil-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.perfil-nav-link {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.perfil-nav-link:hover,
+.perfil-nav-link.active {
+  color: var(--neon-blue);
+  text-shadow: 0 0 8px rgba(0, 223, 255, 0.6);
+}
+
+.perfil-logout-button {
+  font-family: 'Orbitron', sans-serif;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  border: 1px solid var(--neon-purple);
+  padding: 10px 16px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.perfil-logout-button:hover {
+  background-color: var(--neon-purple);
+  border-color: var(--neon-blue);
+  color: #060913;
+  box-shadow: 0 0 18px rgba(157, 78, 221, 0.7);
+}
+
+/* ====== MAIN ====== */
+
+.transacciones-main {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 120px 24px 0;
+}
+
+/* ====== HERO ====== */
+
+.perfil-hero {
+  padding: 44px;
+  background-color: rgba(13, 19, 38, 0.82);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.7),
+    inset 0 0 15px rgba(157, 78, 221, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.perfil-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+}
+
+.section-kicker {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-blue);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.perfil-hero h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #ffffff;
+  margin-bottom: 18px;
+  text-shadow: 0 0 16px rgba(157, 78, 221, 0.6);
+}
+
+.perfil-hero p {
+  max-width: 760px;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--text-main);
+}
+
+/* ====== CARD BASE ====== */
+
+.perfil-card {
+  padding: 36px;
+  background-color: rgba(13, 19, 38, 0.92);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.65),
+    inset 0 0 15px rgba(0, 223, 255, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.perfil-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+}
+
+.perfil-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.perfil-card-header h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: #ffffff;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ====== BOTONES ====== */
+
+.perfil-button {
+  display: inline-block;
+  text-align: center;
+  padding: 13px 20px;
+  border-radius: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: all 0.35s ease;
+}
+
+.perfil-button.primary {
+  border: 2px solid var(--neon-purple);
+  color: #ffffff;
+}
+
+.perfil-button.primary:hover {
+  background-color: var(--neon-purple);
+  border-color: var(--neon-blue);
+  color: #060913;
+  box-shadow:
+    0 0 22px rgba(157, 78, 221, 0.8),
+    0 0 35px rgba(0, 223, 255, 0.25);
+}
+
+.perfil-button.secondary {
+  border: 2px solid var(--border-color);
+  color: var(--text-main);
+}
+
+.perfil-button.secondary:hover {
+  border-color: var(--neon-blue);
+  color: var(--neon-blue);
+  box-shadow: 0 0 15px rgba(0, 223, 255, 0.2);
+}
+
+/* ====== FOOTER ====== */
+
+.perfil-footer {
+  margin-top: 90px;
+  padding: 32px 0;
+  background: rgba(6, 9, 19, 0.9);
+  border-top: 1px solid rgba(0, 223, 255, 0.2);
+}
+
+.perfil-footer-container {
+  width: 100%;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+}
+
+.footer-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.footer-info {
+  text-align: center;
+}
+
+.footer-info p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.footer-copy p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* ====== SALDO CARD ====== */
 
 .saldo-card {
   margin-top: 32px;
@@ -56,8 +355,6 @@
   margin-top: 32px;
 }
 
-/* Estado vacío */
-
 .transacciones-empty {
   display: flex;
   flex-direction: column;
@@ -79,8 +376,6 @@
   font-size: 1.05rem;
   line-height: 1.6;
 }
-
-/* Lista */
 
 .transacciones-lista {
   list-style: none;
@@ -104,8 +399,6 @@
   border-color: rgba(0, 223, 255, 0.3);
   box-shadow: 0 0 12px rgba(0, 223, 255, 0.08);
 }
-
-/* Badge tipo */
 
 .transaccion-tipo-badge {
   flex-shrink: 0;
@@ -134,8 +427,6 @@
   box-shadow: 0 0 8px rgba(0, 223, 255, 0.15);
 }
 
-/* Descripción */
-
 .transaccion-info {
   flex: 1;
 }
@@ -145,8 +436,6 @@
   font-weight: 600;
   color: var(--text-main);
 }
-
-/* Monto */
 
 .transaccion-monto {
   flex-shrink: 0;
@@ -166,18 +455,53 @@
   margin-left: 2px;
 }
 
-/* ACCIONES */
+/* ====== ACCIONES ====== */
 
 .transacciones-actions {
   margin-top: 32px;
+  margin-bottom: 32px;
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
 }
 
-/* RESPONSIVE */
+/* ====== RESPONSIVE ====== */
+
+@media (max-width: 768px) {
+  .perfil-card-header {
+    flex-direction: column;
+  }
+
+  .perfil-hero h1 {
+    font-size: 2.4rem;
+  }
+}
 
 @media (max-width: 600px) {
+  .perfil-navbar {
+    height: auto;
+  }
+
+  .perfil-navbar-container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 20px;
+    gap: 14px;
+  }
+
+  .perfil-nav-links {
+    flex-wrap: wrap;
+  }
+
+  .transacciones-main {
+    padding-top: 160px;
+  }
+
+  .perfil-hero,
+  .perfil-card {
+    padding: 28px 22px;
+  }
+
   .saldo-numero {
     font-size: 2.8rem;
   }
@@ -193,5 +517,14 @@
 
   .transaccion-tipo-badge {
     min-width: unset;
+  }
+
+  .perfil-footer-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-copy p {
+    text-align: center;
   }
 }

@@ -46,7 +46,6 @@ public class ControladorRecompensas {
     this.servicioRecompensas.marcarComoUtilizada(idUsuarioRecompensa);
     return new ModelAndView("redirect:/baul");
   }
-
-  // servicioMonedero.acreditarPorRecompensa(usuario) 
+  // servicioMonedero.acreditarPorRecompensa(usuario)
   // Implementarlo con ciertas recompensas las cuales sumaran monedas
 }
