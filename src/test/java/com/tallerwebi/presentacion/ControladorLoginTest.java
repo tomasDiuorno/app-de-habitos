@@ -16,6 +16,7 @@ import com.tallerwebi.dominio.excepcion.ContraseniasNoCoincidenException;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import com.tallerwebi.dominio.interfaz.ServicioHabito;
 import com.tallerwebi.dominio.interfaz.ServicioLogin;
+import com.tallerwebi.dominio.interfaz.ServicioMonedero;
 import com.tallerwebi.dominio.interfaz.ServicioRecuperacionContrasenia;
 import com.tallerwebi.dominio.interfaz.ServicioRegistro;
 import com.tallerwebi.presentacion.DTO.LoginDTO;
@@ -46,6 +47,7 @@ public class ControladorLoginTest {
   private ServicioRecuperacionContrasenia servicioRecuperacionContraseniaMock;
   private RegistroDTO datosRegistroMock;
   private ServicioHabito servicioHabitosMock;
+  private ServicioMonedero servicioMonederoMock;
   private BindingResult bindingResultMock;
 
   private MockMvc mockMvc;
@@ -61,6 +63,7 @@ public class ControladorLoginTest {
     servicioLoginMock = mock(ServicioLogin.class);
     servicioRegistroMock = mock(ServicioRegistro.class);
     servicioHabitosMock = mock(ServicioHabito.class);
+    servicioMonederoMock = mock(ServicioMonedero.class);
     servicioRecuperacionContraseniaMock = mock(ServicioRecuperacionContrasenia.class);
     bindingResultMock = mock(BindingResult.class);
     when(bindingResultMock.hasErrors()).thenReturn(false);
@@ -68,7 +71,8 @@ public class ControladorLoginTest {
       new ControladorLogin(
         servicioLoginMock,
         servicioRecuperacionContraseniaMock,
-        servicioHabitosMock
+        servicioHabitosMock,
+        servicioMonederoMock
       );
     controladorRegistro = new ControladorRegistro(servicioRegistroMock, servicioHabitosMock);
     this.mockMvc = MockMvcBuilders.standaloneSetup(controladorLogin).build();

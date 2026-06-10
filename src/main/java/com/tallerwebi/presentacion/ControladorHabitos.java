@@ -7,6 +7,7 @@ import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
 import com.tallerwebi.dominio.interfaz.ServicioCategoria;
 import com.tallerwebi.dominio.interfaz.ServicioHabito;
+import com.tallerwebi.dominio.interfaz.ServicioLogro;
 import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -44,12 +45,18 @@ public class ControladorHabitos {
 
   private ServicioHabito servicioHabito;
   private ServicioCategoria servicioCategoria;
+  private ServicioLogro servicioLogro;
   private static final String PRODUCES_JSON = "application/json";
 
   @Autowired
-  public ControladorHabitos(ServicioHabito servicioHabito, ServicioCategoria servicioCategoria) {
+  public ControladorHabitos(
+    ServicioHabito servicioHabito,
+    ServicioCategoria servicioCategoria,
+    ServicioLogro servicioLogro
+  ) {
     this.servicioHabito = servicioHabito;
     this.servicioCategoria = servicioCategoria;
+    this.servicioLogro = servicioLogro;
   }
 
   @RequestMapping(path = "/habitos", method = RequestMethod.GET)
@@ -88,7 +95,8 @@ public class ControladorHabitos {
       Habito habito = this.servicioHabito.obtenerHabito(datos);
       this.servicioHabito.agregarHabitoParaUsuario(habito, usuario);
 
-      Integer cantidadHabitosDespues = usuario.getUsuarioHabito().size();
+      Integer cantidadHabitosDespues = cantidadHabitosAntes + 1;
+      this.servicioLogro.verificarYAsignarLogros(usuario, cantidadHabitosDespues);
 
       ModelAndView modelAndView = crearVistaCrearHabito(new RegistroHabitoDTO());
       cargarLogroDesbloqueado(modelAndView, cantidadHabitosAntes, cantidadHabitosDespues);

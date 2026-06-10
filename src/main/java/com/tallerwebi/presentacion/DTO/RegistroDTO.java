@@ -102,6 +102,10 @@ public class RegistroDTO {
     this.habitosSeleccionados = habitosSeleccionados;
   }
 
+  public String getConfirmPassword() {
+    return confirmPassword;
+  }
+
   public Boolean isPasswordConfirmada() {
     return this.password != null && this.password.equals(this.confirmPassword);
   }

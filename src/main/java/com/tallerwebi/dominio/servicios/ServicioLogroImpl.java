@@ -32,12 +32,15 @@ public class ServicioLogroImpl implements ServicioLogro {
   }
 
   @Override
-  public void verificarYAsignarLogros(Usuario usuario) {
-    int cantidadHabitos = usuario.getUsuarioHabito().size();
-
+  public void verificarYAsignarLogros(Usuario usuario, int cantidadHabitos) {
     verificarLogro("Primer Paso", 1, cantidadHabitos, usuario);
     verificarLogro("Constante", 3, cantidadHabitos, usuario);
     verificarLogro("Experto", 4, cantidadHabitos, usuario);
+  }
+
+  @Override
+  public void verificarYAsignarLogros(Usuario usuario) {
+    verificarYAsignarLogros(usuario, usuario.getUsuarioHabito().size());
   }
 
   private void verificarLogro(

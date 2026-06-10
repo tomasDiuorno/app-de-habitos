@@ -14,29 +14,29 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ControladorMonedero {
 
-    private ServicioMonedero servicioMonedero;
+  private ServicioMonedero servicioMonedero;
 
-    @Autowired
-    public ControladorMonedero(ServicioMonedero servicioMonedero) {
-        this.servicioMonedero = servicioMonedero;
+  @Autowired
+  public ControladorMonedero(ServicioMonedero servicioMonedero) {
+    this.servicioMonedero = servicioMonedero;
+  }
+
+  @RequestMapping("/transacciones")
+  public ModelAndView irATransacciones(HttpServletRequest request) {
+    Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+    if (usuario == null) {
+      return new ModelAndView("redirect:/login");
     }
 
-    @RequestMapping("/transacciones")
-    public ModelAndView irATransacciones(HttpServletRequest request) {
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+    Integer saldo = servicioMonedero.obtenerSaldo(usuario);
+    List<Transaccion> transacciones = servicioMonedero.obtenerTransacciones(usuario);
 
-        if (usuario == null) {
-            return new ModelAndView("redirect:/login");
-        }
+    ModelMap modelo = new ModelMap();
+    modelo.put("usuario", usuario);
+    modelo.put("saldo", saldo);
+    modelo.put("transacciones", transacciones);
 
-        Integer saldo = servicioMonedero.obtenerSaldo(usuario);
-        List<Transaccion> transacciones = servicioMonedero.obtenerTransacciones(usuario);
-
-        ModelMap modelo = new ModelMap();
-        modelo.put("usuario", usuario);
-        modelo.put("saldo", saldo);
-        modelo.put("transacciones", transacciones);
-
-        return new ModelAndView("transacciones", modelo);
-    }
+    return new ModelAndView("transacciones", modelo);
+  }
 }

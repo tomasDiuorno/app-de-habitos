@@ -36,7 +36,12 @@ public class ServicioLogroTest {
     repositorioLogroMock = mock(RepositorioLogro.class);
     repositorioUsuarioLogroMock = mock(RepositorioUsuarioLogro.class);
     servicioMonederoMock = mock(ServicioMonedero.class);
-    servicioLogro = new ServicioLogroImpl(repositorioLogroMock, repositorioUsuarioLogroMock, servicioMonederoMock);
+    servicioLogro =
+      new ServicioLogroImpl(
+        repositorioLogroMock,
+        repositorioUsuarioLogroMock,
+        servicioMonederoMock
+      );
   }
 
   @Test
@@ -99,34 +104,30 @@ public class ServicioLogroTest {
   }
 
   @Test
-    public void deberiaAcreditar20MonedasCuandoSeDesbloqueeUnLogro() {
-       
-        Usuario usuario = dadoQueTengoUnUsuarioConHabitos(1);
-        Logro logroPrimerPaso = dadoQueTengoUnLogro("Primer Paso", "PRIMER_HABITO");
-        when(repositorioLogroMock.buscarPorNombre("Primer Paso"))
-            .thenReturn(logroPrimerPaso);
-        when(repositorioUsuarioLogroMock.existeLogroParaUsuario(usuario, logroPrimerPaso))
-            .thenReturn(false);
+  public void deberiaAcreditar20MonedasCuandoSeDesbloqueeUnLogro() {
+    Usuario usuario = dadoQueTengoUnUsuarioConHabitos(1);
+    Logro logroPrimerPaso = dadoQueTengoUnLogro("Primer Paso", "PRIMER_HABITO");
+    when(repositorioLogroMock.buscarPorNombre("Primer Paso")).thenReturn(logroPrimerPaso);
+    when(repositorioUsuarioLogroMock.existeLogroParaUsuario(usuario, logroPrimerPaso))
+      .thenReturn(false);
 
-        servicioLogro.verificarYAsignarLogros(usuario);
+    servicioLogro.verificarYAsignarLogros(usuario);
 
-        verify(servicioMonederoMock, times(1)).acreditarPorLogro(usuario);
-    }
+    verify(servicioMonederoMock, times(1)).acreditarPorLogro(usuario);
+  }
 
-    @Test
-    public void noDeberiaAcreditarMonedasSiElLogroYaEstabaDesbloqueado() {
-      
-        Usuario usuario = dadoQueTengoUnUsuarioConHabitos(1);
-        Logro logroPrimerPaso = dadoQueTengoUnLogro("Primer Paso", "PRIMER_HABITO");
-        when(repositorioLogroMock.buscarPorNombre("Primer Paso"))
-            .thenReturn(logroPrimerPaso);
-        when(repositorioUsuarioLogroMock.existeLogroParaUsuario(usuario, logroPrimerPaso))
-            .thenReturn(true); 
+  @Test
+  public void noDeberiaAcreditarMonedasSiElLogroYaEstabaDesbloqueado() {
+    Usuario usuario = dadoQueTengoUnUsuarioConHabitos(1);
+    Logro logroPrimerPaso = dadoQueTengoUnLogro("Primer Paso", "PRIMER_HABITO");
+    when(repositorioLogroMock.buscarPorNombre("Primer Paso")).thenReturn(logroPrimerPaso);
+    when(repositorioUsuarioLogroMock.existeLogroParaUsuario(usuario, logroPrimerPaso))
+      .thenReturn(true);
 
-        servicioLogro.verificarYAsignarLogros(usuario);
+    servicioLogro.verificarYAsignarLogros(usuario);
 
-        verify(servicioMonederoMock, never()).acreditarPorLogro(any(Usuario.class));
-    }
+    verify(servicioMonederoMock, never()).acreditarPorLogro(any(Usuario.class));
+  }
 
   @Test
   public void deberiaAsignarElLogroConstanteCuandoUsuarioTieneTresHabitos() {
