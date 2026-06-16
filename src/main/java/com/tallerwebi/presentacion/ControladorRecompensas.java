@@ -1,6 +1,8 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioRecompensa;
+import com.tallerwebi.dominio.interfaz.ServicioMonedero;
 import com.tallerwebi.dominio.interfaz.ServicioRecompensas;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,16 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControladorRecompensas {
 
   private ServicioRecompensas servicioRecompensas;
+  private ServicioMonedero servicioMonedero;
   private String usuario = "usuario";
 
   @Autowired
-  public ControladorRecompensas(ServicioRecompensas servicioRecompensas) {
+  public ControladorRecompensas(
+    ServicioRecompensas servicioRecompensas,
+    ServicioMonedero servicioMonedero
+  ) {
     this.servicioRecompensas = servicioRecompensas;
+    this.servicioMonedero = servicioMonedero;
   }
 
   @RequestMapping(path = "/recompensas", method = RequestMethod.GET)
@@ -42,10 +49,22 @@ public class ControladorRecompensas {
   }
 
   @RequestMapping(path = "/usar-recompensa", method = RequestMethod.POST)
-  public ModelAndView usarRecompensa(@RequestParam Integer idUsuarioRecompensa) {
-    this.servicioRecompensas.marcarComoUtilizada(idUsuarioRecompensa);
+  public ModelAndView usarRecompensa(
+    @RequestParam Integer idUsuarioRecompensa,
+    HttpServletRequest request
+  ) {
+    UsuarioRecompensa ur = servicioRecompensas.obtenerPorId(idUsuarioRecompensa);
+
+    if (ur != null && esRecompensaDeMonedas(ur.getRecompensa().getNombre())) {
+      Usuario usuarioSesion = (Usuario) request.getSession().getAttribute(this.usuario);
+      servicioMonedero.acreditarPorRecompensa(usuarioSesion);
+    }
+
+    servicioRecompensas.marcarComoUtilizada(idUsuarioRecompensa);
     return new ModelAndView("redirect:/baul");
   }
-  // servicioMonedero.acreditarPorRecompensa(usuario)
-  // Implementarlo con ciertas recompensas las cuales sumaran monedas
+
+  private boolean esRecompensaDeMonedas(String nombre) {
+    return nombre != null && nombre.toLowerCase(java.util.Locale.ROOT).contains("monedas");
+  }
 }

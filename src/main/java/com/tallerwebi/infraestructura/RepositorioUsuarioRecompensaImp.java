@@ -56,4 +56,9 @@ public class RepositorioUsuarioRecompensaImp implements RepositorioUsuarioRecomp
       .setParameter("idUsuarioRecompensa", idUsuarioRecompensa)
       .executeUpdate();
   }
+
+  @Override
+  public UsuarioRecompensa obtenerPorId(Integer id) {
+    return this.sessionFactory.getCurrentSession().get(UsuarioRecompensa.class, id);
+  }
 }

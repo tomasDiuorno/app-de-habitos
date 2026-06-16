@@ -10,4 +10,5 @@ public interface ServicioRecompensas {
   void verificarRecompensas(Usuario usuario);
   List<UsuarioRecompensa> obtenerBaul(Usuario usuario);
   void marcarComoUtilizada(Integer idUsuarioRecompensa);
+  UsuarioRecompensa obtenerPorId(Integer idUsuarioRecompensa);
 }

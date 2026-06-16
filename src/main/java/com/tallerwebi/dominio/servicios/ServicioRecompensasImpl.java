@@ -55,4 +55,9 @@ public class ServicioRecompensasImpl implements ServicioRecompensas {
   public void marcarComoUtilizada(Integer idUsuarioRecompensa) {
     this.repositorioUsuarioRecompensa.utilizar(idUsuarioRecompensa);
   }
+
+  @Override
+  public UsuarioRecompensa obtenerPorId(Integer idUsuarioRecompensa) {
+    return repositorioUsuarioRecompensa.obtenerPorId(idUsuarioRecompensa);
+  }
 }

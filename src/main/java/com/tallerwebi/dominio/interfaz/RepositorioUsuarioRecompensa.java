@@ -10,4 +10,5 @@ public interface RepositorioUsuarioRecompensa {
   List<UsuarioRecompensa> obtenerPorUsuario(Integer idUsuario);
   Boolean existeRecompensaUsuario(Recompensa recompensa, Usuario usuario);
   void utilizar(Integer idUsuarioRecompensa);
+  UsuarioRecompensa obtenerPorId(Integer id);
 }
