@@ -1,9 +1,11 @@
 package com.tallerwebi.dominio.entidades;
 
+import com.tallerwebi.dominio.enums.TipoHabitoEnum;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,9 +23,13 @@ public class Habito {
   private String titulo;
   private String descripcion;
   private String frecuencia;
-  private Integer duracionEstimada;
 
-  private Integer progresoActual;
+  @Enumerated(EnumType.STRING)
+  private TipoHabitoEnum tipoHabito;
+
+  private Integer objetivoNumerico;
+  private Integer unidadObjetivo;
+  private Integer horaLimite;
 
   @ManyToOne
   @JoinColumn(name = "categoria_id")
@@ -31,9 +37,6 @@ public class Habito {
 
   @OneToMany(mappedBy = "habito")
   private List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
-
-  @OneToMany(mappedBy = "habito", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<ItemChecklist> cantidadDeChecklist = new ArrayList<>();
 
   public Integer getId() {
     return id;
@@ -83,37 +86,35 @@ public class Habito {
     this.frecuencia = frecuencia;
   }
 
-  public Integer getDuracionEstimada() {
-    return duracionEstimada;
+  public TipoHabitoEnum getTipoHabito() {
+    return tipoHabito;
   }
 
-  public void setDuracionEstimada(Integer duracionEstimada) {
-    this.duracionEstimada = duracionEstimada;
+  public void setTipoHabito(TipoHabitoEnum tipoHabito) {
+    this.tipoHabito = tipoHabito;
   }
 
-  public List<ItemChecklist> getCantidadDeChecklist() {
-    return cantidadDeChecklist;
+  public Integer getObjetivoNumerico() {
+    return objetivoNumerico;
   }
 
-  public void setCantidadDeChecklist(List<ItemChecklist> cantidadDeChecklist) {
-    this.cantidadDeChecklist = cantidadDeChecklist;
+  public void setObjetivoNumerico(Integer objetivoNumerico) {
+    this.objetivoNumerico = objetivoNumerico;
   }
 
-  public Integer getProgresoActual() {
-    return progresoActual;
+  public Integer getUnidadObjetivo() {
+    return unidadObjetivo;
   }
 
-  public void setProgresoActual(Integer progresoActual) {
-    this.progresoActual = progresoActual;
+  public void setUnidadObjetivo(Integer unidadObjetivo) {
+    this.unidadObjetivo = unidadObjetivo;
   }
 
-  public void agregarItemChecklist(ItemChecklist item) {
-    this.cantidadDeChecklist.add(item);
-    item.setHabito(this);
+  public Integer getHoraLimite() {
+    return horaLimite;
   }
 
-  public void eliminarItemChecklist(ItemChecklist item) {
-    this.cantidadDeChecklist.remove(item);
-    item.setHabito(null);
+  public void setHoraLimite(Integer horaLimite) {
+    this.horaLimite = horaLimite;
   }
 }

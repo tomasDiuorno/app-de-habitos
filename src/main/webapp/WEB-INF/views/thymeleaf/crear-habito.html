@@ -19,21 +19,21 @@
 
 <body class="crear-habito-body">
 
-<div th:if="${mostrarLogro}" class="achievement-popup">
-  <div class="achievement-icon">
-    ★
-  </div>
+  <div th:if="${mostrarLogro}" class="achievement-popup">
+    <div class="achievement-icon">
+      ★
+    </div>
 
-  <div class="achievement-content">
-    <span class="achievement-label">Logro desbloqueado</span>
-    <strong th:text="${tituloLogro}">
-      Primer hábito creado
-    </strong>
-    <p th:text="${descripcionLogro}">
-      Creaste tu primer hábito. Tu rutina acaba de empezar.
-    </p>
+    <div class="achievement-content">
+      <span class="achievement-label">Logro desbloqueado</span>
+      <strong th:text="${tituloLogro}">
+        Primer hábito creado
+      </strong>
+      <p th:text="${descripcionLogro}">
+        Creaste tu primer hábito. Tu rutina acaba de empezar.
+      </p>
+    </div>
   </div>
-</div>
 
   <nav class="crear-habito-navbar">
     <div class="crear-habito-navbar-container">
@@ -79,56 +79,75 @@
 
         <div class="form-grid">
           <div class="form-group">
-            <select th:field="*{categoriaId}" required>
+            <select id="tipoHabito" th:field="*{tipoHabito}" required>
               <option value="">Seleccionar</option>
-              <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}">
-              </option>
+              <option value="CHECK">Completar</option>
+              <option value="HORARIO">Horario</option>
+              <option value="CANTIDAD">Cantidad</option>
+              <option value="DURACION">Duración</option>
             </select>
           </div>
 
-          <div class="form-group">
-            <label for="frecuencia">Frecuencia</label>
-            <select id="frecuencia" th:field="*{frecuencia}" required>
+          <div class="form-grid">
+            <div class="form-group">
+              <select th:field="*{categoriaId}" required>
+                <option value="">Seleccionar</option>
+                <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}">
+                </option>
+              </select>
+            </div>
 
-              <option value="">Seleccionar</option>
-              <option value="Diaria">Diaria</option>
-              <option value="Semanal">Semanal</option>
-              <option value="Mensual">Mensual</option>
-            </select>
+            <div class="form-group">
+              <label for="frecuencia">Frecuencia</label>
+              <select id="frecuencia" th:field="*{frecuencia}" required>
+
+                <option value="">Seleccionar</option>
+                <option value="Diaria">Diaria</option>
+                <option value="Semanal">Semanal</option>
+                <option value="Mensual">Mensual</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="bloqueHorario" style="display:none">
+            <label>Hora límite</label>
+            <input type="time" th:field="*{horaLimite}">
+          </div>
+          
+          <div id="bloqueCantidad" style="display:none">
+            <label>Objetivo</label>
+            <input type="number" th:field="*{objetivoNumerico}">
+            <label>Unidad</label>
+            <input type="text" th:field="*{unidadObjetivo}" placeholder="Ej: ml">
+          </div>
+
+          <div id="bloqueDuracion" style="display:none">
+            <label>Minutos objetivo</label>
+            <input type="number" th:field="*{objetivoNumerico}">
+          </div>
+          <p th:if="${error != null}" class="form-error" th:text="${error}">
+          </p>
+
+          <div class="form-actions">
+            <a th:href="@{/habitos}" class="button-secondary">
+              Cancelar
+            </a>
+
+            <button type="submit" class="button-primary">
+              Guardar hábito
+            </button>
           </div>
         </div>
-
-        <div class="form-group">
-          <label for="duracionEstimada">
-            Duración estimada en minutos
-          </label>
-
-          <input type="number" id="duracionEstimada" th:field="*{duracionEstimada}" min="1" placeholder="Ej: 30"
-            required>
-        </div>
-
-        <p th:if="${error != null}" class="form-error" th:text="${error}">
-        </p>
-
-        <div class="form-actions">
-          <a th:href="@{/habitos}" class="button-secondary">
-            Cancelar
-          </a>
-
-          <button type="submit" class="button-primary">
-            Guardar hábito
-          </button>
-        </div>
-
       </form>
     </section>
 
   </main>
-<script th:if="${mostrarLogro}" th:inline="javascript">
-  setTimeout(function () {
-    window.location.href = /*[[@{/habitos}]]*/ '/spring/habitos';
-  }, 3500);
-</script>
+  <script th:if="${mostrarLogro}" th:inline="javascript">
+    setTimeout(function () {
+      window.location.href = /*[[@{/habitos}]]*/ '/spring/habitos';
+    }, 3500);
+  </script>
+  <script th:src="@{/js/tipoHabitos.js}"></script>
 
 </body>
 

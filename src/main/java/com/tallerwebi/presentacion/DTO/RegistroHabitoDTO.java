@@ -1,28 +1,25 @@
 package com.tallerwebi.presentacion.DTO;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.tallerwebi.dominio.enums.TipoHabitoEnum;
+import java.time.LocalTime;
 
 public class RegistroHabitoDTO {
 
   private String titulo;
+
   private String descripcion;
-  private Integer categoriaId;
+
   private String frecuencia;
-  private Integer duracionEstimada;
-  private List<String> tareas;
 
-  public RegistroHabitoDTO() {
-    this.tareas = new ArrayList<>();
-  }
+  private Integer categoriaId;
 
-  public List<String> getTareas() {
-    return tareas;
-  }
+  private TipoHabitoEnum tipoHabito;
 
-  public void setTareas(List<String> tareas) {
-    this.tareas = tareas;
-  }
+  private Integer objetivoNumerico;
+
+  private String unidadObjetivo;
+
+  private LocalTime horaLimite;
 
   public String getTitulo() {
     return titulo;
@@ -56,11 +53,35 @@ public class RegistroHabitoDTO {
     this.frecuencia = frecuencia;
   }
 
-  public Integer getDuracionEstimada() {
-    return duracionEstimada;
+  public TipoHabitoEnum getTipoHabito() {
+    return tipoHabito;
   }
 
-  public void setDuracionEstimada(Integer duracionEstimada) {
-    this.duracionEstimada = duracionEstimada;
+  public void setTipoHabito(TipoHabitoEnum tipoHabito) {
+    this.tipoHabito = tipoHabito;
+  }
+
+  public Integer getObjetivoNumerico() {
+    return objetivoNumerico;
+  }
+
+  public void setObjetivoNumerico(Integer objetivoNumerico) {
+    this.objetivoNumerico = objetivoNumerico;
+  }
+
+  public String getUnidadObjetivo() {
+    return unidadObjetivo;
+  }
+
+  public void setUnidadObjetivo(String unidadObjetivo) {
+    this.unidadObjetivo = unidadObjetivo;
+  }
+
+  public LocalTime getHoraLimite() {
+    return horaLimite;
+  }
+
+  public void setHoraLimite(LocalTime horaLimite) {
+    this.horaLimite = horaLimite;
   }
 }

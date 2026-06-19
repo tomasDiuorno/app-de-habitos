@@ -1,7 +1,6 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Habito;
-import com.tallerwebi.dominio.entidades.ItemChecklist;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
@@ -9,16 +8,12 @@ import com.tallerwebi.dominio.interfaz.ServicioCategoria;
 import com.tallerwebi.dominio.interfaz.ServicioHabito;
 import com.tallerwebi.dominio.interfaz.ServicioLogro;
 import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -46,7 +41,6 @@ public class ControladorHabitos {
   private ServicioHabito servicioHabito;
   private ServicioCategoria servicioCategoria;
   private ServicioLogro servicioLogro;
-  private static final String PRODUCES_JSON = "application/json";
 
   @Autowired
   public ControladorHabitos(
@@ -160,143 +154,5 @@ public class ControladorHabitos {
     modelAndView.addObject(ATRIBUTO_MOSTRAR_LOGRO, true);
     modelAndView.addObject(ATRIBUTO_TITULO_LOGRO, tituloLogro);
     modelAndView.addObject(ATRIBUTO_DESCRIPCION_LOGRO, descripcionLogro);
-  }
-
-  @RequestMapping(
-    path = "/habito/{idHabito}/agregar-checklist",
-    method = RequestMethod.POST,
-    produces = PRODUCES_JSON
-  )
-  @ResponseBody
-  public String agregarChecklist(
-    @PathVariable Integer idHabito,
-    @RequestParam("descripcion") String descripcion
-  ) {
-    try {
-      ItemChecklist nuevoItem = new ItemChecklist();
-      nuevoItem.setDescripcion(descripcion);
-
-      servicioHabito.agregarItemChecklistAlHabito(nuevoItem, idHabito);
-
-      return "{\"status\":\"success\", \"mensaje\":\"Checklist agregado correctamente\"}";
-    } catch (Exception excepcion) {
-      return "{\"status\":\"error\", \"mensaje\":\"No se pudo agregar el checklist\"}";
-    }
-  }
-
-  @RequestMapping(
-    path = "/habito/{idHabito}/eliminar-checklist/{idItem}",
-    method = RequestMethod.POST,
-    produces = PRODUCES_JSON
-  )
-  @ResponseBody
-  public String eliminarChecklist(@PathVariable Integer idHabito, @PathVariable Integer idItem) {
-    try {
-      Habito habito = servicioHabito.buscarHabitoPorId(idHabito);
-
-      ItemChecklist itemAEliminar = habito
-        .getCantidadDeChecklist()
-        .stream()
-        .filter(item -> item.getId().equals(idItem))
-        .findFirst()
-        .orElse(null);
-
-      if (itemAEliminar == null) {
-        return "{\"status\":\"error\", \"mensaje\":\"Item no encontrado\"}";
-      }
-
-      servicioHabito.eliminarItemChecklistDelHabito(itemAEliminar, idHabito);
-
-      return "{\"status\":\"success\", \"mensaje\":\"Checklist eliminado\"}";
-    } catch (Exception excepcion) {
-      return "{\"status\":\"error\", \"mensaje\":\"No se pudo eliminar el checklist\"}";
-    }
-  }
-
-  @RequestMapping(
-    path = "/habito/{idHabito}/toggle-checklist/{idItem}",
-    method = RequestMethod.POST,
-    produces = PRODUCES_JSON
-  )
-  @ResponseBody
-  public String toggleChecklist(@PathVariable Integer idHabito, @PathVariable Integer idItem) {
-    try {
-      servicioHabito.actualizarEstadoItemChecklist(idItem, idHabito);
-
-      return "{\"status\":\"success\", \"mensaje\":\"Estado actualizado\"}";
-    } catch (Exception excepcion) {
-      return "{\"status\":\"error\", \"mensaje\":\"No se pudo actualizar el estado\"}";
-    }
-  }
-
-  @RequestMapping(
-    path = "/habito/{idHabito}/editar-checklist/{idItem}",
-    method = RequestMethod.POST,
-    produces = PRODUCES_JSON
-  )
-  @ResponseBody
-  public String editarChecklist(
-    @PathVariable Integer idHabito,
-    @PathVariable Integer idItem,
-    @RequestParam("nuevaDescripcion") String nuevaDescripcion
-  ) {
-    try {
-      servicioHabito.editarDescripcionItemChecklist(idItem, idHabito, nuevaDescripcion);
-
-      return "{\"status\":\"success\", \"mensaje\":\"Checklist editado correctamente\"}";
-    } catch (Exception excepcion) {
-      return "{\"status\":\"error\", \"mensaje\":\"No se pudo editar el checklist\"}";
-    }
-  }
-
-  @RequestMapping(path = "/habito/{id}", method = RequestMethod.GET, produces = PRODUCES_JSON)
-  @ResponseBody
-  public String obtenerHabito(@PathVariable Integer id) {
-    Habito habito = servicioHabito.buscarHabitoPorId(id);
-
-    StringBuilder checklistJson = new StringBuilder("[");
-    List<ItemChecklist> items = habito.getCantidadDeChecklist();
-
-    if (items != null && !items.isEmpty()) {
-      for (int i = 0; i < items.size(); i++) {
-        ItemChecklist item = items.get(i);
-
-        checklistJson.append(
-          String.format(
-            "{\"id\": %d, \"descripcion\": \"%s\", \"estadoChecklist\": %b}",
-            item.getId(),
-            escaparJson(item.getDescripcion()),
-            item.getEstadoChecklist()
-          )
-        );
-
-        if (i < items.size() - 1) {
-          checklistJson.append(",");
-        }
-      }
-    }
-
-    checklistJson.append("]");
-
-    return String.format(
-      "{\"titulo\":\"%s\",\"descripcion\":\"%s\",\"frecuencia\":\"%s\",\"duracionEstimada\":\"%s\",\"checklist\":%s}",
-      escaparJson(habito.getTitulo()),
-      escaparJson(habito.getDescripcion()),
-      escaparJson(habito.getFrecuencia()),
-      habito.getDuracionEstimada(),
-      checklistJson.toString()
-    );
-  }
-
-  private String escaparJson(String texto) {
-    if (texto == null) {
-      return "";
-    }
-
-    return texto
-      .replace("\\", "\\\\")
-      .replace("\"", "\\\"")
-      .replace("\n", "\\n")
-      .replace("\r", "\\r");
   }
 }

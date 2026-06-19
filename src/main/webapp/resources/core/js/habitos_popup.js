@@ -183,11 +183,6 @@ async function cargarHabitoEnModal(button) {
 
       <p class="habit-modal-description">${escaparHtml(habito.descripcion)}</p>
 
-      <div class="habit-modal-info">
-        <span>Frecuencia: ${escaparHtml(habito.frecuencia)}</span>
-        <span>${habito.duracionEstimada} minutos</span>
-      </div>
-
       ${checklistHTML}
     `;
 
