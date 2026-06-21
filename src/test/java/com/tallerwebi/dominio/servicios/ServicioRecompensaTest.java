@@ -1,12 +1,12 @@
 package com.tallerwebi.dominio.servicios;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 
 import com.tallerwebi.dominio.entidades.Recompensa;
 import com.tallerwebi.dominio.entidades.Usuario;
@@ -76,20 +76,20 @@ public class ServicioRecompensaTest {
   @Transactional
   @Rollback
   public void deberiaObtenerUnUsuarioRecompensaPorId() {
-      UsuarioRecompensa ur = new UsuarioRecompensa();
-      when(repositorioUsuarioRecompensaMock.obtenerPorId(1)).thenReturn(ur);
+    UsuarioRecompensa ur = new UsuarioRecompensa();
+    when(repositorioUsuarioRecompensaMock.obtenerPorId(1)).thenReturn(ur);
 
-      UsuarioRecompensa resultado = servicioRecompensas.obtenerPorId(1);
+    UsuarioRecompensa resultado = servicioRecompensas.obtenerPorId(1);
 
-      assertThat(resultado, is(ur));
+    assertThat(resultado, is(ur));
   }
 
   @Test
   @Transactional
   @Rollback
   public void deberiaMarcarUnaRecompensaComoUtilizada() {
-      servicioRecompensas.marcarComoUtilizada(1);
+    servicioRecompensas.marcarComoUtilizada(1);
 
-      verify(repositorioUsuarioRecompensaMock, times(1)).utilizar(1);
+    verify(repositorioUsuarioRecompensaMock, times(1)).utilizar(1);
   }
 }

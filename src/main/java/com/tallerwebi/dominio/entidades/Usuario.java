@@ -32,6 +32,9 @@ public class Usuario {
   @OneToMany(mappedBy = "usuario")
   private List<UsuarioRecompensa> recompensas = new ArrayList<>();
 
+  @OneToMany(mappedBy = "usuario")
+  private List<UsuarioBonificacion> bonificaciones = new ArrayList<>();
+
   public Integer getId() {
     return id;
   }
@@ -114,5 +117,13 @@ public class Usuario {
 
   public void setNivelUsuario(Integer nivelUsuario) {
     this.nivelUsuario = nivelUsuario;
+  }
+
+  public List<UsuarioBonificacion> getBonificaciones() {
+    return bonificaciones;
+  }
+
+  public void setBonificaciones(List<UsuarioBonificacion> bonificaciones) {
+    this.bonificaciones = bonificaciones;
   }
 }
