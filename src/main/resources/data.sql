@@ -4,6 +4,11 @@ INSERT INTO Usuario(id, email, password, rol, activo) VALUES(null, 'test@unlam.e
 -- contraseña: Password1!
 INSERT INTO Usuario( name, username, email, password, rol, gender, nivelUsuario, activo) VALUES ( 'Tomás', 'tomi99', 'tomi@example.com', '$2a$10$cVhZEtsj3XPcmLfOXbp9eu4XCgfeMqokUVwFAQClH93Bt7bKTQbde', 'USER', 'MASCULINO', 30, true);
 
+INSERT INTO Usuario(id, name, username, email, password, rol, gender, nivelUsuario, activo) VALUES ('22', 'Lucas', 'Lucas22', 'lucas@example.com', '$2a$10$cVhZEtsj3XPcmLfOXbp9eu4XCgfeMqokUVwFAQClH93Bt7bKTQbde', 'USER', 'MASCULINO', 30, true);
+
+INSERT INTO Monedero(id, saldo, usuario_id)
+VALUES (22, 250, 22);
+
 INSERT INTO Categoria(id, nombre) VALUES(1, 'Bienestar');
 INSERT INTO Categoria(id, nombre) VALUES(2, 'Cultura');
 INSERT INTO Categoria(id, nombre) VALUES(3, 'Deporte');
@@ -54,3 +59,14 @@ INSERT INTO Recompensa (nombre, descripcion, urlImg, nivelRequerido, rareza) VAL
 ('Smartphone/Tablet', 'Dispositivo tecnológico patrocinado.', '/images/recompensas/lvl360.png', 360, 'LEGENDARIA'),
 ('Membresía Gym Anual', 'Acceso anual a gimnasio asociado.', '/images/recompensas/lvl380.png', 380, 'LEGENDARIA'),
 ('Experiencia Premium', 'Karting, track day o actividad exclusiva.', '/images/recompensas/lvl400.png', 400, 'LEGENDARIA');
+
+INSERT IGNORE INTO Bonificacion
+(id, nombre, descripcion, porcentaje, precioMonedas, duracionEnDias, disponible)
+VALUES
+(1, 'IMPULSO INICIAL', 'Sumá una bonificación pequeña para avanzar un poco más rápido de nivel.', 25, 50, 1, true),
+(2, 'IMPULSO MEDIO', 'Obtené una mejora equilibrada para reforzar tu progreso diario y sostener mejor tu rutina.',50, 90, 1, true),
+(3, 'IMPULSO MÁXIMO', 'Aplicá la bonificación más alta para conseguir un avance mayor en tus objetivos.', 100, 130, 1, true);
+
+UPDATE Monedero
+SET saldo = 250
+WHERE usuario_id = 22;
