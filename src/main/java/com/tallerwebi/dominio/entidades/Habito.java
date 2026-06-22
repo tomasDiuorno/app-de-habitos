@@ -3,6 +3,7 @@ package com.tallerwebi.dominio.entidades;
 import com.tallerwebi.dominio.enums.TipoHabitoEnum;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Habito {
@@ -23,13 +25,13 @@ public class Habito {
   private String titulo;
   private String descripcion;
   private String frecuencia;
+  private Integer xpBase;
 
   @Enumerated(EnumType.STRING)
   private TipoHabitoEnum tipoHabito;
 
-  private Integer objetivoNumerico;
-  private Integer unidadObjetivo;
-  private Integer horaLimite;
+  @OneToOne(cascade = CascadeType.ALL)
+  private ConfiguracionHabito configuracion;
 
   @ManyToOne
   @JoinColumn(name = "categoria_id")
@@ -94,27 +96,19 @@ public class Habito {
     this.tipoHabito = tipoHabito;
   }
 
-  public Integer getObjetivoNumerico() {
-    return objetivoNumerico;
+  public Integer getXpBase() {
+    return xpBase;
   }
 
-  public void setObjetivoNumerico(Integer objetivoNumerico) {
-    this.objetivoNumerico = objetivoNumerico;
+  public void setXpBase(Integer xpBase) {
+    this.xpBase = xpBase;
   }
 
-  public Integer getUnidadObjetivo() {
-    return unidadObjetivo;
+  public ConfiguracionHabito getConfiguracion() {
+    return configuracion;
   }
 
-  public void setUnidadObjetivo(Integer unidadObjetivo) {
-    this.unidadObjetivo = unidadObjetivo;
-  }
-
-  public Integer getHoraLimite() {
-    return horaLimite;
-  }
-
-  public void setHoraLimite(Integer horaLimite) {
-    this.horaLimite = horaLimite;
+  public void setConfiguracion(ConfiguracionHabito configuracion) {
+    this.configuracion = configuracion;
   }
 }

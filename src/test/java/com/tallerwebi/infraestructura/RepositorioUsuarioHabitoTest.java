@@ -74,7 +74,7 @@ public class RepositorioUsuarioHabitoTest {
       .setParameter("usuario", us)
       .setParameter("habito", hab)
       .getSingleResult();*/
-      return this.repositorioUsuarioHabito.obtenerPorIds(us.getId(), hab.getId());
+    return this.repositorioUsuarioHabito.obtenerPorIds(us.getId(), hab.getId());
   }
 
   private void cuandoGuardoElUsuarioHabito(UsuarioHabito usuarioHabito) {

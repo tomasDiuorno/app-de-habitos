@@ -2,11 +2,14 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Habito;
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioHabito;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
 import com.tallerwebi.dominio.interfaz.ServicioCategoria;
+import com.tallerwebi.dominio.interfaz.ServicioEvaluadorHabito;
 import com.tallerwebi.dominio.interfaz.ServicioHabito;
 import com.tallerwebi.dominio.interfaz.ServicioLogro;
+import com.tallerwebi.dominio.interfaz.ServicioUsuarioHabito;
 import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -31,6 +35,7 @@ public class ControladorHabitos {
   private static final String ATRIBUTO_TITULO_LOGRO = "tituloLogro";
   private static final String ATRIBUTO_DESCRIPCION_LOGRO = "descripcionLogro";
   private static final String ATRIBUTO_ERROR = "error";
+  private static final String ATRIBUTO_USUARIO = "usuario";
 
   private static final int CERO_HABITOS = 0;
   private static final int UN_HABITO = 1;
@@ -41,21 +46,27 @@ public class ControladorHabitos {
   private ServicioHabito servicioHabito;
   private ServicioCategoria servicioCategoria;
   private ServicioLogro servicioLogro;
+  private ServicioEvaluadorHabito servicioEvaluadorHabito;
+  private ServicioUsuarioHabito servicioUsuarioHabito;
 
   @Autowired
   public ControladorHabitos(
     ServicioHabito servicioHabito,
     ServicioCategoria servicioCategoria,
-    ServicioLogro servicioLogro
+    ServicioLogro servicioLogro,
+    ServicioEvaluadorHabito servicioEvaluadorHabito,
+    ServicioUsuarioHabito servicioUsuarioHabito
   ) {
     this.servicioHabito = servicioHabito;
     this.servicioCategoria = servicioCategoria;
     this.servicioLogro = servicioLogro;
+    this.servicioEvaluadorHabito = servicioEvaluadorHabito;
+    this.servicioUsuarioHabito = servicioUsuarioHabito;
   }
 
   @RequestMapping(path = "/habitos", method = RequestMethod.GET)
   public ModelAndView irAHabitos(HttpServletRequest request) {
-    Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+    Usuario usuario = (Usuario) request.getSession().getAttribute(ATRIBUTO_USUARIO);
 
     if (usuario == null) {
       return new ModelAndView(REDIRECT_LOGIN);
@@ -65,6 +76,22 @@ public class ControladorHabitos {
     modelAndView.addObject(ATRIBUTO_USUARIO_HABITOS, usuario.getUsuarioHabito());
 
     return modelAndView;
+  }
+
+  @RequestMapping(path = "/completar-habito", method = RequestMethod.POST)
+  public ModelAndView completarHabito(
+    @RequestParam Integer habitoId,
+    @RequestParam String evidencia,
+    HttpServletRequest request
+  ) {
+    Usuario usuario = (Usuario) request.getSession().getAttribute(ATRIBUTO_USUARIO);
+    Habito habito = servicioHabito.buscarHabitoPorId(habitoId);
+    UsuarioHabito usuarioHabito =
+      this.servicioUsuarioHabito.obtenerPorUsuarioYHabito(usuario, habito);
+
+    servicioEvaluadorHabito.completarHabito(usuarioHabito, evidencia);
+
+    return new ModelAndView(REDIRECT_HABITOS);
   }
 
   @RequestMapping(path = "/crear-habito", method = RequestMethod.GET)
@@ -77,7 +104,7 @@ public class ControladorHabitos {
     @ModelAttribute(ATRIBUTO_DATOS_REGISTRO_HABITO) RegistroHabitoDTO datos,
     HttpServletRequest request
   ) {
-    Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+    Usuario usuario = (Usuario) request.getSession().getAttribute(ATRIBUTO_USUARIO);
 
     if (usuario == null) {
       return new ModelAndView(REDIRECT_LOGIN);

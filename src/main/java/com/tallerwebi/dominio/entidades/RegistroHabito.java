@@ -24,9 +24,63 @@ public class RegistroHabito {
 
   private Boolean completado;
 
-  private String evidenciaTexto;
-
-  private Integer evidenciaNumerica;
+  private String evidencia;
 
   private Integer xpGanada;
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public Usuario getUsuario() {
+    return usuario;
+  }
+
+  public void setUsuario(Usuario usuario) {
+    this.usuario = usuario;
+  }
+
+  public Habito getHabito() {
+    return habito;
+  }
+
+  public void setHabito(Habito habito) {
+    this.habito = habito;
+  }
+
+  public LocalDate getFecha() {
+    return fecha;
+  }
+
+  public void setFecha(LocalDate fecha) {
+    this.fecha = fecha;
+  }
+
+  public Boolean getCompletado() {
+    return completado;
+  }
+
+  public void setCompletado(Boolean completado) {
+    this.completado = completado;
+  }
+
+  public String getEvidencia() {
+    return evidencia;
+  }
+
+  public void setEvidencia(String evidencia) {
+    this.evidencia = evidencia;
+  }
+
+  public Integer getXpGanada() {
+    return xpGanada;
+  }
+
+  public void setXpGanada(Integer xpGanada) {
+    this.xpGanada = xpGanada;
+  }
 }
