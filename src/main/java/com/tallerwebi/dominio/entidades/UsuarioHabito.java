@@ -6,7 +6,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class UsuarioHabito {
 
@@ -23,36 +29,4 @@ public class UsuarioHabito {
   private Habito habito;
 
   private Boolean activo = false;
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Usuario getUsuario() {
-    return usuario;
-  }
-
-  public void setUsuario(Usuario usuario) {
-    this.usuario = usuario;
-  }
-
-  public Habito getHabito() {
-    return habito;
-  }
-
-  public void setHabito(Habito habito) {
-    this.habito = habito;
-  }
-
-  public Boolean getActivo() {
-    return activo;
-  }
-
-  public void setActivo(Boolean activo) {
-    this.activo = activo;
-  }
 }

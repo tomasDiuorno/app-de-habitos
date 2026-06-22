@@ -40,7 +40,7 @@ public class ServicioEvaluadorHabitoImp implements ServicioEvaluadorHabito {
 
     registro.setUsuario(usuario);
     registro.setHabito(habito);
-    registro.setCompletado(resultado.estaCumplido());
+    registro.setCompletado(resultado.getCumplido());
 
     registroHabitoRepositorio.guardar(registro);
   }

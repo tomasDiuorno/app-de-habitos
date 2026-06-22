@@ -66,7 +66,7 @@ public class ControladorHabitos {
 
   @RequestMapping(path = "/habitos", method = RequestMethod.GET)
   public ModelAndView irAHabitos(HttpServletRequest request) {
-    Usuario usuario = (Usuario) request.getSession().getAttribute(ATRIBUTO_USUARIO);
+    Usuario usuario = this.obtenerUsuario(request);
 
     if (usuario == null) {
       return new ModelAndView(REDIRECT_LOGIN);
@@ -84,11 +84,10 @@ public class ControladorHabitos {
     @RequestParam String evidencia,
     HttpServletRequest request
   ) {
-    Usuario usuario = (Usuario) request.getSession().getAttribute(ATRIBUTO_USUARIO);
+    Usuario usuario = this.obtenerUsuario(request);
     Habito habito = servicioHabito.buscarHabitoPorId(habitoId);
     UsuarioHabito usuarioHabito =
       this.servicioUsuarioHabito.obtenerPorUsuarioYHabito(usuario, habito);
-
     servicioEvaluadorHabito.completarHabito(usuarioHabito, evidencia);
 
     return new ModelAndView(REDIRECT_HABITOS);
@@ -104,8 +103,7 @@ public class ControladorHabitos {
     @ModelAttribute(ATRIBUTO_DATOS_REGISTRO_HABITO) RegistroHabitoDTO datos,
     HttpServletRequest request
   ) {
-    Usuario usuario = (Usuario) request.getSession().getAttribute(ATRIBUTO_USUARIO);
-
+    Usuario usuario = this.obtenerUsuario(request);
     if (usuario == null) {
       return new ModelAndView(REDIRECT_LOGIN);
     }
@@ -136,6 +134,10 @@ public class ControladorHabitos {
       modelAndView.addObject(ATRIBUTO_ERROR, "No podés tener más de 4 hábitos activos");
       return modelAndView;
     }
+  }
+
+  private Usuario obtenerUsuario(HttpServletRequest request) {
+    return (Usuario) request.getSession().getAttribute(ATRIBUTO_USUARIO);
   }
 
   private ModelAndView crearVistaCrearHabito(RegistroHabitoDTO datosRegistroHabito) {

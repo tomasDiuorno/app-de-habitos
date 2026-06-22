@@ -31,10 +31,11 @@ public class ServicioHabitoImpl implements ServicioHabito {
 
   @Autowired
   public ServicioHabitoImpl(
-      RepositorioHabito repositorioHabito,
-      RepositorioUsuarioHabito repositorioUsuarioHabito,
-      RepositorioCategoria repositorioCategoria,
-      ServicioLogro servicioLogro) {
+    RepositorioHabito repositorioHabito,
+    RepositorioUsuarioHabito repositorioUsuarioHabito,
+    RepositorioCategoria repositorioCategoria,
+    ServicioLogro servicioLogro
+  ) {
     this.repositorioHabito = repositorioHabito;
     this.repositorioUsuarioHabito = repositorioUsuarioHabito;
     this.repositorioCategoria = repositorioCategoria;
@@ -56,7 +57,7 @@ public class ServicioHabitoImpl implements ServicioHabito {
 
   @Override
   public void agregarHabitoParaUsuario(Habito habito, Usuario usuario)
-      throws HabitoExistenteExeption, LimiteHabitosAlcanzadoException {
+    throws HabitoExistenteExeption, LimiteHabitosAlcanzadoException {
     if (usuario.getUsuarioHabito().size() >= CANTIDAD_MAXIMA_HABITOS) {
       throw new LimiteHabitosAlcanzadoException();
     }
@@ -93,23 +94,18 @@ public class ServicioHabitoImpl implements ServicioHabito {
     ConfiguracionHabito configuracion = new ConfiguracionHabito();
     switch (datos.getTipoHabito()) {
       case HORARIO:
-        configuracion.setHoraLimite(
-            datos.getHoraLimite());
+        configuracion.setHoraLimite(datos.getHoraLimite());
         break;
       case CANTIDAD:
-        configuracion.setObjetivoNumero(
-            datos.getObjetivoNumerico());
-        configuracion.setUnidad(
-            datos.getUnidadObjetivo());
+        configuracion.setObjetivoNumero(datos.getObjetivoNumerico());
+        configuracion.setUnidad(datos.getUnidadObjetivo());
         break;
       case DURACION:
-        configuracion.setDuracionObjetivo(
-            datos.getObjetivoNumerico());
+        configuracion.setDuracionObjetivo(datos.getObjetivoNumerico());
         break;
       default:
         break;
     }
-
     return configuracion;
   }
 

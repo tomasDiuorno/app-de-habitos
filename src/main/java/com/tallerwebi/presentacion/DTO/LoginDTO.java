@@ -1,5 +1,10 @@
 package com.tallerwebi.presentacion.DTO;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class LoginDTO {
 
   private String emailorusername;
@@ -11,20 +16,4 @@ public class LoginDTO {
   }
 
   public LoginDTO() {}
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public String getEmailorusername() {
-    return emailorusername;
-  }
-
-  public void setEmailorusername(String emailorusername) {
-    this.emailorusername = emailorusername;
-  }
 }

@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -14,6 +15,7 @@ import com.tallerwebi.dominio.entidades.Categoria;
 import com.tallerwebi.dominio.entidades.Habito;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.entidades.UsuarioHabito;
+import com.tallerwebi.dominio.enums.TipoHabitoEnum;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
 import com.tallerwebi.dominio.interfaz.RepositorioCategoria;
@@ -22,12 +24,13 @@ import com.tallerwebi.dominio.interfaz.RepositorioUsuarioHabito;
 import com.tallerwebi.dominio.interfaz.ServicioHabito;
 import com.tallerwebi.dominio.interfaz.ServicioLogro;
 import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.internal.matchers.NotNull;
 
 public class ServicioHabitoTest {
 
@@ -114,6 +117,57 @@ public class ServicioHabitoTest {
   }
 
   @Test
+  public void obtenerHabitoHorarioDeberiaCrearConfiguracionConHoraLimite() {
+    RegistroHabitoDTO datos = new RegistroHabitoDTO();
+
+    datos.setTitulo("Dormir temprano");
+    datos.setDescripcion("Acostarme antes de las 23");
+    datos.setTipoHabito(TipoHabitoEnum.HORARIO);
+    datos.setHoraLimite(LocalTime.of(23, 0));
+
+    Habito habito = servicioHabitos.obtenerHabito(datos);
+
+    assertThat(habito.getTipoHabito(), is(TipoHabitoEnum.HORARIO));
+    assertThat(habito.getConfiguracion().getHoraLimite(), is(LocalTime.of(23, 0)));
+  }
+
+  @Test
+  public void obtenerHabitoCantidadDeberiaCrearConfiguracionConObjetivo() {
+    RegistroHabitoDTO datos = new RegistroHabitoDTO();
+
+    datos.setTitulo("Tomar agua");
+    datos.setTipoHabito(TipoHabitoEnum.CANTIDAD);
+    datos.setObjetivoNumerico(2000);
+    datos.setUnidadObjetivo("ml");
+
+    Habito habito = servicioHabitos.obtenerHabito(datos);
+
+    assertThat(habito.getTipoHabito(), is(TipoHabitoEnum.CANTIDAD));
+    assertThat(habito.getConfiguracion().getObjetivoNumero(), is(2000));
+    assertThat(habito.getConfiguracion().getUnidad(), equalTo("ml"));
+  }
+
+  @Test
+  public void obtenerHabitoDuracionDeberiaCrearConfiguracionConDuracion() {
+    RegistroHabitoDTO datos = new RegistroHabitoDTO();
+    datos.setTitulo("Leer");
+    datos.setTipoHabito(TipoHabitoEnum.DURACION);
+    datos.setObjetivoNumerico(30);
+
+    Habito habito = servicioHabitos.obtenerHabito(datos);
+
+    assertThat(habito.getConfiguracion().getDuracionObjetivo(), is(30));
+  }
+
+  @Test
+  public void obtenerHabitoSinTipoDeberiaFallar() {
+    RegistroHabitoDTO datos = new RegistroHabitoDTO();
+    datos.setTitulo("Hábito sin tipo");
+
+    assertThrows(NullPointerException.class, () -> servicioHabitos.obtenerHabito(datos));
+  }
+
+  @Test
   public void alCrearUnHabitoParaUnUsuarioDeberiaGuardarloYAsignarloAlUsuario()
     throws HabitoExistenteExeption, LimiteHabitosAlcanzadoException {
     Usuario usuario = new Usuario();
@@ -122,6 +176,8 @@ public class ServicioHabitoTest {
     RegistroHabitoDTO datosHabito = new RegistroHabitoDTO();
     datosHabito.setTitulo("Dormir temprano");
     datosHabito.setCategoriaId(1);
+    datosHabito.setTipoHabito(TipoHabitoEnum.HORARIO);
+    datosHabito.setHoraLimite(LocalTime.of(23, 0));
     Habito habito = this.servicioHabitos.obtenerHabito(datosHabito);
 
     when(this.repositorioHabitoMock.buscarPorTitulo(habito.getTitulo())).thenReturn(null);
@@ -208,6 +264,8 @@ public class ServicioHabitoTest {
     datos.setDescripcion("Acostarme antes de las 23");
     datos.setFrecuencia("Diaria");
     datos.setCategoriaId(1);
+    datos.setTipoHabito(TipoHabitoEnum.HORARIO);
+    datos.setHoraLimite(LocalTime.of(23, 0));
 
     Categoria categoria = new Categoria();
     categoria.setId(1);
