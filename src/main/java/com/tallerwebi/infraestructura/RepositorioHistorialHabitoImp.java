@@ -1,9 +1,9 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Habito;
-import com.tallerwebi.dominio.HistorialHabito;
-import com.tallerwebi.dominio.RepositorioHistorialHabito;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.entidades.HistorialHabito;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.interfaz.RepositorioHistorialHabito;
 import java.time.LocalDate;
 import java.util.List;
 import org.hibernate.SessionFactory;
@@ -26,22 +26,28 @@ public class RepositorioHistorialHabitoImp implements RepositorioHistorialHabito
     sessionFactory.getCurrentSession().save(historialHabito);
   }
 
-  @Override
   @SuppressWarnings("unchecked")
+  @Override
   public List<HistorialHabito> obtenerPorUsuario(Usuario usuario) {
-    return sessionFactory.getCurrentSession()
-        .createCriteria(HistorialHabito.class)
-        .add(Restrictions.eq("usuario", usuario))
-        .list();
+    return sessionFactory
+      .getCurrentSession()
+      .createCriteria(HistorialHabito.class)
+      .add(Restrictions.eq("usuario", usuario))
+      .list();
   }
 
   @Override
-  public HistorialHabito obtenerPorUsuarioHabitoYFecha(Usuario usuario, Habito habito, LocalDate fecha) {
-    return (HistorialHabito) sessionFactory.getCurrentSession()
-        .createCriteria(HistorialHabito.class)
-        .add(Restrictions.eq("usuario", usuario))
-        .add(Restrictions.eq("habito", habito))
-        .add(Restrictions.eq("fechaCompletado", fecha))
-        .uniqueResult();
+  public HistorialHabito obtenerPorUsuarioHabitoYFecha(
+    Usuario usuario,
+    Habito habito,
+    LocalDate fecha
+  ) {
+    return (HistorialHabito) sessionFactory
+      .getCurrentSession()
+      .createCriteria(HistorialHabito.class)
+      .add(Restrictions.eq("usuario", usuario))
+      .add(Restrictions.eq("habito", habito))
+      .add(Restrictions.eq("fechaCompletado", fecha))
+      .uniqueResult();
   }
 }

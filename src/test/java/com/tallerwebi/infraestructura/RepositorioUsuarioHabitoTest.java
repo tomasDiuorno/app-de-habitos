@@ -4,10 +4,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-import com.tallerwebi.dominio.Habito;
-import com.tallerwebi.dominio.RepositorioUsuarioHabito;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.UsuarioHabito;
+import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioHabito;
+import com.tallerwebi.dominio.interfaz.RepositorioUsuarioHabito;
 import com.tallerwebi.infraestructura.config.HibernateInfraestructuraTestConfig;
 import javax.transaction.Transactional;
 import org.hibernate.SessionFactory;
@@ -69,11 +69,12 @@ public class RepositorioUsuarioHabitoTest {
   }
 
   private UsuarioHabito cuandoBuscoUnUsuarioHabito(Usuario us, Habito hab) {
-    return (UsuarioHabito) this.sessionFactory.getCurrentSession()
+    /*return (UsuarioHabito) this.sessionFactory.getCurrentSession()
       .createQuery("FROM UsuarioHabito WHERE usuario = :usuario AND habito = :habito")
       .setParameter("usuario", us)
       .setParameter("habito", hab)
-      .getSingleResult();
+      .getSingleResult();*/
+    return this.repositorioUsuarioHabito.obtenerPorIds(us.getId(), hab.getId());
   }
 
   private void cuandoGuardoElUsuarioHabito(UsuarioHabito usuarioHabito) {
@@ -84,6 +85,7 @@ public class RepositorioUsuarioHabitoTest {
     UsuarioHabito usuarioHabito = new UsuarioHabito();
     usuarioHabito.setUsuario(usuario);
     usuarioHabito.setHabito(habito);
+    usuarioHabito.setActivo(true);
     return usuarioHabito;
   }
 

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <nav th:fragment="navbar(activePage)" class="navbar">
+
+        <div class="navbar-container">
+
+            <a th:href="@{/home}" class="brand">
+
+                <img th:src="@{/images/logo.png}" alt="Habitapp" class="logo">
+
+            </a>
+
+            <div class="nav-links">
+
+                <a th:href="@{/home}" th:classappend="${activePage == 'home'} ? ' active'">
+                    Inicio
+                </a>
+
+                <a th:href="@{/habitos}" th:classappend="${activePage == 'habitos'} ? ' active'">
+                    Hábitos
+                </a>
+
+                <a th:href="@{/recompensas}" th:classappend="${activePage == 'recompensas'} ? ' active'">
+                    Recompensas
+                </a>
+
+                <a th:href="@{/historial}" th:classappend="${activePage == 'historial'} ? ' active'">
+                    Historial
+                </a>
+
+                <a th:href="@{/perfil}" th:classappend="${activePage == 'perfil'} ? ' active'">
+                    Perfil
+                </a>
+
+            </div>
+
+            <a th:href="@{/login}" class="logout-button">
+                Cerrar sesión
+            </a>
+
+        </div>
+
+    </nav>
+
+</body>
+
+</html>

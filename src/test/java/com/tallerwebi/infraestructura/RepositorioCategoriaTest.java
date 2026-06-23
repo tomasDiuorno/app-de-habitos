@@ -4,8 +4,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-import com.tallerwebi.dominio.Categoria;
-import com.tallerwebi.dominio.RepositorioCategoria;
+import com.tallerwebi.dominio.entidades.Categoria;
+import com.tallerwebi.dominio.interfaz.RepositorioCategoria;
 import com.tallerwebi.infraestructura.config.HibernateInfraestructuraTestConfig;
 import javax.transaction.Transactional;
 import org.hibernate.SessionFactory;

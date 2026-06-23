@@ -4,13 +4,14 @@ INSERT INTO Usuario(id, email, password, rol, activo) VALUES(null, 'test@unlam.e
 -- contraseña: Password1!
 INSERT INTO Usuario( name, username, email, password, rol, gender, nivelUsuario, activo) VALUES ( 'Tomás', 'tomi99', 'tomi@example.com', '$2a$10$cVhZEtsj3XPcmLfOXbp9eu4XCgfeMqokUVwFAQClH93Bt7bKTQbde', 'USER', 'MASCULINO', 30, true);
 
+INSERT INTO Usuario(id, name, username, email, password, rol, gender, nivelUsuario, activo) VALUES ('22', 'Lucas', 'Lucas22', 'lucas@example.com', '$2a$10$cVhZEtsj3XPcmLfOXbp9eu4XCgfeMqokUVwFAQClH93Bt7bKTQbde', 'USER', 'MASCULINO', 30, true);
+
+INSERT INTO Monedero(id, saldo, usuario_id)
+VALUES (22, 250, 22);
+
 INSERT INTO Categoria(id, nombre) VALUES(1, 'Bienestar');
 INSERT INTO Categoria(id, nombre) VALUES(2, 'Cultura');
 INSERT INTO Categoria(id, nombre) VALUES(3, 'Deporte');
-
-INSERT INTO Habito(id, titulo, categoria_id) VALUES(null, 'Meditar', 1);
-INSERT INTO Habito(id, titulo, categoria_id) VALUES(null, 'Leer un libro', 2);
-INSERT INTO Habito(id, titulo, categoria_id) VALUES(null, 'Hacer ejercicio', 3);
 
 INSERT INTO Logro(nombre, descripcion, condicion) VALUES ('Primer Paso', 'Agregaste tu primer hábito', 'PRIMER_HABITO');
 INSERT INTO Logro(nombre, descripcion, condicion) VALUES ('Constante', 'Llegaste a 3 hábitos activos', 'TRES_HABITOS');
@@ -20,13 +21,14 @@ INSERT INTO Recompensa (nombre, descripcion, urlImg, nivelRequerido, rareza) VAL
 ('Café Gratis', 'Canjeá un café o bebida pequeña en cafeterías asociadas.', '/images/recompensas/lvl3.jpg', 3, 'COMUN'),
 ('10% OFF Fast Food', 'Descuento en locales de comida rápida adheridos.', '/images/recompensas/lvl5.png', 5, 'COMUN'),
 ('Healthy Meal Discount', 'Descuento en comidas saludables y meal prep.', '/images/recompensas/lvl7.png', 7, 'COMUN'),
-('15% OFF Barbería', 'Beneficio en barberías y peluquerías asociadas.', '/images/recompensas/lvl10.png', 10, 'COMUN'),
+('10 Monedas', 'Canjeá 10 monedas para usar en la tienda.', '/images/recompensas/lvl120.png', 10, 'COMUN'),
 ('Gym Pass Diario', 'Acceso gratuito por un día a gimnasio asociado.', '/images/recompensas/lvl12.png', 12, 'COMUN'),
 ('Bebida Energética', 'Canjeá una bebida energética gratis.', '/images/recompensas/lvl15.png', 15, 'COMUN'),
 ('10% OFF Gymwear', 'Descuento en indumentaria deportiva.', '/images/recompensas/lvl18.png', 18, 'COMUN'),
 ('Gift Card Gamer Básica', 'Gift card gamer de bajo valor para Steam, PSN o Xbox.', '/images/recompensas/lvl20.png', 20, 'COMUN'),
 ('Entrada 2x1 Cine', 'Beneficio 2x1 en entradas seleccionadas.', '/images/recompensas/lvl22.png', 22, 'COMUN'),
 ('Cupón Combustible', 'Descuento en estaciones de servicio adheridas.', '/images/recompensas/lvl25.png', 25, 'COMUN'),
+('10 Monedas', 'Canjeá 10 monedas para usar en la tienda.', '/images/recompensas/lvl120.png', 30, 'COMUN'),
 ('25% OFF Periféricos Gamer', 'Descuento especial en periféricos gaming.', '/images/recompensas/lvl35.png', 35, 'RARA'),
 ('Membresía Gym Semanal', 'Acceso semanal gratuito a gimnasio asociado.', '/images/recompensas/lvl40.png', 40, 'RARA'),
 ('Cena Premium', 'Voucher para restaurante premium asociado.', '/images/recompensas/lvl45.png', 45, 'RARA'),
@@ -57,3 +59,14 @@ INSERT INTO Recompensa (nombre, descripcion, urlImg, nivelRequerido, rareza) VAL
 ('Smartphone/Tablet', 'Dispositivo tecnológico patrocinado.', '/images/recompensas/lvl360.png', 360, 'LEGENDARIA'),
 ('Membresía Gym Anual', 'Acceso anual a gimnasio asociado.', '/images/recompensas/lvl380.png', 380, 'LEGENDARIA'),
 ('Experiencia Premium', 'Karting, track day o actividad exclusiva.', '/images/recompensas/lvl400.png', 400, 'LEGENDARIA');
+
+INSERT IGNORE INTO Bonificacion
+(id, nombre, descripcion, porcentaje, precioMonedas, duracionEnDias, disponible)
+VALUES
+(1, 'IMPULSO INICIAL', 'Sumá una bonificación pequeña para avanzar un poco más rápido de nivel.', 25, 50, 1, true),
+(2, 'IMPULSO MEDIO', 'Obtené una mejora equilibrada para reforzar tu progreso diario y sostener mejor tu rutina.',50, 90, 1, true),
+(3, 'IMPULSO MÁXIMO', 'Aplicá la bonificación más alta para conseguir un avance mayor en tus objetivos.', 100, 130, 1, true);
+
+UPDATE Monedero
+SET saldo = 250
+WHERE usuario_id = 22;

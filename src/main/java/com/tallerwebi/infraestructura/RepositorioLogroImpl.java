@@ -1,7 +1,7 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Logro;
-import com.tallerwebi.dominio.RepositorioLogro;
+import com.tallerwebi.dominio.entidades.Logro;
+import com.tallerwebi.dominio.interfaz.RepositorioLogro;
 import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Recompensa;
-import com.tallerwebi.dominio.RepositorioUsuarioRecompensa;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.UsuarioRecompensa;
+import com.tallerwebi.dominio.entidades.Recompensa;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioRecompensa;
+import com.tallerwebi.dominio.interfaz.RepositorioUsuarioRecompensa;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.hibernate.SessionFactory;
@@ -55,5 +55,10 @@ public class RepositorioUsuarioRecompensaImp implements RepositorioUsuarioRecomp
       .createQuery(query)
       .setParameter("idUsuarioRecompensa", idUsuarioRecompensa)
       .executeUpdate();
+  }
+
+  @Override
+  public UsuarioRecompensa obtenerPorId(Integer id) {
+    return this.sessionFactory.getCurrentSession().get(UsuarioRecompensa.class, id);
   }
 }

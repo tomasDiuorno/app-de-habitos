@@ -1,9 +1,9 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Logro;
-import com.tallerwebi.dominio.RepositorioUsuarioLogro;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.UsuarioLogro;
+import com.tallerwebi.dominio.entidades.Logro;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioLogro;
+import com.tallerwebi.dominio.interfaz.RepositorioUsuarioLogro;
 import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,8 @@ public class RepositorioUsuarioLogroImpl implements RepositorioUsuarioLogro {
   public List<UsuarioLogro> buscarPorUsuario(Usuario usuario) {
     return sessionFactory
       .getCurrentSession()
-      .createQuery("FROM UsuarioLogro WHERE usuario = :usuario", UsuarioLogro.class)
-      .setParameter("usuario", usuario)
+      .createQuery("FROM UsuarioLogro ul WHERE ul.usuario.email = :email", UsuarioLogro.class)
+      .setParameter("email", usuario.getEmail())
       .list();
   }
 
@@ -39,9 +39,9 @@ public class RepositorioUsuarioLogroImpl implements RepositorioUsuarioLogro {
       .getCurrentSession()
       .createQuery(
         "SELECT COUNT(ul) FROM UsuarioLogro ul " +
-        "WHERE ul.usuario = :usuario AND ul.logro = :logro"
+        "WHERE ul.usuario.email = :email AND ul.logro = :logro"
       )
-      .setParameter("usuario", usuario)
+      .setParameter("email", usuario.getEmail())
       .setParameter("logro", logro)
       .uniqueResult();
     return count != null && count > 0;

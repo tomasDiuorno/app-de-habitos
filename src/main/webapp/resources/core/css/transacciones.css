@@ -1,0 +1,406 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-main: #060913;
+  --bg-card: #0d1326;
+  --neon-blue: #00dfff;
+  --neon-purple: #9d4edd;
+  --text-main: #e2e8f0;
+  --text-muted: #707e94;
+  --border-color: #1e294b;
+}
+
+
+.transacciones-body {
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
+  overflow-x: hidden;
+
+  background-image:
+    radial-gradient(at 10% 20%, rgba(157, 78, 221, 0.15) 0px, transparent 50%),
+    radial-gradient(at 90% 80%, rgba(0, 223, 255, 0.1) 0px, transparent 50%);
+}
+
+.perfil-navbar {
+  width: 100%;
+  height: 72px;
+  background: rgba(6, 9, 19, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 223, 255, 0.2);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.perfil-navbar-container {
+  height: 100%;
+  padding: 0 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.perfil-logo {
+  height: 48px;
+}
+
+.perfil-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.perfil-nav-link {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: 0.3s;
+}
+
+.perfil-nav-link:hover {
+  color: var(--neon-blue);
+  text-shadow: 0 0 8px rgba(0,223,255,.6);
+}
+
+.perfil-logout-button {
+  font-family: 'Orbitron', sans-serif;
+  color: white;
+  text-decoration: none;
+  border: 1px solid var(--neon-purple);
+  padding: 10px 16px;
+  border-radius: 4px;
+  transition: .3s;
+}
+
+.perfil-logout-button:hover {
+  background: var(--neon-purple);
+  color: #060913;
+  box-shadow: 0 0 18px rgba(157,78,221,.7);
+}
+
+
+.transacciones-main {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 120px 24px 0;
+}
+
+
+.section-kicker {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-blue);
+  font-size: .85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+
+.perfil-hero {
+  padding: 48px;
+  border-radius: 6px;
+  background: rgba(13,19,38,.82);
+  border: 2px solid var(--border-color);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.7),
+    inset 0 0 15px rgba(157,78,221,.1);
+
+  position: relative;
+  overflow: hidden;
+}
+
+.perfil-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 3px;
+
+  background:
+  linear-gradient(
+    90deg,
+    var(--neon-purple),
+    var(--neon-blue)
+  );
+}
+
+.perfil-hero h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.4rem;
+  color: white;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+
+  text-shadow:
+  0 0 16px rgba(157,78,221,.6);
+}
+
+.perfil-hero p {
+  max-width: 850px;
+  font-size: 1.15rem;
+  line-height: 1.7;
+}
+
+
+.saldo-card {
+  margin-top: 40px;
+}
+
+.saldo-card-inner {
+  padding: 36px;
+  text-align: center;
+
+  border-radius: 6px;
+  background: rgba(13,19,38,.92);
+
+  border: 2px solid var(--border-color);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.65),
+    inset 0 0 15px rgba(0,223,255,.05);
+}
+
+.saldo-display {
+  margin-top: 12px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.saldo-icono {
+  color: #ffd700;
+  font-size: 2rem;
+}
+
+.saldo-numero {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3rem;
+  color: var(--neon-blue);
+}
+
+.saldo-label {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+
+.transacciones-card {
+  margin-top: 40px;
+
+  background: rgba(13,19,38,.92);
+  border: 2px solid var(--border-color);
+
+  border-radius: 6px;
+  padding: 30px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.65);
+}
+
+.perfil-card-header h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: white;
+  text-transform: uppercase;
+}
+
+
+.transacciones-empty {
+  margin-top: 30px;
+  text-align: center;
+  padding: 50px;
+
+  border: 1px dashed rgba(0,223,255,.25);
+  border-radius: 6px;
+}
+
+.empty-icono {
+  display: block;
+  font-size: 3rem;
+  color: #ffd700;
+  margin-bottom: 12px;
+}
+
+.transacciones-lista {
+  list-style: none;
+  margin-top: 25px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.transaccion-item {
+  padding: 18px;
+
+  border-radius: 6px;
+  border: 1px solid rgba(0,223,255,.12);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(157,78,221,.08),
+      rgba(0,223,255,.04)
+    );
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  transition: .25s;
+}
+
+.transaccion-item:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(0,223,255,.4);
+
+  box-shadow:
+    0 0 18px rgba(0,223,255,.12);
+}
+
+
+.transaccion-tipo-badge {
+  padding: 8px 12px;
+  border-radius: 999px;
+
+  font-family: 'Orbitron', sans-serif;
+  font-size: .7rem;
+  text-transform: uppercase;
+}
+
+.badge-logro {
+  background: rgba(0,223,255,.12);
+  border: 1px solid var(--neon-blue);
+  color: var(--neon-blue);
+}
+
+.badge-recompensa {
+  background: rgba(157,78,221,.15);
+  border: 1px solid var(--neon-purple);
+  color: var(--neon-purple);
+}
+
+.transaccion-descripcion {
+  font-size: 1.05rem;
+}
+
+.transaccion-monto {
+  font-family: 'Orbitron', sans-serif;
+  color: #6dff8d;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+
+.transacciones-actions {
+  margin-top: 36px;
+
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.perfil-button {
+  padding: 14px 20px;
+
+  text-decoration: none;
+  border-radius: 4px;
+
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+
+  transition: .3s;
+}
+
+.perfil-button.primary {
+  border: 2px solid var(--neon-blue);
+  color: white;
+}
+
+.perfil-button.primary:hover {
+  background: var(--neon-blue);
+  color: #060913;
+  box-shadow: 0 0 20px rgba(0,223,255,.6);
+}
+
+.perfil-button.secondary {
+  border: 2px solid var(--neon-purple);
+  color: white;
+}
+
+.perfil-button.secondary:hover {
+  background: var(--neon-purple);
+  color: #060913;
+  box-shadow: 0 0 20px rgba(157,78,221,.6);
+}
+
+
+.perfil-footer {
+  margin-top: 90px;
+  padding: 32px 0;
+
+  background: rgba(6,9,19,.9);
+  border-top: 1px solid rgba(0,223,255,.2);
+}
+
+.perfil-footer-container {
+  padding: 0 24px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+
+.footer-logo {
+  height: 48px;
+}
+
+.footer-info p,
+.footer-copy p {
+  color: var(--text-muted);
+}
+
+
+@media (max-width: 768px) {
+
+  .perfil-hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .transaccion-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .transacciones-actions {
+    flex-direction: column;
+  }
+
+  .perfil-footer-container {
+    flex-direction: column;
+    text-align: center;
+  }
+}

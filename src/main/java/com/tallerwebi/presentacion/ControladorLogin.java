@@ -1,9 +1,13 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.ServicioHabito;
-import com.tallerwebi.dominio.ServicioLogin;
-import com.tallerwebi.dominio.ServicioRecuperacionContrasenia;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.interfaz.ServicioHabito;
+import com.tallerwebi.dominio.interfaz.ServicioLogin;
+import com.tallerwebi.dominio.interfaz.ServicioMonedero;
+import com.tallerwebi.dominio.interfaz.ServicioRecuperacionContrasenia;
+import com.tallerwebi.presentacion.DTO.LoginDTO;
+import com.tallerwebi.presentacion.DTO.RecuperacionContraseniaDTO;
+import com.tallerwebi.presentacion.DTO.RegistroDTO;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,28 +23,31 @@ public class ControladorLogin {
   private ServicioLogin servicioLogin;
   private ServicioRecuperacionContrasenia servicioRecuperacionContrasenia;
   private ServicioHabito servicioHabitos;
+  private ServicioMonedero servicioMonedero;
 
   @Autowired
   public ControladorLogin(
     ServicioLogin servicioLogin,
     ServicioRecuperacionContrasenia servicioRecuperacionContrasenia,
-    ServicioHabito servicioHabitos
+    ServicioHabito servicioHabitos,
+    ServicioMonedero servicioMonedero
   ) {
     this.servicioLogin = servicioLogin;
     this.servicioRecuperacionContrasenia = servicioRecuperacionContrasenia;
     this.servicioHabitos = servicioHabitos;
+    this.servicioMonedero = servicioMonedero;
   }
 
   @RequestMapping("/login")
   public ModelAndView irALogin() {
     ModelMap modelo = new ModelMap();
-    modelo.put("datosLogin", new DatosLogin());
+    modelo.put("datosLogin", new LoginDTO());
     return new ModelAndView("login", modelo);
   }
 
   @RequestMapping(path = "/validar-login", method = RequestMethod.POST)
   public ModelAndView validarLogin(
-    @ModelAttribute("datosLogin") DatosLogin datosLogin,
+    @ModelAttribute("datosLogin") LoginDTO datosLogin,
     HttpServletRequest request
   ) {
     Usuario usuarioBuscado = servicioLogin.consultarUsuario(
@@ -49,6 +56,7 @@ public class ControladorLogin {
     );
 
     if (usuarioBuscado != null) {
+      servicioMonedero.inicializarMonedero(usuarioBuscado);
       request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
       request.getSession().setAttribute("usuario", usuarioBuscado);
       return new ModelAndView("redirect:/home");
@@ -66,7 +74,7 @@ public class ControladorLogin {
   @RequestMapping(path = "/nuevo-usuario", method = RequestMethod.GET)
   public ModelAndView nuevoUsuario() {
     ModelMap model = new ModelMap();
-    model.put("datosRegistro", new DatosRegistro());
+    model.put("datosRegistro", new RegistroDTO());
     model.put("habitos", servicioHabitos.obtenerHabitosIniciales());
     return new ModelAndView("nuevo-usuario", model);
   }
@@ -83,7 +91,7 @@ public class ControladorLogin {
 
   @RequestMapping(path = "/recuperacion-contrasenia", method = RequestMethod.POST)
   public ModelAndView recuperacionDeContrasenia(
-    @ModelAttribute("datosRecuperacion") DatosRecuperacionContrasenia datosRecuperacionContrasenia
+    @ModelAttribute("datosRecuperacion") RecuperacionContraseniaDTO datosRecuperacionContrasenia
   ) {
     ModelMap model = new ModelMap();
     try {
@@ -104,7 +112,7 @@ public class ControladorLogin {
   public ModelAndView irARecuperacionContrasenia() {
     ModelMap modelo = new ModelMap();
 
-    modelo.put("datosRecuperacion", new DatosRecuperacionContrasenia(null, null, null));
+    modelo.put("datosRecuperacion", new RecuperacionContraseniaDTO(null, null, null));
 
     return new ModelAndView("recuperacion-contrasenia", modelo);
   }

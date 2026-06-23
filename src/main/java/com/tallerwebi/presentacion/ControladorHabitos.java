@@ -1,26 +1,23 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Habito;
-import com.tallerwebi.dominio.ItemChecklist;
-import com.tallerwebi.dominio.ServicioCategoria;
-import com.tallerwebi.dominio.ServicioHabito;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioHabito;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
-import com.tallerwebi.dominio.excepcion.HabitoNoPerteneceAlUsuarioException;
-import com.tallerwebi.dominio.excepcion.HabitoYaCompletadoHoyException;
-import com.tallerwebi.dominio.ServicioHistorialHabito;
-import com.tallerwebi.dominio.HistorialHabito;
-import java.util.List;
+import com.tallerwebi.dominio.interfaz.ServicioCategoria;
+import com.tallerwebi.dominio.interfaz.ServicioEvaluadorHabito;
+import com.tallerwebi.dominio.interfaz.ServicioHabito;
+import com.tallerwebi.dominio.interfaz.ServicioLogro;
+import com.tallerwebi.dominio.interfaz.ServicioUsuarioHabito;
+import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -38,6 +35,7 @@ public class ControladorHabitos {
   private static final String ATRIBUTO_TITULO_LOGRO = "tituloLogro";
   private static final String ATRIBUTO_DESCRIPCION_LOGRO = "descripcionLogro";
   private static final String ATRIBUTO_ERROR = "error";
+  private static final String ATRIBUTO_USUARIO = "usuario";
 
   private static final int CERO_HABITOS = 0;
   private static final int UN_HABITO = 1;
@@ -47,56 +45,79 @@ public class ControladorHabitos {
 
   private ServicioHabito servicioHabito;
   private ServicioCategoria servicioCategoria;
-  private ServicioHistorialHabito servicioHistorialHabito;
-  private static final String PRODUCES_JSON = "application/json";
-  private String usuarioString = "usuario";
+  private ServicioLogro servicioLogro;
+  private ServicioEvaluadorHabito servicioEvaluadorHabito;
+  private ServicioUsuarioHabito servicioUsuarioHabito;
 
   @Autowired
-  public ControladorHabitos(ServicioHabito servicioHabito, ServicioCategoria servicioCategoria, ServicioHistorialHabito servicioHistorialHabito) {
+  public ControladorHabitos(
+    ServicioHabito servicioHabito,
+    ServicioCategoria servicioCategoria,
+    ServicioLogro servicioLogro,
+    ServicioEvaluadorHabito servicioEvaluadorHabito,
+    ServicioUsuarioHabito servicioUsuarioHabito
+  ) {
     this.servicioHabito = servicioHabito;
     this.servicioCategoria = servicioCategoria;
-    this.servicioHistorialHabito = servicioHistorialHabito;
+    this.servicioLogro = servicioLogro;
+    this.servicioEvaluadorHabito = servicioEvaluadorHabito;
+    this.servicioUsuarioHabito = servicioUsuarioHabito;
   }
 
   @RequestMapping(path = "/habitos", method = RequestMethod.GET)
   public ModelAndView irAHabitos(HttpServletRequest request) {
-    Usuario usuario = (Usuario) request.getSession().getAttribute(this.usuarioString);
+    Usuario usuario = this.obtenerUsuario(request);
 
     if (usuario == null) {
       return new ModelAndView(REDIRECT_LOGIN);
     }
 
     ModelAndView modelAndView = new ModelAndView(VISTA_HABITOS);
-    modelAndView.addObject(ATRIBUTO_USUARIO_HABITOS, usuario.getUsuarioHabito());
+    modelAndView.addObject(ATRIBUTO_USUARIO_HABITOS, usuario.getUsuarioHabitos());
 
     return modelAndView;
   }
 
+  @RequestMapping(path = "/completar-habito", method = RequestMethod.POST)
+  public ModelAndView completarHabito(
+    @RequestParam Integer habitoId,
+    @RequestParam String evidencia,
+    HttpServletRequest request
+  ) {
+    Usuario usuario = this.obtenerUsuario(request);
+    Habito habito = servicioHabito.buscarHabitoPorId(habitoId);
+    UsuarioHabito usuarioHabito =
+      this.servicioUsuarioHabito.obtenerPorUsuarioYHabito(usuario, habito);
+    servicioEvaluadorHabito.completarHabito(usuarioHabito, evidencia);
+
+    return new ModelAndView(REDIRECT_HABITOS);
+  }
+
   @RequestMapping(path = "/crear-habito", method = RequestMethod.GET)
   public ModelAndView irACrearHabito() {
-    return crearVistaCrearHabito(new DatosRegistroHabito());
+    return crearVistaCrearHabito(new RegistroHabitoDTO());
   }
 
   @RequestMapping(path = "/crear-habito", method = RequestMethod.POST)
   public ModelAndView crearHabito(
-    @ModelAttribute(ATRIBUTO_DATOS_REGISTRO_HABITO) DatosRegistroHabito datos,
+    @ModelAttribute(ATRIBUTO_DATOS_REGISTRO_HABITO) RegistroHabitoDTO datos,
     HttpServletRequest request
   ) {
-    Usuario usuario = (Usuario) request.getSession().getAttribute(this.usuarioString);
-
+    Usuario usuario = this.obtenerUsuario(request);
     if (usuario == null) {
       return new ModelAndView(REDIRECT_LOGIN);
     }
 
-    Integer cantidadHabitosAntes = usuario.getUsuarioHabito().size();
+    Integer cantidadHabitosAntes = usuario.getUsuarioHabitos().size();
 
     try {
       Habito habito = this.servicioHabito.obtenerHabito(datos);
       this.servicioHabito.agregarHabitoParaUsuario(habito, usuario);
 
-      Integer cantidadHabitosDespues = usuario.getUsuarioHabito().size();
+      Integer cantidadHabitosDespues = cantidadHabitosAntes + 1;
+      this.servicioLogro.verificarYAsignarLogros(usuario, cantidadHabitosDespues);
 
-      ModelAndView modelAndView = crearVistaCrearHabito(new DatosRegistroHabito());
+      ModelAndView modelAndView = crearVistaCrearHabito(new RegistroHabitoDTO());
       cargarLogroDesbloqueado(modelAndView, cantidadHabitosAntes, cantidadHabitosDespues);
 
       if (modelAndView.getModel().containsKey(ATRIBUTO_MOSTRAR_LOGRO)) {
@@ -115,38 +136,11 @@ public class ControladorHabitos {
     }
   }
 
-  @RequestMapping(path = "/habitos/completar", method = RequestMethod.POST)
-  public ModelAndView completarHabito(Integer habitoId, HttpServletRequest request) {
-    Usuario usuario = (Usuario) request.getSession().getAttribute(this.usuarioString);
-    if (usuario == null) {
-      return new ModelAndView(REDIRECT_LOGIN);
-    }
-
-    try {
-      this.servicioHistorialHabito.marcarHabitoComoCompletado(usuario, habitoId);
-    } catch (HabitoNoPerteneceAlUsuarioException e) {
-      request.getSession().setAttribute("errorCompletar", e.getMessage());
-    } catch (HabitoYaCompletadoHoyException e) {
-      request.getSession().setAttribute("errorCompletar", e.getMessage());
-    }
-    return new ModelAndView(REDIRECT_HABITOS);
+  private Usuario obtenerUsuario(HttpServletRequest request) {
+    return (Usuario) request.getSession().getAttribute(ATRIBUTO_USUARIO);
   }
 
-  @RequestMapping(path = "/historial", method = RequestMethod.GET)
-  public ModelAndView verHistorial(HttpServletRequest request) {
-    Usuario usuario = (Usuario) request.getSession().getAttribute(this.usuarioString);
-    if (usuario == null) {
-      return new ModelAndView(REDIRECT_LOGIN);
-    }
-
-    ModelAndView modelAndView = new ModelAndView("historial");
-    List<HistorialHabito> historial = this.servicioHistorialHabito.obtenerHistorial(usuario);
-    modelAndView.addObject("historial", historial);
-
-    return modelAndView;
-  }
-
-  private ModelAndView crearVistaCrearHabito(DatosRegistroHabito datosRegistroHabito) {
+  private ModelAndView crearVistaCrearHabito(RegistroHabitoDTO datosRegistroHabito) {
     ModelAndView modelAndView = new ModelAndView(VISTA_CREAR_HABITO);
 
     modelAndView.addObject(ATRIBUTO_CATEGORIAS, this.servicioCategoria.obtenerCategorias());
@@ -189,143 +183,5 @@ public class ControladorHabitos {
     modelAndView.addObject(ATRIBUTO_MOSTRAR_LOGRO, true);
     modelAndView.addObject(ATRIBUTO_TITULO_LOGRO, tituloLogro);
     modelAndView.addObject(ATRIBUTO_DESCRIPCION_LOGRO, descripcionLogro);
-  }
-
-  @RequestMapping(
-    path = "/habito/{idHabito}/agregar-checklist",
-    method = RequestMethod.POST,
-    produces = PRODUCES_JSON
-  )
-  @ResponseBody
-  public String agregarChecklist(
-    @PathVariable Integer idHabito,
-    @RequestParam("descripcion") String descripcion
-  ) {
-    try {
-      ItemChecklist nuevoItem = new ItemChecklist();
-      nuevoItem.setDescripcion(descripcion);
-
-      servicioHabito.agregarItemChecklistAlHabito(nuevoItem, idHabito);
-
-      return "{\"status\":\"success\", \"mensaje\":\"Checklist agregado correctamente\"}";
-    } catch (Exception excepcion) {
-      return "{\"status\":\"error\", \"mensaje\":\"No se pudo agregar el checklist\"}";
-    }
-  }
-
-  @RequestMapping(
-    path = "/habito/{idHabito}/eliminar-checklist/{idItem}",
-    method = RequestMethod.POST,
-    produces = PRODUCES_JSON
-  )
-  @ResponseBody
-  public String eliminarChecklist(@PathVariable Integer idHabito, @PathVariable Integer idItem) {
-    try {
-      Habito habito = servicioHabito.buscarHabitoPorId(idHabito);
-
-      ItemChecklist itemAEliminar = habito
-        .getCantidadDeChecklist()
-        .stream()
-        .filter(item -> item.getId().equals(idItem))
-        .findFirst()
-        .orElse(null);
-
-      if (itemAEliminar == null) {
-        return "{\"status\":\"error\", \"mensaje\":\"Item no encontrado\"}";
-      }
-
-      servicioHabito.eliminarItemChecklistDelHabito(itemAEliminar, idHabito);
-
-      return "{\"status\":\"success\", \"mensaje\":\"Checklist eliminado\"}";
-    } catch (Exception excepcion) {
-      return "{\"status\":\"error\", \"mensaje\":\"No se pudo eliminar el checklist\"}";
-    }
-  }
-
-  @RequestMapping(
-    path = "/habito/{idHabito}/toggle-checklist/{idItem}",
-    method = RequestMethod.POST,
-    produces = PRODUCES_JSON
-  )
-  @ResponseBody
-  public String toggleChecklist(@PathVariable Integer idHabito, @PathVariable Integer idItem) {
-    try {
-      servicioHabito.actualizarEstadoItemChecklist(idItem, idHabito);
-
-      return "{\"status\":\"success\", \"mensaje\":\"Estado actualizado\"}";
-    } catch (Exception excepcion) {
-      return "{\"status\":\"error\", \"mensaje\":\"No se pudo actualizar el estado\"}";
-    }
-  }
-
-  @RequestMapping(
-    path = "/habito/{idHabito}/editar-checklist/{idItem}",
-    method = RequestMethod.POST,
-    produces = PRODUCES_JSON
-  )
-  @ResponseBody
-  public String editarChecklist(
-    @PathVariable Integer idHabito,
-    @PathVariable Integer idItem,
-    @RequestParam("nuevaDescripcion") String nuevaDescripcion
-  ) {
-    try {
-      servicioHabito.editarDescripcionItemChecklist(idItem, idHabito, nuevaDescripcion);
-
-      return "{\"status\":\"success\", \"mensaje\":\"Checklist editado correctamente\"}";
-    } catch (Exception excepcion) {
-      return "{\"status\":\"error\", \"mensaje\":\"No se pudo editar el checklist\"}";
-    }
-  }
-
-  @RequestMapping(path = "/habito/{id}", method = RequestMethod.GET, produces = PRODUCES_JSON)
-  @ResponseBody
-  public String obtenerHabito(@PathVariable Integer id) {
-    Habito habito = servicioHabito.buscarHabitoPorId(id);
-
-    StringBuilder checklistJson = new StringBuilder("[");
-    List<ItemChecklist> items = habito.getCantidadDeChecklist();
-
-    if (items != null && !items.isEmpty()) {
-      for (int i = 0; i < items.size(); i++) {
-        ItemChecklist item = items.get(i);
-
-        checklistJson.append(
-          String.format(
-            "{\"id\": %d, \"descripcion\": \"%s\", \"estadoChecklist\": %b}",
-            item.getId(),
-            escaparJson(item.getDescripcion()),
-            item.getEstadoChecklist()
-          )
-        );
-
-        if (i < items.size() - 1) {
-          checklistJson.append(",");
-        }
-      }
-    }
-
-    checklistJson.append("]");
-
-    return String.format(
-      "{\"titulo\":\"%s\",\"descripcion\":\"%s\",\"frecuencia\":\"%s\",\"duracionEstimada\":\"%s\",\"checklist\":%s}",
-      escaparJson(habito.getTitulo()),
-      escaparJson(habito.getDescripcion()),
-      escaparJson(habito.getFrecuencia()),
-      habito.getDuracionEstimada(),
-      checklistJson.toString()
-    );
-  }
-
-  private String escaparJson(String texto) {
-    if (texto == null) {
-      return "";
-    }
-
-    return texto
-      .replace("\\", "\\\\")
-      .replace("\"", "\\\"")
-      .replace("\n", "\\n")
-      .replace("\r", "\\r");
   }
 }

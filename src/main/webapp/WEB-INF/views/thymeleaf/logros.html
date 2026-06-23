@@ -54,6 +54,7 @@
         <div class="logro-info">
           <h3 class="logro-nombre">Primer Paso</h3>
           <p class="logro-desc">Agregaste tu primer hábito</p>
+          <p class="logro-recompensa">+20 monedas</p>
         </div>
         <span class="logro-badge"
               th:text="${#lists.contains(nombresDesbloqueados, 'Primer Paso')} ? 'Desbloqueado' : 'Bloqueado'">
@@ -65,6 +66,7 @@
         <div class="logro-info">
           <h3 class="logro-nombre">Constante</h3>
           <p class="logro-desc">Llegaste a 3 hábitos activos</p>
+          <p class="logro-recompensa">+20 monedas</p>
         </div>
         <span class="logro-badge"
               th:text="${#lists.contains(nombresDesbloqueados, 'Constante')} ? 'Desbloqueado' : 'Bloqueado'">
@@ -76,6 +78,7 @@
         <div class="logro-info">
           <h3 class="logro-nombre">Experto</h3>
           <p class="logro-desc">Llegaste a 4 hábitos activos</p>
+          <p class="logro-recompensa">+20 monedas</p>
         </div>
         <span class="logro-badge"
               th:text="${#lists.contains(nombresDesbloqueados, 'Experto')} ? 'Desbloqueado' : 'Bloqueado'">

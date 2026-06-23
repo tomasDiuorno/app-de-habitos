@@ -3,13 +3,14 @@ package com.tallerwebi.presentacion;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import com.tallerwebi.presentacion.DTO.LoginDTO;
 import org.junit.jupiter.api.Test;
 
 public class DatosLoginTest {
 
   @Test
   public void validacionDeDatosLogin() {
-    DatosLogin datos = new DatosLogin();
+    LoginDTO datos = new LoginDTO();
     datos.setEmailorusername("pedrito123");
     datos.setPassword("1234");
 

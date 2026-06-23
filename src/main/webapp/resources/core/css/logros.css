@@ -209,6 +209,17 @@
   border-radius: 20px;
 }
 
+.logro-recompensa {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffd700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 6px;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
 
 .logro-card.desbloqueado {
   border-color: var(--neon-purple);

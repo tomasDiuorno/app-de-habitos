@@ -1,8 +1,8 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.ServicioLogro;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.UsuarioLogro;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioLogro;
+import com.tallerwebi.dominio.interfaz.ServicioLogro;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
