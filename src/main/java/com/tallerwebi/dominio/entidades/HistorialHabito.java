@@ -6,7 +6,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class HistorialHabito {
 
@@ -21,36 +27,4 @@ public class HistorialHabito {
   private Habito habito;
 
   private LocalDate fechaCompletado;
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Usuario getUsuario() {
-    return usuario;
-  }
-
-  public void setUsuario(Usuario usuario) {
-    this.usuario = usuario;
-  }
-
-  public Habito getHabito() {
-    return habito;
-  }
-
-  public void setHabito(Habito habito) {
-    this.habito = habito;
-  }
-
-  public LocalDate getFechaCompletado() {
-    return fechaCompletado;
-  }
-
-  public void setFechaCompletado(LocalDate fechaCompletado) {
-    this.fechaCompletado = fechaCompletado;
-  }
 }

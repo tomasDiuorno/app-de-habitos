@@ -1,0 +1,49 @@
+package com.tallerwebi.dominio.componentes;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
+import com.tallerwebi.dominio.entidades.ConfiguracionHabito;
+import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
+import java.time.LocalTime;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class EvaluadorHorarioTest {
+
+  private EvaluadorHorario evaluadorHorario;
+
+  @BeforeEach
+  public void init() {
+    evaluadorHorario = new EvaluadorHorario();
+  }
+
+  @Test
+  public void evaluarHorarioAntesDeLimiteDeberiaCumplir() {
+    // preparación
+    Habito habito = new Habito();
+    ConfiguracionHabito configuracion = new ConfiguracionHabito();
+    configuracion.setHoraLimite(LocalTime.of(23, 0));
+    habito.setConfiguracion(configuracion);
+
+    // ejecución
+    ResultadoEvaluacionDTO resultado = evaluadorHorario.evaluar(habito, "22:40");
+
+    // validación
+    assertThat(resultado.getCumplido(), is(true));
+  }
+
+  @Test
+  public void evaluarHorarioDespuesDeLimiteDeberiaFallar() {
+    Habito habito = new Habito();
+    ConfiguracionHabito configuracion = new ConfiguracionHabito();
+
+    configuracion.setHoraLimite(LocalTime.of(23, 0));
+    habito.setConfiguracion(configuracion);
+
+    ResultadoEvaluacionDTO resultado = evaluadorHorario.evaluar(habito, "23:30");
+
+    assertThat(resultado.getCumplido(), is(false));
+  }
+}

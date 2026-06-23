@@ -3,210 +3,185 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Habitapp - Hábitos</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link
     href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
     rel="stylesheet">
-
-  <link rel="stylesheet" th:href="@{/css/habitos.css}" />
+  <link rel="stylesheet" th:href="@{/css/habitos.css}">
 </head>
 
 <body class="habitos-body">
-
   <nav class="habitos-navbar">
     <div class="habitos-navbar-container">
-
       <a th:href="@{/home}" class="habitos-brand">
         <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="habitos-logo">
       </a>
-
       <div class="habitos-nav-links">
-        <a th:href="@{/home}" class="habitos-nav-link">Inicio</a>
-        <a th:href="@{/recompensas}" class="habitos-nav-link active">Recompensas</a>
-        <a th:href="@{/habitos}" class="habitos-nav-link active">Hábitos</a>
-        <a th:href="@{/perfil}" class="habitos-nav-link">Perfil</a>
-        <a th:href="@{/login}" class="habitos-logout-button">Cerrar sesión</a>
+        <a th:href="@{/home}" class="habitos-nav-link">
+          Inicio
+        </a>
+        <a th:href="@{/recompensas}" class="habitos-nav-link">
+          Recompensas
+        </a>
+        <a th:href="@{/habitos}" class="habitos-nav-link active">
+          Hábitos
+        </a>
+        <a th:href="@{/perfil}" class="habitos-nav-link">
+          Perfil
+        </a>
+        <a th:href="@{/login}" class="habitos-logout-button">
+          Cerrar sesión
+        </a>
       </div>
-
     </div>
   </nav>
-
   <main class="habitos-main">
-
     <section class="habitos-hero">
-
-      <p class="section-kicker">Panel de hábitos</p>
-
-      <h1>Mis hábitos</h1>
-
-      <p>
-        En esta sección vas a encontrar los hábitos que elegiste o creaste para tu rutina.
-        Podés tener hasta 4 hábitos activos al mismo tiempo.
+      <p class="section-kicker">
+        Panel de hábitos
       </p>
-
+      <h1>
+        Mis hábitos
+      </h1>
+      <p>
+        Construí tu rutina, mantené tu racha y subí de nivel completando tus objetivos.
+      </p>
     </section>
-
     <section class="habitos-dashboard">
-
       <article th:if="${#lists.isEmpty(usuarioHabitos)}" class="habit-option-card empty-habits-card">
-
         <div class="habit-content">
-
-          <p class="habit-category">Sin hábitos</p>
-
-          <h2>Todavía no tenés hábitos cargados</h2>
-
-          <p>
-            Creá tu primer hábito personalizado para empezar a registrar tu progreso diario.
+          <p class="habit-category">
+            Sin hábitos
           </p>
-
+          <h2>
+            Todavía no tenés hábitos creados
+          </h2>
+          <p>
+            Creá tu primer hábito y empezá a progresar.
+          </p>
         </div>
-
         <a th:href="@{/crear-habito}" class="habit-button">
           Crear hábito
         </a>
-
       </article>
-
       <article th:each="usuarioHabito : ${usuarioHabitos}" class="habit-option-card">
-
         <div class="habit-content">
-
-          <p class="habit-category"
-             th:text="${usuarioHabito.habito.categoria.nombre}">
+          <p class="habit-category" th:text="${usuarioHabito.habito.categoria.nombre}">
             Categoría
           </p>
-
           <h2 th:text="${usuarioHabito.habito.titulo}">
-            Nombre del hábito
+            Nombre hábito
           </h2>
-
           <p th:text="${usuarioHabito.habito.descripcion}">
-            Descripción del hábito
+            Descripción
           </p>
-
-          <p>
-            <strong>Frecuencia:</strong>
-
-            <span th:text="${usuarioHabito.habito.frecuencia}">
-              Diaria
-            </span>
-          </p>
-
-          <p>
-            <strong>Duración estimada:</strong>
-
-            <span th:text="${usuarioHabito.habito.duracionEstimada}">
-              30
-            </span>
-
-            minutos
-          </p>
-
-          <p>
-            <strong>Estado:</strong>
-
+          <div class="habit-info">
+            <div>
+              <strong>
+                Frecuencia
+              </strong>
+              <span th:text="${usuarioHabito.habito.frecuencia}">
+                Diaria
+              </span>
+            </div>
+          </div>
+          <div class="habit-progress-box">
+            <div>
+              <strong>
+                Racha actual
+              </strong>
+              <span>
+                0 días
+              </span>
+            </div>
+            <div>
+              <strong>
+                Progreso
+              </strong>
+              <span>
+                0%
+              </span>
+            </div>
+          </div>
+          <div class="habit-status">
             <span th:text="${usuarioHabito.activo} ? 'Activo' : 'Inactivo'">
               Activo
             </span>
-          </p>
-
+          </div>
         </div>
-
-        <a href="#" class="habit-button open-modal-button" th:data-id="${usuarioHabito.habito.id}">
-          Ver progreso
-        </a>
-
+        <button type="button" class="habit-button completar-habito-button"
+          th:data-id="${usuarioHabito.habito.id}" th:data-nombre="${usuarioHabito.habito.titulo}">
+          Completar hábito
+        </button>
       </article>
-
     </section>
 
     <section class="crear-habito-section">
-
       <div class="crear-habito-card">
-
         <div>
-
-          <p class="section-kicker">Nuevo objetivo</p>
-
-          <h2>¿Querés crear otro hábito?</h2>
-
-          <p>
-            Agregá un hábito personalizado, definí una frecuencia y empezá a medir tu constancia.
+          <p class="section-kicker">
+            Nuevo objetivo
           </p>
-
+          <h2>
+            ¿Querés agregar otro hábito?
+          </h2>
+          <p>
+            Creá un nuevo objetivo y aumentá tu progreso.
+          </p>
         </div>
-
         <a th:href="@{/crear-habito}" class="crear-habito-button">
           Crear hábito
         </a>
-
       </div>
-
     </section>
-
   </main>
 
-  <!-- POPUP -->
-
-  <div class="habit-modal" id="habitModal">
-
+  <!-- MODAL COMPLETAR HABITO -->
+  <div class="habit-modal" id="modalCompletar">
     <div class="habit-modal-content">
+      <button type="button" id="cerrarModal" class="habit-modal-close">X</button>
+      <h2>Completar hábito</h2>
+      <p id="nombreHabitoModal">Hábito</p>
+      <form th:action="@{/completar-habito}" method="POST">
+        <input type="hidden" id="habitoId" name="habitoId" value="">
 
-      <button class="habit-modal-close" id="closeModal">
-        X
-      </button>
-
-      <h2>Progreso del hábito</h2>
-
-      <p>
-        Acá después vamos a mostrar:
-      </p>
-
-      <ul>
-        <li>Checklist diario</li>
-        <li>Barra de progreso</li>
-        <li>Días completados</li>
-        <li>Estadísticas</li>
-      </ul>
-
+        <label>Evidencia</label>
+        <textarea name="evidencia" placeholder="Ej: 22:40"></textarea>
+        <button type="submit" class="habit-button">
+          Confirmar
+        </button>
+      </form>
     </div>
-
   </div>
 
   <footer class="habitos-footer">
-
     <div class="habitos-footer-container">
-
       <div class="footer-brand">
-        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="footer-logo">
+        <img th:src="@{/images/logo.png}" class="footer-logo">
       </div>
-
       <div class="footer-info">
-        <p>Proyecto desarrollado para Taller Web I.</p>
-
+        <p>
+          Proyecto desarrollado para Taller Web I.
+        </p>
         <p>
           Tomas Diurno - Julieta Miño - Ramiro Brunzon -
           Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer
         </p>
       </div>
-
       <div class="footer-copy">
-        <p>&copy; 2026 Habitapp. Todos los derechos reservados.</p>
+        <p>
+          © 2026 Habitapp
+        </p>
       </div>
-
     </div>
-
   </footer>
 
-  <script th:src="@{/js/habitos_popup.js}"></script>
-
+  <script th:src="@{/js/habito.js}"></script>
+  <script th:src="@{/js/completarHabito.js}"></script>
 </body>
 
 </html>

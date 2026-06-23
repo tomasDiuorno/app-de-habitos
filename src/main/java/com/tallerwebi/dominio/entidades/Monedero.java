@@ -10,7 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Monedero {
 
@@ -26,36 +32,4 @@ public class Monedero {
 
   @OneToMany(mappedBy = "monedero", cascade = CascadeType.ALL)
   private List<Transaccion> transacciones = new ArrayList<>();
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Integer getSaldo() {
-    return saldo;
-  }
-
-  public void setSaldo(Integer saldo) {
-    this.saldo = saldo;
-  }
-
-  public Usuario getUsuario() {
-    return usuario;
-  }
-
-  public void setUsuario(Usuario usuario) {
-    this.usuario = usuario;
-  }
-
-  public List<Transaccion> getTransacciones() {
-    return transacciones;
-  }
-
-  public void setTransacciones(List<Transaccion> transacciones) {
-    this.transacciones = transacciones;
-  }
 }

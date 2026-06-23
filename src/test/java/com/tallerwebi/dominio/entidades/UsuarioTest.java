@@ -18,7 +18,7 @@ public class UsuarioTest {
     usuario.setEmail("tom.diuorno@example.com");
     usuario.setPassword("password123");
     usuario.setRol("USER");
-    usuario.activar();
+    usuario.setActivo(true);
     usuario.setGender("Masculino");
 
     assertThat(usuario.getId(), is(1));
@@ -45,10 +45,10 @@ public class UsuarioTest {
     List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
     usuarioHabitos.add(usuarioHabito);
 
-    usuario.setUsuarioHabito(usuarioHabitos);
+    usuario.setUsuarioHabitos(usuarioHabitos);
 
-    assertThat(usuario.getUsuarioHabito(), is(usuarioHabitos));
-    assertThat(usuario.getUsuarioHabito().size(), is(1));
-    assertThat(usuario.getUsuarioHabito().get(0).getHabito().getTitulo(), is("Meditar"));
+    assertThat(usuario.getUsuarioHabitos(), is(usuarioHabitos));
+    assertThat(usuario.getUsuarioHabitos().size(), is(1));
+    assertThat(usuario.getUsuarioHabitos().get(0).getHabito().getTitulo(), is("Meditar"));
   }
 }

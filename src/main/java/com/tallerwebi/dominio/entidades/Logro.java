@@ -7,7 +7,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Logro {
 
@@ -21,44 +27,4 @@ public class Logro {
 
   @OneToMany(mappedBy = "logro")
   private List<UsuarioLogro> usuarioLogros = new ArrayList<>();
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public String getNombre() {
-    return nombre;
-  }
-
-  public void setNombre(String nombre) {
-    this.nombre = nombre;
-  }
-
-  public String getDescripcion() {
-    return descripcion;
-  }
-
-  public void setDescripcion(String descripcion) {
-    this.descripcion = descripcion;
-  }
-
-  public String getCondicion() {
-    return condicion;
-  }
-
-  public void setCondicion(String condicion) {
-    this.condicion = condicion;
-  }
-
-  public List<UsuarioLogro> getUsuarioLogros() {
-    return usuarioLogros;
-  }
-
-  public void setUsuarioLogros(List<UsuarioLogro> usuarioLogros) {
-    this.usuarioLogros = usuarioLogros;
-  }
 }

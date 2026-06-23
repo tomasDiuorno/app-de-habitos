@@ -8,7 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @SuppressWarnings("PMD.TooManyFields")
 public class Usuario {
@@ -34,96 +40,4 @@ public class Usuario {
 
   @OneToMany(mappedBy = "usuario")
   private List<UsuarioBonificacion> bonificaciones = new ArrayList<>();
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public String getRol() {
-    return rol;
-  }
-
-  public void setRol(String rol) {
-    this.rol = rol;
-  }
-
-  public String getGender() {
-    return gender;
-  }
-
-  public void setGender(String gender) {
-    this.gender = gender;
-  }
-
-  public Boolean getActivo() {
-    return activo;
-  }
-
-  public void setActivo(Boolean activo) {
-    this.activo = activo;
-  }
-
-  public void activar() {
-    activo = true;
-  }
-
-  public List<UsuarioHabito> getUsuarioHabito() {
-    return usuarioHabitos;
-  }
-
-  public void setUsuarioHabito(List<UsuarioHabito> usuarioHabitos) {
-    this.usuarioHabitos = usuarioHabitos;
-  }
-
-  public Integer getNivelUsuario() {
-    return nivelUsuario;
-  }
-
-  public void setNivelUsuario(Integer nivelUsuario) {
-    this.nivelUsuario = nivelUsuario;
-  }
-
-  public List<UsuarioBonificacion> getBonificaciones() {
-    return bonificaciones;
-  }
-
-  public void setBonificaciones(List<UsuarioBonificacion> bonificaciones) {
-    this.bonificaciones = bonificaciones;
-  }
 }

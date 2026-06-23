@@ -5,7 +5,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class RegistroDTO {
 
   @NotBlank(message = "El nombre es obligatorio")
@@ -38,62 +42,6 @@ public class RegistroDTO {
   private String confirmPassword;
 
   private List<Integer> habitosSeleccionados;
-
-  public List<Integer> getHabitosSeleccionados() {
-    return habitosSeleccionados;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public void setConfirmPassword(String confirPassword) {
-    this.confirmPassword = confirPassword;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String getGender() {
-    return this.gender;
-  }
-
-  public void setGender(String gender) {
-    this.gender = gender;
-  }
-
-  public void setHabitosSeleccionados(List<Integer> habitosSeleccionados) {
-    this.habitosSeleccionados = habitosSeleccionados;
-  }
-
-  public String getConfirmPassword() {
-    return confirmPassword;
-  }
 
   public Boolean isPasswordConfirmada() {
     return this.password != null && this.password.equals(this.confirmPassword);

@@ -436,7 +436,26 @@
   }
 }
 
-  /*Popup*/
+.habit-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+}
+.habit-modal.active {
+  display: flex;
+}
+.habit-modal-content {
+  background: #111;
+  padding: 30px;
+  border-radius: 15px;
+  width: 400px;
+}
+
+
+/*Popup*/
 /* =========================
    POPUP / MODAL
 ========================= */
@@ -581,7 +600,7 @@
   width: 100%;
   height: 22px;
 
-  background-color: rgba(255,255,255,0.08);
+  background-color: rgba(255, 255, 255, 0.08);
 
   border-radius: 999px;
 
@@ -596,11 +615,9 @@
   height: 100%;
 
   background:
-    linear-gradient(
-      90deg,
+    linear-gradient(90deg,
       var(--neon-purple),
-      var(--neon-blue)
-    );
+      var(--neon-blue));
 
   transition: width 0.3s ease;
 }
@@ -641,98 +658,100 @@
 
   cursor: pointer;
 }
+
 .checklist-section h3 {
-    font-family: 'Orbitron', sans-serif;
-    color: var(--neon-blue);
-    margin-bottom: 14px;
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-blue);
+  margin-bottom: 14px;
 }
 
 #checklistItemsContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .checklist-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 12px 14px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background-color: rgba(6, 9, 19, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: rgba(6, 9, 19, 0.55);
 }
 
 .checklist-item label {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
 }
 
 .checklist-item span {
-    word-break: break-word;
+  word-break: break-word;
 }
 
 .checklist-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .btn-editar-item,
 .btn-eliminar-item,
 #btnAgregarTarea {
-    border: 1px solid var(--neon-purple);
-    background: transparent;
-    color: #ffffff;
-    padding: 8px 10px;
-    border-radius: 4px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.7rem;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.25s ease;
+  border: 1px solid var(--neon-purple);
+  background: transparent;
+  color: #ffffff;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.25s ease;
 }
 
 .btn-editar-item:hover,
 .btn-eliminar-item:hover,
 #btnAgregarTarea:hover {
-    background-color: var(--neon-purple);
-    color: #060913;
-    border-color: var(--neon-blue);
-    box-shadow: 0 0 14px rgba(157, 78, 221, 0.7);
+  background-color: var(--neon-purple);
+  color: #060913;
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 14px rgba(157, 78, 221, 0.7);
 }
 
 .agregar-checklist {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
 }
 
 #inputNuevaTarea {
-    flex: 1;
-    padding: 12px 14px;
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-    background-color: rgba(6, 9, 19, 0.8);
-    color: var(--text-main);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 1rem;
-    outline: none;
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background-color: rgba(6, 9, 19, 0.8);
+  color: var(--text-main);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  outline: none;
 }
 
 #inputNuevaTarea::placeholder {
-    color: var(--text-muted);
+  color: var(--text-muted);
 }
 
 #inputNuevaTarea:focus {
-    border-color: var(--neon-blue);
-    box-shadow: 0 0 12px rgba(0, 223, 255, 0.25);
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 12px rgba(0, 223, 255, 0.25);
 }
+
 /* Todo tu CSS actual de hábitos arriba... */
 
 
@@ -741,129 +760,129 @@
 ========================= */
 
 .habit-modal-content {
-    max-width: 680px;
-    max-height: 88vh;
-    overflow-y: auto;
+  max-width: 680px;
+  max-height: 88vh;
+  overflow-y: auto;
 }
 
 .habit-modal-kicker {
-    font-family: 'Orbitron', sans-serif;
-    color: var(--neon-purple);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-purple);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
 }
 
 .habit-modal-description {
-    color: var(--text-main);
-    margin-bottom: 16px;
+  color: var(--text-main);
+  margin-bottom: 16px;
 }
 
 .habit-modal-info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
 }
 
 .habit-modal-info span {
-    border: 1px solid rgba(0, 223, 255, 0.22);
-    background: rgba(6, 9, 19, 0.55);
-    color: var(--text-main);
-    padding: 8px 12px;
-    border-radius: 999px;
-    font-size: 0.9rem;
+  border: 1px solid rgba(0, 223, 255, 0.22);
+  background: rgba(6, 9, 19, 0.55);
+  color: var(--text-main);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.9rem;
 }
 
 .popup-section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
 }
 
 .popup-section-header h3 {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .popup-chip {
-    font-family: 'Orbitron', sans-serif;
-    color: var(--neon-blue);
-    border: 1px solid rgba(0, 223, 255, 0.35);
-    border-radius: 999px;
-    padding: 6px 10px;
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    background: rgba(0, 223, 255, 0.06);
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-blue);
+  border: 1px solid rgba(0, 223, 255, 0.35);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: rgba(0, 223, 255, 0.06);
 }
 
 #progressText {
-    color: var(--text-muted);
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    text-align: center;
+  color: var(--text-muted);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-align: center;
 }
 
 #checklistItemsContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .checklist-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    padding: 14px;
-    border: 1px solid rgba(0, 223, 255, 0.16);
-    border-radius: 8px;
-    background:
-        linear-gradient(135deg, rgba(157, 78, 221, 0.08), rgba(0, 223, 255, 0.04)),
-        rgba(6, 9, 19, 0.62);
-    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid rgba(0, 223, 255, 0.16);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(157, 78, 221, 0.08), rgba(0, 223, 255, 0.04)),
+    rgba(6, 9, 19, 0.62);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .checklist-item:hover {
-    border-color: rgba(0, 223, 255, 0.45);
-    box-shadow: 0 0 16px rgba(0, 223, 255, 0.12);
-    transform: translateY(-1px);
+  border-color: rgba(0, 223, 255, 0.45);
+  box-shadow: 0 0 16px rgba(0, 223, 255, 0.12);
+  transform: translateY(-1px);
 }
 
 .checklist-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex: 1;
-    min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
 }
 
 .checklist-text {
-    color: var(--text-main);
-    font-size: 1rem;
-    line-height: 1.4;
-    word-break: break-word;
+  color: var(--text-main);
+  font-size: 1rem;
+  line-height: 1.4;
+  word-break: break-word;
 }
 
 .checklist-item-completado .checklist-text {
-    color: var(--text-muted);
-    text-decoration: line-through;
+  color: var(--text-muted);
+  text-decoration: line-through;
 }
 
 .habit-check {
-    accent-color: #00dfff;
-    flex: 0 0 auto;
+  accent-color: #00dfff;
+  flex: 0 0 auto;
 }
 
 .checklist-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .btn-editar-item,
@@ -871,131 +890,131 @@
 .btn-guardar-item,
 .btn-cancelar-edicion,
 #btnAgregarTarea {
-    border: 1px solid rgba(157, 78, 221, 0.65);
-    background: rgba(13, 19, 38, 0.8);
-    color: #ffffff;
-    padding: 8px 10px;
-    border-radius: 5px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.68rem;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.25s ease;
+  border: 1px solid rgba(157, 78, 221, 0.65);
+  background: rgba(13, 19, 38, 0.8);
+  color: #ffffff;
+  padding: 8px 10px;
+  border-radius: 5px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.68rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.25s ease;
 }
 
 .btn-editar-item:hover,
 .btn-guardar-item:hover,
 #btnAgregarTarea:hover {
-    background-color: var(--neon-purple);
-    color: #060913;
-    border-color: var(--neon-blue);
-    box-shadow: 0 0 14px rgba(157, 78, 221, 0.65);
+  background-color: var(--neon-purple);
+  color: #060913;
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 14px rgba(157, 78, 221, 0.65);
 }
 
 .btn-eliminar-item:hover,
 .btn-cancelar-edicion:hover {
-    background-color: rgba(255, 70, 90, 0.18);
-    border-color: rgba(255, 70, 90, 0.75);
-    color: #ffffff;
+  background-color: rgba(255, 70, 90, 0.18);
+  border-color: rgba(255, 70, 90, 0.75);
+  color: #ffffff;
 }
 
 .checklist-edit-input {
-    display: none;
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 5px;
-    border: 1px solid rgba(0, 223, 255, 0.45);
-    background-color: rgba(6, 9, 19, 0.9);
-    color: var(--text-main);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 1rem;
-    outline: none;
+  display: none;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 223, 255, 0.45);
+  background-color: rgba(6, 9, 19, 0.9);
+  color: var(--text-main);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  outline: none;
 }
 
 .checklist-edit-input:focus {
-    box-shadow: 0 0 14px rgba(0, 223, 255, 0.22);
+  box-shadow: 0 0 14px rgba(0, 223, 255, 0.22);
 }
 
 .checklist-edit-actions {
-    display: none;
+  display: none;
 }
 
 .checklist-item.editing .checklist-text {
-    display: none;
+  display: none;
 }
 
 .checklist-item.editing .checklist-edit-input {
-    display: block;
+  display: block;
 }
 
 .checklist-item.editing .checklist-actions {
-    display: none;
+  display: none;
 }
 
 .checklist-item.editing .checklist-edit-actions {
-    display: flex;
+  display: flex;
 }
 
 .agregar-checklist {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 18px;
-    padding-top: 18px;
-    border-top: 1px solid rgba(0, 223, 255, 0.14);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(0, 223, 255, 0.14);
 }
 
 #inputNuevaTarea {
-    flex: 1;
-    padding: 13px 14px;
-    border-radius: 5px;
-    border: 1px solid var(--border-color);
-    background-color: rgba(6, 9, 19, 0.82);
-    color: var(--text-main);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 1rem;
-    outline: none;
+  flex: 1;
+  padding: 13px 14px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  background-color: rgba(6, 9, 19, 0.82);
+  color: var(--text-main);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  outline: none;
 }
 
 #inputNuevaTarea::placeholder {
-    color: var(--text-muted);
+  color: var(--text-muted);
 }
 
 #inputNuevaTarea:focus {
-    border-color: var(--neon-blue);
-    box-shadow: 0 0 12px rgba(0, 223, 255, 0.2);
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 12px rgba(0, 223, 255, 0.2);
 }
 
 .empty-checklist-message {
-    border: 1px dashed rgba(0, 223, 255, 0.3);
-    color: var(--text-muted);
-    padding: 16px;
-    border-radius: 8px;
-    background: rgba(6, 9, 19, 0.45);
+  border: 1px dashed rgba(0, 223, 255, 0.3);
+  color: var(--text-muted);
+  padding: 16px;
+  border-radius: 8px;
+  background: rgba(6, 9, 19, 0.45);
 }
 
 @media (max-width: 640px) {
-    .habit-modal-content {
-        width: 94%;
-        padding: 28px 20px;
-    }
+  .habit-modal-content {
+    width: 94%;
+    padding: 28px 20px;
+  }
 
-    .checklist-item {
-        align-items: stretch;
-        flex-direction: column;
-    }
+  .checklist-item {
+    align-items: stretch;
+    flex-direction: column;
+  }
 
-    .checklist-actions {
-        justify-content: flex-end;
-    }
+  .checklist-actions {
+    justify-content: flex-end;
+  }
 
-    .agregar-checklist {
-        flex-direction: column;
-        align-items: stretch;
-    }
+  .agregar-checklist {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-    #btnAgregarTarea {
-        width: 100%;
-    }
+  #btnAgregarTarea {
+    width: 100%;
+  }
 }

@@ -69,11 +69,12 @@ public class RepositorioUsuarioHabitoTest {
   }
 
   private UsuarioHabito cuandoBuscoUnUsuarioHabito(Usuario us, Habito hab) {
-    return (UsuarioHabito) this.sessionFactory.getCurrentSession()
+    /*return (UsuarioHabito) this.sessionFactory.getCurrentSession()
       .createQuery("FROM UsuarioHabito WHERE usuario = :usuario AND habito = :habito")
       .setParameter("usuario", us)
       .setParameter("habito", hab)
-      .getSingleResult();
+      .getSingleResult();*/
+    return this.repositorioUsuarioHabito.obtenerPorIds(us.getId(), hab.getId());
   }
 
   private void cuandoGuardoElUsuarioHabito(UsuarioHabito usuarioHabito) {

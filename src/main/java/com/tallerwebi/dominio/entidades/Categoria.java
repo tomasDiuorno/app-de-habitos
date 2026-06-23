@@ -7,7 +7,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Categoria {
 
@@ -19,28 +25,4 @@ public class Categoria {
 
   @OneToMany(mappedBy = "categoria")
   private List<Habito> habitos = new ArrayList<>();
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public String getNombre() {
-    return nombre;
-  }
-
-  public void setNombre(String nombre) {
-    this.nombre = nombre;
-  }
-
-  public List<Habito> getHabitos() {
-    return habitos;
-  }
-
-  public void setHabitos(List<Habito> habitos) {
-    this.habitos = habitos;
-  }
 }

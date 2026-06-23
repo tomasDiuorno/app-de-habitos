@@ -1,11 +1,10 @@
 package com.tallerwebi.dominio.servicios;
 
 import com.tallerwebi.dominio.entidades.Categoria;
+import com.tallerwebi.dominio.entidades.ConfiguracionHabito;
 import com.tallerwebi.dominio.entidades.Habito;
-import com.tallerwebi.dominio.entidades.ItemChecklist;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.entidades.UsuarioHabito;
-import com.tallerwebi.dominio.excepcion.ChecklistInsuficienteExeption;
 import com.tallerwebi.dominio.excepcion.HabitoExistenteExeption;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
 import com.tallerwebi.dominio.interfaz.RepositorioCategoria;
@@ -59,13 +58,13 @@ public class ServicioHabitoImpl implements ServicioHabito {
   @Override
   public void agregarHabitoParaUsuario(Habito habito, Usuario usuario)
     throws HabitoExistenteExeption, LimiteHabitosAlcanzadoException {
-    if (usuario.getUsuarioHabito().size() >= CANTIDAD_MAXIMA_HABITOS) {
+    if (usuario.getUsuarioHabitos().size() >= CANTIDAD_MAXIMA_HABITOS) {
       throw new LimiteHabitosAlcanzadoException();
     }
     UsuarioHabito usuarioHabito = this.crearRelacion(habito, usuario);
     this.agregarHabito(habito);
     this.repositorioUsuarioHabito.guardar(usuarioHabito);
-    usuario.getUsuarioHabito().add(usuarioHabito);
+    usuario.getUsuarioHabitos().add(usuarioHabito);
 
     if (usuario.getId() != null) {
       this.servicioLogro.verificarYAsignarLogros(usuario);
@@ -84,10 +83,30 @@ public class ServicioHabitoImpl implements ServicioHabito {
     Habito habito = new Habito();
     habito.setTitulo(datos.getTitulo());
     habito.setDescripcion(datos.getDescripcion());
-    habito.setDuracionEstimada(datos.getDuracionEstimada());
+    habito.setTipoHabito(datos.getTipoHabito());
+    habito.setConfiguracion(this.configurarHabito(datos));
     habito.setCategoria(categoria);
     habito.setFrecuencia(datos.getFrecuencia());
     return habito;
+  }
+
+  private ConfiguracionHabito configurarHabito(RegistroHabitoDTO datos) {
+    ConfiguracionHabito configuracion = new ConfiguracionHabito();
+    switch (datos.getTipoHabito()) {
+      case HORARIO:
+        configuracion.setHoraLimite(datos.getHoraLimite());
+        break;
+      case CANTIDAD:
+        configuracion.setObjetivoNumero(datos.getObjetivoNumerico());
+        configuracion.setUnidad(datos.getUnidadObjetivo());
+        break;
+      case DURACION:
+        configuracion.setDuracionObjetivo(datos.getObjetivoNumerico());
+        break;
+      default:
+        break;
+    }
+    return configuracion;
   }
 
   @Override
@@ -96,62 +115,8 @@ public class ServicioHabitoImpl implements ServicioHabito {
   }
 
   @Override
-  public void actualizarProgresoActualHabito(Habito habito) throws ChecklistInsuficienteExeption {
-    Integer cantidadDeChecklist = habito.getCantidadDeChecklist().size();
-
-    if (cantidadDeChecklist == 0) {
-      habito.setProgresoActual(0);
-      return;
-    }
-
-    Long checklistCompletados = habito
-      .getCantidadDeChecklist()
-      .stream()
-      .filter(item -> Boolean.TRUE.equals(item.getEstadoChecklist()))
-      .count();
-    // guarda cuantos checklists estan completados y los cuenta.
-
-    Integer porcentajeFinal = (int) ((checklistCompletados * 100) / cantidadDeChecklist);
-    habito.setProgresoActual(porcentajeFinal);
-  }
-
-  @Override
-  public void agregarItemChecklistAlHabito(ItemChecklist item, Integer idHabito)
-    throws ChecklistInsuficienteExeption {
-    Habito habitoEncontrado = this.buscarHabitoPorId(idHabito);
-
-    habitoEncontrado.agregarItemChecklist(item);
-    this.actualizarProgresoActualHabito(habitoEncontrado);
-    this.repositorioHabito.modificar(habitoEncontrado);
-  }
-
-  @Override
-  public void eliminarItemChecklistDelHabito(ItemChecklist item, Integer idHabito)
-    throws ChecklistInsuficienteExeption {
-    Habito habitoEncontrado = this.buscarHabitoPorId(idHabito);
-
-    ItemChecklist itemAEliminar = habitoEncontrado
-      .getCantidadDeChecklist()
-      .stream()
-      .filter(itemChecklist -> itemChecklist.getId().equals(item.getId()))
-      .findFirst()
-      .orElseThrow();
-
-    habitoEncontrado.eliminarItemChecklist(itemAEliminar);
-
-    this.actualizarProgresoActualHabito(habitoEncontrado);
-
-    this.repositorioHabito.modificar(habitoEncontrado);
-  }
-
-  @Override
   public Habito buscarHabitoPorId(Integer id) {
     Habito habito = this.repositorioHabito.buscarPorId(id);
-
-    if (habito != null) {
-      habito.getCantidadDeChecklist().size();
-    }
-
     return habito;
   }
 
@@ -159,43 +124,5 @@ public class ServicioHabitoImpl implements ServicioHabito {
   public Habito obtenerHabito(RegistroHabitoDTO datos) {
     Categoria categoria = repositorioCategoria.obtenerCategoriaPorId(datos.getCategoriaId());
     return this.crearHabito(datos, categoria);
-  }
-
-  @Override
-  public void actualizarEstadoItemChecklist(Integer itemId, Integer habitoId)
-    throws ChecklistInsuficienteExeption {
-    Habito habito = this.buscarHabitoPorId(habitoId);
-
-    ItemChecklist item = habito
-      .getCantidadDeChecklist()
-      .stream()
-      .filter(i -> i.getId().equals(itemId))
-      .findFirst()
-      .orElseThrow(); //recorre los items, se querda con el primer item que coincide. Si encontro uno que esta vacio lanza una excepcion
-
-    item.setEstadoChecklist(!item.getEstadoChecklist());
-
-    this.actualizarProgresoActualHabito(habito);
-    this.repositorioHabito.modificar(habito);
-  }
-
-  @Override
-  public void editarDescripcionItemChecklist(
-    Integer itemId,
-    Integer habitoId,
-    String nuevaDescripcion
-  ) throws ChecklistInsuficienteExeption {
-    Habito habito = this.buscarHabitoPorId(habitoId);
-
-    ItemChecklist item = habito
-      .getCantidadDeChecklist()
-      .stream()
-      .filter(i -> i.getId().equals(itemId))
-      .findFirst()
-      .orElseThrow();
-
-    item.setDescripcion(nuevaDescripcion);
-
-    this.repositorioHabito.modificar(habito);
   }
 }

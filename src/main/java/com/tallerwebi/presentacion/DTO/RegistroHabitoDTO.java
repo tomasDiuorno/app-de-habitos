@@ -1,66 +1,27 @@
 package com.tallerwebi.presentacion.DTO;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.tallerwebi.dominio.enums.TipoHabitoEnum;
+import java.time.LocalTime;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class RegistroHabitoDTO {
 
   private String titulo;
+
   private String descripcion;
-  private Integer categoriaId;
+
   private String frecuencia;
-  private Integer duracionEstimada;
-  private List<String> tareas;
 
-  public RegistroHabitoDTO() {
-    this.tareas = new ArrayList<>();
-  }
+  private Integer categoriaId;
 
-  public List<String> getTareas() {
-    return tareas;
-  }
+  private TipoHabitoEnum tipoHabito;
 
-  public void setTareas(List<String> tareas) {
-    this.tareas = tareas;
-  }
+  private Integer objetivoNumerico;
 
-  public String getTitulo() {
-    return titulo;
-  }
+  private String unidadObjetivo;
 
-  public void setTitulo(String titulo) {
-    this.titulo = titulo;
-  }
-
-  public String getDescripcion() {
-    return descripcion;
-  }
-
-  public void setDescripcion(String descripcion) {
-    this.descripcion = descripcion;
-  }
-
-  public Integer getCategoriaId() {
-    return categoriaId;
-  }
-
-  public void setCategoriaId(Integer categoriaId) {
-    this.categoriaId = categoriaId;
-  }
-
-  public String getFrecuencia() {
-    return frecuencia;
-  }
-
-  public void setFrecuencia(String frecuencia) {
-    this.frecuencia = frecuencia;
-  }
-
-  public Integer getDuracionEstimada() {
-    return duracionEstimada;
-  }
-
-  public void setDuracionEstimada(Integer duracionEstimada) {
-    this.duracionEstimada = duracionEstimada;
-  }
+  private LocalTime horaLimite;
 }
