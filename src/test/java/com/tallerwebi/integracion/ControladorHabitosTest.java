@@ -18,6 +18,7 @@ import com.tallerwebi.dominio.Habito;
 import com.tallerwebi.dominio.ItemChecklist;
 import com.tallerwebi.dominio.ServicioCategoria;
 import com.tallerwebi.dominio.ServicioHabito;
+import com.tallerwebi.dominio.ServicioHistorialHabito;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
@@ -46,6 +47,7 @@ public class ControladorHabitosTest {
   private ServicioHabito servicioHabitoMock;
   private ControladorHabitos controladorHabitos;
   private ServicioCategoria servicioCategoria;
+  private ServicioHistorialHabito servicioHistorialHabitoMock;
 
   @Autowired
   private WebApplicationContext wac;
@@ -56,8 +58,9 @@ public class ControladorHabitosTest {
   public void init() {
     usuarioMock = mock(Usuario.class);
     servicioHabitoMock = mock(ServicioHabito.class);
-    controladorHabitos = new ControladorHabitos(servicioHabitoMock, servicioCategoria);
     servicioCategoria = mock(ServicioCategoria.class);
+    servicioHistorialHabitoMock = mock(ServicioHistorialHabito.class);
+    controladorHabitos = new ControladorHabitos(servicioHabitoMock, servicioCategoria, servicioHistorialHabitoMock);
 
     when(usuarioMock.getEmail()).thenReturn("test@mail.com");
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
@@ -270,6 +273,7 @@ public class ControladorHabitosTest {
     assertTrue(respuesta.contains("Texto con \\\"comillas\\\" y salto\\n"));
   }
 
+  @Test
   public void deberiaRetornarAlLoginCuandoQuieroCrearUnHabitoPeroNoHayUnUsuarioLogueado()
     throws Exception {
     MvcResult result =

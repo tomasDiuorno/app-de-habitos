@@ -13,12 +13,11 @@ import javax.transaction.Transactional;
 public class ServicioHistorialHabitoImp implements ServicioHistorialHabito {
 
   private RepositorioHistorialHabito repositorioHistorialHabito;
-  private RepositorioHabito repositorioHabito;
+
 
   @Autowired
-  public ServicioHistorialHabitoImp(RepositorioHistorialHabito repositorioHistorialHabito, RepositorioHabito repositorioHabito) {
+  public ServicioHistorialHabitoImp(RepositorioHistorialHabito repositorioHistorialHabito) {
     this.repositorioHistorialHabito = repositorioHistorialHabito;
-    this.repositorioHabito = repositorioHabito;
   }
 
   @Override

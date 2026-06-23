@@ -24,17 +24,14 @@ public class ServicioHistorialHabitoTest {
 
   private ServicioHistorialHabito servicioHistorialHabito;
   private RepositorioHistorialHabito repositorioHistorialHabitoMock;
-  private RepositorioHabito repositorioHabitoMock;
 
   @BeforeEach
   public void init() {
     this.repositorioHistorialHabitoMock = mock(RepositorioHistorialHabito.class);
-    this.repositorioHabitoMock = mock(RepositorioHabito.class);
 
 
     this.servicioHistorialHabito = new ServicioHistorialHabitoImp(
-      this.repositorioHistorialHabitoMock,
-      this.repositorioHabitoMock
+      this.repositorioHistorialHabitoMock
     );
   }
 
@@ -56,11 +53,11 @@ public class ServicioHistorialHabitoTest {
     Usuario usuario = new Usuario();
     Habito habitoDelUsuario = new Habito();
     habitoDelUsuario.setId(1);
-    
+
     UsuarioHabito usuarioHabito = new UsuarioHabito();
     usuarioHabito.setHabito(habitoDelUsuario);
     usuarioHabito.setUsuario(usuario);
-    
+
     List<UsuarioHabito> habitosActivos = new ArrayList<>();
     habitosActivos.add(usuarioHabito);
     usuario.setUsuarioHabito(habitosActivos);
@@ -72,7 +69,6 @@ public class ServicioHistorialHabitoTest {
 
     verify(this.repositorioHistorialHabitoMock, times(0)).guardar(any(HistorialHabito.class));
   }
-
   @Test
   public void alCompletarUnHabitoYaCompletadoEnElMismoDiaDeberiaLanzarExcepcion() {
     Usuario usuario = new Usuario();
