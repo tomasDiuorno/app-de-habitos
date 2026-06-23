@@ -45,5 +45,4 @@ public class Habito {
 
   @OneToMany(mappedBy = "habito")
   private List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
-
 }
