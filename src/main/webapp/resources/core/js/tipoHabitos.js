@@ -20,4 +20,4 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("bloqueDuracion").style.display = "block";
     }
   });
-})
+});

@@ -8,9 +8,9 @@ botonesCompletar.forEach(boton => {
   boton.addEventListener("click", () => {
     const id = boton.dataset.id;
     const nombre = boton.dataset.nombre;
-      inputHabitoId.value = id;
-      nombreHabito.innerText = nombre;
-      modal.classList.add("active");
+    inputHabitoId.value = id;
+    nombreHabito.innerText = nombre;
+    modal.classList.add("active");
   });
 });
 
