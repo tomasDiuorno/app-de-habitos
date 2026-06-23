@@ -8,6 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class UsuarioBonificacion {
 
@@ -26,52 +33,4 @@ public class UsuarioBonificacion {
   private LocalDateTime fechaActivacion;
   private LocalDateTime fechaExpiracion;
   private Boolean activa = true;
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Usuario getUsuario() {
-    return usuario;
-  }
-
-  public void setUsuario(Usuario usuario) {
-    this.usuario = usuario;
-  }
-
-  public Bonificacion getBonificacion() {
-    return bonificacion;
-  }
-
-  public void setBonificacion(Bonificacion bonificacion) {
-    this.bonificacion = bonificacion;
-  }
-
-  public LocalDateTime getFechaActivacion() {
-    return fechaActivacion;
-  }
-
-  public void setFechaActivacion(LocalDateTime fechaActivacion) {
-    this.fechaActivacion = fechaActivacion;
-  }
-
-  public LocalDateTime getFechaExpiracion() {
-    return fechaExpiracion;
-  }
-
-  public void setFechaExpiracion(LocalDateTime fechaExpiracion) {
-    this.fechaExpiracion = fechaExpiracion;
-  }
-
-  public Boolean getActiva() {
-    return activa;
-  }
-
-  public void setActiva(Boolean activa) {
-    this.activa = activa;
-  }
 }

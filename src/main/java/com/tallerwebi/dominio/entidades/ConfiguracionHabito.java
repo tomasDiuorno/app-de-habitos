@@ -6,6 +6,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class ConfiguracionHabito {
 
@@ -17,44 +24,4 @@ public class ConfiguracionHabito {
   private String unidad;
   private LocalTime horaLimite;
   private Integer duracionObjetivo;
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Integer getObjetivoNumero() {
-    return objetivoNumero;
-  }
-
-  public void setObjetivoNumero(Integer objetivoNumero) {
-    this.objetivoNumero = objetivoNumero;
-  }
-
-  public String getUnidad() {
-    return unidad;
-  }
-
-  public void setUnidad(String unidad) {
-    this.unidad = unidad;
-  }
-
-  public LocalTime getHoraLimite() {
-    return horaLimite;
-  }
-
-  public void setHoraLimite(LocalTime horaLimite) {
-    this.horaLimite = horaLimite;
-  }
-
-  public Integer getDuracionObjetivo() {
-    return duracionObjetivo;
-  }
-
-  public void setDuracionObjetivo(Integer duracionObjetivo) {
-    this.duracionObjetivo = duracionObjetivo;
-  }
 }

@@ -73,7 +73,7 @@ public class ControladorHabitos {
     }
 
     ModelAndView modelAndView = new ModelAndView(VISTA_HABITOS);
-    modelAndView.addObject(ATRIBUTO_USUARIO_HABITOS, usuario.getUsuarioHabito());
+    modelAndView.addObject(ATRIBUTO_USUARIO_HABITOS, usuario.getUsuarioHabitos());
 
     return modelAndView;
   }
@@ -108,7 +108,7 @@ public class ControladorHabitos {
       return new ModelAndView(REDIRECT_LOGIN);
     }
 
-    Integer cantidadHabitosAntes = usuario.getUsuarioHabito().size();
+    Integer cantidadHabitosAntes = usuario.getUsuarioHabitos().size();
 
     try {
       Habito habito = this.servicioHabito.obtenerHabito(datos);

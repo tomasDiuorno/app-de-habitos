@@ -191,7 +191,7 @@ public class ServicioLogroTest {
     for (int i = 0; i < cantidadHabitos; i++) {
       habitos.add(new UsuarioHabito());
     }
-    usuario.setUsuarioHabito(habitos);
+    usuario.setUsuarioHabitos(habitos);
     return usuario;
   }
 

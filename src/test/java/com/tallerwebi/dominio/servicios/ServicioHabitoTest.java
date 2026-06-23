@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -194,7 +193,7 @@ public class ServicioHabitoTest {
     assertThat(usuarioHabitoGuardado.getUsuario(), is(usuario));
     assertThat(usuarioHabitoGuardado.getHabito(), is(habito));
     assertThat(usuarioHabitoGuardado.getActivo(), is(true));
-    assertThat(usuario.getUsuarioHabito().size(), equalTo(1));
+    assertThat(usuario.getUsuarioHabitos().size(), equalTo(1));
 
     verify(this.servicioLogroMock, times(1)).verificarYAsignarLogros(usuario);
   }
@@ -212,7 +211,7 @@ public class ServicioHabitoTest {
     usuarioHabitos.add(new UsuarioHabito());
     usuarioHabitos.add(new UsuarioHabito());
 
-    usuario.setUsuarioHabito(usuarioHabitos);
+    usuario.setUsuarioHabitos(usuarioHabitos);
 
     Habito habito = new Habito();
     habito.setTitulo(datosHabito.getTitulo());

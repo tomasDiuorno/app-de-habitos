@@ -58,13 +58,13 @@ public class ServicioHabitoImpl implements ServicioHabito {
   @Override
   public void agregarHabitoParaUsuario(Habito habito, Usuario usuario)
     throws HabitoExistenteExeption, LimiteHabitosAlcanzadoException {
-    if (usuario.getUsuarioHabito().size() >= CANTIDAD_MAXIMA_HABITOS) {
+    if (usuario.getUsuarioHabitos().size() >= CANTIDAD_MAXIMA_HABITOS) {
       throw new LimiteHabitosAlcanzadoException();
     }
     UsuarioHabito usuarioHabito = this.crearRelacion(habito, usuario);
     this.agregarHabito(habito);
     this.repositorioUsuarioHabito.guardar(usuarioHabito);
-    usuario.getUsuarioHabito().add(usuarioHabito);
+    usuario.getUsuarioHabitos().add(usuarioHabito);
 
     if (usuario.getId() != null) {
       this.servicioLogro.verificarYAsignarLogros(usuario);

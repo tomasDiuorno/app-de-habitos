@@ -40,7 +40,7 @@ public class ServicioLogroImpl implements ServicioLogro {
 
   @Override
   public void verificarYAsignarLogros(Usuario usuario) {
-    verificarYAsignarLogros(usuario, usuario.getUsuarioHabito().size());
+    verificarYAsignarLogros(usuario, usuario.getUsuarioHabitos().size());
   }
 
   private void verificarLogro(
