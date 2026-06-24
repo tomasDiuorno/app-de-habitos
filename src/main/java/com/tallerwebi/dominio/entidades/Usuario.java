@@ -35,6 +35,12 @@ public class Usuario {
   @OneToMany(mappedBy = "usuario")
   private List<UsuarioBonificacion> bonificaciones = new ArrayList<>();
 
+  @OneToMany(mappedBy = "autor")
+  private List<Publicacion> publicaciones = new ArrayList<>();
+
+  @OneToMany(mappedBy = "autor")
+  private List<Comentario> comentarios = new ArrayList<>();
+
   public Integer getId() {
     return id;
   }
@@ -125,5 +131,21 @@ public class Usuario {
 
   public void setBonificaciones(List<UsuarioBonificacion> bonificaciones) {
     this.bonificaciones = bonificaciones;
+  }
+
+  public List<Publicacion> getPublicaciones() {
+    return publicaciones;
+  }
+
+  public void setPublicaciones(List<Publicacion> publicaciones) {
+    this.publicaciones = publicaciones;
+  }
+
+  public List<Comentario> getComentarios() {
+    return comentarios;
+  }
+
+  public void setComentarios(List<Comentario> comentarios) {
+    this.comentarios = comentarios;
   }
 }

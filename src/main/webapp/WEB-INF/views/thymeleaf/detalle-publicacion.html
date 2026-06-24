@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Habitapp - Publicación</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" th:href="@{/css/comunidad.css}" />
+</head>
+
+<body class="comunidad-body">
+
+  <nav class="comunidad-navbar">
+    <div class="comunidad-navbar-container">
+
+      <a th:href="@{/home}" class="comunidad-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="comunidad-logo">
+      </a>
+
+      <div class="comunidad-nav-links">
+        <a th:href="@{/home}" class="comunidad-nav-link">Inicio</a>
+        <a th:href="@{/recompensas}" class="comunidad-nav-link">Recompensas</a>
+        <a th:href="@{/habitos}" class="comunidad-nav-link">Hábitos</a>
+        <a th:href="@{/comunidad}" class="comunidad-nav-link active">Comunidad</a>
+        <a th:href="@{/perfil}" class="comunidad-nav-link">Perfil</a>
+        <a th:href="@{/login}" class="comunidad-logout-button">Cerrar sesión</a>
+      </div>
+
+    </div>
+  </nav>
+
+  <main class="comunidad-main">
+
+    <section class="detalle-card">
+
+      <a th:href="@{/comunidad}" class="volver-link">← Volver a comunidad</a>
+
+      <p class="publicacion-tag">Publicación</p>
+
+      <h1 th:text="${publicacion.titulo}">
+        Título de la publicación
+      </h1>
+
+      <p class="detalle-autor">
+        Publicado por
+        <span th:text="${publicacion.autor != null ? publicacion.autor.name : 'Usuario'}">
+          Usuario
+        </span>
+      </p>
+
+      <p class="detalle-contenido" th:text="${publicacion.contenido}">
+        Contenido de la publicación
+      </p>
+
+    </section>
+
+    <section class="comentarios-section">
+
+      <h2>Comentarios</h2>
+
+      <article th:if="${#lists.isEmpty(publicacion.comentarios)}" class="comentario-card">
+        <p>Todavía no hay comentarios. Sé el primero en responder.</p>
+      </article>
+
+      <article th:each="comentario : ${publicacion.comentarios}" class="comentario-card">
+
+        <strong
+          th:text="${comentario.autor != null ? comentario.autor.name : 'Usuario'}">
+          Usuario
+        </strong>
+
+        <p th:text="${comentario.contenido}">
+          Comentario
+        </p>
+
+      </article>
+
+    </section>
+
+    <section class="form-section">
+
+      <form
+        th:action="@{/comunidad/{id}/comentar(id=${publicacion.id})}"
+        th:object="${comentarioDTO}"
+        method="post"
+        class="comunidad-form">
+
+        <div class="form-group">
+          <label for="contenido">Agregar comentario</label>
+          <textarea
+            id="contenido"
+            th:field="*{contenido}"
+            rows="4"
+            placeholder="Escribí tu comentario..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="primary-button">Comentar</button>
+        </div>
+
+      </form>
+
+    </section>
+
+  </main>
+
+</body>
+
+</html>
