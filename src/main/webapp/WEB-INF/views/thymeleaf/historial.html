@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Historial de Habitos - Habit Tracker</title>
+    <title>Historial de Hábitos - Habit Tracker</title>
     <link rel="stylesheet" th:href="@{/css/habitos.css}" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
@@ -12,38 +12,38 @@
   </head>
   <body class="habitos-body">
     <header class="habitos-header">
-      <div class="habitos-logo">  Historial</div>
+      <div class="habitos-logo">🎯 Mi Historial</div>
       <div class="habitos-nav-links">
         <a th:href="@{/home}" class="habitos-nav-link">Inicio</a>
         <a th:href="@{/recompensas}" class="habitos-nav-link">Recompensas</a>
-        <a th:href="@{/habitos}" class="habitos-nav-link">Habitos</a>
+        <a th:href="@{/habitos}" class="habitos-nav-link">Hábitos</a>
         <a th:href="@{/historial}" class="habitos-nav-link active">Historial</a>
         <a th:href="@{/perfil}" class="habitos-nav-link">Perfil</a>
-        <a th:href="@{/login}" class="habitos-logout-button">Cerrar sesion</a>
+        <a th:href="@{/login}" class="habitos-logout-button">Cerrar sesión</a>
       </div>
     </header>
 
     <main class="habitos-main-content">
       <section class="habitos-list-section">
-        <h2>Registro de habitos completados</h2>
+        <h2>Registro de hábitos completados</h2>
         
         <div th:if="${#lists.isEmpty(historial)}">
           <p style="text-align: center; color: #666; margin-top: 2rem;">
-            Aun no has completado ningun habito. ¡Animate a empezar hoy mismo!
+            Aún no has completado ningún hábito. ¡Anímate a empezar hoy mismo!
           </p>
         </div>
 
         <div class="habitos-grid" th:unless="${#lists.isEmpty(historial)}">
           <article class="habit-card" th:each="registro : ${historial}">
             <div class="habit-card-header">
-              <h3 th:text="${registro.habito.titulo}">Nombre del Habito</h3>
+              <h3 th:text="${registro.habito.titulo}">Nombre del Hábito</h3>
               <span class="habit-category" th:text="${registro.habito.categoria.nombre}">
                 Categoría
               </span>
             </div>
             
             <div class="habit-details">
-              <p th:text="${registro.habito.descripcion}">Descripcion del hábito.</p>
+              <p th:text="${registro.habito.descripcion}">Descripción del hábito.</p>
             </div>
             
             <div style="margin-top: 15px; padding: 10px; background-color: #e8f5e9; border-radius: 8px; text-align: center;">
