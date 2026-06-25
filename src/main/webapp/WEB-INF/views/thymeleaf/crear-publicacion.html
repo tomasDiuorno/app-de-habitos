@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Habitapp - Crear publicación</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/habitos.css}" />
+<link rel="stylesheet" th:href="@{/css/comunidad.css}" />
+  <link rel="stylesheet" th:href="@{/css/comunidad.css}">
+</head>
+
+<body class="comunidad-body">
+  <nav class="comunidad-navbar">
+    <div class="comunidad-navbar-container">
+      <a th:href="@{/home}" class="comunidad-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="comunidad-logo">
+      </a>
+
+      <div class="comunidad-nav-links">
+        <a th:href="@{/home}" class="comunidad-nav-link">Inicio</a>
+        <a th:href="@{/habitos}" class="comunidad-nav-link">Hábitos</a>
+        <a th:href="@{/comunidad}" class="comunidad-nav-link active">Comunidad</a>
+        <a th:href="@{/perfil}" class="comunidad-nav-link">Perfil</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="comunidad-main form-main">
+    <section class="comunidad-form-card">
+      <p class="section-kicker">Nueva publicación</p>
+      <h1>Crear publicación</h1>
+
+      <p th:if="${error != null}" th:text="${error}" class="form-error">Error</p>
+
+      <form th:action="@{/comunidad/nueva}" th:object="${publicacionDTO}" method="post" class="comunidad-form">
+        <label for="titulo">Título</label>
+        <input id="titulo" type="text" th:field="*{titulo}" placeholder="Ej: ¿Cómo sostener la constancia?">
+
+        <label for="contenido">Contenido</label>
+        <textarea id="contenido" th:field="*{contenido}" rows="8"
+          placeholder="Compartí tu duda, avance o consejo"></textarea>
+
+        <div class="form-actions">
+          <a th:href="@{/comunidad}" class="secondary-button">Cancelar</a>
+          <button type="submit" class="primary-button">Publicar</button>
+        </div>
+      </form>
+    </section>
+  </main>
+    <footer class="home-footer">
+    <div class="home-footer-container">
+
+      <div class="footer-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="footer-logo">
+      </div>
+
+      <div class="footer-info">
+        <p>Proyecto desarrollado para Taller Web I.</p>
+        <p>Tomas Diuorno - Julieta Miño - Ramiro Bruzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
+      </div>
+
+      <div class="footer-copy">
+        <p>&copy; 2026 Habitapp. Todos los derechos reservados.</p>
+      </div>
+
+    </div>
+  </footer>
+</body>
+
+</html>

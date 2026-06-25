@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Habitapp - Publicación</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/habitos.css}" />
+<link rel="stylesheet" th:href="@{/css/comunidad.css}" />
+
+  <link rel="stylesheet" th:href="@{/css/comunidad.css}">
+</head>
+
+<body class="comunidad-body">
+  <nav class="comunidad-navbar">
+    <div class="comunidad-navbar-container">
+      <a th:href="@{/home}" class="comunidad-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="comunidad-logo">
+      </a>
+
+      <div class="comunidad-nav-links">
+        <a th:href="@{/home}" class="comunidad-nav-link">Inicio</a>
+        <a th:href="@{/habitos}" class="comunidad-nav-link">Hábitos</a>
+        <a th:href="@{/comunidad}" class="comunidad-nav-link active">Comunidad</a>
+        <a th:href="@{/perfil}" class="comunidad-nav-link">Perfil</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="comunidad-main">
+    <section class="publicacion-detalle-card">
+      <a th:href="@{/comunidad}" class="back-link">Volver a comunidad</a>
+
+      <p class="publicacion-kicker" th:text="${publicacion.autor != null ? publicacion.autor.username : 'Usuario'}">
+        Usuario
+      </p>
+      <h1 th:text="${publicacion.titulo}">Título</h1>
+      <p class="publicacion-contenido" th:text="${publicacion.contenido}">Contenido</p>
+    </section>
+
+    <section class="comentarios-section">
+      <h2>Comentarios</h2>
+
+      <form th:action="@{/comunidad/{id}/comentar(id=${publicacion.id})}" th:object="${comentarioDTO}" method="post"
+        class="comentario-form">
+        <textarea th:field="*{contenido}" rows="4" placeholder="Escribí un comentario"></textarea>
+        <button type="submit" class="primary-button">Comentar</button>
+      </form>
+
+      <article th:if="${#lists.isEmpty(publicacion.comentarios)}" class="comentario-card empty-card">
+        <p>Todavía no hay comentarios. Sé el primero en responder.</p>
+      </article>
+
+      <article th:each="comentario : ${publicacion.comentarios}" class="comentario-card">
+        <strong th:text="${comentario.autor != null ? comentario.autor.username : 'Usuario'}">Usuario</strong>
+        <p th:text="${comentario.contenido}">Comentario</p>
+      </article>
+    </section>
+  </main>
+    <footer class="home-footer">
+    <div class="home-footer-container">
+
+      <div class="footer-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="footer-logo">
+      </div>
+
+      <div class="footer-info">
+        <p>Proyecto desarrollado para Taller Web I.</p>
+        <p>Tomas Diuorno - Julieta Miño - Ramiro Bruzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
+      </div>
+
+      <div class="footer-copy">
+        <p>&copy; 2026 Habitapp. Todos los derechos reservados.</p>
+      </div>
+
+    </div>
+  </footer>
+</body>
+
+</html>
