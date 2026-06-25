@@ -18,13 +18,8 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class ServicioComunidadImpl implements ServicioComunidad {
 
-<<<<<<< HEAD
   private RepositorioPublicacion repositorioPublicacion;
   private RepositorioComentario repositorioComentario;
-=======
-  private final RepositorioPublicacion repositorioPublicacion;
-  private final RepositorioComentario repositorioComentario;
->>>>>>> f20d2fa78752f27cde6ba7ccf2dbc3e735c6e51a
 
   @Autowired
   public ServicioComunidadImpl(
@@ -43,29 +38,17 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     publicacion.setAutor(autor);
     publicacion.setFechaCreacion(LocalDateTime.now());
 
-<<<<<<< HEAD
     repositorioPublicacion.guardar(publicacion);
-=======
-    this.repositorioPublicacion.guardar(publicacion);
->>>>>>> f20d2fa78752f27cde6ba7ccf2dbc3e735c6e51a
   }
 
   @Override
   public List<Publicacion> obtenerPublicaciones() {
-<<<<<<< HEAD
     return repositorioPublicacion.obtenerTodas();
-=======
-    return this.repositorioPublicacion.obtenerTodas();
->>>>>>> f20d2fa78752f27cde6ba7ccf2dbc3e735c6e51a
   }
 
   @Override
   public Publicacion buscarPublicacionPorId(Integer id) {
-<<<<<<< HEAD
     Publicacion publicacion = repositorioPublicacion.buscarPorId(id);
-=======
-    Publicacion publicacion = this.repositorioPublicacion.buscarPorId(id);
->>>>>>> f20d2fa78752f27cde6ba7ccf2dbc3e735c6e51a
 
     if (publicacion != null) {
       publicacion.getComentarios().size();
@@ -80,15 +63,11 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     ComentarioDTO comentarioDTO,
     Usuario autor
   ) {
-<<<<<<< HEAD
     Publicacion publicacion = repositorioPublicacion.buscarPorId(publicacionId);
 
     if (publicacion == null) {
       return;
     }
-=======
-    Publicacion publicacion = this.repositorioPublicacion.buscarPorId(publicacionId);
->>>>>>> f20d2fa78752f27cde6ba7ccf2dbc3e735c6e51a
 
     Comentario comentario = new Comentario();
     comentario.setContenido(comentarioDTO.getContenido());
@@ -96,10 +75,6 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     comentario.setFechaCreacion(LocalDateTime.now());
     comentario.setPublicacion(publicacion);
 
-<<<<<<< HEAD
     repositorioComentario.guardar(comentario);
-=======
-    this.repositorioComentario.guardar(comentario);
->>>>>>> f20d2fa78752f27cde6ba7ccf2dbc3e735c6e51a
   }
 }
