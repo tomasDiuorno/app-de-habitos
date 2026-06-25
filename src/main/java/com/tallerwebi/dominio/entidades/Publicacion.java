@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+<<<<<<< HEAD
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+=======
+
+>>>>>>> f20d2fa78752f27cde6ba7ccf2dbc3e735c6e51a
 @Entity
 public class Publicacion {
 
@@ -36,8 +40,61 @@ public class Publicacion {
   @OneToMany(mappedBy = "publicacion", cascade = CascadeType.ALL)
   private List<Comentario> comentarios = new ArrayList<>();
 
+<<<<<<< HEAD
   public void agregarComentario(Comentario comentario) {
     comentarios.add(comentario);
+=======
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public String getTitulo() {
+    return titulo;
+  }
+
+  public void setTitulo(String titulo) {
+    this.titulo = titulo;
+  }
+
+  public String getContenido() {
+    return contenido;
+  }
+
+  public void setContenido(String contenido) {
+    this.contenido = contenido;
+  }
+
+  public LocalDateTime getFechaCreacion() {
+    return fechaCreacion;
+  }
+
+  public void setFechaCreacion(LocalDateTime fechaCreacion) {
+    this.fechaCreacion = fechaCreacion;
+  }
+
+  public Usuario getAutor() {
+    return autor;
+  }
+
+  public void setAutor(Usuario autor) {
+    this.autor = autor;
+  }
+
+  public List<Comentario> getComentarios() {
+    return comentarios;
+  }
+
+  public void setComentarios(List<Comentario> comentarios) {
+    this.comentarios = comentarios;
+  }
+
+  public void agregarComentario(Comentario comentario) {
+    this.comentarios.add(comentario);
+>>>>>>> f20d2fa78752f27cde6ba7ccf2dbc3e735c6e51a
     comentario.setPublicacion(this);
   }
 }
