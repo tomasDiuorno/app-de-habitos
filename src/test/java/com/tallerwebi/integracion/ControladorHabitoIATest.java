@@ -12,7 +12,6 @@ import com.tallerwebi.integracion.config.SpringWebTestConfig;
 import com.tallerwebi.presentacion.ControladorHabitoIA;
 import com.tallerwebi.presentacion.DTO.HabitoObjetivoDTO;
 import com.tallerwebi.presentacion.DTO.HabitoSugeridoDTO;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,77 +26,75 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @WebAppConfiguration
 @ContextConfiguration(classes = { SpringWebTestConfig.class, HibernateTestConfig.class })
 public class ControladorHabitoIATest {
-    private ServicioHabitoIA servicioHabitoIAMock;
-    private ControladorHabitoIA controladorHabitoIA;
-    private static final String OBJETIVO = "Quiero mejorar mi alimentación";
 
-    @BeforeEach
-    public void init() {
-        servicioHabitoIAMock = Mockito.mock(ServicioHabitoIA.class);
-        controladorHabitoIA = new ControladorHabitoIA(servicioHabitoIAMock);
-    }
+  private ServicioHabitoIA servicioHabitoIAMock;
+  private ControladorHabitoIA controladorHabitoIA;
+  private static final String OBJETIVO = "Quiero mejorar mi alimentación";
 
-    @Test
-    public void recomendarDeberiaRetornarRespuestaExitosa()
-            throws JsonProcessingException {
+  @BeforeEach
+  public void init() {
+    servicioHabitoIAMock = Mockito.mock(ServicioHabitoIA.class);
+    controladorHabitoIA = new ControladorHabitoIA(servicioHabitoIAMock);
+  }
 
-        HabitoObjetivoDTO dto = dadoQueTengoUnObjetivo(OBJETIVO);
-        HabitoSugeridoDTO sugerencia = new HabitoSugeridoDTO();
+  @Test
+  public void recomendarDeberiaRetornarRespuestaExitosa() throws JsonProcessingException {
+    HabitoObjetivoDTO dto = dadoQueTengoUnObjetivo(OBJETIVO);
+    HabitoSugeridoDTO sugerencia = new HabitoSugeridoDTO();
 
-        sugerencia.setNombre("Comer saludable");
-        sugerencia.setDescripcion("Preparar comidas saludables diariamente");
-        sugerencia.setFrecuencia("Diario");
-        sugerencia.setCategoria("Salud");
+    sugerencia.setNombre("Comer saludable");
+    sugerencia.setDescripcion("Preparar comidas saludables diariamente");
+    sugerencia.setFrecuencia("Diario");
+    sugerencia.setCategoria("Salud");
 
-        dadoQueElServicioResponde(sugerencia);
+    dadoQueElServicioResponde(sugerencia);
 
-        ResponseEntity<?> response = cuandoRecomiendoUnHabito(dto);
-        entoncesLaRespuestaEsExitosa(response);
-    }
+    ResponseEntity<?> response = cuandoRecomiendoUnHabito(dto);
+    entoncesLaRespuestaEsExitosa(response);
+  }
 
-    @Test
-    public void recomendarDeberiaRetornarError500SiOcurreUnaExcepcion()
-            throws JsonProcessingException {
-        HabitoObjetivoDTO dto = dadoQueTengoUnObjetivo(OBJETIVO);
-        dadoQueElServicioLanzaUnaExcepcion("Error comunicando con Gemini");
+  @Test
+  public void recomendarDeberiaRetornarError500SiOcurreUnaExcepcion()
+    throws JsonProcessingException {
+    HabitoObjetivoDTO dto = dadoQueTengoUnObjetivo(OBJETIVO);
+    dadoQueElServicioLanzaUnaExcepcion("Error comunicando con Gemini");
 
-        ResponseEntity<?> response = cuandoRecomiendoUnHabito(dto);
-        entoncesObtengoError500(response);
-    }
+    ResponseEntity<?> response = cuandoRecomiendoUnHabito(dto);
+    entoncesObtengoError500(response);
+  }
 
-    private HabitoObjetivoDTO dadoQueTengoUnObjetivo(String objetivo) {
-        HabitoObjetivoDTO dto = new HabitoObjetivoDTO();
-        dto.setObjetivo(objetivo);
-        return dto;
-    }
+  private HabitoObjetivoDTO dadoQueTengoUnObjetivo(String objetivo) {
+    HabitoObjetivoDTO dto = new HabitoObjetivoDTO();
+    dto.setObjetivo(objetivo);
+    return dto;
+  }
 
-    private void dadoQueElServicioResponde(HabitoSugeridoDTO sugerencia)
-            throws JsonProcessingException {
-        when(servicioHabitoIAMock.recomendar(eq(OBJETIVO))).thenReturn(sugerencia);
-    }
+  private void dadoQueElServicioResponde(HabitoSugeridoDTO sugerencia)
+    throws JsonProcessingException {
+    when(servicioHabitoIAMock.recomendar(eq(OBJETIVO))).thenReturn(sugerencia);
+  }
 
-    private void dadoQueElServicioLanzaUnaExcepcion(String mensaje)
-            throws JsonProcessingException {
-        when(servicioHabitoIAMock.recomendar(eq(OBJETIVO))).thenThrow(new RuntimeException(mensaje));
-    }
+  private void dadoQueElServicioLanzaUnaExcepcion(String mensaje) throws JsonProcessingException {
+    when(servicioHabitoIAMock.recomendar(eq(OBJETIVO))).thenThrow(new RuntimeException(mensaje));
+  }
 
-    private ResponseEntity<?> cuandoRecomiendoUnHabito(HabitoObjetivoDTO dto) {
-        return controladorHabitoIA.preguntar(dto);
-    }
+  private ResponseEntity<?> cuandoRecomiendoUnHabito(HabitoObjetivoDTO dto) {
+    return controladorHabitoIA.preguntar(dto);
+  }
 
-    private void entoncesLaRespuestaEsExitosa(ResponseEntity<?> response) {
-        entoncesLaRespuestaTieneStatusCode(response, HttpStatus.OK);
-        HabitoSugeridoDTO body = (HabitoSugeridoDTO) response.getBody();
-        assertThat(body.getNombre(), equalTo("Comer saludable"));
-        assertThat(body.getCategoria(), equalTo("Salud"));
-    }
+  private void entoncesLaRespuestaEsExitosa(ResponseEntity<?> response) {
+    entoncesLaRespuestaTieneStatusCode(response, HttpStatus.OK);
+    HabitoSugeridoDTO body = (HabitoSugeridoDTO) response.getBody();
+    assertThat(body.getNombre(), equalTo("Comer saludable"));
+    assertThat(body.getCategoria(), equalTo("Salud"));
+  }
 
-    private void entoncesObtengoError500(ResponseEntity<?> response) {
-        entoncesLaRespuestaTieneStatusCode(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        assertThat(response.getBody().toString(), equalTo("Error comunicando con Gemini"));
-    }
+  private void entoncesObtengoError500(ResponseEntity<?> response) {
+    entoncesLaRespuestaTieneStatusCode(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    assertThat(response.getBody().toString(), equalTo("Error comunicando con Gemini"));
+  }
 
-    private void entoncesLaRespuestaTieneStatusCode(ResponseEntity<?> response, HttpStatus status) {
-        assertThat(response.getStatusCodeValue(), equalTo(status.value()));
-    }
+  private void entoncesLaRespuestaTieneStatusCode(ResponseEntity<?> response, HttpStatus status) {
+    assertThat(response.getStatusCodeValue(), equalTo(status.value()));
+  }
 }
