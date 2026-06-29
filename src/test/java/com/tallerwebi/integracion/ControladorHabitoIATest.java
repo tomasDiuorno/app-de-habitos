@@ -7,24 +7,14 @@ import static org.mockito.Mockito.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tallerwebi.dominio.servicios.ServicioHabitoIA;
-import com.tallerwebi.integracion.config.HibernateTestConfig;
-import com.tallerwebi.integracion.config.SpringWebTestConfig;
 import com.tallerwebi.presentacion.ControladorHabitoIA;
 import com.tallerwebi.presentacion.DTO.HabitoObjetivoDTO;
 import com.tallerwebi.presentacion.DTO.HabitoSugeridoDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 
-@ExtendWith(SpringExtension.class)
-@WebAppConfiguration
-@ContextConfiguration(classes = { SpringWebTestConfig.class, HibernateTestConfig.class })
 public class ControladorHabitoIATest {
 
   private ServicioHabitoIA servicioHabitoIAMock;
@@ -33,7 +23,7 @@ public class ControladorHabitoIATest {
 
   @BeforeEach
   public void init() {
-    servicioHabitoIAMock = Mockito.mock(ServicioHabitoIA.class);
+    servicioHabitoIAMock = mock(ServicioHabitoIA.class);
     controladorHabitoIA = new ControladorHabitoIA(servicioHabitoIAMock);
   }
 
