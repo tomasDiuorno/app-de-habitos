@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Habitapp - Plan de Hábito (IA)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/habitos.css}">
+  <style>
+    .plan-container {
+      background: rgba(13, 19, 38, 0.82);
+      border: 2px solid var(--border-color);
+      border-radius: 6px;
+      padding: 40px;
+      max-width: 800px;
+      margin: 0 auto 40px auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), inset 0 0 15px rgba(0, 223, 255, 0.04);
+      backdrop-filter: blur(10px);
+    }
+    .plan-step {
+      background: rgba(6, 9, 19, 0.55);
+      border-left: 4px solid var(--neon-blue);
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 0 6px 6px 0;
+      transition: all 0.3s ease;
+      border-top: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .plan-step:hover {
+      background: rgba(13, 19, 38, 0.92);
+      border-left-color: var(--neon-purple);
+      transform: translateX(5px);
+    }
+    .plan-step-number {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--neon-blue);
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .plan-step-text {
+      color: var(--text-main);
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    .back-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 13px 18px;
+      background: transparent;
+      border: 2px solid var(--neon-purple);
+      color: #ffffff;
+      border-radius: 4px;
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      transition: all 0.35s ease;
+    }
+    .back-button:hover {
+      background-color: var(--neon-purple);
+      border-color: var(--neon-blue);
+      color: #060913;
+      box-shadow: 0 0 22px rgba(157, 78, 221, 0.8), 0 0 35px rgba(0, 223, 255, 0.25);
+    }
+    .error-message {
+      color: #ff4757;
+      background: rgba(255, 71, 87, 0.1);
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 4px solid #ff4757;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body class="habitos-body">
+  <nav class="habitos-navbar">
+    <div class="habitos-navbar-container">
+      <a th:href="@{/home}" class="habitos-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="habitos-logo">
+      </a>
+      <div class="habitos-nav-links">
+        <a th:href="@{/home}" class="habitos-nav-link">Inicio</a>
+        <a th:href="@{/recompensas}" class="habitos-nav-link">Recompensas</a>
+        <a th:href="@{/habitos}" class="habitos-nav-link active">Hábitos</a>
+        <a th:href="@{/perfil}" class="habitos-nav-link">Perfil</a>
+        <a th:href="@{/login}" class="habitos-logout-button">Cerrar sesión</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="habitos-main">
+    <section class="habitos-hero">
+      <p class="section-kicker">Sugerencia de la IA</p>
+      <h1>Paso a paso para tu hábito</h1>
+      <p th:text="${habito != null ? habito.titulo : 'Hábito no encontrado'}">Nombre del hábito</p>
+    </section>
+
+    <section class="plan-container">
+      
+      <div th:if="${error != null}" class="error-message">
+        <h3 style="margin-bottom: 10px;">¡Ups! Algo salió mal</h3>
+        <p th:text="${error}"></p>
+      </div>
+
+      <div th:if="${plan != null and not #lists.isEmpty(plan.pasos)}">
+        <div th:each="paso, stat : ${plan.pasos}" class="plan-step">
+          <div class="plan-step-number" th:text="'Paso ' + ${stat.count}">Paso 1</div>
+          <div class="plan-step-text" th:text="${paso}">Descripción del paso...</div>
+        </div>
+      </div>
+
+      <div th:if="${plan != null and #lists.isEmpty(plan.pasos)}" class="plan-step">
+        <div class="plan-step-text">La IA no pudo generar pasos para este hábito. Intentá de nuevo más tarde.</div>
+      </div>
+
+      <div style="text-align: center; margin-top: 40px;">
+        <a th:href="@{/habitos}" class="back-button">Volver a mis hábitos</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="habitos-footer">
+    <div class="habitos-footer-container">
+      <div class="footer-brand">
+        <img th:src="@{/images/logo.png}" class="footer-logo">
+      </div>
+      <div class="footer-info">
+        <p>Proyecto desarrollado para Taller Web I.</p>
+        <p>Tomas Diurno - Julieta Miño - Ramiro Brunzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
+      </div>
+      <div class="footer-copy">
+        <p>© 2026 Habitapp</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

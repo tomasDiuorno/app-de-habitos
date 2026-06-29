@@ -10,6 +10,8 @@ import com.tallerwebi.dominio.interfaz.ServicioEvaluadorHabito;
 import com.tallerwebi.dominio.interfaz.ServicioHabito;
 import com.tallerwebi.dominio.interfaz.ServicioLogro;
 import com.tallerwebi.dominio.interfaz.ServicioUsuarioHabito;
+import com.tallerwebi.dominio.servicios.ServicioHabitoIA;
+import com.tallerwebi.presentacion.DTO.PlanHabitoDTO;
 import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,7 @@ public class ControladorHabitos {
   private ServicioLogro servicioLogro;
   private ServicioEvaluadorHabito servicioEvaluadorHabito;
   private ServicioUsuarioHabito servicioUsuarioHabito;
+  private ServicioHabitoIA servicioHabitoIA;
 
   @Autowired
   public ControladorHabitos(
@@ -55,13 +58,15 @@ public class ControladorHabitos {
     ServicioCategoria servicioCategoria,
     ServicioLogro servicioLogro,
     ServicioEvaluadorHabito servicioEvaluadorHabito,
-    ServicioUsuarioHabito servicioUsuarioHabito
+    ServicioUsuarioHabito servicioUsuarioHabito,
+    ServicioHabitoIA servicioHabitoIA
   ) {
     this.servicioHabito = servicioHabito;
     this.servicioCategoria = servicioCategoria;
     this.servicioLogro = servicioLogro;
     this.servicioEvaluadorHabito = servicioEvaluadorHabito;
     this.servicioUsuarioHabito = servicioUsuarioHabito;
+    this.servicioHabitoIA = servicioHabitoIA;
   }
 
   @RequestMapping(path = "/habitos", method = RequestMethod.GET)
@@ -91,6 +96,34 @@ public class ControladorHabitos {
     servicioEvaluadorHabito.completarHabito(usuarioHabito, evidencia);
 
     return new ModelAndView(REDIRECT_HABITOS);
+  }
+
+  @RequestMapping(path = "/habito/plan", method = RequestMethod.GET)
+  public ModelAndView irAPlanHabito(
+    @RequestParam Integer habitoId,
+    HttpServletRequest request
+  ) {
+    Usuario usuario = this.obtenerUsuario(request);
+    if (usuario == null) {
+      return new ModelAndView(REDIRECT_LOGIN);
+    }
+
+    Habito habito = servicioHabito.buscarHabitoPorId(habitoId);
+    if (habito == null) {
+      return new ModelAndView(REDIRECT_HABITOS);
+    }
+
+    ModelAndView modelAndView = new ModelAndView("plan-habito");
+    modelAndView.addObject("habito", habito);
+
+    try {
+      PlanHabitoDTO plan = servicioHabitoIA.sugerirPlan(habito.getTitulo());
+      modelAndView.addObject("plan", plan);
+    } catch (Exception e) {
+      modelAndView.addObject("error", "Hubo un problema al generar los pasos. Intentá de nuevo más tarde.");
+    }
+
+    return modelAndView;
   }
 
   @RequestMapping(path = "/crear-habito", method = RequestMethod.GET)
