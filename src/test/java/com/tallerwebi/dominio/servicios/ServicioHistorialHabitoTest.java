@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.mockito.ArgumentCaptor;
 
 public class ServicioHistorialHabitoTest {
@@ -39,10 +38,10 @@ public class ServicioHistorialHabitoTest {
     this.repositorioUsuarioHabitoMock = mock(RepositorioUsuarioHabito.class);
 
     this.servicioHistorialHabito =
-            new ServicioHistorialHabitoImpl(
-                    this.repositorioHistorialHabitoMock,
-                    this.repositorioUsuarioHabitoMock
-            );
+      new ServicioHistorialHabitoImpl(
+        this.repositorioHistorialHabitoMock,
+        this.repositorioUsuarioHabitoMock
+      );
   }
 
   @Test
@@ -53,8 +52,8 @@ public class ServicioHistorialHabitoTest {
     when(repositorioUsuarioHabitoMock.obtenerPorIds(any(), any())).thenReturn(null);
 
     assertThrows(
-            HabitoNoPerteneceAlUsuarioException.class,
-            () -> this.servicioHistorialHabito.marcarHabitoComoCompletado(usuario, 99)
+      HabitoNoPerteneceAlUsuarioException.class,
+      () -> this.servicioHistorialHabito.marcarHabitoComoCompletado(usuario, 99)
     );
 
     verify(this.repositorioHistorialHabitoMock, times(0)).guardar(any(HistorialHabito.class));
@@ -72,17 +71,17 @@ public class ServicioHistorialHabitoTest {
 
     when(this.repositorioUsuarioHabitoMock.obtenerPorIds(any(), any())).thenReturn(usuarioHabito);
     when(
-            this.repositorioHistorialHabitoMock.obtenerPorUsuarioHabitoYFecha(
-                    any(),
-                    any(),
-                    any(LocalDate.class)
-            )
+      this.repositorioHistorialHabitoMock.obtenerPorUsuarioHabitoYFecha(
+          any(),
+          any(),
+          any(LocalDate.class)
+        )
     )
-            .thenReturn(historialExistente);
+      .thenReturn(historialExistente);
 
     assertThrows(
-            HabitoYaCompletadoHoyException.class,
-            () -> this.servicioHistorialHabito.marcarHabitoComoCompletado(usuario, 2)
+      HabitoYaCompletadoHoyException.class,
+      () -> this.servicioHistorialHabito.marcarHabitoComoCompletado(usuario, 2)
     );
 
     verify(this.repositorioHistorialHabitoMock, times(0)).guardar(any(HistorialHabito.class));
@@ -98,7 +97,7 @@ public class ServicioHistorialHabitoTest {
     when(this.repositorioHistorialHabitoMock.obtenerPorUsuario(usuario)).thenReturn(listaSimulada);
 
     List<HistorialHabito> historialObtenido =
-            this.servicioHistorialHabito.obtenerHistorial(usuario);
+      this.servicioHistorialHabito.obtenerHistorial(usuario);
 
     assertThat(historialObtenido.size(), equalTo(2));
     verify(this.repositorioHistorialHabitoMock, times(1)).obtenerPorUsuario(usuario);
@@ -106,7 +105,7 @@ public class ServicioHistorialHabitoTest {
 
   @Test
   public void alCompletarUnHabitoDebeGuardarseConLaFechaActualYDatosCorrectos()
-          throws HabitoNoPerteneceAlUsuarioException, HabitoYaCompletadoHoyException {
+    throws HabitoNoPerteneceAlUsuarioException, HabitoYaCompletadoHoyException {
     Usuario usuario = new Usuario();
     usuario.setId(1);
     Habito habito = new Habito();
@@ -118,11 +117,13 @@ public class ServicioHistorialHabitoTest {
 
     when(this.repositorioUsuarioHabitoMock.obtenerPorIds(1, 3)).thenReturn(usuarioHabito);
     when(
-            this.repositorioHistorialHabitoMock.obtenerPorUsuarioHabitoYFecha(
-                    eq(usuario),
-                    eq(habito),
-                    any(LocalDate.class)))
-            .thenReturn(null);
+      this.repositorioHistorialHabitoMock.obtenerPorUsuarioHabitoYFecha(
+          eq(usuario),
+          eq(habito),
+          any(LocalDate.class)
+        )
+    )
+      .thenReturn(null);
 
     this.servicioHistorialHabito.marcarHabitoComoCompletado(usuario, 3);
 
