@@ -89,7 +89,10 @@ public class ServicioHabitoIAImpTest {
     try {
       servicioHabitoIA.sugerirPlan("Hacer ejercicio");
     } catch (RuntimeException e) {
-      assertThat(e.getMessage(), equalTo("No se pudo convertir la respuesta correctamente Invalido"));
+      assertThat(
+        e.getMessage(),
+        equalTo("No se pudo convertir la respuesta correctamente Invalido")
+      );
     }
   }
 
