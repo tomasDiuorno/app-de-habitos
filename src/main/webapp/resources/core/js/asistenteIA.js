@@ -2,7 +2,7 @@ let habitoSugerido = null;
 document.getElementById("cerrarModal").addEventListener("click", cerrarModal);
 document.getElementById("aceptarHabito").addEventListener("click", () => {
   console.log("Habito aceptado: ", habitoSugerido);
-})
+});
 document.getElementById("generarHabito").addEventListener("click", generarHabito);
 function generarHabito() {
   const objetivo = document.getElementById("objetivo").value;
@@ -19,8 +19,8 @@ function generarHabito() {
     return response.json();
   }).then(habito => {
     habitoSugerido = habito;
-      mostrarSugerencia(habito);
-      abrirModal();
+    mostrarSugerencia(habito);
+    abrirModal();
   }).catch(error => {
     console.error(error);
   });
