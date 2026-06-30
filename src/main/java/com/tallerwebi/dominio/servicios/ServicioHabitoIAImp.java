@@ -42,7 +42,10 @@ public class ServicioHabitoIAImp implements ServicioHabitoIA {
 
   @Override
   public PlanHabitoDTO sugerirPlan(String nombreHabito) throws JsonProcessingException {
-    String prompt = String.format("Genera un plan paso a paso (baby steps) en español para completar el hábito '%s'. Devuelve estrictamente un JSON con la estructura {\"pasos\": [\"paso 1\", \"paso 2\"]}", nombreHabito);
+    String prompt = String.format(
+      "Genera un plan paso a paso (baby steps) en español para completar el hábito '%s'. Devuelve estrictamente un JSON con la estructura {\"pasos\": [\"paso 1\", \"paso 2\"]}",
+      nombreHabito
+    );
     String respuesta = servicioIa.preguntar(prompt);
     return convertirRespuestaPlanIA(respuesta);
   }

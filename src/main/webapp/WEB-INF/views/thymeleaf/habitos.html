@@ -118,7 +118,8 @@
             th:data-id="${usuarioHabito.habito.id}" th:data-nombre="${usuarioHabito.habito.titulo}">
             Completar hábito
           </button>
-          <a th:href="@{/habito/plan(habitoId=${usuarioHabito.habito.id})}" class="habit-button" style="flex: 1; background-color: #6c5ce7; border: 1px solid #6c5ce7; color: white; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+          <a th:href="@{/habito/plan(habitoId=${usuarioHabito.habito.id})}" class="habit-button"
+            style="flex: 1; background-color: #6c5ce7; border: 1px solid #6c5ce7; color: white; display: flex; align-items: center; justify-content: center; text-decoration: none;">
             Sugerencia IA
           </a>
         </div>
@@ -141,6 +142,10 @@
         <a th:href="@{/crear-habito}" class="crear-habito-button">
           Crear hábito
         </a>
+        <div id="asistente-habito" class="crear-habito-button">
+          <input id="objetivo" type="text" placeholder="Ej: quiero hacer más ejercicio">
+          <button id="generarHabito">Crear sugerencia</button>
+        </div>
       </div>
     </section>
   </main>
@@ -160,6 +165,15 @@
           Confirmar
         </button>
       </form>
+    </div>
+  </div>
+
+  <div id="modalHabito" class="modal">
+    <div class="modal-contenido">
+      <span id="cerrarModal" class="cerrar">&times;</span>
+      <h3>✨ Sugerencia IA</h3>
+      <div id="sugerencia"></div>
+      <button id="aceptarHabito">Crear hábito</button>
     </div>
   </div>
 
@@ -187,6 +201,7 @@
 
   <script th:src="@{/js/habito.js}"></script>
   <script th:src="@{/js/completarHabito.js}"></script>
+  <script th:src="@{/js/asistenteIA.js}"></script>
 </body>
 
 </html>

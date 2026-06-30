@@ -99,10 +99,7 @@ public class ControladorHabitos {
   }
 
   @RequestMapping(path = "/habito/plan", method = RequestMethod.GET)
-  public ModelAndView irAPlanHabito(
-    @RequestParam Integer habitoId,
-    HttpServletRequest request
-  ) {
+  public ModelAndView irAPlanHabito(@RequestParam Integer habitoId, HttpServletRequest request) {
     Usuario usuario = this.obtenerUsuario(request);
     if (usuario == null) {
       return new ModelAndView(REDIRECT_LOGIN);
@@ -120,7 +117,10 @@ public class ControladorHabitos {
       PlanHabitoDTO plan = servicioHabitoIA.sugerirPlan(habito.getTitulo());
       modelAndView.addObject("plan", plan);
     } catch (Exception e) {
-      modelAndView.addObject("error", "Hubo un problema al generar los pasos. Intentá de nuevo más tarde.");
+      modelAndView.addObject(
+        "error",
+        "Hubo un problema al generar los pasos. Intentá de nuevo más tarde."
+      );
     }
 
     return modelAndView;

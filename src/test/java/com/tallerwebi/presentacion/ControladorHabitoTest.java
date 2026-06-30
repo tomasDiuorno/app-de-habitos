@@ -122,13 +122,17 @@ public class ControladorHabitoTest {
     when(sessionMock.getAttribute("usuario")).thenReturn(usuarioMock);
     when(servicioHabitosMock.buscarHabitoPorId(habitoId)).thenReturn(habitoMock);
     when(habitoMock.getTitulo()).thenReturn("Hacer ejercicio");
-    when(servicioHabitoIAMock.sugerirPlan("Hacer ejercicio")).thenThrow(new RuntimeException("IA Error"));
+    when(servicioHabitoIAMock.sugerirPlan("Hacer ejercicio"))
+      .thenThrow(new RuntimeException("IA Error"));
 
     ModelAndView modelAndView = controladorHabitos.irAPlanHabito(habitoId, requestMock);
 
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("plan-habito"));
     assertThat(modelAndView.getModel().get("habito"), equalTo(habitoMock));
-    assertThat(modelAndView.getModel().get("error"), equalTo("Hubo un problema al generar los pasos. Intentá de nuevo más tarde."));
+    assertThat(
+      modelAndView.getModel().get("error"),
+      equalTo("Hubo un problema al generar los pasos. Intentá de nuevo más tarde.")
+    );
   }
 
   @Test
