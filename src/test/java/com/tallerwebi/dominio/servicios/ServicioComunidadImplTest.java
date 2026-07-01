@@ -16,8 +16,8 @@ import com.tallerwebi.presentacion.DTO.ComentarioDTO;
 import com.tallerwebi.presentacion.DTO.PublicacionDTO;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 public class ServicioComunidadImplTest {
@@ -26,7 +26,7 @@ public class ServicioComunidadImplTest {
   private RepositorioComentario repositorioComentario;
   private ServicioComunidadImpl servicioComunidad;
 
-  @Before
+  @BeforeEach
   public void init() {
     repositorioPublicacion = mock(RepositorioPublicacion.class);
     repositorioComentario = mock(RepositorioComentario.class);
