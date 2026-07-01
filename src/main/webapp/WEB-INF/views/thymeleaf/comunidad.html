@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Habitapp - Comunidad</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" th:href="@{/css/comunidad.css}">
+</head>
+
+<body class="comunidad-body">
+
+<nav class="comunidad-navbar">
+  <div class="comunidad-navbar-container">
+
+    <a th:href="@{/home}" class="comunidad-brand">
+      <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="comunidad-logo">
+    </a>
+
+    <div class="comunidad-nav-links">
+      <a th:href="@{/home}" class="comunidad-nav-link">Inicio</a>
+      <a th:href="@{/habitos}" class="comunidad-nav-link">Hábitos</a>
+      <a th:href="@{/tienda}" class="comunidad-nav-link">Tienda</a>
+      <a th:href="@{/recompensas}" class="comunidad-nav-link">Recompensas</a>
+      <a th:href="@{/comunidad}" class="comunidad-nav-link active">Comunidad</a>
+      <a th:href="@{/perfil}" class="comunidad-nav-link">Perfil</a>
+      <a th:href="@{/login}" class="comunidad-logout-button">Cerrar sesión</a>
+    </div>
+
+  </div>
+</nav>
+
+<main class="comunidad-main">
+
+  <section class="comunidad-hero">
+    <p class="section-kicker">Foro de hábitos</p>
+
+    <h1>Comunidad</h1>
+
+    <p>
+      Compartí avances, dudas y consejos con otros usuarios de Habitapp.
+    </p>
+
+    <a th:href="@{/comunidad/nueva}" class="primary-button">
+      Crear publicación
+    </a>
+  </section>
+
+  <section class="publicaciones-section">
+
+    <article th:if="${#lists.isEmpty(publicaciones)}" class="publicacion-card empty-card">
+      <p class="publicacion-tag">Sin publicaciones</p>
+      <h2>Todavía no hay publicaciones</h2>
+      <p>Creá la primera publicación de la comunidad.</p>
+    </article>
+
+    <article th:each="publicacion : ${publicaciones}" class="publicacion-card">
+
+      <div class="publicacion-header">
+        <p class="publicacion-tag">Publicación</p>
+
+        <span
+          class="publicacion-autor"
+          th:text="${publicacion.autor != null ? publicacion.autor.name : 'Usuario'}">
+          Usuario
+        </span>
+      </div>
+
+      <h2 th:text="${publicacion.titulo}">
+        Título de la publicación
+      </h2>
+
+      <p th:text="${publicacion.contenido}">
+        Contenido de la publicación
+      </p>
+
+      <div class="publicacion-footer">
+        <span>Ver comentarios en detalle</span>
+
+        <a th:href="@{/comunidad/{id}(id=${publicacion.id})}" class="secondary-button">
+          Ver publicación
+        </a>
+      </div>
+
+    </article>
+
+  </section>
+
+</main>
+
+<footer class="comunidad-footer">
+  <div class="comunidad-footer-container">
+
+    <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="comunidad-footer-logo">
+
+    <div class="comunidad-footer-info">
+      <p>Proyecto desarrollado para Taller Web I.</p>
+      <p>Tomas Diuorno - Julieta Miño - Ramiro Bruzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
+    </div>
+
+    <p class="comunidad-footer-copy">
+      © 2026 Habitapp. Todos los derechos reservados.
+    </p>
+
+  </div>
+</footer>
+
+</body>
+</html>

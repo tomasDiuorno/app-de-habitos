@@ -40,4 +40,10 @@ public class Usuario {
 
   @OneToMany(mappedBy = "usuario")
   private List<UsuarioBonificacion> bonificaciones = new ArrayList<>();
+
+  @OneToMany(mappedBy = "autor")
+  private List<Publicacion> publicaciones = new ArrayList<>();
+
+  @OneToMany(mappedBy = "autor")
+  private List<Comentario> comentarios = new ArrayList<>();
 }
