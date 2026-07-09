@@ -30,6 +30,10 @@ public class Publicacion {
   private LocalDateTime fechaCreacion;
 
   @ManyToOne
+  @JoinColumn(name = "habito_id")
+  private Habito habitoAsociado;
+
+  @ManyToOne
   @JoinColumn(name = "usuario_id")
   private Usuario autor;
 
@@ -39,5 +43,13 @@ public class Publicacion {
   public void agregarComentario(Comentario comentario) {
     comentarios.add(comentario);
     comentario.setPublicacion(this);
+  }
+
+  public Habito getHabitoAsociado() {
+    return habitoAsociado;
+  }
+
+  public void setHabitoAsociado(Habito habitoAsociado) {
+    this.habitoAsociado = habitoAsociado;
   }
 }

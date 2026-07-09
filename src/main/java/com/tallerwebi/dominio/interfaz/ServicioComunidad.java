@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio.interfaz;
 
+import com.tallerwebi.dominio.entidades.Habito;
 import com.tallerwebi.dominio.entidades.Publicacion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.presentacion.DTO.ComentarioDTO;
@@ -14,4 +15,6 @@ public interface ServicioComunidad {
   Publicacion buscarPublicacionPorId(Integer id);
 
   void comentarPublicacion(Integer publicacionId, ComentarioDTO comentarioDTO, Usuario autor);
+
+  Publicacion publicarHabitoEnForo(Habito habito, Usuario creador);
 }

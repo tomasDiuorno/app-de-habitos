@@ -2,12 +2,15 @@ package com.tallerwebi.dominio.servicios;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.tallerwebi.dominio.entidades.Comentario;
+import com.tallerwebi.dominio.entidades.Habito;
 import com.tallerwebi.dominio.entidades.Publicacion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.interfaz.RepositorioComentario;
@@ -99,5 +102,28 @@ public class ServicioComunidadImplTest {
     assertThat(comentarioGuardado.getAutor(), equalTo(autor));
     assertThat(comentarioGuardado.getPublicacion(), equalTo(publicacion));
     assertThat(comentarioGuardado.getFechaCreacion(), notNullValue());
+  }
+
+  @Test
+  public void publicarHabitoEnForoDeberiaCrearUnaPublicacionVinculadaAlHabito() {
+    Usuario creador = new Usuario();
+    creador.setEmail("creador@test.com");
+
+    Habito habito = new Habito();
+    habito.setTitulo("Meditar");
+    habito.setEsGrupal(true);
+
+    Publicacion publicacionCreada = this.servicioComunidad.publicarHabitoEnForo(habito, creador);
+
+    ArgumentCaptor<Publicacion> captor = ArgumentCaptor.forClass(Publicacion.class);
+    verify(this.repositorioPublicacion, times(1)).guardar(captor.capture());
+
+    Publicacion publicacionGuardada = captor.getValue();
+
+    assertThat(publicacionGuardada.getTitulo(), equalTo("¡Unite al habito: Meditar!"));
+    assertThat(publicacionGuardada.getHabitoAsociado(), is(habito));
+    assertThat(publicacionGuardada.getAutor(), is(creador));
+    assertThat(publicacionGuardada.getFechaCreacion(), notNullValue());
+    assertThat(publicacionCreada, is(publicacionGuardada));
   }
 }
