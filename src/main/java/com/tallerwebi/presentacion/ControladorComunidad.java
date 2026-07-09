@@ -2,7 +2,10 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Publicacion;
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
+import com.tallerwebi.dominio.excepcion.UsuarioYaUnidoAHabitoException;
 import com.tallerwebi.dominio.interfaz.ServicioComunidad;
+import com.tallerwebi.dominio.servicios.ServicioHabitoCompartido;
 import com.tallerwebi.presentacion.DTO.ComentarioDTO;
 import com.tallerwebi.presentacion.DTO.PublicacionDTO;
 import javax.servlet.http.HttpServletRequest;
@@ -23,10 +26,15 @@ public class ControladorComunidad {
   private static final String REDIRECT_COMUNIDAD = "redirect:/comunidad";
 
   private ServicioComunidad servicioComunidad;
+  private ServicioHabitoCompartido servicioHabitoCompartido;
 
   @Autowired
-  public ControladorComunidad(ServicioComunidad servicioComunidad) {
+  public ControladorComunidad(
+    ServicioComunidad servicioComunidad,
+    ServicioHabitoCompartido servicioHabitoCompartido
+  ) {
     this.servicioComunidad = servicioComunidad;
+    this.servicioHabitoCompartido = servicioHabitoCompartido;
   }
 
   @RequestMapping(path = "/comunidad", method = RequestMethod.GET)
@@ -138,5 +146,39 @@ public class ControladorComunidad {
     modelo.put("error", mensaje);
 
     return new ModelAndView("crear-publicacion", modelo);
+  }
+
+  private ModelAndView volverADetalleConError(Publicacion publicacion, String mensaje) {
+    ModelMap modelo = new ModelMap();
+    modelo.put("publicacion", publicacion);
+    modelo.put("comentarioDTO", new ComentarioDTO());
+    modelo.put("error", mensaje);
+
+    return new ModelAndView("detalle-publicacion", modelo);
+  }
+
+  @RequestMapping(path = "/comunidad/{id}/unirse-habito", method = RequestMethod.POST)
+  public ModelAndView unirseAHabitoGrupal(@PathVariable Integer id, HttpServletRequest request) {
+    Usuario usuario = obtenerUsuarioDeSesion(request);
+
+    if (usuario == null) {
+      return new ModelAndView(REDIRECT_LOGIN);
+    }
+
+    Publicacion publicacion = servicioComunidad.buscarPublicacionPorId(id);
+
+    if (publicacion == null || publicacion.getHabitoAsociado() == null) {
+      return new ModelAndView(REDIRECT_COMUNIDAD);
+    }
+
+    try {
+      servicioHabitoCompartido.unirseAHabitoGrupal(publicacion.getHabitoAsociado(), usuario);
+    } catch (LimiteHabitosAlcanzadoException e) {
+      return volverADetalleConError(publicacion, "Alcanzaste el límite de hábitos permitidos");
+    } catch (UsuarioYaUnidoAHabitoException e) {
+      return volverADetalleConError(publicacion, "Ya estás participando en este hábito grupal");
+    }
+
+    return new ModelAndView("redirect:/comunidad/" + id);
   }
 }

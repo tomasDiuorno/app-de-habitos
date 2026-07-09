@@ -129,7 +129,14 @@
           </div>
           <p th:if="${error != null}" class="form-error" th:text="${error}">
           </p>
-
+          
+          <div class="form-group checkbox-group">
+            <label for="compartirEnForo" style="display:flex; align-items:center; gap:10px;">
+              <input type="checkbox" id="compartirEnForo" th:field="*{compartirEnForo}">
+              Compartir como hábito grupal en el foro
+            </label>
+          </div>
+          
           <div class="form-actions">
             <a th:href="@{/habitos}" class="button-secondary">
               Cancelar

@@ -32,6 +32,7 @@ public class Habito {
   private String descripcion;
   private String frecuencia;
   private Integer xpBase;
+  private Boolean esGrupal = false;
 
   @Enumerated(EnumType.STRING)
   private TipoHabitoEnum tipoHabito;
@@ -45,4 +46,12 @@ public class Habito {
 
   @OneToMany(mappedBy = "habito")
   private List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
+
+  public Boolean getEsGrupal() {
+    return esGrupal;
+  }
+
+  public void setEsGrupal(Boolean esGrupal) {
+    this.esGrupal = esGrupal;
+  }
 }

@@ -7,9 +7,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.tallerwebi.dominio.entidades.Habito;
 import com.tallerwebi.dominio.entidades.Publicacion;
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
+import com.tallerwebi.dominio.excepcion.UsuarioYaUnidoAHabitoException;
 import com.tallerwebi.dominio.interfaz.ServicioComunidad;
+import com.tallerwebi.dominio.servicios.ServicioHabitoCompartido;
 import com.tallerwebi.presentacion.DTO.ComentarioDTO;
 import com.tallerwebi.presentacion.DTO.PublicacionDTO;
 import java.util.Arrays;
@@ -25,11 +29,13 @@ public class ControladorComunidadTest {
   private ControladorComunidad controladorComunidad;
   private HttpServletRequest request;
   private HttpSession session;
+  private ServicioHabitoCompartido servicioHabitoCompartido;
 
   @BeforeEach
   public void init() {
     servicioComunidad = mock(ServicioComunidad.class);
-    controladorComunidad = new ControladorComunidad(servicioComunidad);
+    servicioHabitoCompartido = mock(ServicioHabitoCompartido.class);
+    controladorComunidad = new ControladorComunidad(servicioComunidad, servicioHabitoCompartido);
     request = mock(HttpServletRequest.class);
     session = mock(HttpSession.class);
 
@@ -137,5 +143,83 @@ public class ControladorComunidadTest {
 
     verify(servicioComunidad).comentarPublicacion(1, comentarioDTO, usuario);
     assertThat(modelAndView.getViewName(), equalTo("redirect:/comunidad/1"));
+  }
+
+  @Test
+  public void unirseAHabitoGrupalSinUsuarioDeberiaRedirigirAlLogin() {
+    when(session.getAttribute("usuario")).thenReturn(null);
+
+    ModelAndView modelAndView = controladorComunidad.unirseAHabitoGrupal(1, request);
+
+    assertThat(modelAndView.getViewName(), equalTo("redirect:/login"));
+  }
+
+  @Test
+  public void unirseAHabitoGrupalConPublicacionInexistenteDeberiaRedirigirAComunidad() {
+    Usuario usuario = new Usuario();
+    when(session.getAttribute("usuario")).thenReturn(usuario);
+    when(servicioComunidad.buscarPublicacionPorId(1)).thenReturn(null);
+
+    ModelAndView modelAndView = controladorComunidad.unirseAHabitoGrupal(1, request);
+
+    assertThat(modelAndView.getViewName(), equalTo("redirect:/comunidad"));
+  }
+
+  @Test
+  public void unirseAHabitoGrupalConPublicacionSinHabitoAsociadoDeberiaRedirigirAComunidad() {
+    Usuario usuario = new Usuario();
+    Publicacion publicacion = new Publicacion();
+
+    when(session.getAttribute("usuario")).thenReturn(usuario);
+    when(servicioComunidad.buscarPublicacionPorId(1)).thenReturn(publicacion);
+
+    ModelAndView modelAndView = controladorComunidad.unirseAHabitoGrupal(1, request);
+
+    assertThat(modelAndView.getViewName(), equalTo("redirect:/comunidad"));
+  }
+
+  @Test
+  public void unirseAHabitoGrupalValidoDeberiaVincularAlUsuarioYRedirigirAlDetalle()
+    throws LimiteHabitosAlcanzadoException, UsuarioYaUnidoAHabitoException {
+    Usuario usuario = new Usuario();
+    Habito habito = new Habito();
+    habito.setEsGrupal(true);
+    Publicacion publicacion = new Publicacion();
+    publicacion.setHabitoAsociado(habito);
+
+    when(session.getAttribute("usuario")).thenReturn(usuario);
+    when(servicioComunidad.buscarPublicacionPorId(1)).thenReturn(publicacion);
+
+    ModelAndView modelAndView = controladorComunidad.unirseAHabitoGrupal(1, request);
+
+    verify(servicioHabitoCompartido).unirseAHabitoGrupal(habito, usuario);
+    assertThat(modelAndView.getViewName(), equalTo("redirect:/comunidad/1"));
+  }
+
+  @Test
+  public void unirseAHabitoGrupalCuandoYaEstaUnidoDeberiaVolverAlDetalleConError()
+    throws LimiteHabitosAlcanzadoException, UsuarioYaUnidoAHabitoException {
+    Usuario usuario = new Usuario();
+    Habito habito = new Habito();
+    habito.setEsGrupal(true);
+    Publicacion publicacion = new Publicacion();
+    publicacion.setHabitoAsociado(habito);
+
+    when(session.getAttribute("usuario")).thenReturn(usuario);
+    when(servicioComunidad.buscarPublicacionPorId(1)).thenReturn(publicacion);
+
+    org.mockito.Mockito
+      .doThrow(new UsuarioYaUnidoAHabitoException())
+      .when(servicioHabitoCompartido)
+      .unirseAHabitoGrupal(habito, usuario);
+
+    ModelAndView modelAndView = controladorComunidad.unirseAHabitoGrupal(1, request);
+
+    assertThat(modelAndView.getViewName(), equalTo("detalle-publicacion"));
+    assertThat(modelAndView.getModel().get("publicacion"), equalTo(publicacion));
+    assertThat(
+      modelAndView.getModel().get("error"),
+      equalTo("Ya estás participando en este hábito grupal")
+    );
   }
 }

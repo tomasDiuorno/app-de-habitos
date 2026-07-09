@@ -44,17 +44,27 @@
   <section class="detalle-card">
     <a th:href="@{/comunidad}" class="volver-link">Volver a comunidad</a>
 
-    <p class="publicacion-tag" th:text="${publicacion.autor != null ? publicacion.autor.username : 'Usuario'}">
-      Usuario
-    </p>
+  <p class="publicacion-tag" th:text="${publicacion.autor != null ? publicacion.autor.username : 'Usuario'}">
+    Usuario
+  </p>
 
-    <h1 th:text="${publicacion.titulo}">
-      Título
-    </h1>
+  <h1 th:text="${publicacion.titulo}">
+    Título
+  </h1>
 
-    <p class="detalle-contenido" th:text="${publicacion.contenido}">
-      Contenido
-    </p>
+  <p class="detalle-contenido" th:text="${publicacion.contenido}">
+    Contenido
+  </p>
+
+  <div th:if="${publicacion.habitoAsociado != null}" class="form-actions" style="margin-top: 20px;">
+    <form th:action="@{/comunidad/{id}/unirse-habito(id=${publicacion.id})}" method="post">
+      <button type="submit" class="primary-button">Unirse a este hábito</button>
+    </form>
+  </div>
+
+  <p th:if="${error}" class="form-error" th:text="${error}">
+    Mensaje de error
+  </p>
   </section>
 
   <section class="comentarios-section">

@@ -15,4 +15,6 @@ public interface ServicioHabito {
   Habito buscarHabito(String titulo);
   Habito buscarHabitoPorId(Integer id);
   Habito obtenerHabito(RegistroHabitoDTO datos);
+  void vincularUsuarioAHabito(Habito habito, Usuario usuario)
+    throws LimiteHabitosAlcanzadoException;
 }
