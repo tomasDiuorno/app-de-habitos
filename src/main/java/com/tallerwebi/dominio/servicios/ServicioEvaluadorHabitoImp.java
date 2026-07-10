@@ -1,6 +1,5 @@
 package com.tallerwebi.dominio.servicios;
 
-import com.tallerwebi.dominio.componentes.EvaluadorHabito;
 import com.tallerwebi.dominio.entidades.Habito;
 import com.tallerwebi.dominio.entidades.RegistroHabito;
 import com.tallerwebi.dominio.entidades.Usuario;
@@ -8,6 +7,7 @@ import com.tallerwebi.dominio.entidades.UsuarioHabito;
 import com.tallerwebi.dominio.factory.EvaluadorHabitosFactory;
 import com.tallerwebi.dominio.interfaz.RepositorioRegistroHabito;
 import com.tallerwebi.dominio.interfaz.ServicioEvaluadorHabito;
+import com.tallerwebi.dominio.interfaz.ServicioEvaluadorTipoHabito;
 import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class ServicioEvaluadorHabitoImp implements ServicioEvaluadorHabito {
   public void completarHabito(UsuarioHabito usuarioHabito, String evidencia) {
     Habito habito = usuarioHabito.getHabito();
     Usuario usuario = usuarioHabito.getUsuario();
-    EvaluadorHabito evaluador = factory.obtener(habito.getTipoHabito());
+    ServicioEvaluadorTipoHabito evaluador = factory.obtener(habito.getTipoHabito());
 
     ResultadoEvaluacionDTO resultado = evaluador.evaluar(habito, evidencia);
     RegistroHabito registro = new RegistroHabito();

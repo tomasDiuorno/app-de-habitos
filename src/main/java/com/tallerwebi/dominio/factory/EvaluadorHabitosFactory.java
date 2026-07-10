@@ -1,29 +1,27 @@
 package com.tallerwebi.dominio.factory;
 
-import com.tallerwebi.dominio.componentes.EvaluadorCantidad;
-import com.tallerwebi.dominio.componentes.EvaluadorHabito;
-import com.tallerwebi.dominio.componentes.EvaluadorHorario;
 import com.tallerwebi.dominio.enums.TipoHabitoEnum;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tallerwebi.dominio.interfaz.ServicioEvaluadorTipoHabito;
+
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EvaluadorHabitosFactory {
+  private final Map<TipoHabitoEnum, ServicioEvaluadorTipoHabito> evaluadores;
 
-  @Autowired
-  private EvaluadorCantidad cantidad;
+  public EvaluadorHabitosFactory(List<ServicioEvaluadorTipoHabito> evaluadores) {
+    this.evaluadores = evaluadores.stream().collect(Collectors.toMap(ServicioEvaluadorTipoHabito::getTipoHabito, Function.identity()));
+  }
 
-  @Autowired
-  private EvaluadorHorario horario;
-
-  public EvaluadorHabito obtener(TipoHabitoEnum tipo) {
-    switch (tipo) {
-      case HORARIO:
-        return horario;
-      case CANTIDAD:
-        return cantidad;
-      default:
-        throw new IllegalArgumentException("Tipo de hábito no soportado: " + tipo);
+  public ServicioEvaluadorTipoHabito obtener(TipoHabitoEnum tipo) {
+    ServicioEvaluadorTipoHabito evaluador = this.evaluadores.get(tipo);
+    if(evaluador == null) {
+      throw new IllegalArgumentException("No se encontró un evaluador para el tipo de hábito: " + tipo);
     }
+    return evaluador;
   }
 }
