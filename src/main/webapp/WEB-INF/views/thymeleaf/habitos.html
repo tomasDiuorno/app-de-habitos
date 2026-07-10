@@ -119,10 +119,6 @@
             th:data-id="${usuarioHabito.habito.id}" th:data-nombre="${usuarioHabito.habito.titulo}">
             Completar hábito
           </button>
-          <a th:href="@{/habito/plan(habitoId=${usuarioHabito.habito.id})}" class="habit-button"
-            style="flex: 1; background-color: #6c5ce7; border: 1px solid #6c5ce7; color: white; display: flex; align-items: center; justify-content: center; text-decoration: none;">
-            Sugerencia IA
-          </a>
         </div>
       </article>
     </section>
@@ -171,7 +167,7 @@
 
   <div id="modalHabito" class="modal">
     <div class="modal-contenido">
-      <span id="cerrarModal" class="cerrar">&times;</span>
+      <button type="button" id="cerrarModal" class="habit-modal-close">X</button>
       <h3>✨ Sugerencia IA</h3>
       <div id="sugerencia"></div>
       <button id="aceptarHabito">Crear hábito</button>

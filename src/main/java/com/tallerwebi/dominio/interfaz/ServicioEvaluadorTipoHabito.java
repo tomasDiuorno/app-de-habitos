@@ -1,8 +1,10 @@
-package com.tallerwebi.dominio.componentes;
+package com.tallerwebi.dominio.interfaz;
 
 import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.enums.TipoHabitoEnum;
 import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
 
-public interface EvaluadorHabito {
+public interface ServicioEvaluadorTipoHabito {
+  TipoHabitoEnum getTipoHabito();
   ResultadoEvaluacionDTO evaluar(Habito habito, String evidencia);
 }

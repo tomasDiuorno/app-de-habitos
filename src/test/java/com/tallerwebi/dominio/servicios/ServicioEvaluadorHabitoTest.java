@@ -6,7 +6,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.tallerwebi.dominio.componentes.EvaluadorHabito;
 import com.tallerwebi.dominio.entidades.Habito;
 import com.tallerwebi.dominio.entidades.RegistroHabito;
 import com.tallerwebi.dominio.entidades.Usuario;
@@ -15,6 +14,7 @@ import com.tallerwebi.dominio.enums.TipoHabitoEnum;
 import com.tallerwebi.dominio.factory.EvaluadorHabitosFactory;
 import com.tallerwebi.dominio.interfaz.RepositorioRegistroHabito;
 import com.tallerwebi.dominio.interfaz.ServicioEvaluadorHabito;
+import com.tallerwebi.dominio.interfaz.ServicioEvaluadorTipoHabito;
 import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,13 +24,13 @@ public class ServicioEvaluadorHabitoTest {
   private ServicioEvaluadorHabito servicioEvaluadorHabito;
   private EvaluadorHabitosFactory factoryMock;
   private RepositorioRegistroHabito registroHabitoRepositorioMock;
-  private EvaluadorHabito evaluadorMock;
+  private ServicioEvaluadorTipoHabito evaluadorMock;
 
   @BeforeEach
   public void init() {
     factoryMock = mock(EvaluadorHabitosFactory.class);
     registroHabitoRepositorioMock = mock(RepositorioRegistroHabito.class);
-    evaluadorMock = mock(EvaluadorHabito.class);
+    evaluadorMock = mock(ServicioEvaluadorTipoHabito.class);
     servicioEvaluadorHabito =
       new ServicioEvaluadorHabitoImp(factoryMock, registroHabitoRepositorioMock);
   }

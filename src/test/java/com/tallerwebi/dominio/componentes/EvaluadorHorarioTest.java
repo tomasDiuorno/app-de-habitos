@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.is;
 
 import com.tallerwebi.dominio.entidades.ConfiguracionHabito;
 import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.servicios.ServicioEvaluadorHorarioImpl;
 import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
 import java.time.LocalTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,11 +13,11 @@ import org.junit.jupiter.api.Test;
 
 public class EvaluadorHorarioTest {
 
-  private EvaluadorHorario evaluadorHorario;
+  private ServicioEvaluadorHorarioImpl evaluadorHorario;
 
   @BeforeEach
   public void init() {
-    evaluadorHorario = new EvaluadorHorario();
+    evaluadorHorario = new ServicioEvaluadorHorarioImpl();
   }
 
   @Test

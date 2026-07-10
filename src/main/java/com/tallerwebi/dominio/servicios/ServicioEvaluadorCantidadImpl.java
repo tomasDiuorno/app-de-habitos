@@ -1,11 +1,13 @@
-package com.tallerwebi.dominio.componentes;
+package com.tallerwebi.dominio.servicios;
 
 import com.tallerwebi.dominio.entidades.Habito;
+import com.tallerwebi.dominio.enums.TipoHabitoEnum;
+import com.tallerwebi.dominio.interfaz.ServicioEvaluadorTipoHabito;
 import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public class EvaluadorCantidad implements EvaluadorHabito {
+@Service("evaluadorCantidad")
+public class ServicioEvaluadorCantidadImpl implements ServicioEvaluadorTipoHabito {
 
   @Override
   public ResultadoEvaluacionDTO evaluar(Habito habito, String evidencia) {
@@ -13,5 +15,10 @@ public class EvaluadorCantidad implements EvaluadorHabito {
     Boolean cumplio = cantidad >= habito.getConfiguracion().getObjetivoNumero();
 
     return new ResultadoEvaluacionDTO(cumplio, "Cantidad realizada: " + cantidad);
+  }
+
+  @Override
+  public TipoHabitoEnum getTipoHabito() {
+    return TipoHabitoEnum.CANTIDAD;
   }
 }
