@@ -58,17 +58,16 @@ public class ServicioHabitoImpl implements ServicioHabito {
   @Override
   public void agregarHabitoParaUsuario(Habito habito, Usuario usuario)
     throws HabitoExistenteExeption, LimiteHabitosAlcanzadoException {
-    if (usuario.getUsuarioHabitos().size() >= CANTIDAD_MAXIMA_HABITOS) {
-      throw new LimiteHabitosAlcanzadoException();
-    }
-    UsuarioHabito usuarioHabito = this.crearRelacion(habito, usuario);
+    this.validarLimiteDeHabitos(usuario);
     this.agregarHabito(habito);
-    this.repositorioUsuarioHabito.guardar(usuarioHabito);
-    usuario.getUsuarioHabitos().add(usuarioHabito);
+    this.crearVinculoYAsignarLogros(habito, usuario);
+  }
 
-    if (usuario.getId() != null) {
-      this.servicioLogro.verificarYAsignarLogros(usuario);
-    }
+  @Override
+  public void vincularUsuarioAHabito(Habito habito, Usuario usuario)
+    throws LimiteHabitosAlcanzadoException {
+    this.validarLimiteDeHabitos(usuario);
+    this.crearVinculoYAsignarLogros(habito, usuario);
   }
 
   private UsuarioHabito crearRelacion(Habito habito, Usuario usuario) {
@@ -124,5 +123,21 @@ public class ServicioHabitoImpl implements ServicioHabito {
   public Habito obtenerHabito(RegistroHabitoDTO datos) {
     Categoria categoria = repositorioCategoria.obtenerCategoriaPorId(datos.getCategoriaId());
     return this.crearHabito(datos, categoria);
+  }
+
+  private void validarLimiteDeHabitos(Usuario usuario) throws LimiteHabitosAlcanzadoException {
+    if (usuario.getUsuarioHabitos().size() >= CANTIDAD_MAXIMA_HABITOS) {
+      throw new LimiteHabitosAlcanzadoException();
+    }
+  }
+
+  private void crearVinculoYAsignarLogros(Habito habito, Usuario usuario) {
+    UsuarioHabito usuarioHabito = this.crearRelacion(habito, usuario);
+    this.repositorioUsuarioHabito.guardar(usuarioHabito);
+    usuario.getUsuarioHabitos().add(usuarioHabito);
+
+    if (usuario.getId() != null) {
+      this.servicioLogro.verificarYAsignarLogros(usuario);
+    }
   }
 }

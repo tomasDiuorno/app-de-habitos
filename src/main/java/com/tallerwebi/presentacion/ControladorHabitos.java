@@ -10,6 +10,7 @@ import com.tallerwebi.dominio.interfaz.ServicioEvaluadorHabito;
 import com.tallerwebi.dominio.interfaz.ServicioHabito;
 import com.tallerwebi.dominio.interfaz.ServicioLogro;
 import com.tallerwebi.dominio.interfaz.ServicioUsuarioHabito;
+import com.tallerwebi.dominio.servicios.ServicioHabitoCompartido;
 import com.tallerwebi.dominio.servicios.ServicioHabitoIA;
 import com.tallerwebi.presentacion.DTO.PlanHabitoDTO;
 import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
@@ -51,6 +52,7 @@ public class ControladorHabitos {
   private ServicioEvaluadorHabito servicioEvaluadorHabito;
   private ServicioUsuarioHabito servicioUsuarioHabito;
   private ServicioHabitoIA servicioHabitoIA;
+  private ServicioHabitoCompartido servicioHabitoCompartido;
 
   @Autowired
   public ControladorHabitos(
@@ -59,7 +61,8 @@ public class ControladorHabitos {
     ServicioLogro servicioLogro,
     ServicioEvaluadorHabito servicioEvaluadorHabito,
     ServicioUsuarioHabito servicioUsuarioHabito,
-    ServicioHabitoIA servicioHabitoIA
+    ServicioHabitoIA servicioHabitoIA,
+    ServicioHabitoCompartido servicioHabitoCompartido
   ) {
     this.servicioHabito = servicioHabito;
     this.servicioCategoria = servicioCategoria;
@@ -67,6 +70,7 @@ public class ControladorHabitos {
     this.servicioEvaluadorHabito = servicioEvaluadorHabito;
     this.servicioUsuarioHabito = servicioUsuarioHabito;
     this.servicioHabitoIA = servicioHabitoIA;
+    this.servicioHabitoCompartido = servicioHabitoCompartido;
   }
 
   @RequestMapping(path = "/habitos", method = RequestMethod.GET)
@@ -143,8 +147,12 @@ public class ControladorHabitos {
     Integer cantidadHabitosAntes = usuario.getUsuarioHabitos().size();
 
     try {
-      Habito habito = this.servicioHabito.obtenerHabito(datos);
-      this.servicioHabito.agregarHabitoParaUsuario(habito, usuario);
+      if (datos.isCompartirEnForo()) {
+        this.servicioHabitoCompartido.crearHabitoGrupal(datos, usuario);
+      } else {
+        Habito habito = this.servicioHabito.obtenerHabito(datos);
+        this.servicioHabito.agregarHabitoParaUsuario(habito, usuario);
+      }
 
       Integer cantidadHabitosDespues = cantidadHabitosAntes + 1;
       this.servicioLogro.verificarYAsignarLogros(usuario, cantidadHabitosDespues);

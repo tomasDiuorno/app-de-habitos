@@ -29,4 +29,20 @@ public class HabitoTest {
     assertThat(habito.getUsuarioHabitos().size(), is(1));
     assertThat(habito.getUsuarioHabitos().get(0).getUsuario().getEmail(), is("user@test.com"));
   }
+
+  @Test
+  public void unHabitoNuevoDeberiaSerNoGrupalPorDefecto() {
+    Habito habito = new Habito();
+
+    assertThat(habito.getEsGrupal(), is(false));
+  }
+
+  @Test
+  public void deberiaPoderMarcarUnHabitoComoGrupal() {
+    Habito habito = new Habito();
+
+    habito.setEsGrupal(true);
+
+    assertThat(habito.getEsGrupal(), is(true));
+  }
 }

@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio.servicios;
 
 import com.tallerwebi.dominio.entidades.Comentario;
+import com.tallerwebi.dominio.entidades.Habito;
 import com.tallerwebi.dominio.entidades.Publicacion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.interfaz.RepositorioComentario;
@@ -76,5 +77,19 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     comentario.setPublicacion(publicacion);
 
     repositorioComentario.guardar(comentario);
+  }
+
+  @Override
+  public Publicacion publicarHabitoEnForo(Habito habito, Usuario creador) {
+    Publicacion publicacion = new Publicacion();
+    publicacion.setTitulo("¡Unite al habito: " + habito.getTitulo() + "!");
+    publicacion.setContenido("¡Sumate a este hábito grupal y alcancemos la meta juntos!");
+    publicacion.setAutor(creador);
+    publicacion.setFechaCreacion(LocalDateTime.now());
+    publicacion.setHabitoAsociado(habito);
+
+    repositorioPublicacion.guardar(publicacion);
+
+    return publicacion;
   }
 }

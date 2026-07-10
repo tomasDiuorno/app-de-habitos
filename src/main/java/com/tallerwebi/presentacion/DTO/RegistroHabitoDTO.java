@@ -24,4 +24,6 @@ public class RegistroHabitoDTO {
   private String unidadObjetivo;
 
   private LocalTime horaLimite;
+
+  private boolean compartirEnForo;
 }

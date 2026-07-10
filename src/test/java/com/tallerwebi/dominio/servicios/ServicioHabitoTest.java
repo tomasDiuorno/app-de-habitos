@@ -280,4 +280,47 @@ public class ServicioHabitoTest {
 
     verify(this.repositorioCategoriaMock, times(1)).obtenerCategoriaPorId(1);
   }
+
+  @Test
+  public void vincularUsuarioAHabitoDeberiaCrearLaRelacionSinVolverAGuardarElHabito()
+    throws LimiteHabitosAlcanzadoException {
+    Usuario usuario = new Usuario();
+    usuario.setId(1);
+
+    Habito habito = new Habito();
+    habito.setTitulo("Meditar en grupo");
+    habito.setEsGrupal(true);
+
+    this.servicioHabitos.vincularUsuarioAHabito(habito, usuario);
+
+    verify(this.repositorioHabitoMock, times(0)).guardar(any(Habito.class));
+
+    ArgumentCaptor<UsuarioHabito> captor = ArgumentCaptor.forClass(UsuarioHabito.class);
+    verify(this.repositorioUsuarioHabitoMock, times(1)).guardar(captor.capture());
+
+    assertThat(captor.getValue().getUsuario(), is(usuario));
+    assertThat(captor.getValue().getHabito(), is(habito));
+    assertThat(usuario.getUsuarioHabitos().size(), equalTo(1));
+    verify(this.servicioLogroMock, times(1)).verificarYAsignarLogros(usuario);
+  }
+
+  @Test
+  public void vincularUsuarioAHabitoConCuatroHabitosDeberiaLanzarExcepcion() {
+    Usuario usuario = new Usuario();
+    List<UsuarioHabito> usuarioHabitos = new ArrayList<>();
+    usuarioHabitos.add(new UsuarioHabito());
+    usuarioHabitos.add(new UsuarioHabito());
+    usuarioHabitos.add(new UsuarioHabito());
+    usuarioHabitos.add(new UsuarioHabito());
+    usuario.setUsuarioHabitos(usuarioHabitos);
+
+    Habito habito = new Habito();
+
+    assertThrows(
+      LimiteHabitosAlcanzadoException.class,
+      () -> this.servicioHabitos.vincularUsuarioAHabito(habito, usuario)
+    );
+
+    verify(this.repositorioUsuarioHabitoMock, times(0)).guardar(any(UsuarioHabito.class));
+  }
 }
