@@ -166,13 +166,33 @@
   </div>
 
   <div id="modalHabito" class="modal">
-    <div class="modal-contenido">
-      <button type="button" id="cerrarModal" class="habit-modal-close">X</button>
-      <h3>✨ Sugerencia IA</h3>
-      <div id="sugerencia"></div>
-      <button id="aceptarHabito">Crear hábito</button>
+  <div class="modal-contenido">
+    <button type="button" id="cerrarModalHabito" class="habit-modal-close">X</button>
+    <h3>✨ Sugerencia IA</h3>
+    <div id="sugerencia"></div>
+    <div id="mensajeModal" class="mensaje-modal"></div>
+    <div class="modal-acciones">
+      <button id="cancelarHabito" type="button" class="btn-secundario">Cancelar</button>
+      <button id="aceptarHabito" type="button" class="btn-primario">Crear hábito</button>
     </div>
   </div>
+</div>
+
+<div id="logroPopupIA" class="achievement-popup" style="display: none;">
+  <div class="achievement-icon">
+    ★
+  </div>
+
+  <div class="achievement-content">
+    <span class="achievement-label">Logro desbloqueado</span>
+    <strong id="tituloLogroIA">
+      Título del logro
+    </strong>
+    <p id="descripcionLogroIA">
+      Descripción del logro
+    </p>
+  </div>
+</div>
 
   <footer class="habitos-footer">
     <div class="habitos-footer-container">
@@ -195,8 +215,11 @@
       </div>
     </div>
   </footer>
-
-  <script th:src="@{/js/habito.js}"></script>
+  <script th:if="${mostrarLogro}" th:inline="javascript">
+      setTimeout(function () {
+        window.location.href = /*[[@{/habitos}]]*/ '/spring/habitos';
+      }, 3500);
+    </script>
   <script th:src="@{/js/completarHabito.js}"></script>
   <script th:src="@{/js/asistenteIA.js}"></script>
 </body>
