@@ -11,16 +11,23 @@
     />
   </head>
   <body class="habitos-body">
-    <header class="habitos-header">
-      <div class="habitos-logo">🎯 Mi Historial</div>
-      <div class="habitos-nav-links">
-        <a th:href="@{/home}" class="habitos-nav-link">Inicio</a>
-        <a th:href="@{/recompensas}" class="habitos-nav-link">Recompensas</a>
-        <a th:href="@{/habitos}" class="habitos-nav-link">Hábitos</a>
-        <a th:href="@{/historial}" class="habitos-nav-link active">Historial</a>
-          <a th:href="@{/comunidad}" class="habitapp-nav-link">Comunidad</a>
-        <a th:href="@{/perfil}" class="habitos-nav-link">Perfil</a>
-        <a th:href="@{/login}" class="habitos-logout-button">Cerrar sesión</a>
+    <header class="home-navbar">
+      <div class="home-navbar-container">
+
+        <a th:href="@{/home}" class="home-brand">
+          <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="home-logo">
+        </a>
+
+        <nav class="home-nav-links">
+          <a th:href="@{/habitos}" class="home-nav-link">Hábitos</a>
+          <a th:href="@{/tienda}" class="home-nav-link">Tienda</a>
+          <a th:href="@{/recompensas}" class="home-nav-link">Recompensas</a>
+          <a th:href="@{/comunidad}" class="home-nav-link">Comunidad</a>
+          <a th:href="@{/historial}" class="home-nav-link active">Historial</a>
+          <a th:href="@{/perfil}" class="home-nav-link">Perfil</a>
+          <a th:href="@{/login}" class="home-logout-button">Cerrar sesión</a>
+        </nav>
+
       </div>
     </header>
 
