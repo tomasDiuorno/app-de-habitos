@@ -1,155 +1,161 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8" />
-    <title>Tienda - Habitapp</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Tienda - Habitapp</title>
 
-    <link rel="stylesheet" th:href="@{/css/vistahome.css}">
-    <link rel="stylesheet" th:href="@{/css/tienda.css}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" th:href="@{/css/tiendaDeBonificaciones.css}">
+  <link rel="stylesheet" th:href="@{/css/navbar-home.css(v=1)}">
 </head>
-<body class="home-body">
+
+<body class="tienda-body">
 
 <header class="home-navbar">
-    <div class="home-navbar-container">
-        <a th:href="@{/home}" class="home-brand">
-            <img th:src="@{/images/logo.png}" alt="Habitapp" class="home-logo">
-        </a>
+  <div class="home-navbar-container">
 
-        <nav class="home-nav-links">
-            <a th:href="@{/habitos}" class="home-nav-link">Hábitos</a>
-            <a th:href="@{/tienda}" class="home-nav-link active">Tienda</a>
-            <a th:href="@{/recompensas}" class="home-nav-link">Recompensas</a>
-            <a th:href="@{/comunidad}" class="home-nav-link">Comunidad</a>
-            <a th:href="@{/historial}" class="home-nav-link">Historial</a>
-              <a th:href="@{/comunidad}" class="habitapp-nav-link">Comunidad</a>
-            <a th:href="@{/perfil}" class="home-nav-link">Perfil</a>
-            <a th:href="@{/login}" class="home-logout-button">Cerrar sesión</a>
-        </nav>
-    </div>
+    <a th:href="@{/home}" class="home-brand">
+      <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="home-logo">
+    </a>
+
+    <nav class="home-nav-links">
+      <a th:href="@{/habitos}" class="home-nav-link">Hábitos</a>
+      <a th:href="@{/tienda}" class="home-nav-link active">Tienda</a>
+      <a th:href="@{/recompensas}" class="home-nav-link">Recompensas</a>
+      <a th:href="@{/comunidad}" class="home-nav-link">Comunidad</a>
+      <a th:href="@{/historial}" class="home-nav-link">Historial</a>
+      <a th:href="@{/perfil}" class="home-nav-link">Perfil</a>
+      <a th:href="@{/login}" class="home-logout-button">Cerrar sesión</a>
+    </nav>
+
+  </div>
 </header>
 
 <main class="tienda-page">
 
-    <section class="tienda-hero">
-        <p class="tienda-subtitulo">CANJEÁ TUS MONEDAS</p>
+  <section class="tienda-hero">
+    <p class="tienda-subtitulo">CANJEÁ TUS MONEDAS</p>
 
-        <div class="tienda-header-content">
-            <div>
-                <h1>TIENDA</h1>
+    <div class="tienda-header-content">
+      <div>
+        <h1>TIENDA</h1>
 
-                <p>
-                    Usá tus monedas para comprar bonificaciones que te ayuden a
-                    potenciar tu progreso y mantener la constancia en tus hábitos.
-                </p>
-
-                <div class="bonificacion-activa" th:if="${bonificacionActiva != null}">
-                    <p>
-                        Bonificación activa:
-                        <strong th:text="${bonificacionActiva.bonificacion.nombre}">
-                            IMPULSO MEDIO
-                        </strong>
-                    </p>
-                </div>
-            </div>
-
-            <div class="monedas-card">
-                <span class="monedas-label">Tus monedas</span>
-
-                <strong th:text="${monedasUsuario}">250</strong>
-
-                <span class="monedas-texto">monedas disponibles</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="bonificaciones-section">
-        <p class="section-subtitulo">BONIFICACIONES DISPONIBLES</p>
-
-        <h2>POTENCIÁ TU PROGRESO</h2>
-
-        <p class="section-descripcion">
-            Estas bonificaciones pueden ayudarte a sumar experiencia extra para subir de nivel.
+        <p>
+          Usá tus monedas para comprar bonificaciones que te ayuden a potenciar tu progreso
+          y mantener la constancia en tus hábitos.
         </p>
 
-        <div class="bonificaciones-grid">
-
-            <article class="bonificacion-card"
-                     th:each="bonificacion : ${bonificaciones}"
-                     th:classappend="${bonificacion.porcentaje == 50} ? ' destacada' : ''">
-
-                <div class="bonificacion-porcentaje">
-                    <span th:if="${bonificacion.porcentaje == 25}">x1.25</span>
-                    <span th:if="${bonificacion.porcentaje == 50}">x1.50</span>
-                    <span th:if="${bonificacion.porcentaje == 100}">x2</span>
-                    <span th:if="${bonificacion.porcentaje != 25 and bonificacion.porcentaje != 50 and bonificacion.porcentaje != 100}"
-                          th:text="${bonificacion.porcentaje + '%'}">
-                        10%
-                    </span>
-                </div>
-
-                <h3 th:text="${bonificacion.nombre}">
-                    IMPULSO INICIAL
-                </h3>
-
-                <p th:text="${bonificacion.descripcion}">
-                    Sumá una bonificación pequeña para avanzar un poco más rápido de nivel.
-                </p>
-
-                <div class="bonificacion-footer">
-                    <span class="precio"
-                          th:text="${bonificacion.precioMonedas + ' monedas'}">
-                        50 monedas
-                    </span>
-
-                    <form th:action="@{/tienda/activar/{id}(id=${bonificacion.id})}"
-                        method="post"
-                        th:if="${bonificacionActiva == null and monedasUsuario >= bonificacion.precioMonedas}">
-
-                        <button type="submit">CANJEAR</button>
-                    </form>
-
-                    <button type="button"
-                            disabled
-                            th:if="${bonificacionActiva == null and monedasUsuario < bonificacion.precioMonedas}">
-                        SIN MONEDAS
-                    </button>
-
-                    <button type="button"
-                            disabled
-                            th:if="${bonificacionActiva != null}">
-                        ACTIVA
-                    </button>
-                </div>
-
-            </article>
-
+        <div class="bonificacion-activa" th:if="${bonificacionActiva != null}">
+          <p>
+            Bonificación activa:
+            <strong th:text="${bonificacionActiva.bonificacion.nombre}">
+              IMPULSO MEDIO
+            </strong>
+          </p>
         </div>
-    </section>
+      </div>
+
+      <div class="monedas-card">
+        <span class="monedas-label">Tus monedas</span>
+        <strong th:text="${monedasUsuario}">250</strong>
+        <span class="monedas-texto">monedas disponibles</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="bonificaciones-section">
+    <p class="section-subtitulo">BONIFICACIONES DISPONIBLES</p>
+
+    <h2>POTENCIÁ TU PROGRESO</h2>
+
+    <p class="section-descripcion">
+      Estas bonificaciones pueden ayudarte a sumar experiencia extra para subir de nivel.
+    </p>
+
+    <div class="bonificaciones-grid">
+
+      <article class="bonificacion-card"
+               th:each="bonificacion : ${bonificaciones}"
+               th:classappend="${bonificacion.porcentaje == 50} ? ' destacada' : ''">
+
+        <div class="bonificacion-porcentaje">
+          <span th:if="${bonificacion.porcentaje == 25}">x1.25</span>
+          <span th:if="${bonificacion.porcentaje == 50}">x1.50</span>
+          <span th:if="${bonificacion.porcentaje == 100}">x2</span>
+          <span th:if="${bonificacion.porcentaje != 25 and bonificacion.porcentaje != 50 and bonificacion.porcentaje != 100}"
+                th:text="${bonificacion.porcentaje + '%'}">
+            10%
+          </span>
+        </div>
+
+        <h3 th:text="${bonificacion.nombre}">
+          IMPULSO INICIAL
+        </h3>
+
+        <p th:text="${bonificacion.descripcion}">
+          Sumá una bonificación pequeña para avanzar un poco más rápido de nivel.
+        </p>
+
+        <div class="bonificacion-footer">
+          <span class="precio"
+                th:text="${bonificacion.precioMonedas + ' monedas'}">
+            50 monedas
+          </span>
+
+          <form th:action="@{/tienda/activar/{id}(id=${bonificacion.id})}"
+                method="post"
+                th:if="${bonificacionActiva == null and monedasUsuario >= bonificacion.precioMonedas}">
+
+            <button type="submit">CANJEAR</button>
+          </form>
+
+          <button type="button"
+                  disabled
+                  th:if="${bonificacionActiva == null and monedasUsuario < bonificacion.precioMonedas}">
+            SIN MONEDAS
+          </button>
+
+          <button type="button"
+                  disabled
+                  th:if="${bonificacionActiva != null}">
+            ACTIVA
+          </button>
+        </div>
+
+      </article>
+
+    </div>
+  </section>
 
 </main>
 
-  <footer class="home-footer">
-    <div class="home-footer-container">
+<footer class="home-footer">
+  <div class="home-footer-container">
 
-      <div class="footer-brand">
-        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="footer-logo">
-      </div>
-
-      <div class="footer-info">
-        <p>Proyecto desarrollado para Taller Web I.</p>
-        <p>Tomas Diuorno - Julieta Miño - Ramiro Bruzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
-      </div>
-
-      <div class="footer-copy">
-        <p>&copy; 2026 Habitapp. Todos los derechos reservados.</p>
-      </div>
-
+    <div class="footer-brand">
+      <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="footer-logo">
     </div>
-  </footer>
+
+    <div class="footer-info">
+      <p>Proyecto desarrollado para Taller Web I.</p>
+      <p>Tomas Diuorno - Julieta Miño - Ramiro Bruzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
+    </div>
+
+    <div class="footer-copy">
+      <p>&copy; 2026 Habitapp. Todos los derechos reservados.</p>
+    </div>
+
+  </div>
+</footer>
 
 </body>
 </html>

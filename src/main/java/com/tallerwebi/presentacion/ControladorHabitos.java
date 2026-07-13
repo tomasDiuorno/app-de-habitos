@@ -95,7 +95,8 @@ public class ControladorHabitos {
   ) {
     Usuario usuario = this.obtenerUsuario(request);
     Habito habito = servicioHabito.buscarHabitoPorId(habitoId);
-    UsuarioHabito usuarioHabito = this.servicioUsuarioHabito.obtenerPorUsuarioYHabito(usuario, habito);
+    UsuarioHabito usuarioHabito =
+      this.servicioUsuarioHabito.obtenerPorUsuarioYHabito(usuario, habito);
     servicioEvaluadorHabito.completarHabito(usuarioHabito, evidencia);
 
     return new ModelAndView(REDIRECT_HABITOS);
