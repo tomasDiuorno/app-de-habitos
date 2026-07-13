@@ -14,7 +14,7 @@
     href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" th:href="@{/css/comunidad.css(v=7)}">
+  <link rel="stylesheet" th:href="@{/css/comunidad.css(v=8)}">
   <link rel="stylesheet" th:href="@{/css/navbar-home.css(v=1)}">
 </head>
 
@@ -178,6 +178,22 @@
 
   </section>
 
+  <div th:if="${mostrarLogro}" class="achievement-popup">
+  <div class="achievement-icon">
+    ★
+  </div>
+ 
+  <div class="achievement-content">
+    <span class="achievement-label">Logro desbloqueado</span>
+    <strong th:text="${tituloLogro}">
+      Título del logro
+    </strong>
+    <p th:text="${descripcionLogro}">
+      Descripción del logro
+    </p>
+  </div>
+</div>
+
 </main>
 
 <footer class="comunidad-footer">
@@ -200,6 +216,12 @@
 
   </div>
 </footer>
+
+<script th:if="${mostrarLogro}" th:inline="javascript">
+  setTimeout(function () {
+    window.location.href = /*[[@{/comunidad/{id}(id=${publicacion.id})}]]*/ '/spring/comunidad';
+  }, 3500);
+</script>
 
 </body>
 </html>
