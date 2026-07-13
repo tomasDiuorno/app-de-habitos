@@ -14,70 +14,107 @@
     href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" th:href="@{/css/comunidad.css}">
+  <link rel="stylesheet" th:href="@{/css/comunidad.css(v=7)}">
+  <link rel="stylesheet" th:href="@{/css/navbar-home.css(v=1)}">
 </head>
 
 <body class="comunidad-body">
 
-<nav class="comunidad-navbar">
-  <div class="comunidad-navbar-container">
+<header class="home-navbar">
+  <div class="home-navbar-container">
 
-    <a th:href="@{/home}" class="comunidad-brand">
-      <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="comunidad-logo">
+    <a th:href="@{/home}" class="home-brand">
+      <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="home-logo">
     </a>
 
-    <div class="comunidad-nav-links">
-      <a th:href="@{/home}" class="comunidad-nav-link">Inicio</a>
-      <a th:href="@{/habitos}" class="comunidad-nav-link">Hábitos</a>
-      <a th:href="@{/tienda}" class="comunidad-nav-link">Tienda</a>
-      <a th:href="@{/recompensas}" class="comunidad-nav-link">Recompensas</a>
-      <a th:href="@{/comunidad}" class="comunidad-nav-link active">Comunidad</a>
-      <a th:href="@{/perfil}" class="comunidad-nav-link">Perfil</a>
-      <a th:href="@{/login}" class="comunidad-logout-button">Cerrar sesión</a>
+    <nav class="home-nav-links">
+      <a th:href="@{/habitos}" class="home-nav-link">Hábitos</a>
+      <a th:href="@{/tienda}" class="home-nav-link">Tienda</a>
+      <a th:href="@{/recompensas}" class="home-nav-link">Recompensas</a>
+      <a th:href="@{/comunidad}" class="home-nav-link active">Comunidad</a>
+      <a th:href="@{/historial}" class="home-nav-link">Historial</a>
+      <a th:href="@{/perfil}" class="home-nav-link">Perfil</a>
+      <a th:href="@{/login}" class="home-logout-button">Cerrar sesión</a>
+    </nav>
+
+  </div>
+</header>
+
+<main class="comunidad-main detalle-publicacion-main">
+
+  <section class="detalle-publicacion-card">
+
+    <a th:href="@{/comunidad}" class="volver-link">
+      Volver a comunidad
+    </a>
+
+    <div class="detalle-publicacion-header">
+      <p class="publicacion-tag">
+        Publicación
+      </p>
+
+      <span
+        class="detalle-autor"
+        th:text="${publicacion.autor != null && publicacion.autor.username != null && !#strings.isEmpty(publicacion.autor.username) ? publicacion.autor.username : 'Usuario'}">
+        Usuario
+      </span>
     </div>
 
-  </div>
-</nav>
+    <h1 th:text="${publicacion.titulo}">
+      Título
+    </h1>
 
-<main class="comunidad-main">
+    <p class="detalle-contenido" th:text="${publicacion.contenido}">
+      Contenido
+    </p>
 
-  <section class="detalle-card">
-    <a th:href="@{/comunidad}" class="volver-link">Volver a comunidad</a>
+    <div th:if="${publicacion.habitoAsociado != null}" class="detalle-habito-box">
+      <div>
+        <p class="publicacion-tag">
+          Hábito grupal
+        </p>
 
-  <p class="publicacion-tag" th:text="${publicacion.autor != null ? publicacion.autor.username : 'Usuario'}">
-    Usuario
-  </p>
+        <span>
+          Esta publicación tiene un hábito asociado.
+        </span>
+      </div>
 
-  <h1 th:text="${publicacion.titulo}">
-    Título
-  </h1>
+      <form th:action="@{/comunidad/{id}/unirse-habito(id=${publicacion.id})}" method="post">
+        <button type="submit" class="primary-button">
+          Unirse a este hábito
+        </button>
+      </form>
+    </div>
 
-  <p class="detalle-contenido" th:text="${publicacion.contenido}">
-    Contenido
-  </p>
+    <p th:if="${error}" class="form-error" th:text="${error}">
+      Mensaje de error
+    </p>
 
-  <div th:if="${publicacion.habitoAsociado != null}" class="form-actions" style="margin-top: 20px;">
-    <form th:action="@{/comunidad/{id}/unirse-habito(id=${publicacion.id})}" method="post">
-      <button type="submit" class="primary-button">Unirse a este hábito</button>
-    </form>
-  </div>
-
-  <p th:if="${error}" class="form-error" th:text="${error}">
-    Mensaje de error
-  </p>
   </section>
 
-  <section class="comentarios-section">
-    <h2>Comentarios</h2>
+  <section class="comentarios-section detalle-comentarios-section">
+
+    <div class="comentarios-header">
+      <div>
+        <p class="section-kicker">
+          Respuestas
+        </p>
+
+        <h2>
+          Comentarios
+        </h2>
+      </div>
+    </div>
 
     <form
       th:action="@{/comunidad/{id}/comentar(id=${publicacion.id})}"
       th:object="${comentarioDTO}"
       method="post"
-      class="comunidad-form comentario-form">
+      class="comunidad-form comentario-form detalle-comentario-form">
 
       <div class="form-group">
         <label for="contenido">Comentario</label>
+
         <textarea
           id="contenido"
           th:field="*{contenido}"
@@ -87,24 +124,58 @@
       </div>
 
       <div class="form-actions">
-        <button type="submit" class="primary-button">Comentar</button>
+        <button type="submit" class="primary-button">
+          Comentar
+        </button>
       </div>
 
     </form>
 
-    <article th:if="${#lists.isEmpty(publicacion.comentarios)}" class="comentario-card empty-card">
-      <p>Todavía no hay comentarios. Sé el primero en responder.</p>
-    </article>
+    <article th:if="${#lists.isEmpty(publicacion.comentarios)}" class="comentario-card empty-card detalle-empty-comments">
+      <div class="empty-icon">
+        +
+      </div>
 
-    <article th:each="comentario : ${publicacion.comentarios}" class="comentario-card">
-      <strong th:text="${comentario.autor != null ? comentario.autor.username : 'Usuario'}">
-        Usuario
-      </strong>
+      <p class="publicacion-tag">
+        Sin comentarios
+      </p>
 
-      <p th:text="${comentario.contenido}">
-        Comentario
+      <h2>
+        Todavía no hay comentarios
+      </h2>
+
+      <p>
+        Sé el primero en responder esta publicación.
       </p>
     </article>
+
+    <article th:each="comentario : ${publicacion.comentarios}" class="comentario-card detalle-comentario-card">
+
+      <div class="comentario-header">
+
+        <div class="comentario-avatar">
+          <span
+            th:text="${comentario.autor != null && comentario.autor.username != null && !#strings.isEmpty(comentario.autor.username) ? #strings.substring(comentario.autor.username, 0, 1) : 'U'}">
+            U
+          </span>
+        </div>
+
+        <div class="comentario-info">
+          <strong
+            class="comentario-autor-nombre"
+            th:text="${comentario.autor != null && comentario.autor.username != null && !#strings.isEmpty(comentario.autor.username) ? comentario.autor.username : 'Usuario'}">
+            Usuario
+          </strong>
+        </div>
+
+      </div>
+
+      <p class="comentario-texto" th:text="${comentario.contenido}">
+        Comentario
+      </p>
+
+    </article>
+
   </section>
 
 </main>
@@ -115,8 +186,12 @@
     <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="comunidad-footer-logo">
 
     <div class="comunidad-footer-info">
-      <p>Proyecto desarrollado para Taller Web I.</p>
-      <p>Tomas Diuorno - Julieta Miño - Ramiro Bruzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
+      <p>
+        Proyecto desarrollado para Taller Web I.
+      </p>
+      <p>
+        Tomas Diuorno - Julieta Miño - Ramiro Bruzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer
+      </p>
     </div>
 
     <p class="comunidad-footer-copy">
