@@ -501,6 +501,42 @@
   transform: translateY(-1px);
 }
 
+.btn-primario,
+.btn-secundario {
+  padding: 12px 18px;
+  border-radius: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primario {
+  background: transparent;
+  border: 2px solid var(--neon-purple);
+  color: #ffffff;
+}
+
+.btn-primario:hover {
+  background-color: var(--neon-purple);
+  border-color: var(--neon-blue);
+  color: #060913;
+}
+
+.btn-secundario {
+  background: transparent;
+  border: 2px solid var(--border-color);
+  color: var(--text-main);
+}
+
+.btn-secundario:hover {
+  border-color: var(--neon-blue);
+  color: var(--neon-blue);
+}
+
 /* FOOTER */
 
 .habitos-footer {
@@ -547,6 +583,16 @@
   color: var(--text-muted);
   text-align: right;
 }
+
+.modal-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+.mensaje-modal { margin-top: 10px; font-weight: bold; }
+.mensaje-modal.exito { color: green; }
+.mensaje-modal.error { color: red; }
 
 /* MODAL COMPLETAR HÁBITO */
 

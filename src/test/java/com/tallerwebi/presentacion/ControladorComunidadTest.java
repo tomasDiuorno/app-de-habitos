@@ -4,19 +4,23 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.tallerwebi.dominio.entidades.Habito;
 import com.tallerwebi.dominio.entidades.Publicacion;
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioHabito;
 import com.tallerwebi.dominio.excepcion.LimiteHabitosAlcanzadoException;
 import com.tallerwebi.dominio.excepcion.UsuarioYaUnidoAHabitoException;
 import com.tallerwebi.dominio.interfaz.ServicioComunidad;
+import com.tallerwebi.dominio.interfaz.ServicioLogro;
 import com.tallerwebi.dominio.servicios.ServicioHabitoCompartido;
 import com.tallerwebi.presentacion.DTO.ComentarioDTO;
 import com.tallerwebi.presentacion.DTO.PublicacionDTO;
 import java.util.Arrays;
+import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,12 +34,15 @@ public class ControladorComunidadTest {
   private HttpServletRequest request;
   private HttpSession session;
   private ServicioHabitoCompartido servicioHabitoCompartido;
+  private ServicioLogro servicioLogro;
 
   @BeforeEach
   public void init() {
     servicioComunidad = mock(ServicioComunidad.class);
     servicioHabitoCompartido = mock(ServicioHabitoCompartido.class);
-    controladorComunidad = new ControladorComunidad(servicioComunidad, servicioHabitoCompartido);
+    servicioLogro = mock(ServicioLogro.class);
+    controladorComunidad =
+      new ControladorComunidad(servicioComunidad, servicioHabitoCompartido, servicioLogro);
     request = mock(HttpServletRequest.class);
     session = mock(HttpSession.class);
 
@@ -182,6 +189,9 @@ public class ControladorComunidadTest {
   public void unirseAHabitoGrupalValidoDeberiaVincularAlUsuarioYRedirigirAlDetalle()
     throws LimiteHabitosAlcanzadoException, UsuarioYaUnidoAHabitoException {
     Usuario usuario = new Usuario();
+    // 5 hábitos previos: pasar a 6 no dispara ningún logro, así probamos el camino normal
+    usuario.setUsuarioHabitos(Collections.nCopies(5, new UsuarioHabito()));
+
     Habito habito = new Habito();
     habito.setEsGrupal(true);
     Publicacion publicacion = new Publicacion();
@@ -193,7 +203,29 @@ public class ControladorComunidadTest {
     ModelAndView modelAndView = controladorComunidad.unirseAHabitoGrupal(1, request);
 
     verify(servicioHabitoCompartido).unirseAHabitoGrupal(habito, usuario);
+    verify(servicioLogro, times(1)).verificarYAsignarLogros(usuario, 6);
     assertThat(modelAndView.getViewName(), equalTo("redirect:/comunidad/1"));
+  }
+
+  @Test
+  public void unirseAHabitoGrupalValidoDeberiaMostrarLogroCuandoCorresponde()
+    throws LimiteHabitosAlcanzadoException, UsuarioYaUnidoAHabitoException {
+    Usuario usuario = new Usuario(); // 0 hábitos previos -> pasa a 1 -> "Primer hábito creado"
+
+    Habito habito = new Habito();
+    habito.setEsGrupal(true);
+    Publicacion publicacion = new Publicacion();
+    publicacion.setHabitoAsociado(habito);
+
+    when(session.getAttribute("usuario")).thenReturn(usuario);
+    when(servicioComunidad.buscarPublicacionPorId(1)).thenReturn(publicacion);
+
+    ModelAndView modelAndView = controladorComunidad.unirseAHabitoGrupal(1, request);
+
+    assertThat(modelAndView.getViewName(), equalTo("detalle-publicacion"));
+    assertThat(modelAndView.getModel().get("mostrarLogro"), equalTo(true));
+    assertThat(modelAndView.getModel().get("tituloLogro"), equalTo("Primer hábito creado"));
+    assertThat(modelAndView.getModel().get("publicacion"), equalTo(publicacion));
   }
 
   @Test
