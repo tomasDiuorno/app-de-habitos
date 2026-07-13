@@ -14,31 +14,31 @@
     href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" th:href="@{/css/perfil.css}" />
+  <link rel="stylesheet" th:href="@{/css/perfil.css(v=2)}" />
+  <link rel="stylesheet" th:href="@{/css/navbar-home.css(v=1)}">
 </head>
 
 <body class="perfil-body">
 
-  <nav class="perfil-navbar">
-    <div class="perfil-navbar-container">
+  <header class="home-navbar">
+    <div class="home-navbar-container">
 
-      <a th:href="@{/home}" class="perfil-brand">
-        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="perfil-logo">
+      <a th:href="@{/home}" class="home-brand">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="home-logo">
       </a>
 
-      <div class="perfil-nav-links">
-        <a th:href="@{/home}" class="perfil-nav-link">Inicio</a>
-        <a th:href="@{/habitos}" class="perfil-nav-link">Hábitos</a>
-        <a th:href="@{/recompensas}" class="perfil-nav-link active">Recompensas</a>
-        <a th:href="@{/comunidad}" class="perfil-nav-link">Comunidad</a>
-        <a th:href="@{/historial}" class="perfil-nav-link">Historial</a>
-          <a th:href="@{/comunidad}" class="habitapp-nav-link">Comunidad</a>
-        <a th:href="@{/perfil}" class="perfil-nav-link active">Perfil</a>
-        <a th:href="@{/login}" class="perfil-logout-button">Cerrar sesión</a>
-      </div>
+      <nav class="home-nav-links">
+        <a th:href="@{/habitos}" class="home-nav-link">Hábitos</a>
+        <a th:href="@{/tienda}" class="home-nav-link">Tienda</a>
+        <a th:href="@{/recompensas}" class="home-nav-link">Recompensas</a>
+        <a th:href="@{/comunidad}" class="home-nav-link">Comunidad</a>
+        <a th:href="@{/historial}" class="home-nav-link">Historial</a>
+        <a th:href="@{/perfil}" class="home-nav-link active">Perfil</a>
+        <a th:href="@{/login}" class="home-logout-button">Cerrar sesión</a>
+      </nav>
 
     </div>
-  </nav>
+  </header>
 
   <main class="perfil-main">
 
@@ -105,16 +105,12 @@
 
       <div class="perfil-actions">
 
-        <a th:href="@{/logros}" class="perfil-button primary">
+        <a th:href="@{/logros}" class="perfil-button secondary">
           Ver mis logros
         </a>
 
         <a th:href="@{/transacciones}" class="perfil-button secondary">
         Mi monedero
-        </a>
-
-        <a th:href="@{/baul}" class="perfil-button secondary">
-          Ir al baul
         </a>
 
       </div>

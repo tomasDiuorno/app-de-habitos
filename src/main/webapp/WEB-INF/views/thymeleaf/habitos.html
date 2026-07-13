@@ -6,164 +6,232 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Habitapp - Hábitos</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link
     href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
     rel="stylesheet">
+
   <link rel="stylesheet" th:href="@{/css/habitos.css}">
+  <link rel="stylesheet" th:href="@{/css/navbar-home.css(v=1)}">
 </head>
 
 <body class="habitos-body">
-  <nav class="habitos-navbar">
-    <div class="habitos-navbar-container">
-      <a th:href="@{/home}" class="habitos-brand">
-        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="habitos-logo">
-      </a>
-      <div class="habitos-nav-links">
-        <a th:href="@{/home}" class="habitos-nav-link">
-          Inicio
-        </a>
-        <a th:href="@{/recompensas}" class="habitos-nav-link">
-          Recompensas
-        </a>
-        <a th:href="@{/comunidad}" class="habitos-nav-link">Comunidad</a>
-        <a th:href="@{/habitos}" class="habitos-nav-link active">
-          Hábitos
-        </a>
-        <a th:href="@{/perfil}" class="habitos-nav-link">
-          Perfil
-        </a>
-        <a th:href="@{/login}" class="habitos-logout-button">
-          Cerrar sesión
-        </a>
+
+<header class="home-navbar">
+  <div class="home-navbar-container">
+
+    <a th:href="@{/home}" class="home-brand">
+      <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="home-logo">
+    </a>
+
+    <nav class="home-nav-links">
+      <a th:href="@{/habitos}" class="home-nav-link active">Hábitos</a>
+      <a th:href="@{/tienda}" class="home-nav-link">Tienda</a>
+      <a th:href="@{/recompensas}" class="home-nav-link">Recompensas</a>
+      <a th:href="@{/comunidad}" class="home-nav-link">Comunidad</a>
+      <a th:href="@{/historial}" class="home-nav-link">Historial</a>
+      <a th:href="@{/perfil}" class="home-nav-link">Perfil</a>
+      <a th:href="@{/login}" class="home-logout-button">Cerrar sesión</a>
+    </nav>
+
+  </div>
+</header>
+
+<main class="habitos-main">
+  <section class="habitos-hero">
+    <p class="section-kicker">
+      Panel de hábitos
+    </p>
+    <h1>
+      Mis hábitos
+    </h1>
+    <p>
+      Construí tu rutina, mantené tu racha y subí de nivel completando tus objetivos.
+    </p>
+  </section>
+
+  <section class="habitos-dashboard">
+    <article th:if="${#lists.isEmpty(usuarioHabitos)}" class="habit-option-card empty-habits-card">
+      <div class="habit-content">
+        <p class="habit-category">
+          Sin hábitos
+        </p>
+        <h2>
+          Todavía no tenés hábitos creados
+        </h2>
+        <p>
+          Creá tu primer hábito y empezá a progresar.
+        </p>
       </div>
-    </div>
-  </nav>
-  <main class="habitos-main">
-    <section class="habitos-hero">
-      <p class="section-kicker">
-        Panel de hábitos
-      </p>
-      <h1>
-        Mis hábitos
-      </h1>
-      <p>
-        Construí tu rutina, mantené tu racha y subí de nivel completando tus objetivos.
-      </p>
-    </section>
-    <section class="habitos-dashboard">
-      <article th:if="${#lists.isEmpty(usuarioHabitos)}" class="habit-option-card empty-habits-card">
-        <div class="habit-content">
-          <p class="habit-category">
-            Sin hábitos
-          </p>
-          <h2>
-            Todavía no tenés hábitos creados
-          </h2>
-          <p>
-            Creá tu primer hábito y empezá a progresar.
-          </p>
-        </div>
-        <a th:href="@{/crear-habito}" class="habit-button">
-          Crear hábito
-        </a>
-      </article>
-      <article th:each="usuarioHabito : ${usuarioHabitos}" class="habit-option-card">
-        <div class="habit-content">
-          <p class="habit-category" th:text="${usuarioHabito.habito.categoria.nombre}">
-            Categoría
-          </p>
-          <h2 th:text="${usuarioHabito.habito.titulo}">
-            Nombre hábito
-          </h2>
-          <p th:text="${usuarioHabito.habito.descripcion}">
-            Descripción
-          </p>
-          <div class="habit-info">
-            <div>
-              <strong>
-                Frecuencia
-              </strong>
-              <span th:text="${usuarioHabito.habito.frecuencia}">
-                Diaria
-              </span>
-            </div>
-          </div>
-          <div class="habit-progress-box">
-            <div>
-              <strong>
-                Racha actual
-              </strong>
-              <span>
-                0 días
-              </span>
-            </div>
-            <div>
-              <strong>
-                Progreso
-              </strong>
-              <span>
-                0%
-              </span>
-            </div>
-          </div>
-          <div class="habit-status">
-            <span th:text="${usuarioHabito.activo} ? 'Activo' : 'Inactivo'">
-              Activo
+
+      <a th:href="@{/crear-habito}" class="habit-button">
+        Crear hábito
+      </a>
+    </article>
+
+    <article th:each="usuarioHabito : ${usuarioHabitos}" class="habit-option-card">
+      <div class="habit-content">
+        <p class="habit-category" th:text="${usuarioHabito.habito.categoria.nombre}">
+          Categoría
+        </p>
+
+        <h2 th:text="${usuarioHabito.habito.titulo}">
+          Nombre hábito
+        </h2>
+
+        <p th:text="${usuarioHabito.habito.descripcion}">
+          Descripción
+        </p>
+
+        <div class="habit-info">
+          <div>
+            <strong>
+              Frecuencia
+            </strong>
+            <span th:text="${usuarioHabito.habito.frecuencia}">
+              Diaria
             </span>
           </div>
         </div>
-        <div style="display: flex; gap: 10px; margin-top: 15px;">
-          <button type="button" class="habit-button completar-habito-button" style="flex: 1;"
-            th:data-id="${usuarioHabito.habito.id}" th:data-nombre="${usuarioHabito.habito.titulo}">
-            Completar hábito
-          </button>
-        </div>
-      </article>
-    </section>
 
-    <section class="crear-habito-section">
-      <div class="crear-habito-card">
-        <div>
-          <p class="section-kicker">
-            Nuevo objetivo
-          </p>
-          <h2>
-            ¿Querés agregar otro hábito?
-          </h2>
-          <p>
-            Creá un nuevo objetivo y aumentá tu progreso.
-          </p>
+        <div class="habit-progress-box">
+          <div>
+            <strong>
+              Racha actual
+            </strong>
+            <span>
+              0 días
+            </span>
+          </div>
+
+          <div>
+            <strong>
+              Progreso
+            </strong>
+            <span>
+              0%
+            </span>
+          </div>
         </div>
+
+        <div class="habit-status">
+          <span th:text="${usuarioHabito.activo} ? 'Activo' : 'Inactivo'">
+            Activo
+          </span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <button type="button" class="habit-button completar-habito-button" style="flex: 1;"
+                th:data-id="${usuarioHabito.habito.id}"
+                th:data-nombre="${usuarioHabito.habito.titulo}">
+          Completar hábito
+        </button>
+      </div>
+    </article>
+  </section>
+
+  <section class="crear-habito-section">
+    <div class="crear-habito-card crear-habito-card-mejorada">
+
+      <div class="crear-habito-texto">
+        <p class="section-kicker">
+          Nuevo objetivo
+        </p>
+
+        <h2>
+          ¿Querés agregar otro hábito?
+        </h2>
+
+        <p>
+          Creá un nuevo objetivo o pedile una sugerencia a la IA para empezar más fácil.
+        </p>
+      </div>
+
+      <div class="crear-habito-actions">
+
         <a th:href="@{/crear-habito}" class="crear-habito-button">
           Crear hábito
         </a>
-        <div id="asistente-habito" class="crear-habito-button">
-          <input id="objetivo" type="text" placeholder="Ej: quiero hacer más ejercicio">
-          <button id="generarHabito">Crear sugerencia</button>
+
+        <div id="asistente-habito" class="asistente-habito-card">
+          <div class="asistente-habito-header">
+            <span>Asistente IA</span>
+            <small>Sugerencia rápida</small>
+          </div>
+
+          <div class="asistente-habito-form">
+            <input id="objetivo" type="text" placeholder="Ej: quiero hacer más ejercicio">
+            <button id="generarHabito" type="button">
+              Crear sugerencia
+            </button>
+          </div>
         </div>
+
       </div>
-    </section>
-  </main>
 
-  <!-- MODAL COMPLETAR HABITO -->
-  <div class="habit-modal" id="modalCompletar">
-    <div class="habit-modal-content">
-      <button type="button" id="cerrarModal" class="habit-modal-close">X</button>
-      <h2>Completar hábito</h2>
-      <p id="nombreHabitoModal">Hábito</p>
-      <form th:action="@{/completar-habito}" method="POST">
-        <input type="hidden" id="habitoId" name="habitoId" value="">
+    </div>
+  </section>
+</main>
 
-        <label>Evidencia</label>
-        <textarea name="evidencia" placeholder="Ej: 22:40"></textarea>
-        <button type="submit" class="habit-button">
-          Confirmar
-        </button>
-      </form>
+<!-- MODAL COMPLETAR HABITO -->
+<div class="habit-modal" id="modalCompletar">
+  <div class="habit-modal-content">
+    <button type="button" id="cerrarModal" class="habit-modal-close">X</button>
+
+    <h2>Completar hábito</h2>
+    <p id="nombreHabitoModal">Hábito</p>
+
+    <form th:action="@{/completar-habito}" method="POST">
+      <input type="hidden" id="habitoId" name="habitoId" value="">
+
+      <label>Evidencia</label>
+      <textarea name="evidencia" placeholder="Ej: 22:40"></textarea>
+
+      <button type="submit" class="habit-button">
+        Confirmar
+      </button>
+    </form>
+  </div>
+</div>
+
+<div id="modalHabito" class="modal">
+  <div class="modal-contenido">
+    <button type="button" id="cerrarModal" class="habit-modal-close">X</button>
+
+    <h3>✨ Sugerencia IA</h3>
+    <div id="sugerencia"></div>
+
+    <button id="aceptarHabito">Crear hábito</button>
+  </div>
+</div>
+
+<footer class="habitos-footer">
+  <div class="habitos-footer-container">
+    <div class="footer-brand">
+      <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="footer-logo">
+    </div>
+
+    <div class="footer-info">
+      <p>
+        Proyecto desarrollado para Taller Web I.
+      </p>
+      <p>
+        Tomas Diurno - Julieta Miño - Ramiro Brunzon -
+        Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer
+      </p>
+    </div>
+
+    <div class="footer-copy">
+      <p>
+        © 2026 Habitapp
+      </p>
     </div>
   </div>
+</footer>
 
   <div id="modalHabito" class="modal">
   <div class="modal-contenido">

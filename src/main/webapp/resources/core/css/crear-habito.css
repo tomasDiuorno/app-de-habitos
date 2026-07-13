@@ -26,74 +26,24 @@
     radial-gradient(at 90% 80%, rgba(0, 223, 255, 0.1) 0px, transparent 50%);
 }
 
-.crear-habito-navbar {
-  width: 100%;
-  height: 72px;
-  background: rgba(6, 9, 19, 0.85);
-  border-bottom: 1px solid rgba(0, 223, 255, 0.2);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-}
-
-.crear-habito-navbar-container {
-  width: 100%;
-  height: 100%;
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.crear-habito-logo {
-  height: 48px;
-  width: auto;
-  display: block;
-}
-
-.crear-habito-nav-links {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.crear-habito-nav-link,
-.crear-habito-logout-button {
-  font-family: 'Orbitron', sans-serif;
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-}
-
-.crear-habito-nav-link:hover {
-  color: var(--neon-blue);
-}
-
-.crear-habito-logout-button {
-  color: #ffffff;
-  border: 1px solid var(--neon-purple);
-  padding: 10px 16px;
-  border-radius: 4px;
-}
+/* MAIN */
 
 .crear-habito-main {
   width: 100%;
-  max-width: 760px;
+  max-width: 880px;
   margin: 0 auto;
-  padding: 120px 24px 40px;
+  padding: 120px 24px 48px;
 }
+
+/* CARD */
 
 .crear-habito-card {
   padding: 42px;
   background-color: rgba(13, 19, 38, 0.92);
   border: 2px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: 8px;
   box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.65),
+    0 12px 34px rgba(0, 0, 0, 0.68),
     inset 0 0 15px rgba(157, 78, 221, 0.08);
   position: relative;
   overflow: hidden;
@@ -109,6 +59,10 @@
   background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
 }
 
+.crear-habito-card-header {
+  margin-bottom: 34px;
+}
+
 .section-kicker {
   font-family: 'Orbitron', sans-serif;
   color: var(--neon-blue);
@@ -121,7 +75,7 @@
 
 .crear-habito-card h1 {
   font-family: 'Orbitron', sans-serif;
-  font-size: 2.6rem;
+  font-size: 3rem;
   font-weight: 800;
   text-transform: uppercase;
   color: #ffffff;
@@ -131,20 +85,46 @@
 
 .crear-habito-intro {
   color: var(--text-muted);
-  font-size: 1.1rem;
-  margin-bottom: 32px;
+  font-size: 1.08rem;
+  line-height: 1.6;
+  max-width: 680px;
 }
+
+/* FORM */
 
 .crear-habito-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 26px;
+}
+
+.form-section {
+  padding: 22px;
+  border: 1px solid rgba(0, 223, 255, 0.12);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(157, 78, 221, 0.05), rgba(0, 223, 255, 0.03)),
+    rgba(6, 9, 19, 0.32);
+}
+
+.form-section-title {
+  margin-bottom: 18px;
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-purple);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.7px;
 }
 
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 18px;
+}
+
+.form-grid-small {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .form-group {
@@ -152,9 +132,13 @@
   flex-direction: column;
 }
 
+.form-group-full + .form-group-full {
+  margin-top: 18px;
+}
+
 .form-group label {
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--neon-blue);
   text-transform: uppercase;
   margin-bottom: 8px;
@@ -164,20 +148,27 @@
 .form-group input,
 .form-group textarea,
 .form-group select {
-  background-color: rgba(6, 9, 19, 0.6);
+  width: 100%;
+  background-color: rgba(6, 9, 19, 0.72);
   border: 1px solid var(--border-color);
-  border-radius: 4px;
+  border-radius: 5px;
   color: var(--text-main);
-  padding: 12px 15px;
+  padding: 13px 15px;
   font-family: 'Rajdhani', sans-serif;
   font-size: 1.05rem;
   font-weight: 600;
   outline: none;
+  transition: all 0.25s ease;
 }
 
 .form-group textarea {
-  min-height: 110px;
+  min-height: 118px;
   resize: vertical;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(112, 126, 148, 0.85);
 }
 
 .form-group input:focus,
@@ -185,45 +176,126 @@
 .form-group select:focus {
   border-color: var(--neon-blue);
   box-shadow:
-    0 0 10px rgba(0, 223, 255, 0.3),
-    inset 0 0 5px rgba(0, 223, 255, 0.1);
+    0 0 12px rgba(0, 223, 255, 0.25),
+    inset 0 0 5px rgba(0, 223, 255, 0.08);
 }
 
 .form-group option {
   background-color: var(--bg-card);
+  color: var(--text-main);
 }
+
+/* BLOQUES DINÁMICOS */
+
+.form-dynamic-section {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.dynamic-block {
+  padding: 22px;
+  border: 1px solid rgba(0, 223, 255, 0.18);
+  border-radius: 8px;
+  background-color: rgba(6, 9, 19, 0.42);
+  box-shadow: inset 0 0 14px rgba(0, 223, 255, 0.04);
+}
+
+/* CHECKBOX */
+
+.form-extra-section {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.checkbox-card {
+  width: 100%;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  border: 1px solid rgba(0, 223, 255, 0.18);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(0, 223, 255, 0.05), rgba(157, 78, 221, 0.05)),
+    rgba(6, 9, 19, 0.42);
+  transition: all 0.25s ease;
+}
+
+.checkbox-card:hover {
+  border-color: rgba(0, 223, 255, 0.42);
+  box-shadow: 0 0 14px rgba(0, 223, 255, 0.12);
+}
+
+.checkbox-card input {
+  width: 18px;
+  height: 18px;
+  accent-color: #00dfff;
+  flex-shrink: 0;
+}
+
+.checkbox-card span {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.checkbox-card strong {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-blue);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.checkbox-card small {
+  color: var(--text-muted);
+  font-size: 0.98rem;
+  line-height: 1.4;
+}
+
+/* ERROR */
 
 .form-error {
   border: 1px solid #ef4444;
   color: #fca5a5;
   background-color: rgba(239, 68, 68, 0.1);
-  padding: 12px;
-  border-radius: 4px;
+  padding: 13px 16px;
+  border-radius: 5px;
   text-align: center;
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
+
+/* BUTTONS */
 
 .form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 14px;
-  margin-top: 10px;
+  margin-top: 4px;
 }
 
 .button-primary,
 .button-secondary {
-  display: inline-block;
-  padding: 13px 18px;
-  border-radius: 4px;
+  min-width: 160px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 20px;
+  border-radius: 5px;
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 700;
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .button-primary {
@@ -236,46 +308,26 @@
   background-color: var(--neon-purple);
   border-color: var(--neon-blue);
   color: #060913;
+  box-shadow:
+    0 0 18px rgba(157, 78, 221, 0.75),
+    0 0 28px rgba(0, 223, 255, 0.20);
+  transform: translateY(-2px);
 }
 
 .button-secondary {
   border: 2px solid var(--border-color);
   color: var(--text-main);
+  background-color: rgba(6, 9, 19, 0.35);
 }
 
 .button-secondary:hover {
   border-color: var(--neon-blue);
   color: var(--neon-blue);
+  box-shadow: 0 0 14px rgba(0, 223, 255, 0.16);
+  transform: translateY(-2px);
 }
 
-@media (max-width: 700px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .crear-habito-navbar {
-    height: auto;
-  }
-
-  .crear-habito-navbar-container {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 16px 20px;
-    gap: 14px;
-  }
-
-  .crear-habito-nav-links {
-    flex-wrap: wrap;
-  }
-
-  .crear-habito-main {
-    padding-top: 170px;
-  }
-
-  .crear-habito-card {
-    padding: 30px 22px;
-  }
-}
+/* ACHIEVEMENT POPUP */
 
 .achievement-popup {
   position: fixed;
@@ -369,5 +421,56 @@
   to {
     opacity: 0;
     transform: translateY(120px);
+  }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .crear-habito-main {
+    max-width: 760px;
+  }
+
+  .form-grid,
+  .form-grid-small {
+    grid-template-columns: 1fr;
+  }
+
+  .crear-habito-card h1 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .crear-habito-main {
+    padding: 110px 18px 40px;
+  }
+
+  .crear-habito-card {
+    padding: 30px 22px;
+  }
+
+  .crear-habito-card h1 {
+    font-size: 2rem;
+  }
+
+  .form-section {
+    padding: 18px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .button-primary,
+  .button-secondary {
+    width: 100%;
+  }
+
+  .achievement-popup {
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    width: auto;
   }
 }
