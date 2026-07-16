@@ -15,6 +15,7 @@ import com.tallerwebi.dominio.factory.EvaluadorHabitosFactory;
 import com.tallerwebi.dominio.interfaz.RepositorioRegistroHabito;
 import com.tallerwebi.dominio.interfaz.ServicioEvaluadorHabito;
 import com.tallerwebi.dominio.interfaz.ServicioEvaluadorTipoHabito;
+import com.tallerwebi.dominio.interfaz.ServicioProgresoUsuario;
 import com.tallerwebi.presentacion.DTO.EvidenciaDTO;
 import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,14 +27,20 @@ public class ServicioEvaluadorHabitoTest {
   private EvaluadorHabitosFactory factoryMock;
   private RepositorioRegistroHabito registroHabitoRepositorioMock;
   private ServicioEvaluadorTipoHabito evaluadorMock;
+  private ServicioProgresoUsuario servicioProgresoUsuario;
 
   @BeforeEach
   public void init() {
     factoryMock = mock(EvaluadorHabitosFactory.class);
     registroHabitoRepositorioMock = mock(RepositorioRegistroHabito.class);
+    servicioProgresoUsuario = mock(ServicioProgresoUsuario.class);
     evaluadorMock = mock(ServicioEvaluadorTipoHabito.class);
     servicioEvaluadorHabito =
-      new ServicioEvaluadorHabitoImp(factoryMock, registroHabitoRepositorioMock);
+      new ServicioEvaluadorHabitoImp(
+        factoryMock,
+        registroHabitoRepositorioMock,
+        servicioProgresoUsuario
+      );
   }
 
   @Test

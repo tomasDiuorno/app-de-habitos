@@ -29,6 +29,7 @@ public class Usuario {
   private String password;
   private String rol;
   private String gender;
+  private Integer experiencia = 0;
   private Integer nivelUsuario = 0;
   private Boolean activo = false;
 
