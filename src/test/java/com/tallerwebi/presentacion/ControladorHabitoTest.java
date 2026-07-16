@@ -103,7 +103,7 @@ public class ControladorHabitoTest {
     verify(servicioHabitosMock).buscarHabitoPorId(habitoId);
     verify(servicioUsuarioHabitoMock).obtenerPorUsuarioYHabito(usuarioMock, habitoMock);
     verify(servicioEvaluadorHabitoMock).completarHabito(usuarioHabitoMock, evidencia);
-    verify(redirectAttributesMock).addFlashAttribute("mensaje", "Hábito completado correctamente.");
+    verify(redirectAttributesMock).addFlashAttribute("resultadoEvaluacion", resultado);
   }
 
   @Test
