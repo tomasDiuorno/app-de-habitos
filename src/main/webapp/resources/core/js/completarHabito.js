@@ -1,3 +1,4 @@
+/* global ConfiguracionEvidencia */
 const botonesCompletar = document.querySelectorAll(".completar-habito-button");
 const modal = document.getElementById("modalCompletar");
 const inputHabitoId = document.getElementById("habitoId");

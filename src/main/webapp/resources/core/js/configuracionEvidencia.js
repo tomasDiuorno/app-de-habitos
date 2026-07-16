@@ -1,4 +1,4 @@
-const ConfiguracionEvidencia = (() => {
+window.ConfiguracionEvidencia = (() => {
   const contenedorEvidenciaTexto = document.getElementById("evidenciaTexto");
   const textArea = document.getElementById("evidenciaTextArea");
 
