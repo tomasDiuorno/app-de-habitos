@@ -19,8 +19,10 @@ import com.tallerwebi.dominio.interfaz.ServicioLogro;
 import com.tallerwebi.dominio.interfaz.ServicioUsuarioHabito;
 import com.tallerwebi.dominio.servicios.ServicioHabitoCompartido;
 import com.tallerwebi.dominio.servicios.ServicioHabitoIA;
+import com.tallerwebi.presentacion.DTO.EvidenciaDTO;
 import com.tallerwebi.presentacion.DTO.PlanHabitoDTO;
 import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
+import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,6 +31,7 @@ import javax.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public class ControladorHabitoTest {
 
@@ -72,22 +75,35 @@ public class ControladorHabitoTest {
     Integer habitoId = 1;
     Usuario usuarioMock = mock(Usuario.class);
     Habito habitoMock = mock(Habito.class);
+    EvidenciaDTO evidencia = mock(EvidenciaDTO.class);
     UsuarioHabito usuarioHabitoMock = mock(UsuarioHabito.class);
-
+    RedirectAttributes redirectAttributesMock = mock(RedirectAttributes.class);
+    ResultadoEvaluacionDTO resultado = new ResultadoEvaluacionDTO(
+      true,
+      "Hábito completado correctamente."
+    );
     when(requestMock.getSession()).thenReturn(sessionMock);
     when(sessionMock.getAttribute("usuario")).thenReturn(usuarioMock);
     when(servicioHabitosMock.buscarHabitoPorId(habitoId)).thenReturn(habitoMock);
     when(servicioUsuarioHabitoMock.obtenerPorUsuarioYHabito(usuarioMock, habitoMock))
       .thenReturn(usuarioHabitoMock);
+    when(servicioEvaluadorHabitoMock.completarHabito(usuarioHabitoMock, evidencia))
+      .thenReturn(resultado);
 
     // ejecución
-    ModelAndView modelAndView = controladorHabitos.completarHabito(habitoId, "22:40", requestMock);
+    ModelAndView modelAndView = controladorHabitos.completarHabito(
+      habitoId,
+      evidencia,
+      requestMock,
+      redirectAttributesMock
+    );
 
     // validación
     assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/habitos"));
     verify(servicioHabitosMock).buscarHabitoPorId(habitoId);
     verify(servicioUsuarioHabitoMock).obtenerPorUsuarioYHabito(usuarioMock, habitoMock);
-    verify(servicioEvaluadorHabitoMock).completarHabito(usuarioHabitoMock, "22:40");
+    verify(servicioEvaluadorHabitoMock).completarHabito(usuarioHabitoMock, evidencia);
+    verify(redirectAttributesMock).addFlashAttribute("mensaje", "Hábito completado correctamente.");
   }
 
   @Test
