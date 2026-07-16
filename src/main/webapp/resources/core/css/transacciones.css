@@ -345,10 +345,10 @@
   padding: 22px 24px;
 
   width: 100%;
-  max-width: 760px;
+  max-width: 980px;
 
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 220px));
+  grid-template-columns: repeat(4, minmax(170px, 1fr));
   justify-content: center;
   gap: 16px;
 
@@ -374,16 +374,16 @@
   width: 100%;
   text-align: center;
 
-  padding: 13px 18px;
+  padding: 13px 16px;
   border-radius: 5px;
 
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 700;
 
   text-decoration: none;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.1px;
 
   white-space: nowrap;
 
@@ -468,6 +468,8 @@
 
 /* RESPONSIVE */
 
+/* RESPONSIVE */
+
 @media (max-width: 900px) {
   .saldo-card-inner {
     flex-direction: column;
@@ -480,7 +482,8 @@
   }
 
   .transacciones-actions {
-    max-width: 100%;
+    max-width: 720px;
+    grid-template-columns: repeat(2, minmax(190px, 1fr));
   }
 }
 
