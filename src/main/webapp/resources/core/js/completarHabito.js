@@ -1,4 +1,4 @@
-import { configurarEvidencia } from './configuracionEvidencia.js';
+import { configurarEvidencia } from "./configuracionEvidencia.js";
 const botonesCompletar = document.querySelectorAll(".completar-habito-button");
 const modal = document.getElementById("modalCompletar");
 const inputHabitoId = document.getElementById("habitoId");
