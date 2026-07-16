@@ -8,6 +8,7 @@ import com.tallerwebi.dominio.factory.EvaluadorHabitosFactory;
 import com.tallerwebi.dominio.interfaz.RepositorioRegistroHabito;
 import com.tallerwebi.dominio.interfaz.ServicioEvaluadorHabito;
 import com.tallerwebi.dominio.interfaz.ServicioEvaluadorTipoHabito;
+import com.tallerwebi.presentacion.DTO.EvidenciaDTO;
 import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,10 @@ public class ServicioEvaluadorHabitoImp implements ServicioEvaluadorHabito {
   }
 
   @Override
-  public void completarHabito(UsuarioHabito usuarioHabito, String evidencia) {
+  public ResultadoEvaluacionDTO completarHabito(
+    UsuarioHabito usuarioHabito,
+    EvidenciaDTO evidencia
+  ) {
     Habito habito = usuarioHabito.getHabito();
     Usuario usuario = usuarioHabito.getUsuario();
     ServicioEvaluadorTipoHabito evaluador = factory.obtener(habito.getTipoHabito());
@@ -43,5 +47,6 @@ public class ServicioEvaluadorHabitoImp implements ServicioEvaluadorHabito {
     registro.setCompletado(resultado.getCumplido());
 
     registroHabitoRepositorio.guardar(registro);
+    return resultado;
   }
 }

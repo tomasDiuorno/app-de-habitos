@@ -12,8 +12,10 @@ import com.tallerwebi.dominio.interfaz.ServicioLogro;
 import com.tallerwebi.dominio.interfaz.ServicioUsuarioHabito;
 import com.tallerwebi.dominio.servicios.ServicioHabitoCompartido;
 import com.tallerwebi.dominio.servicios.ServicioHabitoIA;
+import com.tallerwebi.presentacion.DTO.EvidenciaDTO;
 import com.tallerwebi.presentacion.DTO.PlanHabitoDTO;
 import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
+import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ControladorHabitos {
@@ -81,15 +84,19 @@ public class ControladorHabitos {
   @RequestMapping(path = "/completar-habito", method = RequestMethod.POST)
   public ModelAndView completarHabito(
     @RequestParam Integer habitoId,
-    @RequestParam String evidencia,
-    HttpServletRequest request
+    @ModelAttribute EvidenciaDTO evidencia,
+    HttpServletRequest request,
+    RedirectAttributes flash
   ) {
     Usuario usuario = this.obtenerUsuario(request);
     Habito habito = servicioHabito.buscarHabitoPorId(habitoId);
     UsuarioHabito usuarioHabito =
       this.servicioUsuarioHabito.obtenerPorUsuarioYHabito(usuario, habito);
-    servicioEvaluadorHabito.completarHabito(usuarioHabito, evidencia);
-
+    ResultadoEvaluacionDTO resultado = servicioEvaluadorHabito.completarHabito(
+      usuarioHabito,
+      evidencia
+    );
+    flash.addFlashAttribute("resultadoEvaluacion", resultado);
     return new ModelAndView(REDIRECT_HABITOS);
   }
 

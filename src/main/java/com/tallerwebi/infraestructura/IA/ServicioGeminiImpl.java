@@ -21,6 +21,9 @@ public class ServicioGeminiImpl implements ServicioIA {
   private final RestTemplate restTemplate;
   private final ObjectMapper mapper;
   private final String apiKey;
+  private static final String ATRIBUTO_TEXT = "text";
+  private static final String ATRIBUTO_PARTS = "parts";
+  private static final String ATRIBUTO_CONTENTS = "contents";
   private static final String SYSTEM_INSTRUCTION =
     "Sos un asistente experto en creación de hábitos. " +
     "Tu trabajo es transformar objetivos generales " +
@@ -73,31 +76,78 @@ public class ServicioGeminiImpl implements ServicioIA {
     }
   }
 
+  @Override
+  public String evaluarImagen(String imagen, String titulo, String descripcion, String mimeType) {
+    try {
+      String contexto = String.format(
+        "Eres un experto en evaluación de hábitos. " +
+        "Tu tarea es evaluar si la imagen proporcionada cumple con el hábito descrito. " +
+        "El título del hábito es: %s. " +
+        "La descripción del hábito es: %s. " +
+        "Responde con 'SI' o 'NO', y agrega una breve explicación de no más de 20 caracteres.",
+        titulo,
+        descripcion
+      );
+      return ejecutarConContextoImagen("Evaluar la imagen adjunta.", contexto, imagen, mimeType);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException("Error de comunicacion con Gemini", e);
+    }
+  }
+
   private String ejecutarConContexto(String mensaje, String contexto)
     throws JsonProcessingException {
+    Map<String, Object> body = crearBody(contexto, List.of(crearTextPart(mensaje)));
+    return ejecutarPeticion(body);
+  }
+
+  private String ejecutarConContextoImagen(
+    String mensaje,
+    String contexto,
+    String imagenBase64,
+    String mimeType
+  ) throws JsonProcessingException {
+    Map<String, Object> body = crearBody(
+      contexto,
+      List.of(crearTextPart(mensaje), crearImagePart(imagenBase64, mimeType))
+    );
+    return ejecutarPeticion(body);
+  }
+
+  private String ejecutarPeticion(Map<String, Object> body) throws JsonProcessingException {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
     headers.set("X-goog-api-key", this.apiKey);
 
-    Map<String, Object> body = new HashMap<>();
-
-    Map<String, Object> systemInstructionPart = new HashMap<>();
-    systemInstructionPart.put("parts", List.of(Map.of("text", contexto)));
-    body.put("system_instruction", systemInstructionPart);
-
-    Map<String, Object> contents = new HashMap<>();
-    Map<String, String> part = new HashMap<>();
-    part.put("text", mensaje);
-    contents.put("parts", List.of(part));
-    body.put("contents", List.of(contents));
-
     String requestBody = mapper.writeValueAsString(body);
-
     HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
-
     String response = restTemplate.postForObject(URL, request, String.class);
-
     return extraerRespuesta(response);
+  }
+
+  private Map<String, Object> crearTextPart(String texto) {
+    Map<String, Object> textPart = new HashMap<>();
+    textPart.put(ATRIBUTO_TEXT, texto);
+    return textPart;
+  }
+
+  private Map<String, Object> crearImagePart(String imagenBase64, String mimeType) {
+    Map<String, Object> imagePart = new HashMap<>();
+    Map<String, Object> inlineData = new HashMap<>();
+    inlineData.put("mime_type", mimeType);
+    inlineData.put("data", imagenBase64);
+    imagePart.put("inline_data", inlineData);
+    return imagePart;
+  }
+
+  private Map<String, Object> crearBody(String contexto, List<Object> parts) {
+    Map<String, Object> body = new HashMap<>();
+    Map<String, Object> systemInstructionPart = new HashMap<>();
+    systemInstructionPart.put(ATRIBUTO_PARTS, List.of(Map.of(ATRIBUTO_TEXT, contexto)));
+    body.put("system_instruction", systemInstructionPart);
+    Map<String, Object> contents = new HashMap<>();
+    contents.put(ATRIBUTO_PARTS, parts);
+    body.put(ATRIBUTO_CONTENTS, List.of(contents));
+    return body;
   }
 
   private String extraerRespuesta(String json) throws JsonProcessingException {
