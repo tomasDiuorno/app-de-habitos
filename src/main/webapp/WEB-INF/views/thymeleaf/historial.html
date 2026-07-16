@@ -1,67 +1,123 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Historial de Hábitos - Habit Tracker</title>
-    <link rel="stylesheet" th:href="@{/css/habitos.css}" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="habitos-body">
-    <header class="home-navbar">
-      <div class="home-navbar-container">
 
-        <a th:href="@{/home}" class="home-brand">
-          <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="home-logo">
-        </a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <nav class="home-nav-links">
-          <a th:href="@{/habitos}" class="home-nav-link">Hábitos</a>
-          <a th:href="@{/tienda}" class="home-nav-link">Tienda</a>
-          <a th:href="@{/recompensas}" class="home-nav-link">Recompensas</a>
-          <a th:href="@{/comunidad}" class="home-nav-link">Comunidad</a>
-          <a th:href="@{/historial}" class="home-nav-link active">Historial</a>
-          <a th:href="@{/perfil}" class="home-nav-link">Perfil</a>
-          <a th:href="@{/login}" class="home-logout-button">Cerrar sesión</a>
-        </nav>
+  <title>Habitapp - Historial</title>
 
+  <link rel="stylesheet" th:href="@{/css/historial.css}" />
+</head>
+
+<body class="historial-body">
+  <div class="app-shell">
+
+    <nav class="navbar">
+      <a class="brand" th:href="@{/home}">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="brand-logo" />
+      </a>
+
+      <div class="nav-links">
+        <a th:href="@{/home}">Inicio</a>
+        <a th:href="@{/habitos}">Hábitos</a>
+        <a th:href="@{/tienda}">Tienda</a>
+        <a th:href="@{/recompensas}">Recompensas</a>
+        <a th:href="@{/comunidad}">Comunidad</a>
+        <a class="active" th:href="@{/historial}">Historial</a>
+        <a th:href="@{/perfil}">Perfil</a>
       </div>
-    </header>
 
-    <main class="habitos-main-content">
-      <section class="habitos-list-section">
-        <h2>Registro de hábitos completados</h2>
-        
-        <div th:if="${#lists.isEmpty(historial)}">
-          <p style="text-align: center; color: #666; margin-top: 2rem;">
-            Aún no has completado ningún hábito. ¡Anímate a empezar hoy mismo!
+      <a class="nav-action" th:href="@{/login}">Salir</a>
+    </nav>
+
+    <main class="historial-page">
+
+      <header class="historial-hero">
+        <div class="hero-content">
+          <span class="eyebrow">Registro de progreso</span>
+          <h1>Historial de hábitos</h1>
+          <p>
+            Consultá tus hábitos completados y seguí la evolución de tu rutina diaria.
           </p>
         </div>
 
-        <div class="habitos-grid" th:unless="${#lists.isEmpty(historial)}">
-          <article class="habit-card" th:each="registro : ${historial}">
-            <div class="habit-card-header">
-              <h3 th:text="${registro.habito.titulo}">Nombre del Hábito</h3>
-              <span class="habit-category" th:text="${registro.habito.categoria.nombre}">
+        <aside class="level-panel">
+          <span class="level-label">Total completados</span>
+          <strong class="level-value" th:text="${#lists.size(historial)}">0</strong>
+
+          <div class="level-progress">
+            <div class="level-progress-fill"></div>
+          </div>
+
+          <span class="level-caption">
+            Hábitos registrados en tu historial
+          </span>
+        </aside>
+      </header>
+
+      <section class="historial-toolbar">
+        <div>
+          <h2>Hábitos completados</h2>
+          <p>
+            Cada registro representa un hábito finalizado correctamente.
+          </p>
+        </div>
+
+        <span class="collection-badge" th:text="${#lists.size(historial)} + ' registros'">
+          0 registros
+        </span>
+      </section>
+
+      <section th:if="${#lists.isEmpty(historial)}" class="historial-empty">
+        <h2>Sin hábitos completados</h2>
+        <p>
+          Aún no completaste ningún hábito. Empezá hoy y construí tu progreso.
+        </p>
+
+        <a th:href="@{/habitos}" class="empty-action">
+          Ir a mis hábitos
+        </a>
+      </section>
+
+      <section class="historial-grid" th:unless="${#lists.isEmpty(historial)}">
+        <article class="historial-card" th:each="registro : ${historial}">
+
+          <div class="historial-card-content">
+            <div class="historial-meta">
+              <span class="category-badge" th:text="${registro.habito.categoria.nombre}">
                 Categoría
               </span>
-            </div>
-            
-            <div class="habit-details">
-              <p th:text="${registro.habito.descripcion}">Descripción del hábito.</p>
-            </div>
-            
-            <div style="margin-top: 15px; padding: 10px; background-color: #e8f5e9; border-radius: 8px; text-align: center;">
-              <span style="color: #2e7d32; font-weight: 600;">
-                ¡Completado el <span th:text="${registro.fechaCompletado}">YYYY-MM-DD</span>!
+
+              <span class="completed-badge">
+                Completado
               </span>
             </div>
-          </article>
-        </div>
+
+            <h3 th:text="${registro.habito.titulo}">
+              Nombre del hábito
+            </h3>
+
+            <p th:text="${registro.habito.descripcion}">
+              Descripción del hábito.
+            </p>
+          </div>
+
+          <div class="historial-footer">
+            <div class="completed-info">
+              <span class="status-dot"></span>
+              <span>Fecha:</span>
+              <strong th:text="${registro.fechaCompletado}">
+                YYYY-MM-DD
+              </strong>
+            </div>
+          </div>
+
+        </article>
       </section>
+
     </main>
-  </body>
+  </div>
+</body>
+
 </html>
