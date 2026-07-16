@@ -2,7 +2,8 @@ document.getElementById("btnGenerarHabito").addEventListener("click", generarHab
 
 function generarHabito() {
   const objetivo = document.getElementById("objetivoHabito").value;
-  fetch("/spring/api/habitos/recomendar", {method: "POST", headers: {"Content-Type": "application/json"},
+  fetch("/spring/api/habitos/recomendar", {
+    method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       objetivo: objetivo
     })
@@ -10,7 +11,7 @@ function generarHabito() {
     if (!response.ok) {
       throw new Error("Error generando hábito");
     }
-  return response.json();
+    return response.json();
   }).then(habito => {
     mostrarHabito(habito);
   }).catch(error => {
