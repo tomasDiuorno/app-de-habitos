@@ -8,6 +8,7 @@ import com.tallerwebi.presentacion.DTO.EvidenciaDTO;
 import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,7 +43,8 @@ public class ServicioEvaluadorCheckImpl implements ServicioEvaluadorTipoHabito {
         habito.getDescripcion(),
         imagen.getContentType()
       );
-      Boolean cumplio = respuesta != null && respuesta.trim().toUpperCase().startsWith("SI");;
+      Boolean cumplio =
+        respuesta != null && respuesta.trim().toUpperCase(Locale.ROOT).startsWith("SI");
       return new ResultadoEvaluacionDTO(cumplio, respuesta);
     } catch (IOException e) {
       return new ResultadoEvaluacionDTO(false, "Error al procesar la imagen.");
