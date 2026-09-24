@@ -12,8 +12,10 @@ import com.tallerwebi.dominio.interfaz.ServicioLogro;
 import com.tallerwebi.dominio.interfaz.ServicioUsuarioHabito;
 import com.tallerwebi.dominio.servicios.ServicioHabitoCompartido;
 import com.tallerwebi.dominio.servicios.ServicioHabitoIA;
+import com.tallerwebi.presentacion.DTO.EvidenciaDTO;
 import com.tallerwebi.presentacion.DTO.PlanHabitoDTO;
 import com.tallerwebi.presentacion.DTO.RegistroHabitoDTO;
+import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ControladorHabitos {
@@ -34,17 +37,8 @@ public class ControladorHabitos {
   private static final String ATRIBUTO_CATEGORIAS = "categorias";
   private static final String ATRIBUTO_DATOS_REGISTRO_HABITO = "datosRegistroHabito";
   private static final String ATRIBUTO_USUARIO_HABITOS = "usuarioHabitos";
-  private static final String ATRIBUTO_MOSTRAR_LOGRO = "mostrarLogro";
-  private static final String ATRIBUTO_TITULO_LOGRO = "tituloLogro";
-  private static final String ATRIBUTO_DESCRIPCION_LOGRO = "descripcionLogro";
   private static final String ATRIBUTO_ERROR = "error";
   private static final String ATRIBUTO_USUARIO = "usuario";
-
-  private static final int CERO_HABITOS = 0;
-  private static final int UN_HABITO = 1;
-  private static final int DOS_HABITOS = 2;
-  private static final int TRES_HABITOS = 3;
-  private static final int CUATRO_HABITOS = 4;
 
   private ServicioHabito servicioHabito;
   private ServicioCategoria servicioCategoria;
@@ -90,15 +84,19 @@ public class ControladorHabitos {
   @RequestMapping(path = "/completar-habito", method = RequestMethod.POST)
   public ModelAndView completarHabito(
     @RequestParam Integer habitoId,
-    @RequestParam String evidencia,
-    HttpServletRequest request
+    @ModelAttribute EvidenciaDTO evidencia,
+    HttpServletRequest request,
+    RedirectAttributes flash
   ) {
     Usuario usuario = this.obtenerUsuario(request);
     Habito habito = servicioHabito.buscarHabitoPorId(habitoId);
     UsuarioHabito usuarioHabito =
       this.servicioUsuarioHabito.obtenerPorUsuarioYHabito(usuario, habito);
-    servicioEvaluadorHabito.completarHabito(usuarioHabito, evidencia);
-
+    ResultadoEvaluacionDTO resultado = servicioEvaluadorHabito.completarHabito(
+      usuarioHabito,
+      evidencia
+    );
+    flash.addFlashAttribute("resultadoEvaluacion", resultado);
     return new ModelAndView(REDIRECT_HABITOS);
   }
 
@@ -159,9 +157,13 @@ public class ControladorHabitos {
       this.servicioLogro.verificarYAsignarLogros(usuario, cantidadHabitosDespues);
 
       ModelAndView modelAndView = crearVistaCrearHabito(new RegistroHabitoDTO());
-      cargarLogroDesbloqueado(modelAndView, cantidadHabitosAntes, cantidadHabitosDespues);
+      CargadorLogroDesbloqueado.cargarLogroDesbloqueado(
+        modelAndView,
+        cantidadHabitosAntes,
+        cantidadHabitosDespues
+      );
 
-      if (modelAndView.getModel().containsKey(ATRIBUTO_MOSTRAR_LOGRO)) {
+      if (modelAndView.getModel().containsKey(CargadorLogroDesbloqueado.ATRIBUTO_MOSTRAR_LOGRO)) {
         return modelAndView;
       }
 
@@ -188,41 +190,5 @@ public class ControladorHabitos {
     modelAndView.addObject(ATRIBUTO_DATOS_REGISTRO_HABITO, datosRegistroHabito);
 
     return modelAndView;
-  }
-
-  private void cargarLogroDesbloqueado(
-    ModelAndView modelAndView,
-    int cantidadHabitosAntes,
-    int cantidadHabitosDespues
-  ) {
-    if (cantidadHabitosAntes == CERO_HABITOS && cantidadHabitosDespues == UN_HABITO) {
-      cargarDatosDelLogro(
-        modelAndView,
-        "Primer hábito creado",
-        "Creaste tu primer hábito. Tu rutina acaba de empezar."
-      );
-    }
-
-    if (cantidadHabitosAntes == DOS_HABITOS && cantidadHabitosDespues == TRES_HABITOS) {
-      cargarDatosDelLogro(
-        modelAndView,
-        "Constante",
-        "Ya tenés 3 hábitos activos. Estás construyendo una rutina."
-      );
-    }
-
-    if (cantidadHabitosAntes == TRES_HABITOS && cantidadHabitosDespues == CUATRO_HABITOS) {
-      cargarDatosDelLogro(modelAndView, "Experto", "Llegaste al máximo de 4 hábitos activos.");
-    }
-  }
-
-  private void cargarDatosDelLogro(
-    ModelAndView modelAndView,
-    String tituloLogro,
-    String descripcionLogro
-  ) {
-    modelAndView.addObject(ATRIBUTO_MOSTRAR_LOGRO, true);
-    modelAndView.addObject(ATRIBUTO_TITULO_LOGRO, tituloLogro);
-    modelAndView.addObject(ATRIBUTO_DESCRIPCION_LOGRO, descripcionLogro);
   }
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Recompensas | Habit Quest</title>
+     <title>Habitapp - Recompensas</title>
 
     <link rel="stylesheet" th:href="@{/css/navbar.css}" />
     <link rel="stylesheet" th:href="@{/css/recompensas.css}" />
@@ -12,21 +12,23 @@
 
 <body class="rewards-body">
     <div class="app-shell">
-        <nav class="navbar">
-            <a class="brand" th:href="@{/home}">
-                <span class="brand-mark"></span>
-                <span>Habit Quest</span>
-            </a>
+            <nav class="navbar">
+      <a class="brand" th:href="@{/home}">
+        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="brand-logo" />
+      </a>
 
-            <div class="nav-links">
-                <a th:href="@{/home}">Inicio</a>
-                <a th:href="@{/habitos}">Habitos</a>
-                <a class="active" th:href="@{/recompensas}">Recompensas</a>
-                <a th:href="@{/perfil}">Perfil</a>
-            </div>
+      <div class="nav-links">
+        <a th:href="@{/home}">Inicio</a>
+        <a th:href="@{/habitos}">Hábitos</a>
+        <a th:href="@{/tienda}">Tienda</a>
+        <a th:href="@{/recompensas}">Recompensas</a>
+        <a th:href="@{/comunidad}">Comunidad</a>
+        <a class="active" th:href="@{/historial}">Historial</a>
+        <a th:href="@{/perfil}">Perfil</a>
+      </div>
 
-            <a class="nav-action" th:href="@{/login}">Salir</a>
-        </nav>
+      <a class="nav-action" th:href="@{/login}">Salir</a>
+    </nav>
 
         <main class="rewards-page">
             <header class="rewards-hero">

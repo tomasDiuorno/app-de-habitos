@@ -15,6 +15,8 @@ import com.tallerwebi.dominio.factory.EvaluadorHabitosFactory;
 import com.tallerwebi.dominio.interfaz.RepositorioRegistroHabito;
 import com.tallerwebi.dominio.interfaz.ServicioEvaluadorHabito;
 import com.tallerwebi.dominio.interfaz.ServicioEvaluadorTipoHabito;
+import com.tallerwebi.dominio.interfaz.ServicioProgresoUsuario;
+import com.tallerwebi.presentacion.DTO.EvidenciaDTO;
 import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,14 +27,20 @@ public class ServicioEvaluadorHabitoTest {
   private EvaluadorHabitosFactory factoryMock;
   private RepositorioRegistroHabito registroHabitoRepositorioMock;
   private ServicioEvaluadorTipoHabito evaluadorMock;
+  private ServicioProgresoUsuario servicioProgresoUsuario;
 
   @BeforeEach
   public void init() {
     factoryMock = mock(EvaluadorHabitosFactory.class);
     registroHabitoRepositorioMock = mock(RepositorioRegistroHabito.class);
+    servicioProgresoUsuario = mock(ServicioProgresoUsuario.class);
     evaluadorMock = mock(ServicioEvaluadorTipoHabito.class);
     servicioEvaluadorHabito =
-      new ServicioEvaluadorHabitoImp(factoryMock, registroHabitoRepositorioMock);
+      new ServicioEvaluadorHabitoImp(
+        factoryMock,
+        registroHabitoRepositorioMock,
+        servicioProgresoUsuario
+      );
   }
 
   @Test
@@ -41,6 +49,8 @@ public class ServicioEvaluadorHabitoTest {
     Usuario usuario = new Usuario();
     Habito habito = new Habito();
     habito.setTipoHabito(TipoHabitoEnum.HORARIO);
+    EvidenciaDTO evidencia = new EvidenciaDTO();
+    evidencia.setTexto("22:00");
     UsuarioHabito usuarioHabito = new UsuarioHabito();
     usuarioHabito.setUsuario(usuario);
     usuarioHabito.setHabito(habito);
@@ -48,14 +58,14 @@ public class ServicioEvaluadorHabitoTest {
     ResultadoEvaluacionDTO resultado = new ResultadoEvaluacionDTO(true, "Cumplido");
 
     when(factoryMock.obtener(TipoHabitoEnum.HORARIO)).thenReturn(evaluadorMock);
-    when(evaluadorMock.evaluar(habito, "22:40")).thenReturn(resultado);
+    when(evaluadorMock.evaluar(habito, evidencia)).thenReturn(resultado);
 
     // ejecución
-    servicioEvaluadorHabito.completarHabito(usuarioHabito, "22:40");
+    servicioEvaluadorHabito.completarHabito(usuarioHabito, evidencia);
 
     // validación
     verify(factoryMock).obtener(TipoHabitoEnum.HORARIO);
-    verify(evaluadorMock).evaluar(habito, "22:40");
+    verify(evaluadorMock).evaluar(habito, evidencia);
     verify(registroHabitoRepositorioMock).guardar(any(RegistroHabito.class));
   }
 
@@ -67,12 +77,14 @@ public class ServicioEvaluadorHabitoTest {
     UsuarioHabito usuarioHabito = new UsuarioHabito();
     usuarioHabito.setUsuario(usuario);
     usuarioHabito.setHabito(habito);
+    EvidenciaDTO evidencia = new EvidenciaDTO();
+    evidencia.setTexto("23:50");
 
     ResultadoEvaluacionDTO resultado = new ResultadoEvaluacionDTO(false, "Fuera de horario");
 
     when(factoryMock.obtener(TipoHabitoEnum.HORARIO)).thenReturn(evaluadorMock);
-    when(evaluadorMock.evaluar(habito, "23:50")).thenReturn(resultado);
-    servicioEvaluadorHabito.completarHabito(usuarioHabito, "23:50");
+    when(evaluadorMock.evaluar(habito, evidencia)).thenReturn(resultado);
+    servicioEvaluadorHabito.completarHabito(usuarioHabito, evidencia);
     verify(registroHabitoRepositorioMock).guardar(argThat(registro -> !registro.getCompletado()));
   }
 }

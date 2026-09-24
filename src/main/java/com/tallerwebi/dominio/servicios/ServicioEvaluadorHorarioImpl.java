@@ -3,6 +3,7 @@ package com.tallerwebi.dominio.servicios;
 import com.tallerwebi.dominio.entidades.Habito;
 import com.tallerwebi.dominio.enums.TipoHabitoEnum;
 import com.tallerwebi.dominio.interfaz.ServicioEvaluadorTipoHabito;
+import com.tallerwebi.presentacion.DTO.EvidenciaDTO;
 import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
 import java.time.LocalTime;
 import org.springframework.stereotype.Service;
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Service;
 public class ServicioEvaluadorHorarioImpl implements ServicioEvaluadorTipoHabito {
 
   @Override
-  public ResultadoEvaluacionDTO evaluar(Habito habito, String evidencia) {
-    LocalTime horaReal = LocalTime.parse(evidencia);
+  public ResultadoEvaluacionDTO evaluar(Habito habito, EvidenciaDTO evidencia) {
+    LocalTime horaReal = LocalTime.parse(evidencia.getTexto());
     Boolean cumplio = horaReal.isBefore(habito.getConfiguracion().getHoraLimite());
 
     return new ResultadoEvaluacionDTO(cumplio, "Hora registrada" + horaReal);

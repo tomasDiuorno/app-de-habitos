@@ -1,7 +1,9 @@
 package com.tallerwebi.dominio.interfaz;
 
 import com.tallerwebi.dominio.entidades.UsuarioHabito;
+import com.tallerwebi.presentacion.DTO.EvidenciaDTO;
+import com.tallerwebi.presentacion.DTO.ResultadoEvaluacionDTO;
 
 public interface ServicioEvaluadorHabito {
-  void completarHabito(UsuarioHabito usuarioHabito, String evidencia);
+  ResultadoEvaluacionDTO completarHabito(UsuarioHabito usuarioHabito, EvidenciaDTO evidencia);
 }

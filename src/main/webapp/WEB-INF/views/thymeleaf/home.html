@@ -19,122 +19,122 @@
 
 <body class="home-body">
 
-  <nav class="home-navbar">
-    <div class="home-navbar-container">
+<header class="home-navbar">
+  <div class="home-navbar-container">
 
-      <a th:href="@{/home}" class="home-brand">
-        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="home-logo">
-      </a>
+    <a th:href="@{/home}" class="home-brand">
+      <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="home-logo">
+    </a>
 
-      <div class="home-nav-links">
-        <a th:href="@{/habitos}" class="home-nav-link">Hábitos</a>
-        <a th:href="@{/tienda}" class="home-nav-link">Tienda</a>
-        <a th:href="@{/recompensas}" class="home-nav-link">Recompensas</a>
-        <a th:href="@{/comunidad}" class="home-nav-link">Comunidad</a>
-        <a th:href="@{/historial}" class="home-nav-link">Historial</a>
-        <a th:href="@{/perfil}" class="home-nav-link">Perfil</a>
-        <a th:href="@{/login}" class="home-logout-button">Cerrar sesión</a>
-      </div>
+    <nav class="home-nav-links">
+      <a th:href="@{/habitos}" class="home-nav-link">Hábitos</a>
+      <a th:href="@{/tienda}" class="home-nav-link">Tienda</a>
+      <a th:href="@{/recompensas}" class="home-nav-link">Recompensas</a>
+      <a th:href="@{/comunidad}" class="home-nav-link">Comunidad</a>
+      <a th:href="@{/historial}" class="home-nav-link">Historial</a>
+      <a th:href="@{/perfil}" class="home-nav-link">Perfil</a>
+      <a th:href="@{/login}" class="home-logout-button">Cerrar sesión</a>
+    </nav>
 
-    </div>
-  </nav>
+  </div>
+</header>
 
-  <main class="home-main">
+<main class="home-main">
 
-    <section class="hero-section">
-      <div class="hero-content">
-        <p class="hero-kicker">Controlá tu progreso</p>
+  <section class="hero-section">
+    <div class="hero-content">
+      <p class="hero-kicker">Controlá tu progreso</p>
 
-        <h1>Habitapp</h1>
+      <h1>Habitapp</h1>
 
-        <p>
-          Habitapp es una aplicación pensada para ayudarte a construir hábitos de una forma simple, clara y motivadora.
-          Organizá tus objetivos, registrá tus avances y mantené la constancia sin depender solamente de la fuerza
-          de voluntad.
-        </p>
-
-        <p>
-          Desde tomar más agua, entrenar, leer, estudiar o mejorar tu descanso, Habitapp te permite seguir tu progreso
-          diario, visualizar tus logros y recibir pequeñas recompensas que hacen más fácil sostener el hábito en el tiempo.
-        </p>
-      </div>
-    </section>
-
-    <section class="habits-section">
-      <p class="section-kicker">Rutinas recomendadas</p>
-
-      <h2>Hábitos más recurrentes</h2>
-
-      <p class="habits-intro">
-        Estos son algunos hábitos simples que podés empezar a registrar para mejorar tu rutina día a día.
+      <p>
+        Habitapp es una aplicación pensada para ayudarte a construir hábitos de una forma simple, clara y motivadora.
+        Organizá tus objetivos, registrá tus avances y mantené la constancia sin depender solamente de la fuerza
+        de voluntad.
       </p>
 
-      <div class="habits-cards">
+      <p>
+        Desde tomar más agua, entrenar, leer, estudiar o mejorar tu descanso, Habitapp te permite seguir tu progreso
+        diario, visualizar tus logros y recibir pequeñas recompensas que hacen más fácil sostener el hábito en el tiempo.
+      </p>
+    </div>
+  </section>
 
-        <article class="habit-card">
-          <div class="habit-image-box">
-            <img th:src="@{/images/agua.jpeg}" alt="Tomar agua" class="habit-image">
-          </div>
+  <section class="habits-section">
+    <p class="section-kicker">Rutinas recomendadas</p>
 
-          <div class="habit-card-content">
-            <h3>Tomar agua</h3>
-            <p>
-              Registrá tu consumo diario de agua y mantené una hidratación más constante durante el día.
-            </p>
-          </div>
-        </article>
+    <h2>Hábitos más recurrentes</h2>
 
-        <article class="habit-card">
-          <div class="habit-image-box">
-            <img th:src="@{/images/ejercicio.jpeg}" alt="Hacer ejercicio" class="habit-image">
-          </div>
+    <p class="habits-intro">
+      Estos son algunos hábitos simples que podés empezar a registrar para mejorar tu rutina día a día.
+    </p>
 
-          <div class="habit-card-content">
-            <h3>Hacer ejercicio</h3>
-            <p>
-              Sumá actividad física a tu rutina con objetivos simples y fáciles de sostener.
-            </p>
-          </div>
-        </article>
+    <div class="habits-cards">
 
-        <article class="habit-card">
-          <div class="habit-image-box">
-            <img th:src="@{/images/leer.jpeg}" alt="Leer" class="habit-image">
-          </div>
+      <article class="habit-card">
+        <div class="habit-image-box">
+          <img th:src="@{/images/agua.jpeg}" alt="Tomar agua" class="habit-image">
+        </div>
 
-          <div class="habit-card-content">
-            <h3>Leer</h3>
-            <p>
-              Creá el hábito de leer unos minutos por día y seguí tu progreso con cada sesión.
-            </p>
-          </div>
-        </article>
+        <div class="habit-card-content">
+          <h3>Tomar agua</h3>
+          <p>
+            Registrá tu consumo diario de agua y mantené una hidratación más constante durante el día.
+          </p>
+        </div>
+      </article>
 
-      </div>
+      <article class="habit-card">
+        <div class="habit-image-box">
+          <img th:src="@{/images/ejercicio.jpeg}" alt="Hacer ejercicio" class="habit-image">
+        </div>
 
-      <a th:href="@{/habitos}" class="cta-button">Comenzá tus hábitos</a>
-    </section>
+        <div class="habit-card-content">
+          <h3>Hacer ejercicio</h3>
+          <p>
+            Sumá actividad física a tu rutina con objetivos simples y fáciles de sostener.
+          </p>
+        </div>
+      </article>
 
-  </main>
+      <article class="habit-card">
+        <div class="habit-image-box">
+          <img th:src="@{/images/leer.jpeg}" alt="Leer" class="habit-image">
+        </div>
 
-  <footer class="home-footer">
-    <div class="home-footer-container">
-
-      <div class="footer-brand">
-        <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="footer-logo">
-      </div>
-
-      <div class="footer-info">
-        <p>Proyecto desarrollado para Taller Web I.</p>
-        <p>Tomas Diuorno - Julieta Miño - Ramiro Bruzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
-      </div>
-
-      <div class="footer-copy">
-        <p>&copy; 2026 Habitapp. Todos los derechos reservados.</p>
-      </div>
+        <div class="habit-card-content">
+          <h3>Leer</h3>
+          <p>
+            Creá el hábito de leer unos minutos por día y seguí tu progreso con cada sesión.
+          </p>
+        </div>
+      </article>
 
     </div>
-  </footer>
+
+    <a th:href="@{/habitos}" class="cta-button">Comenzá tus hábitos</a>
+  </section>
+
+</main>
+
+<footer class="home-footer">
+  <div class="home-footer-container">
+
+    <div class="footer-brand">
+      <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="footer-logo">
+    </div>
+
+    <div class="footer-info">
+      <p>Proyecto desarrollado para Taller Web I.</p>
+      <p>Tomas Diuorno - Julieta Miño - Ramiro Bruzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
+    </div>
+
+    <div class="footer-copy">
+      <p>&copy; 2026 Habitapp. Todos los derechos reservados.</p>
+    </div>
+
+  </div>
+</footer>
 
 </body>
 

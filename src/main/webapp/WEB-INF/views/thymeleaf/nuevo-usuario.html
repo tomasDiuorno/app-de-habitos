@@ -98,20 +98,6 @@
             <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
           </div>
         </div>
-
-        <div class="habits-grid">
-          <label class="habit-card" th:each="habito : ${habitos}">
-            <input type="checkbox" th:field="*{habitosSeleccionados}" th:value="${habito.id}" class="habit-checkbox" />
-            <div class="habit-card-content">
-              <div class="habit-info">
-                <h3 class="habit-name" th:text="${habito.titulo}">
-                </h3>
-                <span class="habit-category" th:text="${habito.categoria.nombre}">
-                </span>
-              </div>
-            </div>
-          </label>
-        </div>
         <button id="btn-registrarme" class="btn-neon" type="submit">
           Registrarme
         </button>

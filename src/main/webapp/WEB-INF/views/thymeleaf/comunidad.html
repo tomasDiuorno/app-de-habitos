@@ -14,63 +14,101 @@
     href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" th:href="@{/css/comunidad.css}">
+  <link rel="stylesheet" th:href="@{/css/comunidad.css(v=3)}">
+  <link rel="stylesheet" th:href="@{/css/navbar-home.css(v=1)}">
 </head>
 
 <body class="comunidad-body">
 
-<nav class="comunidad-navbar">
-  <div class="comunidad-navbar-container">
+<header class="home-navbar">
+  <div class="home-navbar-container">
 
-    <a th:href="@{/home}" class="comunidad-brand">
-      <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="comunidad-logo">
+    <a th:href="@{/home}" class="home-brand">
+      <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="home-logo">
     </a>
 
-    <div class="comunidad-nav-links">
-      <a th:href="@{/home}" class="comunidad-nav-link">Inicio</a>
-      <a th:href="@{/habitos}" class="comunidad-nav-link">Hábitos</a>
-      <a th:href="@{/tienda}" class="comunidad-nav-link">Tienda</a>
-      <a th:href="@{/recompensas}" class="comunidad-nav-link">Recompensas</a>
-      <a th:href="@{/comunidad}" class="comunidad-nav-link active">Comunidad</a>
-      <a th:href="@{/perfil}" class="comunidad-nav-link">Perfil</a>
-      <a th:href="@{/login}" class="comunidad-logout-button">Cerrar sesión</a>
-    </div>
+    <nav class="home-nav-links">
+      <a th:href="@{/habitos}" class="home-nav-link">Hábitos</a>
+      <a th:href="@{/tienda}" class="home-nav-link">Tienda</a>
+      <a th:href="@{/recompensas}" class="home-nav-link">Recompensas</a>
+      <a th:href="@{/comunidad}" class="home-nav-link active">Comunidad</a>
+      <a th:href="@{/historial}" class="home-nav-link">Historial</a>
+      <a th:href="@{/perfil}" class="home-nav-link">Perfil</a>
+      <a th:href="@{/login}" class="home-logout-button">Cerrar sesión</a>
+    </nav>
 
   </div>
-</nav>
+</header>
 
 <main class="comunidad-main">
 
   <section class="comunidad-hero">
-    <p class="section-kicker">Foro de hábitos</p>
 
-    <h1>Comunidad</h1>
+    <p class="section-kicker">
+      Foro de hábitos
+    </p>
+
+    <h1>
+      Comunidad
+    </h1>
 
     <p>
       Compartí avances, dudas y consejos con otros usuarios de Habitapp.
+      Publicá tus hábitos grupales, leé experiencias y sumate al progreso de otros.
     </p>
 
     <a th:href="@{/comunidad/nueva}" class="primary-button">
       Crear publicación
     </a>
+
+  </section>
+
+  <section class="publicaciones-header">
+    <p class="section-kicker">
+      Publicaciones
+    </p>
+
+    <h2>
+      Últimas conversaciones
+    </h2>
   </section>
 
   <section class="publicaciones-section">
 
     <article th:if="${#lists.isEmpty(publicaciones)}" class="publicacion-card empty-card">
-      <p class="publicacion-tag">Sin publicaciones</p>
-      <h2>Todavía no hay publicaciones</h2>
-      <p>Creá la primera publicación de la comunidad.</p>
+
+      <div class="empty-icon">
+        +
+      </div>
+
+      <p class="publicacion-tag">
+        Sin publicaciones
+      </p>
+
+      <h2>
+        Todavía no hay publicaciones
+      </h2>
+
+      <p>
+        Creá la primera publicación de la comunidad y compartí un avance, una duda o una idea.
+      </p>
+
+      <a th:href="@{/comunidad/nueva}" class="primary-button empty-button">
+        Crear primera publicación
+      </a>
+
     </article>
 
     <article th:each="publicacion : ${publicaciones}" class="publicacion-card">
 
       <div class="publicacion-header">
-        <p class="publicacion-tag">Publicación</p>
+        <p class="publicacion-tag">
+          Publicación
+        </p>
 
         <span
           class="publicacion-autor"
-          th:text="${publicacion.autor != null ? publicacion.autor.name : 'Usuario'}">
+          th:text="${publicacion.autor != null && publicacion.autor.username != null ? publicacion.autor.username : 'Usuario'}">
           Usuario
         </span>
       </div>
@@ -84,7 +122,9 @@
       </p>
 
       <div class="publicacion-footer">
-        <span>Ver comentarios en detalle</span>
+        <span>
+          Ver comentarios en detalle
+        </span>
 
         <a th:href="@{/comunidad/{id}(id=${publicacion.id})}" class="secondary-button">
           Ver publicación
@@ -103,8 +143,12 @@
     <img th:src="@{/images/logo.png}" alt="Logo Habitapp" class="comunidad-footer-logo">
 
     <div class="comunidad-footer-info">
-      <p>Proyecto desarrollado para Taller Web I.</p>
-      <p>Tomas Diuorno - Julieta Miño - Ramiro Bruzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer</p>
+      <p>
+        Proyecto desarrollado para Taller Web I.
+      </p>
+      <p>
+        Tomas Diuorno - Julieta Miño - Ramiro Bruzon - Dorian Villalba - Lucas Garcia - Juan Pablo Pfeiffer
+      </p>
     </div>
 
     <p class="comunidad-footer-copy">

@@ -1,3 +1,4 @@
+/* global ConfiguracionEvidencia */
 const botonesCompletar = document.querySelectorAll(".completar-habito-button");
 const modal = document.getElementById("modalCompletar");
 const inputHabitoId = document.getElementById("habitoId");
@@ -10,6 +11,7 @@ botonesCompletar.forEach(boton => {
     const nombre = boton.dataset.nombre;
     inputHabitoId.value = id;
     nombreHabito.innerText = nombre;
+    ConfiguracionEvidencia.configurar(boton.dataset.tipo);
     modal.classList.add("active");
   });
 });
