@@ -1,321 +1,230 @@
-Proyecto base Taller Web I (Maven and Thymeleaf)
-===============================
+# App de Hábitos
 
-## Preparación del ambiente de desarrollo
-Antes de comenzar a trabajar con el proyecto, debemos instalar y configurar algunas herramientas:
+Plataforma web gamificada para construir hábitos. El usuario cumple sus hábitos, demuestra que los cumplió con una evidencia, gana monedas y experiencia, sube de nivel y desbloquea recompensas canjeables en la vida real.
 
-### Java
-Java es el lenguaje de programación con el que trabajaremos. El proyecto esta configurado para funcionar con la version 11 de Java.
-* Descargar el JDK para el sistema operativo en uso: [JDK 11 para Linux](https://download.java.net/openjdk/jdk11.0.0.2/ri/openjdk-11.0.0.2_linux-x64.tar.gz), [JDK 11 para Windows](https://download.java.net/openjdk/jdk11.0.0.2/ri/openjdk-11.0.0.2_windows-x64.zip).
-* Descomprimir el archivo descargado en una carpeta. 
-    * Ejemplo: `/home/java` (En Linux) o `C:\java` (en Windows).
-* Configurar una variable de entorno con la clave `JAVA_HOME` indicando en el valor, la ruta donde se descomprimió el archivo descargado. 
-    * Ejemplo: `C:\java\jdk-11.0.0.2` (en Windows) o `/home/java/jdk-11.0.0.2` (en Linux).
-* Configurar la variable de entorno `PATH` incluyendo la variable `JAVA_HOME`: 
-    * Agregamos: `%JAVA_HOME%\bin` al listado existente.
-* Luego de guardar la configuración de las variables de entorno, ejecutamos en el CMD o Terminal `java -version` y luego `javac -version`, debiendo visualizar como salida la versión de Java y la versión del compilador instaladas, respectivamente.
-* [Guía para instalar Java en Windows](https://www.java.com/es/download/help/windows_manual_download.html)
-* [Guía para instalar Java en Linux](https://www.java.com/es/download/help/linux_x64_install.html)
+Proyecto académico desarrollado por un equipo de 6 personas con metodología Scrum en la materia Taller Web I (Universidad Nacional de La Matanza).
 
-### Maven
-Maven es una herramienta que permite la gestión de proyectos (principalmente proyectos Java). Simplifica y estandariza el proceso de construcción del producto software. 
-* Es requisito tener instalado Java (mínimo Java 8 para Maven, Java 11 para el proyecto) y configuradas las variables de entorno (`JAVA_HOME` y `PATH`).
-* Descargar Maven desde el [sitio oficial](https://dlcdn.apache.org/maven/maven-3/3.8.9/binaries/apache-maven-3.8.9-bin.zip) y luego descomprimirlo en una carpeta (Puede estar junto a la instalación de Java o en otra carpeta).
-* Configurar una variable de entorno con la clave `MAVEN_HOME` indicando en el valor, la ruta donde se descomprimió el archivo descargado. 
-    * Ejemplo: `/home/maven/apache-maven-3.9.11` (en Linux) o `C:\maven\apache-maven-3.9.11` (en Windows).
-* Configurar la variable de entorno `PATH` incluyendo la variable `MAVEN_HOME`: 
-    * Agregamos: `%MAVEN_HOME%\bin` al listado existente.
-* Luego de guardar la configuración de las variables de entorno, ejecutamos en el CMD o Terminal `mvn -version`, debiendo visualizar como salida la versión de Maven descargada. Si el Terminal o CMD estaba abierto durante la configuración, hay que cerrarlo y abrir nuevamente.
-* Carpeta **.m2**: Es el repositorio local de Maven donde guarda los artefactos (como archivos JAR), descargados por dependencias o generados localmente. Por defecto esta carpeta se crea en las siguientes rutas:
-    * Linux: `/home/<mi usuario>/.m2`.
-    * Windows: `C:\Users\<mi usuario>\.m2`.
-* [Guía para instalar Maven en Windows o Linux](https://maven.apache.org/install.html).
- 
-#### Configuración en IDEs
-* IntelliJ: Maven viene instalado y el plugin está accesible en el panel de la derecha (aparece con una letra **M**). Permite ejecutar comandos, gestionar plugins y dependencias. 
-* VS Code (Plugins recomendados):
-    * Maven for Java: Es el plugin oficial. Desde el explorador, como nueva sección debajo del proyecto aparece Maven, facilitando la ejecución de comandos, gestión de dependencias y plugins.
-    * XML: Mejora el autocompletado y la validación de sintáxis en archivos XML. Para Maven es crucial el archivo `pom.xml`,
+<!--
+CAPTURAS: guardá las imágenes en docs/img/ y descomentá este bloque.
 
-### Docker
-Docker es una plataforma de contenedores que permite empaquetar aplicaciones con todas sus dependencias en contenedores ligeros y portables. Los contenedores se ejecutan de forma aislada y consistente en cualquier entorno que tenga Docker instalado.
-* Para instalar sobre Windows, el camino mas simple es instalar `Docker Desktop`. Para esto es necesario seguir esta [guía](https://docs.docker.com/desktop/setup/install/windows-install/).
-* Para instalar sobre Linux, alcanza con instalar `Docker Engine` siguiendo esta [guía](https://docs.docker.com/engine/install/ubuntu/). También es posible instalar `Docker Desktop` (incluye Docker Engine).
+## Capturas
 
-## 1. ¿Cómo iniciar el proyecto?
-> Necesitamos previamente una base de datos mysql en el puerto 3306.
-```shell
-# Levantamos un BBDD con docker
-docker build -f DockerfileSQL -t mysql .
-docker run --env-file .env --name mysql-container -d -p 3306:3306 mysql
+| Homepage | Crear hábito |
+| --- | --- |
+| ![Homepage](docs/img/home.png) | ![Crear hábito](docs/img/crear-habito.png) |
 
-# Iniciamos el proyecto
-$ mvn clean jetty:run
-# http://localhost:8080/spring
-```
-## 2. Thymeleaf
-* [Documentación](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)
+| Tienda | Perfil |
+| --- | --- |
+| ![Tienda](docs/img/tienda.png) | ![Perfil](docs/img/perfil.png) |
+-->
 
-## 3. Hamcrest
-* [Documentación](https://hamcrest.org/JavaHamcrest/javadoc/2.2/)
+## Funcionalidades
 
-## 4. GitHub Actions
-* [Documentación](https://docs.github.com/es/actions/quickstart)
+Después de registrarse o iniciar sesión, el usuario accede a una homepage con una barra de navegación hacia cinco secciones.
 
-## 5. Playwright
-* [Documentación](https://playwright.dev/java/docs/intro)
+| Sección | Qué hace |
+| --- | --- |
+| **Hábitos** | Crear, seguir y completar hábitos. Incluye un asistente de IA que sugiere hábitos a partir de un objetivo. |
+| **Tienda** | Compra de consumibles (boosts) con las monedas ganadas. Los boosts aceleran la obtención de experiencia. |
+| **Recompensas** | Sistema tipo pase de batalla. Al subir de nivel se desbloquean beneficios (descuentos en gimnasios, barberías, tiendas y marcas) que el usuario canjea. Son simbólicos por tratarse de un proyecto académico, pero el flujo está pensado para funcionar así. |
+| **Comunidad** | Espacio para que los usuarios se comuniquen, consulten cómo resolver hábitos o cómo desbloquear recompensas. |
+| **Perfil** | Información personal, baúl de recompensas para canjearlas, monedero con el saldo disponible y logros desbloqueados. |
 
-## 6. Jetty
-* [Documentación](https://eclipse.dev/jetty/documentation/jetty-9/index.html#maven-and-jetty)
+### Creación de hábitos
 
-## 7. ¿Cómo correr las pruebas de punta a punta?
+Al crear un hábito se cargan nombre, descripción, categoría, frecuencia y **tipo**. El tipo es clave: determina qué evidencia debe presentar el usuario para completarlo.
 
-### Iniciar el servidor
-```shell
-# Opción 1
-$ mvn clean jetty:run
+### Verificación con evidencia (anti-trampa)
 
-# Opción 2 -- ver seccion 10 docker-compose
-$ docker-compose up --build
-```
-### Correr las pruebas en otra terminal
-```shell
-$ mvn test -Dtest="VistaLoginE2E"
-$ mvn test -Dtest="VistaLoginE2E#deberiaNavegarAlHomeSiElUsuarioExiste"
+Un hábito no se marca como cumplido con un simple clic: el usuario debe aportar una evidencia que el backend valida.
+
+| Tipo de evidencia | Ejemplo | Cómo se valida |
+| --- | --- | --- |
+| **Horario límite** | "Me voy a acostar antes de las 23" | El usuario fija las 23:00 como límite al crear el hábito. Al completarlo, un modal le pide el horario real. El backend primero comprueba que ese horario sea coherente con la hora actual (para evitar que se cargue uno falso) y después lo compara con el límite. |
+| **Imagen** | Foto de que realizó la actividad del día | El usuario sube una imagen y el servicio de IA verifica que coincida con el hábito. |
+
+Al cumplir satisfactoriamente un hábito, el usuario obtiene monedas y experiencia.
+
+## Asistente de IA
+
+En la sección Hábitos, el usuario escribe un objetivo general (por ejemplo, "quiero dormir mejor") y la IA lo transforma en un hábito concreto, medible y con frecuencia, con nombre, descripción, frecuencia y categoría.
+
+El flujo está separado en capas para que cada clase tenga una única responsabilidad y se puedan sumar otros proveedores de IA sin tocar el resto de la aplicación.
+
+```mermaid
+sequenceDiagram
+    participant U as Usuario
+    participant C as ControladorHabitosIA
+    participant S as ServicioHabitoIAImpl
+    participant G as ServicioGeminiImpl
+    participant API as Gemini API
+
+    U->>C: Escribe un objetivo
+    C->>S: recomendar(objetivo)
+    S->>S: construirPrompt(objetivo)
+    S->>G: preguntar(prompt)
+    G->>API: prompt + instrucción de sistema
+    API-->>G: Respuesta en JSON
+    G-->>S: Respuesta (texto)
+    S->>S: Limpia y convierte el JSON a DTO
+    S-->>C: Hábito sugerido
+    C-->>U: Se muestra en la vista
 ```
 
-## 8. ¿Cómo correr las pruebas unitarias de javascript?
-```shell
-$ cd src/main/webapp/resources/core/js
-# Si es la primera vez debo descargar e instalar las dependencias
-$ npm install
-# Ejecuto las pruebas
-$ npm run test
+| Clase / interfaz | Responsabilidad |
+| --- | --- |
+| `ControladorHabitosIA` | Recibe la petición del usuario y delega en el servicio. |
+| `ServicioHabitoIA` / `ServicioHabitoIAImpl` | Lógica del caso de uso: construye el prompt, pide la respuesta y la convierte a un DTO (`recomendar`, `sugerirPlan`). |
+| `ServicioIA` / `ServicioGeminiImpl` | Abstracción del proveedor de IA (`preguntar`) y su implementación con Gemini. Para usar otro modelo alcanza con crear otra implementación. |
+| `PlanHabitoDTO` | Estructura con la que se transporta el hábito sugerido hacia la vista. |
+
+**Instrucción de sistema:** se le indica a la IA que actúe como experta en creación de hábitos, que el hábito sea medible, simple y con frecuencia, y que responda únicamente con un JSON (`nombre`, `descripcion`, `frecuencia`, `categoria`). La respuesta se limpia (por ejemplo, se quitan los bloques de markdown que a veces agrega el modelo) y se deserializa con Jackson.
+
+## Arquitectura
+
+Aplicación web monolítica con arquitectura **MVC en capas**:
+
+```
+Vista (Thymeleaf) → Controlador → Servicio → Repositorio (Hibernate) → MySQL
 ```
 
-## 9. Docker:
-Los archivos de docker de este proyecto estan preparados para desplegar un archivo WAR usando el servido Jetty o Tomcat.
-El archivo de docker para Jetty y Tomcat esperan que el archivo WAR se debe llamar "tallerwebi-base-1.0-SNAPSHOT" para eso debemos modificar los atributos <artifactId> y <version> del archivo pom.xml. 
+El diseño se basó en los principios **SOLID**: clases con una responsabilidad específica, servicios definidos como interfaces con sus implementaciones y dependencias hacia abstracciones (como en el módulo de IA).
 
-Para generar un archivo WAR debemos ejecutar maven.
-```shell
+## Tecnologías
+
+| Área | Tecnologías |
+| --- | --- |
+| Backend | Java 11, Spring MVC 5.2, Hibernate 5.4, Jetty embebido |
+| Frontend | Thymeleaf, HTML, CSS, JavaScript, Bootstrap 5 |
+| Base de datos | MySQL |
+| IA | Google Gemini |
+| Testing | JUnit 5, Mockito, Hamcrest, Playwright (E2E), pruebas unitarias de JavaScript |
+| Calidad de código | JaCoCo, PMD y CPD, Checkstyle, Prettier, ESLint |
+| Infraestructura | Maven, Docker y Docker Compose, GitHub Actions |
+
+## Cómo ejecutarlo
+
+### Requisitos
+
+- JDK 11
+- Maven 3.8 o superior
+- Docker
+- Node 18 o superior (solo para las pruebas de JavaScript y ESLint)
+
+### Configuración
+
+1. Clonar el repositorio:
+
+   ```
+   git clone https://github.com/tomasDiuorno/app-de-habitos.git
+   cd app-de-habitos
+   ```
+
+2. Crear un archivo `.env` en la raíz con las variables de la base de datos y la API key de Gemini.
+
+   ```
+   # TODO: completar con los nombres reales de las variables
+   ```
+
+3. Levantar la base de datos MySQL con Docker:
+
+   ```
+   docker build -f DockerfileSQL -t mysql .
+   docker run --env-file .env --name mysql-container -d -p 3306:3306 mysql
+   ```
+
+4. Iniciar la aplicación:
+
+   ```
+   mvn clean jetty:run
+   ```
+
+5. Abrir <http://localhost:8080/spring>.
+
+### Alternativa con Docker Compose
+
+```
 mvn clean package
+docker-compose up --build
 ```
 
-Una vez que tenemos el archivo WAR, debemos generar la imagen de docker.
-```shell
+## Tests
+
+```
+# Pruebas unitarias (JUnit, Mockito, Hamcrest) + reporte de cobertura
+mvn clean test
+
+# Pruebas end-to-end con Playwright (con el servidor corriendo en otra terminal)
+mvn test -Dtest="VistaLoginE2E"
+
+# Pruebas unitarias de JavaScript
+cd src/main/webapp/resources/core/js
+npm install
+npm run test
+```
+
+## Calidad de código
+
+El pipeline de integración continua (GitHub Actions) y el ciclo de vida de Maven ejecutan estas herramientas automáticamente:
+
+| Herramienta | Función |
+| --- | --- |
+| **Prettier** | Formateo automático del código Java. |
+| **Checkstyle** | Convenciones de nombres, Javadocs e importaciones (basado en Google Style). |
+| **PMD** | Errores potenciales, variables sin usar y malas prácticas. |
+| **CPD** | Detección de código duplicado. |
+| **JaCoCo** | Cobertura de tests, con un mínimo de 80%. |
+| **ESLint** | Análisis del código JavaScript. |
+
+Los reportes se generan en `.calidad-de-codigo/`.
+
+<details>
+<summary>Comandos útiles de calidad</summary>
+
+```
+mvn pmd:check              # valida reglas de PMD
+mvn pmd:cpd-check          # valida código duplicado
+mvn checkstyle:check       # valida convenciones
+mvn prettier:write         # formatea el código
+mvn jacoco:report          # genera el reporte de cobertura
+```
+
+</details>
+
+<details>
+<summary>Despliegue con Docker (WAR en Jetty o Tomcat)</summary>
+
+```
+mvn clean package
 docker build -f DockerfileJetty -t tallerwebi .
-docker build -f DockerfileTomcat -t tallerwebi .
-```
-
-Una vez que tenemos la imagen generada, podemos instanciar un contenedor y ejecutarlo.
-```shell
 docker run -p 8080:8080 tallerwebi
 ```
 
-### 9. Comandos básicos:
-```shell
-# Crear una imagen con el nombre "tallerwebi".
-docker build -f DockerfileJetty -t tallerwebi .
+Los Dockerfiles esperan que el WAR se llame `tallerwebi-base-1.0-SNAPSHOT` (configurable en el `pom.xml`).
 
-# Instancia y ejecuta un contendor en base a la imagen "tallerwebi". 
-docker run -p 8080:8080 tallerwebi 
+</details>
 
-# Ejecuta un contendor ya instanciado.
-docker start <containerId> 
+## Estado del proyecto
 
-# Instancia un contendor en base a la imagen tallerwebi para ejecutar bash.
-docker run -it --entrypoint /bin/bash tallerwebi
+El proyecto se encuentra completo en aproximadamente un 80%. Los módulos principales están implementados. Lo que resta:
 
-# Muestra los logs.
-docker logs <containerId>
+- Pulir algunas relaciones entre entidades.
+- Unificar los estilos del frontend.
+- Resolver conflictos puntuales en ciertos servicios.
 
-# Muestra todos los contenedores corriendo.
-docker ps
+## Equipo
 
-# Muestra todos los contenedores creados (o existentes).
-docker ps -a 
+Equipo de 6 personas, trabajando con Scrum.
 
-# Muestra todas las imágenes creadas.
-docker images
+| Integrante | Rol y aportes |
+| --- | --- |
+| **Tomás Diuorno** | Líder del equipo y documentación. Armó la base del proyecto y desarrolló los módulos de registro, hábitos y recompensas, además de la integración con IA. |
+| [Nombre] | [Módulos o aportes] |
+| [Nombre] | [Módulos o aportes] |
+| [Nombre] | [Módulos o aportes] |
+| [Nombre] | [Módulos o aportes] |
+| [Nombre] | [Módulos o aportes] |
 
-# Elimina un contenedor.
-docker rm <containerId>
+## Créditos
 
-# Elimina una imagen.
-docker rmi <imageId>
-
-# Crear una imagen con el nombre "mysql".
-docker build -f DockerfileSQL -t mysql .
-
-# Instancia un contendor en base a la imagen mysql.
-docker run --env-file .env --name mysql-container -d -p 3306:3306 mysql # sudo apt install mysql-client
-```
-
-## 10. docker-compose
-Docker Compose es una herramienta que permite definir y ejecutar aplicaciones multi-contenedor usando archivos YAML. Simplifica la gestión de múltiples servicios y sus dependencias, permitiendo orquestar todo el stack de la aplicación con un solo comando.
-
-```shell
-mvn clean package
-# Invoco a docker-compose para que me genere contenedores de todos los servicios especificadas
-docker-compose up --build
-
-# Invoco a docker para que elimine los contenedores creados 
-docker-compose down
-```
-## 11. Comandos de Maven
-Para ejecutar comandos de Maven, ya sea en el terminal integrado al IDE, o en otro terminal como el de Linux o Windows (CMD), se debe utilizar el comando principal `mvn` seguido del comando o fase del ciclo de vida a ejecutar. Ejemplo: `mvn clean`.
-
-> Maven ejecuta todas las fases anteriores a la fase del ciclo de vida indicada.
-
-### Comandos:
-```shell
-# Es un comando. Limpia el directorio target (contiene JARs o WARs generados) de la compilación anterior 
-mvn clean
-
-# -> Fases en orden de ejecución <-
-
-# Valida que el proyecto sea correcto y que toda la información necesaria este disponible
-mvn validate
-
-# Compila el código fuente del proyecto (tambien descarga dependencias)
-mvn compile
-
-# Ejecuta las pruebas unitarias
-mvn test
-
-# Empaqueta el código compilado en un archivo JAR o WAR (tambien descarga dependencias)
-mvn package
-
-# Verifica que el paquete es válido y cumple los criterios de calidad
-mvn verify
-
-# Instala el paquete en el repositorio local de Maven
-mvn install
-
-# Sube el artefacto a un repositorio remoto (que se debe definir en el archivo pom.xml) para que pueda distribuirse a otros equipos, desarrolladores, o bien, para desplegar (fin de la etapa de construcción)
-mvn deploy
-
-# El comando 'clean' es combinable con las fases 
-mvn clean package
-
-# Es el comando quizas mas ejecutado. Las dependencias se descargan al ejecutar un comando de construcción como 'compile' o 'package' ('install' las incluye, tambien las validaciones y la ejecución de las pruebas). 
-mvn clean install
-
-```
-
-## 12. Herramientas de Calidad de Código
-El proyecto integra varias herramientas para asegurar que el código sea limpio, mantenible y libre de errores comunes. Estas herramientas se ejecutan automáticamente durante el ciclo de vida de Maven.
-
-### Resumen de Herramientas
-
-| Herramienta | Función Principal | Rol en el Proyecto | Ubicación Reporte |
-| :--- | :--- | :--- | :--- |
-| **Prettier** | **Formateo Automático** | Define la estética (espacios, llaves, indentación). Se encarga del "look". | N/A (Aplica cambios) |
-| **Checkstyle** | **Convenciones y Estructura** | Valida nombres de variables, presencia de Javadocs e importaciones. | `.calidad-de-codigo/checkstyle/` |
-| **PMD** | **Lógica y Buenas Prácticas** | Detecta errores potenciales, variables no usadas y optimizaciones. | `.calidad-de-codigo/pmd/` |
-| **CPD** | **Detección de Duplicados** | Encuentra bloques de código copiados y pegados (Copy-Paste). | `.calidad-de-codigo/cpd/` |
-| **JaCoCo** | **Cobertura de Tests** | Mide qué porcentaje del código está cubierto por pruebas (>80%). | `.calidad-de-codigo/jacoco/` |
-
----
-
-### PMD (Static Code Analyzer)
-Analiza el código Java en busca de problemas de diseño, variables no utilizadas, optimizaciones faltantes y malas prácticas.
-* **Se ejecuta en:** Fase `validate`.
-* **Configuración:** Utiliza `pmd-reglas-de-codigo.xml`.
-* **Comandos:**
-  * `mvn pmd:check`: Valida las reglas y falla si hay errores.
-  * `mvn pmd:pmd`: Genera el reporte visual en `.calidad-de-codigo/pmd/pmd.html`.
-* **Reportes:** Todos los resultados (XML e HTML) se guardan en la carpeta `.calidad-de-codigo/pmd/` en la raíz del proyecto.
-* **Ejemplo de fallo:** Crear una variable con un nombre muy corto (ej: `int x = 0;`) o tener un método con una complejidad ciclomática superior a 10.
-* **Documentación:** [PMD Official Site](https://pmd.github.io/)
-
-### CPD (Copy-Paste Detector)
-Es una extensión de PMD que detecta bloques de código duplicados (copy-paste) en el proyecto.
-* **Se ejecuta en:** Fase `validate` (chequeo) y fase `test` (generación de reporte).
-* **Comandos:**
-  * `mvn pmd:cpd-check`: Valida duplicados y falla si los encuentra.
-  * `mvn pmd:cpd`: Genera el reporte de duplicados en `.calidad-de-codigo/cpd/cpd.html`.
-* **Reportes:** Todos los resultados (XML e HTML) se guardan en la carpeta `.calidad-de-codigo/cpd/` en la raíz del proyecto.
-* **Ejemplo de fallo:** Copiar y pegar un bloque de lógica idéntico en dos controladores diferentes en lugar de abstraerlo en un servicio.
-* **Documentación:** [CPD Documentation](https://pmd.github.io/latest/pmd_userdocs_cpd.html)
-
-### Checkstyle
-Verifica que el código siga estándares de formato y estilo (basado en la guía de Google). Se enfoca en la estética y estructura del código.
-* **Se ejecuta en:** Fase `validate`.
-* **Configuración:** Utiliza `checkstyle-base.xml`. Este archivo es una configuración personalizada que hereda de Google Style pero **desactiva las reglas de formateo** (indentación, espacios, llaves) para evitar conflictos con Prettier, enfocándose únicamente en convenciones de nombres, Javadocs e importaciones.
-* **Comandos:**
-  * `mvn checkstyle:check`: Valida el estilo y falla si hay errores.
-  * `mvn checkstyle:checkstyle`: Genera el reporte visual en `.calidad-de-codigo/checkstyle/checkstyle.html`.
-* **Reportes:** Todos los resultados (XML e HTML) se guardan en la carpeta `.calidad-de-codigo/checkstyle/` en la raíz del proyecto.
-* **Ejemplo de fallo:** Uso de nombres de variables incorrectos (ej: `int MiVariable`), falta de Javadoc en clases públicas o importaciones con asterisco (`import java.util.*`).
-* **Documentación:** [Checkstyle Google Style](https://checkstyle.sourceforge.io/google_style.html)
-
-### Prettier (Maven Plugin)
-Formatea automáticamente el código Java para que cumpla con las reglas de estilo.
-* **Se ejecuta en:** Fase `process-sources` (antes de compilar).
-* **Comandos:**
-  * `mvn prettier:write`: Formatea y sobreescribe los archivos con el estilo correcto.
-  * `mvn prettier:check`: Solo verifica si el código cumple el formato sin modificar archivos.
-* **Función:** Reescribe tus archivos `.java` para corregir la indentación y el formato automáticamente al ejecutar `mvn test` o `mvn compile`.
-* **Documentación:** [Prettier Java](https://github.com/jhipster/prettier-java)
-
-### ESLint (JavaScript Linter)
-Analiza el código JavaScript para detectar errores y asegurar un estilo consistente.
-* **Se ejecuta en:** GitHub Actions (CI) antes de correr los tests de JS.
-* **Ejemplo de fallo:** Uso de variables no definidas o falta de punto y coma si la regla lo exige.
-* **Documentación:** [ESLint Official Site](https://eslint.org/)
-
-### JaCoCo (Code Coverage)
-Mide qué porcentaje del código fuente está cubierto por las pruebas unitarias.
-* **Se ejecuta en:** Fase `test`.
-* **Configuración:** Requiere un mínimo de 80% de cobertura en líneas (excluyendo configuraciones).
-* **Comandos:**
-  * `mvn jacoco:report`: Genera el reporte visual en `.calidad-de-codigo/jacoco/index.html`.
-* **Reportes:** Todos los resultados (binarios e HTML) se guardan en la carpeta `.calidad-de-codigo/jacoco/` en la raíz del proyecto.
-* **Ejemplo de fallo:** Si los tests cubren menos del 80% de las líneas de lógica de negocio, el build fallará durante la verificación.
-* **Documentación:** [JaCoCo Official Site](https://www.jacoco.org/jacoco/)
-
-#### Comando para generar reporte fresco:
-Como los resultados se guardan en una carpeta personalizada fuera de `target`, se recomienda borrar los resultados anteriores para asegurar que la métrica sea actual:
-
-**En Linux / macOS / Git Bash:**
-```shell
-rm -rf .calidad-de-codigo/jacoco && mvn clean test
-```
-
-**En Windows (PowerShell):**
-```powershell
-Remove-Item -Recurse -Force .calidad-de-codigo/jacoco; mvn clean test
-```
-
-**En Windows (CMD):**
-```cmd
-rd /s /q .calidad-de-codigo\jacoco & mvn clean test
-```
-
-## Tecnologías:
-* Docker
-* Java 11
-* Spring 5.2.22.RELEASE
-* Thymeleaf 3.0.15.RELEASE
-* Embedded Jetty Server 9.4.45.v20220203
-* Servlet API 4.0.4
-* Bootstrap 5.2.0 (webjars)
-* IntelliJ IDEA | VS Code
-* Maven 3.8.6
-* Spring Test 5.2.22.RELEASE
-* Hamcrest 2.2
-* JUnit 5.9
-* Hibernate 5.4.24.Final
-* Mockito 5.3.1
-* Playwright 1.36.0
-* PMD 3.21.0 & CPD
-* Checkstyle 10.9.1 (Google Style)
-* Prettier Maven Plugin 0.22 (Prettier-Java 2.5.0)
-* ESLint 9.x
-* JaCoCo 0.8.12
-* Node 18.16.1 o superior <- Instalación manual desde la [página de node](https://nodejs.org/en) 
-* npm --> npm install -g npm
-
-*_Proyecto modificado en base a: [Spring MVC hello world example (Maven and Thymeleaf)](https://mkyong.com/spring-mvc/spring-mvc-hello-world-example/) _*
+Basado en el proyecto base de la materia Taller Web I (UNLaM), que a su vez parte del ejemplo [Spring MVC hello world (Maven and Thymeleaf)](https://mkyong.com/spring-mvc/spring-mvc-hello-world-example/).
