@@ -37,7 +37,7 @@ public class ServicioHabitoIAImp implements ServicioHabitoIA {
   }
 
   private String construirPrompt(String objetivo) {
-    return String.format(objetivo, "El usuario quiere: %s. Creá un habito recomendado.");
+    return String.format("El usuario quiere: %s. Creá un habito recomendado.", objetivo);
   }
 
   @Override
